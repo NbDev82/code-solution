@@ -6,8 +6,8 @@ spring:
       client:
         registration:
           google:
-            client-id: 321034510779-s139c8rgqu0n9nmg9o6e7cr0qhtgdrrc.apps.googleusercontent.com
-            client-secret: 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
+            client-id:
+            client-secret:
           facebook:
-            client-id: 334811922734043
-            client-secret: a2e7404119a429088ac1c83a0809f0e7
+            client-id:
+            client-secret:
