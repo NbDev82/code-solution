@@ -6,7 +6,7 @@ server:
 
 spring:
     application:
-        name: chat-hub-app
+        name: code-solution-app
 
     devtools:
         livereload:
