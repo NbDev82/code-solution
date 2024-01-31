@@ -3,7 +3,6 @@ package com.university.codesolution.login.entity;
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.entity.ContestEnrollment;
-import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.notification.entity.Notification;
 import com.university.codesolution.submitcode.submission.entity.Submission;
