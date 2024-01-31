@@ -3,7 +3,7 @@ package com.university.codesolution.login.entity;
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.entity.ContestEnrollment;
-import com.university.codesolution.login.enums.ERole;
+import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.notification.entity.Notification;
 import com.university.codesolution.submitcode.entity.Submission;
 import jakarta.persistence.*;
@@ -24,24 +24,35 @@ import java.util.List;
 @Builder
 public class User implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "full_name")
+    private String fullName;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "dob")
     private LocalDateTime dateOfBirth;
 
     private String email;
 
     private String password;
 
-    private double cummulativeScore;
+    @Column(name = "cumulative_score")
+    private double cumulativeScore;
 
+    @Column(name = "added_at")
     private LocalDateTime addedAt;
 
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
+    @Enumerated(EnumType.STRING)
     private ERole role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
