@@ -22,7 +22,7 @@ public class Contest implements Serializable {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String desc;
 
     @Column(name = "start_time")
