@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
@@ -19,10 +20,13 @@ import java.io.Serializable;
 @Builder
 public class Comment implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String text;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -37,5 +41,5 @@ public class Comment implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
-    private Comment comment;
+    private Comment commentParent;
 }
