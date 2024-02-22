@@ -1,7 +1,7 @@
 package com.university.codesolution.contest.entity;
 
 import com.university.codesolution.login.entity.User;
-import com.university.codesolution.submitcode.entity.Problem;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import jakarta.persistence.*;
 import lombok.*;
 
