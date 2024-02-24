@@ -2,6 +2,7 @@ package com.university.codesolution.submitcode.entity;
 
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
+import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.submitcode.enums.EDifficultyLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -59,10 +60,8 @@ public class Problem implements Serializable {
     private List<TestCase> testCases;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    private List<Discuss> discusses;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<Submission> submissions;
-
-
 }
