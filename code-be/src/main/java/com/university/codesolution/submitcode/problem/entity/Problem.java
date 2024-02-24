@@ -1,9 +1,11 @@
-package com.university.codesolution.submitcode.entity;
+package com.university.codesolution.submitcode.problem.entity;
 
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
-import com.university.codesolution.discuss.entity.Discuss;
-import com.university.codesolution.submitcode.enums.EDifficultyLevel;
+import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
+import com.university.codesolution.submitcode.submission.entity.Submission;
+import com.university.codesolution.submitcode.testcase.entity.TestCase;
+import com.university.codesolution.submitcode.problem.enums.EDifficultyLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +24,7 @@ import java.util.List;
 @Builder
 public class Problem implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -40,6 +42,9 @@ public class Problem implements Serializable {
 
     @Column(name = "function_name")
     private String functionName;
+
+    @Column(name = "output_datatype")
+    private String outputDataType;
 
     private double point;
 

@@ -1,4 +1,4 @@
-package com.university.codesolution.submitcode.enums;
+package com.university.codesolution.submitcode.problem.enums;
 
 public enum EDifficultyLevel {
     EASY(0),
