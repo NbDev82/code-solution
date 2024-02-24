@@ -1,4 +1,4 @@
-package com.university.codesolution.login.enums;
+package com.university.codesolution.login.customenum;
 
 public enum ERole {
     USER(0),

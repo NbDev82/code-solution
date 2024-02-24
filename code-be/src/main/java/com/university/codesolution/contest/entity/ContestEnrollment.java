@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Builder
 public class ContestEnrollment implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private double score;
@@ -25,8 +25,11 @@ public class ContestEnrollment implements Serializable {
     @Column(name = "accepted_submission")
     private boolean acceptedSubmission;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Enumerated(EnumType.STRING)
+    private EType type;
+
+    @Enumerated(EnumType.STRING)
+    private EStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "contest_id")
@@ -35,4 +38,12 @@ public class ContestEnrollment implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public enum EType {
+        REQUESTED_INVITE, DIRECT_JOIN
+    }
+
+    public enum EStatus {
+        PENDING_APPROVAL, ACCEPTED, DENIED, EXPIRED
+    }
 }

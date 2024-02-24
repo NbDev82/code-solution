@@ -3,10 +3,7 @@ package com.university.codesolution.contest.entity;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.entity.Problem;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,8 +17,13 @@ import java.util.List;
 @Builder
 public class Contest implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String title;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String desc;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;
@@ -29,16 +31,24 @@ public class Contest implements Serializable {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @Column(name = "is_delete")
-    private boolean isDeleted;
-
-    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Problem> problems;
+    @Enumerated(EnumType.STRING)
+    private EStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Problem> problems;
+
+    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContestEnrollment> contestEnrollments;
+
+    public enum EStatus {
+        PREPARING, IN_PROCESS, PAUSED, COMPLETED, DELETED
+    }
 }
