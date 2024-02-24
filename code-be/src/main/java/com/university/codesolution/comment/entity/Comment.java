@@ -1,5 +1,6 @@
 package com.university.codesolution.comment.entity;
 
+import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.entity.Problem;
 import jakarta.persistence.*;
@@ -31,8 +32,8 @@ public class Comment implements Serializable {
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "problem_id")
-    private Problem problem;
+    @JoinColumn(name = "discuss_id")
+    private Discuss discuss;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
