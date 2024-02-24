@@ -1,0 +1,66 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&display=swap');
+
+:root {
+  --primary-color: #4ad7d1;
+  --secondary-color: #001730;
+  --highlight-color: #fe4a49;
+  --gray-dark: #a9a9a9;
+  --gray-light: #d3d3d3;
+  --gray: #808080;
+  --gray-100: #707070;
+  --gray-200: #686868;
+  --gray-300: #585858;
+  --gray-400: #484848;
+  --black: #000;
+  --white: #fff;
+  --text-color: #001730;
+  --font-family: 'Nunito Sans', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizespeed;
+  color: var(--text-color);
+  overflow-y: overlay;
+}
+
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+  border-radius: 0;
+  width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+button,
+input,
+[tabindex] {
+  outline: none;
+  border: none;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
