@@ -2,13 +2,11 @@ package com.university.codesolution.submitcode.controller;
 
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
-import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
-import com.university.codesolution.submitcode.strategy.CompilerProcessor;
+import com.university.codesolution.submitcode.problem.repository.ProblemRepository;
 import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.request.SubmitCodeRequest;
-import com.university.codesolution.submitcode.strategy.CompilerStrategy;
-import com.university.codesolution.submitcode.strategy.JavaCompiler;
+import com.university.codesolution.submitcode.submission.service.SubmissionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +19,16 @@ public class SubmitCodeController {
     private static final Logger log = LogManager.getLogger(SubmitCodeController.class);
 
     @Autowired
-    private ParameterService parameterService;
+    private SubmissionService submissionService;
+
+    @Autowired
+    private ProblemRepository problemRepos;
 
     @PostMapping("/run")
     public ResponseEntity<ResultDTO> submitCode(@RequestBody SubmitCodeRequest request) {
+        Long userId = request.getUserId();
         String code = request.getCode();
-        Problem problem = request.getProblem();
+        Problem problem = problemRepos.findById(request.getProblemId()).orElse(null);
         ELanguage eLanguage;
 
         try{
@@ -35,15 +37,23 @@ public class SubmitCodeController {
             throw new UnsupportedLanguageException("Language is not supported yet!");
         }
 
-        CompilerStrategy compilerStrategy = switch (eLanguage) {
-            case JAVA -> new JavaCompiler(parameterService);
-            case PYTHON, CSHARP ->
-                    throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
-        };
-
-        CompilerProcessor compilerProcessor = new CompilerProcessor(compilerStrategy);
-        ResultDTO resultDTO =  compilerProcessor.run(code,problem);
-
+        ResultDTO resultDTO =  submissionService.runCode(userId, code, problem, eLanguage);
         return ResponseEntity.ok(resultDTO);
     }
+
+    @GetMapping("/compile")
+    public ResponseEntity<ResultDTO> compileCode(@RequestBody SubmitCodeRequest request) {
+        String code = request.getCode();
+        ELanguage eLanguage;
+
+        try{
+            eLanguage = ELanguage.valueOf(request.getLanguage().toUpperCase());
+        } catch (IllegalArgumentException e){
+            throw new UnsupportedLanguageException("Language is not supported yet!");
+        }
+
+        ResultDTO resultDTO = submissionService.compile(code, eLanguage);
+        return ResponseEntity.ok(resultDTO);
+    }
+
 }

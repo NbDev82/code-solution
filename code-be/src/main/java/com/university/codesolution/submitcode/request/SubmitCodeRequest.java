@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class SubmitCodeRequest {
+    private Long userId;
     private String code;
     private String language;
-    private Problem problem;
+    private Long problemId;
 }
 

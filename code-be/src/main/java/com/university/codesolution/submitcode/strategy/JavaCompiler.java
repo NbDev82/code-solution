@@ -1,24 +1,28 @@
 package com.university.codesolution.submitcode.strategy;
 
+import com.university.codesolution.submitcode.CompilerConstants;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.TestCaseResultDTO;
 import com.university.codesolution.submitcode.exception.CompilationErrorException;
 import com.university.codesolution.submitcode.exception.SyntaxErrorException;
+import com.university.codesolution.submitcode.exception.ClassNotFoundException;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.parameter.entity.Parameter;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import javax.tools.ToolProvider;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,11 +36,9 @@ import java.util.List;
 public class JavaCompiler implements CompilerStrategy{
     public static final String FILE_NAME = "Solution.java";
     private static final Logger log = LogManager.getLogger(JavaCompiler.class);
-    private final ParameterService parameterService;
 
-    public JavaCompiler(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    @Autowired
+    private ParameterService parameterService;
 
     @Override
     public ResultDTO run(String code, Problem problem) {
@@ -58,10 +60,10 @@ public class JavaCompiler implements CompilerStrategy{
             List<Object> arguments = parameterService.createArguments(parameters);
             Object[] argsArray = arguments.toArray(new Object[0]);
 
-            MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
             double startTime = System.currentTimeMillis();
+            MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
 
-            TestCaseResultDTO testCaseResultDTO = runWithTestCase(inputCode,functionName,argsArray);
+            TestCaseResultDTO testCaseResultDTO = runWithTestCase(problem,inputCode,functionName,argsArray);
 
             MemoryUsage heapMemoryUsageAfter = memoryMXBean.getHeapMemoryUsage();
             long memoryUsedBytes = heapMemoryUsageAfter.getUsed() - heapMemoryUsageBefore.getUsed();
@@ -69,8 +71,7 @@ public class JavaCompiler implements CompilerStrategy{
             memoryUsedAverage += memoryUsedMB;
 
             double endTime = System.currentTimeMillis();
-            double runtimeMilliseconds = endTime - startTime;
-            double runtimeSeconds = runtimeMilliseconds / 1000.0;
+            double runtimeSeconds = (endTime - startTime) / 1000.0;
             runtimeAverage += runtimeSeconds;
 
             testCaseResultDTO.setExpectedDatatype(problem.getOutputDataType());
@@ -120,84 +121,79 @@ public class JavaCompiler implements CompilerStrategy{
                     .append(";\n");
         });
 
-        return createCodeText(
-                libraries.toString(),
-                code,
-                className,
-                outputDataType,
-                functionName,
-                listParameter);
-    }
-
-    public String createCodeText(String libraries, String code, String className, String outputDataType, String functionName, StringBuilder listParameter){
-        return  libraries +
+        return libraries +
                 "public class " + className + " {\n" +
                 "    public static " + outputDataType + " " +functionName+ " ("+listParameter+") {\n" +
                 "\t\t"+code + "\n" +
                 "    }\n" +
                 "}\n";
     }
-    public TestCaseResultDTO runWithTestCase(String code, String functionName, Object... args){
-        TestCaseResultDTO testCaseResultDTO = TestCaseResultDTO.builder().build();
+
+    public TestCaseResultDTO runWithTestCase(Problem problem, String code, String functionName, Object... args){
+        TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
 
         String className = "Solution";
-        String fileName = className + ".java";
         try {
-            File file = new File(fileName);
-            if (!file.exists()) {
+            // Compilation success, load and execute the class
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
+            Class<?> cls = Class.forName(className, true, classLoader);
+            Method method = cls.getDeclaredMethod(functionName, parameterService.getParameterTypes(args));
+            Class<?> returnDataType = method.getReturnType();
+
+            Object result;
+            if (Modifier.isStatic(method.getModifiers())) {
+                result = method.invoke(null, args); // Invoke static method with null instance
+            } else {
+                // If the method is not static, instantiate an object first
+                Object obj = cls.getDeclaredConstructor().newInstance();
+                result = method.invoke(obj, args); // Invoke method on the instance
+            }
+            // Cast the result to the expected return type
+            String returnValue = result.toString();
+            System.out.println("Return value: " + returnValue);
+
+            testCaseResultDTO
+                    .outputData(returnValue)
+                    .outputDatatype(returnDataType.getName());
+        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
+                 InvocationTargetException | InstantiationException | java.lang.ClassNotFoundException e) {
+            log.info(e.getMessage());
+        }
+        return testCaseResultDTO.build();
+    }
+
+    @Override
+    public void writeFile(String fileName, String code) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
                 FileWriter fileWriter = new FileWriter(fileName);
                 fileWriter.write(code);
                 fileWriter.close();
-                System.out.println("File " + fileName + " created successfully.");
+                log.info("File " + fileName + " created successfully.");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            // Compile Solution.java
-            javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            int compilationResult = compiler.run(null, null, null, fileName);
-
-            if (compilationResult == 0) {
-                // Compilation success, load and execute the class
-                URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
-                Class<?> cls = Class.forName(className, true, classLoader);
-                Method method = cls.getDeclaredMethod(functionName, parameterService.getParameterTypes(args));
-                Class<?> returnDataType = method.getReturnType();
-
-                Object result;
-                if (Modifier.isStatic(method.getModifiers())) {
-                    result = method.invoke(null, args); // Invoke static method with null instance
-                } else {
-                    // If the method is not static, instantiate an object first
-                    Object obj = cls.getDeclaredConstructor().newInstance();
-                    result = method.invoke(obj, args); // Invoke method on the instance
-                }
-                // Cast the result to the expected return type
-                String returnValue = result.toString();
-                System.out.println("Return value: " + returnValue);
-
-                testCaseResultDTO.setOutputData(returnValue);
-                testCaseResultDTO.setOutputDatatype(returnDataType.getName());
-
-            } else{
-                deleteFileCompiled();
-                if(compilationResult == 2){
-                    throw new SyntaxErrorException("Syntax error");
-                } else if(compilationResult == 3){
-                    throw new ClassNotFoundException("Class not found");
-                } else if(compilationResult == 4){
-                    throw new TypeNotPresentException("Data type error", null);
-                } else{
-                    throw new CompilationErrorException("Compilation error occurred");
-                }
-            }
-        } catch (IOException |
-                 ClassNotFoundException |
-                 NoSuchMethodException |
-                 IllegalAccessException |
-                 InvocationTargetException |
-                 InstantiationException e) {
-            log.info(e.getMessage());
         }
-        return testCaseResultDTO;
+    }
+
+    @Override
+    public boolean compile(String code, String fileName) {
+        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int compilationResult = compiler.run(null, null, null, fileName);
+        if (compilationResult == CompilerConstants.SUCCESS) {
+            return true;
+        }
+
+        switch (compilationResult) {
+            case CompilerConstants.ERROR -> throw new Error("Error");
+            case CompilerConstants.SYNTAX_ERROR -> throw new SyntaxErrorException("Syntax error");
+            case CompilerConstants.CLASS_NOT_FOUND -> throw new ClassNotFoundException("Class not found");
+            case CompilerConstants.TYPE_NOT_PRESENT -> throw new TypeNotPresentException("Data type error", null);
+            default -> {
+                throw new CompilationErrorException("Compilation error occurred");
+            }
+        }
     }
 
     private long bytesToMegabytes(long bytes) {
