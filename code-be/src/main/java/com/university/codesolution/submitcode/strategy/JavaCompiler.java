@@ -11,6 +11,7 @@ import com.university.codesolution.submitcode.parameter.entity.Parameter;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.submission.enums.ELanguage;
+import com.university.codesolution.submitcode.submission.enums.EStatus;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,8 +38,11 @@ public class JavaCompiler implements CompilerStrategy{
     public static final String FILE_NAME = "Solution.java";
     private static final Logger log = LogManager.getLogger(JavaCompiler.class);
 
-    @Autowired
-    private ParameterService parameterService;
+    private final ParameterService parameterService;
+
+    public JavaCompiler(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
 
     @Override
     public ResultDTO run(String code, Problem problem) {
@@ -51,7 +55,6 @@ public class JavaCompiler implements CompilerStrategy{
         List<TestCase> testCases = problem.getTestCases();
         List<TestCaseResultDTO> testCaseResultDTOs = new ArrayList<>();
 
-        String inputCode = createInputCode(problem , code, testCases.get(0));
         String functionName = problem.getFunctionName();
 
         for(TestCase testCase: testCases){
@@ -63,7 +66,7 @@ public class JavaCompiler implements CompilerStrategy{
             double startTime = System.currentTimeMillis();
             MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
 
-            TestCaseResultDTO testCaseResultDTO = runWithTestCase(problem,inputCode,functionName,argsArray);
+            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName,argsArray);
 
             MemoryUsage heapMemoryUsageAfter = memoryMXBean.getHeapMemoryUsage();
             long memoryUsedBytes = heapMemoryUsageAfter.getUsed() - heapMemoryUsageBefore.getUsed();
@@ -89,6 +92,8 @@ public class JavaCompiler implements CompilerStrategy{
 
         deleteFileCompiled();
 
+        boolean isAccepted = testCases.size() == maxTestCase;
+
         return ResultDTO.builder()
                 .message("That is your result of your code for this problem")
                 .memory(memoryUsedAverage/maxTestCase)
@@ -97,10 +102,12 @@ public class JavaCompiler implements CompilerStrategy{
                 .passedTestcase(String.valueOf(maxTestCase))
                 .testCaseResultDTOS(testCaseResultDTOs)
                 .isAccepted(testCases.size() == maxTestCase)
+                .status(isAccepted? EStatus.ACCEPTED : EStatus.WRONG_ANSWER)
                 .build();
     }
 
-    private String createInputCode(Problem problem, String code, TestCase testCase) {
+    @Override
+    public String createInputCode(Problem problem, String code, TestCase testCase) {
         if(testCase == null)
             throw new NullPointerException();
 
@@ -129,7 +136,7 @@ public class JavaCompiler implements CompilerStrategy{
                 "}\n";
     }
 
-    public TestCaseResultDTO runWithTestCase(Problem problem, String code, String functionName, Object... args){
+    public TestCaseResultDTO runWithTestCase(String functionName, Object... args){
         TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
 
         String className = "Solution";
@@ -204,7 +211,7 @@ public class JavaCompiler implements CompilerStrategy{
         File file = new File(FILE_NAME);
         if (file.exists()) {
             file.delete();
-            System.out.println("File Solution.java deleted successfully.");
+            log.info("File Solution.java deleted successfully.");
         }
     }
 }
