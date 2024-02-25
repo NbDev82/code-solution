@@ -1,6 +1,7 @@
 package com.university.codesolution.comment.dto;
 
 import com.university.codesolution.comment.entity.Comment;
+import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.entity.Problem;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,6 @@ public class CommentDTO {
     private String text;
     private boolean isDeleted;
     private User user;
-    private Problem problem;
+    private Discuss discuss;
     private Comment commentParent;
 }

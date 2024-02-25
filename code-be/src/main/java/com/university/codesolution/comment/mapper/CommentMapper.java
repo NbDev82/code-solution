@@ -16,7 +16,7 @@ public interface CommentMapper {
 
     List<CommentDTO> toDTOs(List<Comment> comments);
 
-    @Mapping(target = "problem", ignore = true)
+    @Mapping(target = "discuss", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "commentParent", ignore = true)
     Comment toEntity(CommentDTO commentDTO);
