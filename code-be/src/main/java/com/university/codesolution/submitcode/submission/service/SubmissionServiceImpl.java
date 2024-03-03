@@ -41,6 +41,18 @@ public class SubmissionServiceImpl implements SubmissionService{
     private ParameterService parameterService;
 
     @Override
+    public String getInputCode(Problem problem, ELanguage eLanguage) {
+        if(compilerStrategy == null) {
+            compilerStrategy = switch (eLanguage) {
+                case JAVA -> new JavaCompiler(parameterService);
+                case PYTHON, CSHARP ->
+                        throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
+            };
+        }
+        return compilerStrategy.createInputCode(problem , "", problem.getTestCases().get(0));
+    }
+
+    @Override
     public ResultDTO compile(String code, ELanguage eLanguage) {
         if(compilerStrategy == null) {
             compilerStrategy = switch (eLanguage) {

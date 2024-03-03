@@ -8,6 +8,7 @@ import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import java.util.List;
 
 public interface SubmissionService {
+    String getInputCode(Problem problem, ELanguage language);
     ResultDTO compile(String code, ELanguage eLanguage);
     ResultDTO runCode(Long userId, String code, Problem problem, ELanguage eLanguage);
     void add(Submission submission);

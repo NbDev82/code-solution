@@ -1,6 +1,7 @@
 package com.university.codesolution.submitcode.controller;
 
 import com.university.codesolution.submitcode.DTO.ResultDTO;
+import com.university.codesolution.submitcode.exception.ProblemNotFoundException;
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.repository.ProblemRepository;
@@ -54,6 +55,21 @@ public class SubmitCodeController {
 
         ResultDTO resultDTO = submissionService.compile(code, eLanguage);
         return ResponseEntity.ok(resultDTO);
+    }
+
+    @GetMapping("/getInputCode")
+    public ResponseEntity<String> getInputCode(Long problemId, String language) {
+        ELanguage eLanguage;
+
+        try{
+            eLanguage = ELanguage.valueOf(language.toUpperCase());
+        } catch (IllegalArgumentException e){
+            throw new UnsupportedLanguageException("Language is not supported yet!");
+        }
+
+        Problem problem = problemRepos.findById(problemId).orElseThrow(() -> new ProblemNotFoundException("Problem not found"));
+        String inputCode = submissionService.getInputCode(problem,eLanguage);
+        return ResponseEntity.ok(inputCode);
     }
 
 }
