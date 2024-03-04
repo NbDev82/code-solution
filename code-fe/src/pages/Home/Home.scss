@@ -44,6 +44,11 @@
       color: var(--secondary-color);
       font-weight: 800;
       font-size: 40px;
+      cursor: default;
+    }
+    &--title::selection {
+      background: none;
+      color: var(--secondary-color);
     }
     &--content {
       font-size: 20px;
