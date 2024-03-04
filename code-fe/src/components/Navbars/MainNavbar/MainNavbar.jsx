@@ -11,9 +11,9 @@ function MainNavbar() {
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
       <div className="navbar--list">
-        <ButtonLight value="Problems"></ButtonLight>
-        <ButtonLight value="Contests"></ButtonLight>
-        <ButtonLight value="Discuss"></ButtonLight>
+        <ButtonLight children="Problems"></ButtonLight>
+        <ButtonLight children="Contests"></ButtonLight>
+        <ButtonLight children="Discuss"></ButtonLight>
       </div>
       <div className="navbar__group">
         <img className="navbar__group--notify" src={Bell} alt="Bell Icon"></img>

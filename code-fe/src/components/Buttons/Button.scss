@@ -1,6 +1,8 @@
 $radius-size: 30px;
 
 %buttonStyle {
+  width: auto;
+  height: auto;
   border-radius: $radius-size;
   background-color: var(--white);
   font-family: var(--font-family);

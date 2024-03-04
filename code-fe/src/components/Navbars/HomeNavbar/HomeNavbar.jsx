@@ -8,10 +8,10 @@ function HomeNavbar() {
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
       <div className="navbar--list">
-        <ButtonLight value="Develop"></ButtonLight>
-        <ButtonLight value="Contest"></ButtonLight>
-        <ButtonLight value="Discuss"></ButtonLight>
-        <ButtonLight value="Sign In"></ButtonLight>
+        <ButtonLight children="Develop"></ButtonLight>
+        <ButtonLight children="Contest"></ButtonLight>
+        <ButtonLight children="Discuss"></ButtonLight>
+        <ButtonLight children="Sign In"></ButtonLight>
       </div>
     </div>
   );
