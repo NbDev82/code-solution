@@ -4,7 +4,6 @@ import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

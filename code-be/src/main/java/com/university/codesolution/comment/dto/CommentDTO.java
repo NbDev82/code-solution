@@ -3,7 +3,6 @@ package com.university.codesolution.comment.dto;
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.entity.User;
-import com.university.codesolution.submitcode.entity.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

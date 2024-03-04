@@ -1,6 +1,7 @@
-package com.university.codesolution.submitcode.entity;
+package com.university.codesolution.submitcode.testcase.entity;
 
-import com.university.codesolution.comment.entity.Comment;
+import com.university.codesolution.submitcode.parameter.entity.Parameter;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +21,6 @@ public class TestCase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "output_datatype")
-    private String outputDataType;
 
     @Column(name = "output_data")
     private String outputData;

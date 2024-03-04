@@ -1,6 +1,9 @@
-package com.university.codesolution.submitcode.entity;
+package com.university.codesolution.submitcode.submission.entity;
 
 import com.university.codesolution.login.entity.User;
+import com.university.codesolution.submitcode.submission.enums.ELanguage;
+import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.submission.enums.EStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,12 +24,16 @@ public class Submission implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String language;
+    @Enumerated
+    private ELanguage language;
 
     @Column(name = "code_submitted")
     private String codeSubmitted;
 
     private double score;
+
+    @Enumerated
+    private EStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

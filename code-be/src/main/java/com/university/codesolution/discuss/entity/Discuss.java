@@ -2,7 +2,7 @@ package com.university.codesolution.discuss.entity;
 
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.login.entity.User;
-import com.university.codesolution.submitcode.entity.Problem;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
