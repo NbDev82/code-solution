@@ -4,6 +4,7 @@ import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.CompilerConstants;
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.strategy.CompilerProcessor;
@@ -42,13 +43,11 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public String getInputCode(Problem problem, ELanguage eLanguage) {
-        if(compilerStrategy == null) {
-            compilerStrategy = switch (eLanguage) {
-                case JAVA -> new JavaCompiler(parameterService);
-                case PYTHON, CSHARP ->
-                        throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
-            };
-        }
+        compilerStrategy = switch (eLanguage) {
+            case JAVA -> new JavaCompiler(parameterService);
+            case PYTHON, CSHARP ->
+                    throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
+        };
         return compilerStrategy.createInputCode(problem , "", problem.getTestCases().get(0));
     }
 
