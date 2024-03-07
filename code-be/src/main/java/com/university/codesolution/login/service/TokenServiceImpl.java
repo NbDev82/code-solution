@@ -6,6 +6,7 @@ import com.university.codesolution.login.repository.TokenRepos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,9 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
     private static final int MAX_TOKENS = 3;
-    @Value("${jwt.expiration}")
+    @Value("2592000")
     private int expiration;
     private final TokenRepos tokenRepos;
+    @Transactional
     @Override
     public void addToken(User user, String token){
         List<Token> userTokens=tokenRepos.findByUser(user);
