@@ -22,9 +22,9 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenUtils {
-    @Value("${jwt.expiration}")
+    @Value("2592000")
     private int expiration;
-    @Value("${jwt.secretKey}")
+    @Value("TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=")
     private String secretKey;
     public String generateToken(com.university.codesolution.login.entity.User user) throws Exception{
         Map<String,Object> claims=new HashMap<>();
