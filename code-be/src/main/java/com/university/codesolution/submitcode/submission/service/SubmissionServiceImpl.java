@@ -86,8 +86,8 @@ public class SubmissionServiceImpl implements SubmissionService{
 
         User user = userMapper.toEntity(userService.getUserById(userId));
         String fileName = "Solution.java";
-        String inputCode = compilerStrategy.createInputCode(problem , code, problem.getTestCases().get(0));
-        compilerStrategy.writeFile(fileName, inputCode);
+        compilerStrategy.deleteFileCompiled();
+        compilerStrategy.writeFile(fileName, code);
 
         boolean isCompileSuccessful = compilerStrategy.compile(code,fileName);
 
