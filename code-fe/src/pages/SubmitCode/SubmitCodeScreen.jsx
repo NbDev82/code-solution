@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '~/components/Navbars/HomeNavbar';
 import ProblemScreen from '~/components/Problem/ProblemScreen';
 import EditorScreen from '~/components/Editor/EditorScreen';
@@ -7,6 +7,8 @@ import TestCaseScreen from '~/components/TestCaseScreen/TestCaseScreen';
 import "./SubmitCodeScreen.scss"
 
 function SubmitCodeScreen() {
+  const [result, setResult] = useState("")
+
   return (
     <React.Fragment>
       <section>
@@ -24,11 +26,11 @@ function SubmitCodeScreen() {
           </div>
 
           <div className="editor__layout">
-            <EditorScreen/>
+            <EditorScreen setResult={setResult}/>
           </div>
 
           <div className="testcases_layout centered">
-            <TestCaseScreen/>
+            <TestCaseScreen result={result}/>
           </div>
         </div>
       </section>

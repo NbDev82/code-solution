@@ -4,59 +4,64 @@ import Button from "../../components/Buttons/ButtonDark"
 import './EditorScreen.scss'
 import axios from 'axios';
 
-function EditorScreen() {
-  const [count, setCount] = useState(0)
-
+function EditorScreen({ setResult }) {
   const [code, setCode] = useState('');
 
   const [language, setLanguage] = useState('java');
 
-  const handleEditorChange = (value, event) => {
-    setCode(value);
+  const handleEditorChange = (code, event) => {
+    setCode(code);
+  };
+
+  const handleLanguageChange = async (event) => {
+    setLanguage(event.target.value)
+  }
+
+  const fetchCode = async () => {
+    try {
+      const problemId = 4
+      const response = await axios.get('http://localhost:8000/api/submit-code/getInputCode', {
+        params: {
+          problemId: problemId,
+          language: language
+        } });
+      setCode(response.data);
+    } catch (error) {
+      setCode('Error fetching code:' + error.response?.data?.message)
+      console.error('Error fetching code:', error);
+    }
   };
 
   useEffect(() => {
-    const fetchCode = async () => {
-      try {
-        const problemId = 4
-        const response = await axios.get('http://localhost:8000/api/submit-code/getInputCode', { params: {
-            problemId: problemId,
-            language: "Java"
-          } });
-        console.log('Server response:', response.data);
-        setCode(response.data);
-      } catch (error) {
-        console.error('Error fetching code:', error);
-      }
-    };
-    fetchCode()
-  }, []);
+     fetchCode()
+  }, [language]);
 
   const handleSendCode = () => {
     const request = {
-      userId: 2,
+      userId: 2, // will amend soon
       code: code,
-      language: "java",
-      problemId: 4
+      language: language,
+      problemId: 4 // will amend soon
     };
 
     axios.post('http://localhost:8000/api/submit-code/run', request)
       .then(response => {
+        setResult(response.data)
         console.log('Server response:', response.data);
       })
       .catch(error => {
-        console.error('Error sending code:', error);
-        // Xử lý lỗi nếu có
+        setResult(error?.response?.data.message)
+        console.error('Error sending code:', error.response.data.message);
       });
   };
 
   return (
     <>
       <div className="navbar__editor">
-        <select className="hidden lg:block selected__language">
-          <option value="java">java</option>
-          <option value="c#">c#</option>
-          <option value="python">python</option>
+        <select onChange={handleLanguageChange} className="hidden lg:block selected__language">
+          <option value="java">Java</option>
+          <option value="csharp">C#</option>
+          <option value="python">Python</option>
         </select>
         <Button onClick={handleSendCode}>Submit Code</Button>
       </div>
@@ -65,8 +70,8 @@ function EditorScreen() {
         height="48vh"
         width="100%"
         theme="vs-dark"
-        defaultLanguage={language}
-        defaultValue={code}
+        language={language}
+        value={code}
         onChange={handleEditorChange}
       />
     </>

@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import './TestCaseScreen.scss'
 
-function TestCaseScreen() {
+function TestCaseScreen( {result} ) {
 
   return (
     <>
       <div>
-        TESTCASES SCREEN
+        TESTCASES SCREEN:<br />
+        Status: {result.status}<br />
+        Message: {result.message}<br />
       </div>
     </>
   )
