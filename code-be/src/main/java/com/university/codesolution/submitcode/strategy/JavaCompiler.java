@@ -205,6 +205,8 @@ public class JavaCompiler implements CompilerStrategy{
         return bytes / (1024L * 1024L);
     }
 
+
+    @Override
     public void deleteFileCompiled(){
         File file = new File(FILE_NAME);
         if (file.exists()) {

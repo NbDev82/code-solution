@@ -8,6 +8,7 @@ import com.university.codesolution.submitcode.testcase.entity.TestCase;
 public interface CompilerStrategy {
     String createInputCode(Problem problem, String code, TestCase testCase);
     void writeFile(String fileName, String code);
+    void deleteFileCompiled();
     boolean compile(String code, String fileName);
     ResultDTO run(String code, Problem problem);
 }
