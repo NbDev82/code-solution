@@ -1,0 +1,46 @@
+$radius-size: 30px;
+
+%buttonStyle {
+  width: auto;
+  height: auto;
+  border-radius: $radius-size;
+  background-color: var(--white);
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 10px 20px;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.button--light {
+  @extend %buttonStyle;
+}
+
+.button--dark {
+  @extend %buttonStyle;
+  background-color: var(--secondary-color);
+  color: var(--white);
+}
+
+.button--hightlight {
+  @extend %buttonStyle;
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.button--light:hover {
+  background-color: var(--secondary-color);
+  color: var(--white);
+}
+
+.button--dark:hover {
+  background-color: var(--primary-color);
+}
+
+.button--hightlight:hover {
+  background-color: var(--gray-light);
+  color: var(--secondary-color);
+}

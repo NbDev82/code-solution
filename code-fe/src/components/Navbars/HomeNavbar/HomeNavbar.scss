@@ -1,0 +1,35 @@
+@mixin center {
+  align-items: center;
+  justify-content: center;
+}
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+@mixin column {
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  @include row();
+  position: static;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--white);
+  width: 100%;
+  height: 100px;
+  top: 0;
+  right: 0;
+  border-bottom: solid 0.5px var(--gray-light);
+  &--logo {
+    height: 35%;
+    margin-left: 2%;
+  }
+  &--list {
+    @include row();
+    @include center();
+    height: 100%;
+    gap: 30px;
+    margin-right: 2%;
+  }
+}

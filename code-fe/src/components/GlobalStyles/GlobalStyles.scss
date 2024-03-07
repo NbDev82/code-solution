@@ -3,6 +3,7 @@
 
 :root {
   --primary-color: #4ad7d1;
+  --primary-light-color: #7cd7d3;
   --secondary-color: #001730;
   --highlight-color: #fe4a49;
   --gray-dark: #a9a9a9;
@@ -24,7 +25,21 @@
   box-sizing: border-box;
 }
 
+img::selection {
+  background: none;
+}
+
+*::selection {
+  background: var(--primary-light-color);
+  color: var(--white);
+}
+
+ul {
+  list-style: none;
+}
+
 html {
+  scroll-behavior: smooth;
   font-size: 62.5%;
 }
 
@@ -63,4 +78,10 @@ input,
 a {
   color: var(--text-color);
   text-decoration: none;
+}
+
+image {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
