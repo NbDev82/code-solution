@@ -24,7 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
-    @Value("/api/v1")
+    @Value("/api")
     private String apiPrefix;
     @Value("${frontend.url}")
     private String frontendUrl;
@@ -38,10 +38,9 @@ public class SecurityConfig {
                             .requestMatchers(
                                     String.format("%s/users/register", apiPrefix),
                                     String.format("%s/users/login", apiPrefix),
-
                                     String.format("%s/users/public-string", apiPrefix),
                                     String.format("%s/users/private-string", apiPrefix),
-
+                                    String.format("%s/categories/*",apiPrefix),
                                     "/v2/api-docs",
                                     "/v3/api-docs",
                                     "/v3/api-docs/**",

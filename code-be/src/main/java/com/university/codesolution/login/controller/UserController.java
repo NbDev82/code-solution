@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
     private static final Logger log = LogManager.getLogger(UserController.class);
@@ -35,8 +35,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> createUser(
            @Valid @RequestBody UserDTO userDTO
-    )
-    {
+    ) {
      RegisterResponse registerResponse=new RegisterResponse();
      try{
          UserDTO user = userService.createUser(userDTO);
@@ -52,7 +51,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(
              @RequestBody UserLoginDTO userLoginDTO, HttpServletRequest request
-    ){
+    ) {
       try{
           String token = userService.login(
                   userLoginDTO.getPhoneNumber(),

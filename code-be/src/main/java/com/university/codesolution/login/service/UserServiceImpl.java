@@ -14,7 +14,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +55,43 @@ public class UserServiceImpl implements UserService  {
                 .orElseThrow(() -> new UserNotFoundException("Could not find any user with id=" + userId));
         return uMapper.toDTO(user);
     }
+
+    @Transactional
+    @Override
+    public User updateUser(UserDTO userDTO, Long userId) {
+        User existingUser = userRepos.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Could not find any user with id=" + userId));
+        String newPhoneNumber = userDTO.getPhoneNumber();
+        if (!existingUser.getPhoneNumber().equals(newPhoneNumber) && userRepos.existsByPhoneNumber(newPhoneNumber)) {
+            throw new DataIntegrityViolationException("Phone number already exists");
+        }
+        if (userDTO.getFullName() != null) {
+            existingUser.setFullName(userDTO.getFullName());
+        }
+        if (userDTO.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(userDTO.getPhoneNumber());
+        }
+        if (userDTO.getPassword() != null
+                && !userDTO.getPassword().isEmpty())
+        {
+
+            String newPassword = userDTO.getPassword();
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            existingUser.setPassword(encodedPassword);
+        }
+        return userRepos.save(existingUser);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public void deleteUser(int userId) {
+
+    }
+
     @Override
     public String login(String phoneNumber,String password,ERole eRole) throws Exception{
         Optional<User> optionalUser=userRepos.findByPhoneNumber(phoneNumber);
