@@ -25,10 +25,12 @@ function ProblemScreen() {
         <>
             <div className="problem">
                 <h3 className="problem__name">{problem.name}</h3>
-                <p className="problem__description" dangerouslySetInnerHTML={{ __html: problem.description.replace(/\n/g, "<br/>") }}></p><br/>
+                {problem && (
+                    <p className="problem__description" dangerouslySetInnerHTML={{ __html: problem.description.replace(/\n/g, "<br/>") }} />
+                )}
                 <div className="problem__details">
                     <span className="problem__point">Point: {problem.point}</span>
-                    <span className="problem__difficulty-level">Difficulty: <strong className={`problem__difficulty-level__${problem.difficultyLevel.toLowerCase()}`}>{problem.difficultyLevel}</strong></span>
+                    <span className="problem__difficulty-level">Difficulty: <strong className={`problem__difficulty-level__${problem?.difficultyLevel?.toLowerCase()}`}>{problem?.difficultyLevel}</strong></span>
                 </div><br/>
                 <div className="problem__stats">
                     <span className="problem__accepted-count">Accepted: {problem.acceptedCount}</span>
