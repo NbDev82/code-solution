@@ -19,7 +19,7 @@ function EditorScreen({ setResult }) {
 
   const fetchCode = async () => {
     try {
-      const problemId = 4
+      const problemId = 1
       const response = await axios.get('http://localhost:8000/api/submit-code/getInputCode', {
         params: {
           problemId: problemId,
@@ -38,10 +38,10 @@ function EditorScreen({ setResult }) {
 
   const handleSendCode = () => {
     const request = {
-      userId: 2, // will amend soon
+      userId: 1, // will amend soon
       code: code,
       language: language,
-      problemId: 4 // will amend soon
+      problemId: 1 // will amend soon
     };
 
     axios.post('http://localhost:8000/api/submit-code/run', request)
@@ -58,7 +58,7 @@ function EditorScreen({ setResult }) {
   return (
     <>
       <div className="navbar__editor">
-        <select onChange={handleLanguageChange} className="hidden lg:block selected__language">
+        <select onChange={handleLanguageChange} className="lg:block selected__language">
           <option value="java">Java</option>
           <option value="csharp">C#</option>
           <option value="python">Python</option>
