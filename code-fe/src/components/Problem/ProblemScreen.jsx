@@ -26,7 +26,7 @@ function ProblemScreen() {
             <div className="problem">
                 <h3 className="problem__name">{problem.name}</h3>
                 {problem && (
-                    <p className="problem__description" dangerouslySetInnerHTML={{ __html: problem.description.replace(/\n/g, "<br/>") }} />
+                    <p className="problem__description" dangerouslySetInnerHTML={{ __html: problem?.description?.replace(/\n/g, "<br/>") }} />
                 )}
                 <div className="problem__details">
                     <span className="problem__point">Point: {problem.point}</span>
