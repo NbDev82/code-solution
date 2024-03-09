@@ -29,7 +29,7 @@ function SubmitCodeScreen() {
             <EditorScreen setResult={setResult}/>
           </div>
 
-          <div className="testcases_layout centered">
+          <div className="testcases_layout">
             <TestCaseScreen result={result}/>
           </div>
         </div>

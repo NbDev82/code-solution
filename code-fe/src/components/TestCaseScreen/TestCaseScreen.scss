@@ -1,0 +1,60 @@
+.toolbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: transparent;
+  padding: 3px;
+  border-bottom: 1px solid #ada8a8;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  color: #e1d6d6;
+  padding: 5px 15px 5px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px 1px 10px;
+
+  &:hover {
+    background-color: #706d6d;
+  }
+}
+
+.icon {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.span {
+  font-size: 14px;
+}
+
+.testcase__result__details {
+  height: 80%;
+  color: #e1d6d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.success__color {
+  color: #267d1b;
+}
+
+.failed__color {
+  color: #7d1a12;
+}
+
+.status {
+  padding-left: 5px;
+}
+
+.right-border {
+  margin-left: 5px;
+  width: 2px;
+  height: 50%;
+  background-color: #ada8a8;
+}
