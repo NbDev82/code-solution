@@ -3,19 +3,15 @@ package com.university.codesolution.submitcode.strategy;
 import com.university.codesolution.submitcode.CompilerConstants;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.TestCaseResultDTO;
-import com.university.codesolution.submitcode.exception.CompilationErrorException;
-import com.university.codesolution.submitcode.exception.SyntaxErrorException;
 import com.university.codesolution.submitcode.exception.ClassNotFoundException;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.parameter.entity.Parameter;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.submission.enums.EStatus;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;
@@ -46,7 +42,6 @@ public class JavaCompiler implements CompilerStrategy{
 
     @Override
     public ResultDTO run(String code, Problem problem) {
-
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
         double memoryUsedAverage = 0;
         double runtimeAverage = 0;
@@ -60,20 +55,29 @@ public class JavaCompiler implements CompilerStrategy{
         for(TestCase testCase: testCases){
             List<Parameter> parameters = testCase.getParameters();
 
-            List<Object> arguments = parameterService.createArguments(parameters);
-            Object[] argsArray = arguments.toArray(new Object[0]);
+            String runCode = createRunCode(code, parameters, functionName, problem.getOutputDataType());
+            String fileName = "Solution.java";
+            writeFile(fileName,runCode);
+            boolean isCompileSuccess = compile(code,fileName);
+            if (!isCompileSuccess) {
+                return ResultDTO.builder()
+                        .status(EStatus.COMPILE_ERROR)
+                        .message("Testcase not valid!")
+                        .build();
+            }
 
             double startTime = System.currentTimeMillis();
             MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
 
-            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName,argsArray);
+            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName,parameters);
 
+            double endTime = System.currentTimeMillis();
             MemoryUsage heapMemoryUsageAfter = memoryMXBean.getHeapMemoryUsage();
+
             long memoryUsedBytes = heapMemoryUsageAfter.getUsed() - heapMemoryUsageBefore.getUsed();
             double memoryUsedMB = bytesToMegabytes(memoryUsedBytes);
             memoryUsedAverage += memoryUsedMB;
 
-            double endTime = System.currentTimeMillis();
             double runtimeSeconds = (endTime - startTime) / 1000.0;
             runtimeAverage += runtimeSeconds;
 
@@ -107,6 +111,32 @@ public class JavaCompiler implements CompilerStrategy{
     }
 
     @Override
+    public String createRunCode(String code, List<Parameter> parameters, String functionName, String outputDataType) {
+        int index1 = code.indexOf("{");
+        index1 +=1;
+        int index2 = code.length()-3;
+        String codeSplit1 = code.substring(0,index1);
+        String codeSplit2 = code.substring(index1,index2);
+        String codeSplit3 = code.substring(index2);
+
+        StringBuilder listParamsDeclare = new StringBuilder("\n\t");
+        StringBuilder listParamsRef = new StringBuilder();
+
+        for(Parameter p: parameters) {
+            String param = "public static "+ p.getInputDataType() +" " + p.getName() + " = " + p.getInputData() + ";\n";
+            listParamsDeclare.append(param);
+            listParamsRef.append(p.getName()).append(",");
+        }
+        listParamsRef = new StringBuilder(listParamsRef.substring(0, listParamsRef.length() - 1));
+
+        StringBuilder staticMethod = new StringBuilder("\n\t");
+        String staticMethodString = "public static " + outputDataType + " " + functionName + "() { return " + functionName + "("+listParamsRef+");}";
+        staticMethod.append(staticMethodString);
+
+        return codeSplit1 + listParamsDeclare + codeSplit2 + staticMethod + codeSplit3;
+    }
+
+    @Override
     public String createInputCode(Problem problem, String code, TestCase testCase) {
         if(testCase == null)
             throw new NullPointerException();
@@ -136,7 +166,7 @@ public class JavaCompiler implements CompilerStrategy{
                 "}\n";
     }
 
-    public TestCaseResultDTO runWithTestCase(String functionName, Object... args){
+    public TestCaseResultDTO runWithTestCase(String functionName, List<Parameter> parameters){
         TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
 
         String className = "Solution";
@@ -144,20 +174,18 @@ public class JavaCompiler implements CompilerStrategy{
             // Compilation success, load and execute the class
             URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
             Class<?> cls = Class.forName(className, true, classLoader);
-            Method method = cls.getDeclaredMethod(functionName, parameterService.getParameterTypes(args));
+            Method method = cls.getDeclaredMethod(functionName);
             Class<?> returnDataType = method.getReturnType();
 
             Object result;
             if (Modifier.isStatic(method.getModifiers())) {
-                result = method.invoke(null, args); // Invoke static method with null instance
+                result = method.invoke(null); // Invoke static method with null instance
             } else {
-                // If the method is not static, instantiate an object first
                 Object obj = cls.getDeclaredConstructor().newInstance();
-                result = method.invoke(obj, args); // Invoke method on the instance
+                result = method.invoke(obj); // Invoke method on the instance
             }
-            // Cast the result to the expected return type
             String returnValue = result.toString();
-            System.out.println("Return value: " + returnValue);
+            log.info("Return value: " + returnValue);
 
             testCaseResultDTO
                     .outputData(returnValue)
@@ -172,15 +200,16 @@ public class JavaCompiler implements CompilerStrategy{
     @Override
     public void writeFile(String fileName, String code) {
         File file = new File(fileName);
-        if (!file.exists()) {
-            try {
-                FileWriter fileWriter = new FileWriter(fileName);
-                fileWriter.write(code);
-                fileWriter.close();
-                log.info("File " + fileName + " created successfully.");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        try {
+            FileWriter fileWriter = new FileWriter(fileName);
+            if(file.exists()) {
+                fileWriter.write("");
             }
+            fileWriter.write(code);
+            fileWriter.close();
+            log.info("File " + fileName + " created successfully.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -188,19 +217,7 @@ public class JavaCompiler implements CompilerStrategy{
     public boolean compile(String code, String fileName) {
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int compilationResult = compiler.run(null, null, null, fileName);
-        if (compilationResult == CompilerConstants.SUCCESS) {
-            return true;
-        }
-
-        switch (compilationResult) {
-            case CompilerConstants.ERROR -> throw new Error("Error");
-            case CompilerConstants.SYNTAX_ERROR -> throw new SyntaxErrorException("Syntax error");
-            case CompilerConstants.CLASS_NOT_FOUND -> throw new ClassNotFoundException("Class not found");
-            case CompilerConstants.TYPE_NOT_PRESENT -> throw new TypeNotPresentException("Data type error", null);
-            default -> {
-                throw new CompilationErrorException("Compilation error occurred");
-            }
-        }
+        return compilationResult == CompilerConstants.SUCCESS;
     }
 
     private long bytesToMegabytes(long bytes) {
@@ -212,8 +229,9 @@ public class JavaCompiler implements CompilerStrategy{
     public void deleteFileCompiled(){
         File file = new File(FILE_NAME);
         if (file.exists()) {
-            file.delete();
-            log.info("File Solution.java deleted successfully.");
+            if(file.delete()) {
+                log.info("File Solution.java deleted successfully.");
+            }
         }
     }
 }
