@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 public class Token implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String token;
@@ -27,7 +29,7 @@ public class Token implements Serializable {
     @Column(name="expiration")
     private LocalDateTime expirationDate;
 
-    private int expired;
+    private boolean expired;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
