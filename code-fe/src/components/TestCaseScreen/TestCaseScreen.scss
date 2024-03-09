@@ -32,7 +32,12 @@
   font-size: 14px;
 }
 
-.testcase__result__details {
+.container {
+  height: 70%;
+}
+
+.testcase__result__details,
+.last_testcase__details {
   height: 80%;
   color: #e1d6d6;
   display: flex;
@@ -57,4 +62,17 @@
   width: 2px;
   height: 50%;
   background-color: #ada8a8;
+}
+
+.hidden {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  z-index: -1;
+}
+
+.active {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
 }
