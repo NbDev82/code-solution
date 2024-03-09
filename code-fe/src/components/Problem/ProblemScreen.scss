@@ -1,0 +1,58 @@
+.problem {
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.problem__name {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.problem__description {
+  line-height: 1.5;
+}
+
+.problem__details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.problem__point,
+.problem__difficulty-level {
+  font-size: 1.5rem;
+  color: #666;
+}
+
+.problem__difficulty-level__easy {
+  color: green;
+}
+
+.problem__difficulty-level__normal {
+  color: #18278f;
+}
+
+.problem__difficulty-level__hard {
+  color: red;
+}
+
+.problem__stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.problem__accepted-count,
+.problem__discuss-count,
+.problem__submission-count {
+  font-size: 2rem;
+}
+
+.problem__acceptance-rate {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+}
