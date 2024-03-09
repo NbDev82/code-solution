@@ -10,7 +10,7 @@
   display: grid;
   background-color: #0f0f0f;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr 1fr 4fr 2fr;
+  grid-template-rows: 1fr 0.5fr 4fr 2fr;
   grid-template-areas: 'nav__layout           nav__layout'
                         'nav__problem__layout editor__layout'
                         'problem__layout      editor__layout'
@@ -19,8 +19,11 @@
 
 .problem__layout {
   grid-area: problem__layout;
-  background-color: aquamarine;
-  margin: 10px 10px 0 10px;
+  background-color: #262626;
+  color: white;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid #a7a7a7;
 }
 
 .editor__layout {

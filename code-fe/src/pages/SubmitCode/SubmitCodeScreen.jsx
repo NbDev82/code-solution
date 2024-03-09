@@ -21,7 +21,7 @@ function SubmitCodeScreen() {
             <NavProblem/>
           </div>
 
-          <div className="problem__layout centered">
+          <div className="problem__layout">
             <ProblemScreen/>
           </div>
 
