@@ -48,6 +48,11 @@
 
 .nav__problem__layout {
   grid-area: nav__problem__layout;
+  border-radius: 10px;
+  border: 1px solid #a7a7a7;
+  background-color: #262626;
+  margin: 10px 10px 0 10px;
+  color: white;
 }
 
 @media only screen and (min-width: 768px) { }

@@ -1,28 +1,28 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import "./NavbarProblem.scss"
 
-function NavProblem() {
-  return (
-      <div className="navbar">
+function NavbarProblem() {
+    const [activeMenuItem, setActiveMenuItem] = useState('Description');
+
+    const handleMenuItemClick = (event) => {
+        setActiveMenuItem(event.target.value);
+    };
+
+    return (
         <div className="navbar__container">
-          <div className="navbar__logo">
-            <img src="logo.png" alt="Logo" />
-          </div>
-          <ul className="navbar__menu">
-            <li className="navbar__menu-item"><a href="#">Trang chủ</a></li>
-            <li className="navbar__menu-item"><a href="#">Giới thiệu</a></li>
-            <li className="navbar__menu-item"><a href="#">Sản phẩm</a></li>
-            <li className="navbar__menu-item"><a href="#">Liên hệ</a></li>
-          </ul>
-          <div className="navbar__search">
-            <input type="text" placeholder="Tìm kiếm" />
-          </div>
-          <div className="navbar__user">
-            <img src="user.png" alt="User" />
-          </div>
+            <ul className="navbar__menu">
+                <button value="Description" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Description' ? 'menu__active' : ''}`}>
+                    Description
+                </button>
+                <button value="Discusses" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Discusses'? 'menu__active' : ''}`}>
+                    Discusses
+                </button>
+                <button value="Submissions" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Submissions'? 'menu__active' : ''}`}>
+                    Submissions
+                </button>
+            </ul>
         </div>
-      </div>
-  )
+    )
 }
 
-export default NavProblem
+export default NavbarProblem
