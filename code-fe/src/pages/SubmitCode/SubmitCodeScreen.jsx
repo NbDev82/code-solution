@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Navbar from '~/components/Navbars/HomeNavbar';
 import ProblemScreen from '~/components/Problem/ProblemScreen';
 import EditorScreen from '~/components/Editor/EditorScreen';
-import NavbarProblem from '~/components/NavbarProblem/NavbarProblem';
+import NavbarProblem from '~/components/NavbarProblem/ProblemNavbar/NavbarProblem';
 import TestCaseScreen from '~/components/TestCaseScreen/TestCaseScreen';
+import MainNavbar from "~/components/NavbarProblem/MainNavbar/MainNavbar";
 import "./SubmitCodeScreen.scss"
 
 function SubmitCodeScreen() {
@@ -14,7 +14,7 @@ function SubmitCodeScreen() {
       <section>
         <div className="layout">
           <div className="nav__layout centered">
-            <Navbar/>
+            <MainNavbar/>
           </div>
 
           <div className="nav__problem__layout centered">
