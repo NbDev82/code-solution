@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DiscussRepos extends JpaRepository<Discuss,Long> {
-    List<Discuss> findByUser(User user);
+    List<Discuss> findByOwner(User owner);
     List<Discuss> findByCategory(Category category);
 }

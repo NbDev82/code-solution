@@ -4,16 +4,15 @@ import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "discusses")
 @AllArgsConstructor
 @NoArgsConstructor
