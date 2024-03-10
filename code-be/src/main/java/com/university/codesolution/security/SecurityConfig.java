@@ -36,11 +36,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     requests
                             .requestMatchers(
-                                    String.format("%s/users/register", apiPrefix),
-                                    String.format("%s/users/login", apiPrefix),
-                                    String.format("%s/users/public-string", apiPrefix),
-                                    String.format("%s/users/private-string", apiPrefix),
-                                    String.format("%s/categories/*",apiPrefix),
+                                    String.format("%s/users/**", apiPrefix),
+
+                                    String.format("%s/categories/**",apiPrefix),
+                                    String.format("%s/category/**",apiPrefix),
+                                    String.format("%s/posts/**",apiPrefix),
+
                                     "/v2/api-docs",
                                     "/v3/api-docs",
                                     "/v3/api-docs/**",

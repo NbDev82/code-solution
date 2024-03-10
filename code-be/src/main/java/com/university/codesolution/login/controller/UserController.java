@@ -34,7 +34,7 @@ public class UserController {
     }
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> createUser(
-           @Valid @RequestBody UserDTO userDTO
+            @RequestBody UserDTO userDTO
     ) {
      RegisterResponse registerResponse=new RegisterResponse();
      try{

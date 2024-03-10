@@ -25,6 +25,6 @@ public class Category implements Serializable {
     @Column(name = "description")
     private String categoryDescription;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Discuss> posts = new ArrayList<>();
+    private List<Discuss> discusses = new ArrayList<>();
 
 }
