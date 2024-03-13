@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import './TestCaseScreen.scss'
+import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 
-function TestCaseScreen( {result} ) {
+function TestCaseScreen() {
+    const {result} = useContext(AppContext);
   const [activeTab, setActiveTab] = useState('result');
 
   const handleButtonClick = (tabName) => {
