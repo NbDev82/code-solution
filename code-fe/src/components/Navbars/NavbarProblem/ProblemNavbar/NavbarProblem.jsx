@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import "./NavbarProblem.scss"
+import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 
 function NavbarProblem() {
-    const [activeMenuItem, setActiveMenuItem] = useState('Description');
+    const {activeMenuItem, setActiveMenuItem} = useContext(AppContext);
 
     const handleMenuItemClick = (event) => {
         setActiveMenuItem(event.target.value);

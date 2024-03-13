@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useState} from 'react';
 import Editor from "@monaco-editor/react"
 import Button from "../../components/Buttons/ButtonDark"
+import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 import './EditorScreen.scss'
 import axios from 'axios';
 
-function EditorScreen({ setResult }) {
+function EditorScreen() {
+  const {setResult} = useContext(AppContext);
   const [code, setCode] = useState('');
 
   const [language, setLanguage] = useState('java');
