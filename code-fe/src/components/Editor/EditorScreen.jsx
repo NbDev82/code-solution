@@ -11,7 +11,7 @@ function EditorScreen() {
 
   const [language, setLanguage] = useState('java');
 
-  const handleEditorChange = (code, event) => {
+  const handleEditorChange = (code) => {
     setCode(code);
   };
 
@@ -27,15 +27,17 @@ function EditorScreen() {
           problemId: problemId,
           language: language
         } });
-      setCode(response.data);
+      return response.data;
     } catch (error) {
-      setCode('Error fetching code:' + error.response?.data?.message)
       console.error('Error fetching code:', error);
+      return error.response?.data?.message;
     }
   };
 
   useEffect(() => {
-     fetchCode()
+     fetchCode().then(data => {
+       setCode(data)
+     })
   }, [language]);
 
   const handleSendCode = () => {
