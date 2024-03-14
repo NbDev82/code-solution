@@ -1,6 +1,6 @@
 package com.university.codesolution.submitcode.strategy;
 
-import com.university.codesolution.submitcode.CompilerConstants;
+import com.university.codesolution.submitcode.ECompilerConstants;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.TestCaseResultDTO;
 import com.university.codesolution.submitcode.exception.ClassNotFoundException;
@@ -58,18 +58,17 @@ public class JavaCompiler implements CompilerStrategy{
             String runCode = createRunCode(code, parameters, functionName, problem.getOutputDataType());
             String fileName = "Solution.java";
             writeFile(fileName,runCode);
-            boolean isCompileSuccess = compile(code,fileName);
-            if (!isCompileSuccess) {
-                return ResultDTO.builder()
-                        .status(EStatus.COMPILE_ERROR)
-                        .message("Testcase not valid!")
-                        .build();
+
+            ECompilerConstants isStatusCompiled = compile(code,fileName);
+
+            if(isStatusCompiled != ECompilerConstants.SUCCESS) {
+                return createCompilationFailureResult(isStatusCompiled);
             }
 
             double startTime = System.currentTimeMillis();
             MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
 
-            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName,parameters);
+            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
 
             double endTime = System.currentTimeMillis();
             MemoryUsage heapMemoryUsageAfter = memoryMXBean.getHeapMemoryUsage();
@@ -110,6 +109,16 @@ public class JavaCompiler implements CompilerStrategy{
                 .build();
     }
 
+    private ResultDTO createCompilationFailureResult(ECompilerConstants isStatusCompiled) {
+        return switch (isStatusCompiled) {
+            case ERROR, SYNTAX_ERROR, CLASS_NOT_FOUND, TYPE_NOT_PRESENT -> ResultDTO.builder()
+                    .status(EStatus.COMPILE_ERROR)
+                    .message("Testcase not valid!")
+                    .build();
+            default -> null;
+        };
+    }
+
     @Override
     public String createRunCode(String code, List<Parameter> parameters, String functionName, String outputDataType) {
         int index1 = code.indexOf("{");
@@ -129,11 +138,11 @@ public class JavaCompiler implements CompilerStrategy{
         }
         listParamsRef = new StringBuilder(listParamsRef.substring(0, listParamsRef.length() - 1));
 
-        StringBuilder staticMethod = new StringBuilder("\n\t");
-        String staticMethodString = "public static " + outputDataType + " " + functionName + "() { return " + functionName + "("+listParamsRef+");}";
-        staticMethod.append(staticMethodString);
+        String staticMethodString = "public static " + outputDataType + " " + functionName + "() { " +
+                    "return " + functionName + "("+listParamsRef+");" +
+                "}";
 
-        return codeSplit1 + listParamsDeclare + codeSplit2 + staticMethod + codeSplit3;
+        return codeSplit1 + listParamsDeclare + codeSplit2 + "\n\t" + staticMethodString + codeSplit3;
     }
 
     @Override
@@ -151,12 +160,10 @@ public class JavaCompiler implements CompilerStrategy{
         String outputDataType = problem.getOutputDataType();
         String className = "Solution";
 
-        librariesSupports.forEach(lib -> {
-            libraries
-                    .append("import ")
-                    .append(lib.getName())
-                    .append(";\n");
-        });
+        librariesSupports.forEach(lib -> libraries
+                .append("import ")
+                .append(lib.getName())
+                .append(";\n"));
 
         return libraries +
                 "public class " + className + " {\n" +
@@ -166,7 +173,7 @@ public class JavaCompiler implements CompilerStrategy{
                 "}\n";
     }
 
-    public TestCaseResultDTO runWithTestCase(String functionName, List<Parameter> parameters){
+    public TestCaseResultDTO runWithTestCase(String functionName){
         TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
 
         String className = "Solution";
@@ -214,10 +221,10 @@ public class JavaCompiler implements CompilerStrategy{
     }
 
     @Override
-    public boolean compile(String code, String fileName) {
+    public ECompilerConstants compile(String code, String fileName) {
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int compilationResult = compiler.run(null, null, null, fileName);
-        return compilationResult == CompilerConstants.SUCCESS;
+        int resultCompiled = compiler.run(null, null, null, fileName);
+        return ECompilerConstants.values()[resultCompiled];
     }
 
     private long bytesToMegabytes(long bytes) {

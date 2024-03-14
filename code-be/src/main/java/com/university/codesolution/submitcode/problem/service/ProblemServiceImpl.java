@@ -14,17 +14,28 @@ import org.springframework.stereotype.Service;
 public class ProblemServiceImpl implements ProblemService{
     private static final Logger log = LogManager.getLogger(ProblemServiceImpl.class);
 
-    @Autowired
-    private ProblemRepository problemRepository;
+    private final ProblemRepository problemRepository;
+
+    private final ProblemMapper mapper;
 
     @Autowired
-    private ProblemMapper mapper;
+    public ProblemServiceImpl(ProblemRepository problemRepository,
+                              ProblemMapper mapper) {
+        this.problemRepository = problemRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public ProblemDTO getByProblemName(String problemName) {
-        Problem problem = problemRepository.findByName(problemName)
-                .orElseThrow(() -> new ProblemNotFoundException("Requested problem not found"));
-
+        Problem problem = getEntityByProblemName(problemName);
+        log.info("get problemDTO from ProblemServiceImpl");
         return mapper.toDTO(problem);
+    }
+
+    @Override
+    public Problem getEntityByProblemName(String problemName) {
+        log.info("get problem from ProblemServiceImpl");
+        return problemRepository.findByName(problemName)
+                .orElseThrow(() -> new ProblemNotFoundException("Requested problem not found"));
     }
 }

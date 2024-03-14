@@ -35,6 +35,10 @@ public class Submission implements Serializable {
     @Enumerated
     private EStatus status;
 
+    private double runtime;
+
+    private double memory;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

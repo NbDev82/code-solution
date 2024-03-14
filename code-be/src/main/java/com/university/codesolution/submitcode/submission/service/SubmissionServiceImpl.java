@@ -5,8 +5,11 @@ import com.university.codesolution.login.exception.UserNotFoundException;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.DTO.SubmissionDTO;
+import com.university.codesolution.submitcode.ECompilerConstants;
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
+import com.university.codesolution.submitcode.problem.service.ProblemService;
 import com.university.codesolution.submitcode.strategy.CompilerProcessor;
 import com.university.codesolution.submitcode.strategy.CompilerStrategy;
 import com.university.codesolution.submitcode.strategy.JavaCompiler;
@@ -15,6 +18,7 @@ import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.submission.entity.Submission;
 import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.submission.enums.EStatus;
+import com.university.codesolution.submitcode.submission.mapper.SubmissionMapper;
 import com.university.codesolution.submitcode.submission.repository.SubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,20 +31,30 @@ import java.util.List;
 public class SubmissionServiceImpl implements SubmissionService{
     private CompilerStrategy compilerStrategy = null;
 
-    @Autowired
-    private SubmissionRepository submissionRepos;
+    private final SubmissionRepository submissionRepos;
+    private final UserRepos userRepos;
+    private final UserService userService;
+    private final ParameterService parameterService;
+    private final ProblemService problemService;
+    private final UserMapper userMapper;
+    private final SubmissionMapper submissionMapper;
 
     @Autowired
-    private UserRepos userRepos;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private ParameterService parameterService;
+    public SubmissionServiceImpl(SubmissionRepository submissionRepos,
+                                 UserRepos userRepos,
+                                 UserService userService,
+                                 ParameterService parameterService,
+                                 ProblemService problemService,
+                                 UserMapper userMapper,
+                                 SubmissionMapper submissionMapper) {
+        this.submissionRepos = submissionRepos;
+        this.userRepos = userRepos;
+        this.userService = userService;
+        this.parameterService = parameterService;
+        this.problemService = problemService;
+        this.userMapper = userMapper;
+        this.submissionMapper = submissionMapper;
+    }
 
     @Override
     public String getInputCode(Problem problem, ELanguage eLanguage) {
@@ -63,7 +77,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         }
 
         String fileName = "Solution.java";
-        if(compilerStrategy.compile(code,fileName)) {
+        if(compilerStrategy.compile(code,fileName).equals(ECompilerConstants.SUCCESS)) {
             return ResultDTO.builder()
                     .isAccepted(true)
                     .status(EStatus.ACCEPTED)
@@ -93,9 +107,9 @@ public class SubmissionServiceImpl implements SubmissionService{
         compilerStrategy.deleteFileCompiled();
         compilerStrategy.writeFile(fileName, code);
 
-        boolean isCompileSuccessful = compilerStrategy.compile(code,fileName);
+        ECompilerConstants isCompileSuccessful = compilerStrategy.compile(code,fileName);
 
-        if(isCompileSuccessful) {
+        if(isCompileSuccessful.equals(ECompilerConstants.SUCCESS)) {
             CompilerProcessor compilerProcessor = new CompilerProcessor(compilerStrategy);
 
             ResultDTO resultDTO = compilerProcessor.run(code,problem);
@@ -104,6 +118,8 @@ public class SubmissionServiceImpl implements SubmissionService{
                 Submission submission = Submission.builder()
                         .language(eLanguage)
                         .codeSubmitted(code)
+                        .memory(resultDTO.getMemory())
+                        .runtime(resultDTO.getRuntime())
                         .status(resultDTO.getStatus())
                         .createdAt(LocalDateTime.now())
                         .score(Double.parseDouble(resultDTO.getPassedTestcase()))
@@ -142,19 +158,20 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public List<Submission> getByUserIdAndProblemId(Long userId, Long problemId) {
+    public List<SubmissionDTO> getByUserIdAndProblemId(Long userId, String problemName) {
         User user = userMapper.toEntity(userService.getUserById(userId));
-        Problem problem = null;
-        return submissionRepos.findByUserAndProblem(user,problem);
+        Problem problem = problemService.getEntityByProblemName(problemName);
+        List<Submission> submissions = submissionRepos.findByUserAndProblem(user,problem);
+        return submissionMapper.toDTOs(submissions);
     }
 
     public void addSubmission(User user, Submission submission) {
         List<Submission> submissions = user.getSubmissions();
         if (submissions == null) {
             submissions = new ArrayList<>();
-            user.setSubmissions(submissions);
         }
         submissions.add(submission);
+        user.setSubmissions(submissions);
         userRepos.save(user);
     }
 }
