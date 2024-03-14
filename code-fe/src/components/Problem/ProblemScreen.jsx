@@ -6,18 +6,19 @@ function ProblemScreen() {
     const [problem,setProblem] = useState("");
 
     useEffect(() => {
-        fetchProblem();
+        fetchProblem("Palindrome-Number").then(data =>{
+            setProblem(data);
+            console.log(data)
+        });
     }, []);
 
-    const fetchProblem = async () => {
+    const fetchProblem = async (problemName) => {
         try {
-            const problemName = "Missing-Number"
             const response = await axios.get('http://localhost:8000/api/problems/' + problemName);
-            setProblem(response.data);
-            console.log(response.data)
+            return response.data
         } catch (error) {
-            setProblem('Error fetching problem:' + error.response?.data?.message)
             console.error('Error fetching problem:', error);
+            return error.response?.data?.message
         }
     };
 

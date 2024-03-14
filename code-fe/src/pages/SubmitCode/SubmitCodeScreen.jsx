@@ -4,9 +4,9 @@ import EditorScreen from '~/components/Editor/EditorScreen';
 import NavbarProblem from '~/components/Navbars/NavbarProblem/ProblemNavbar/NavbarProblem';
 import TestCaseScreen from '~/components/TestCaseScreen/TestCaseScreen';
 import MainNavbar from "~/components/Navbars/NavbarProblem/MainNavbar/MainNavbar";
-import "./SubmitCodeScreen.scss"
 import DiscussesScreen from "~/components/DiscussesProblem/DiscussesScreen";
 import SubmissionScreen from "~/components/Submissions/SubmissionScreen";
+import "./SubmitCodeScreen.scss"
 
 export const AppContext = createContext(null);
 
