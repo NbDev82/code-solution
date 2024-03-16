@@ -16,6 +16,6 @@ public class DiscussDTO {
     private String topic;
     private String content;
     private LocalDateTime dateTime;
-    private User owner;
-    private Category category;
+    private CategoryDTO category;
+    private UserDTO user;
 }

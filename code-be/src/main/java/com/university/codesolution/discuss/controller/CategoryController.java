@@ -1,6 +1,8 @@
 package com.university.codesolution.discuss.controller;
 
 import com.university.codesolution.discuss.dto.CategoryDTO;
+import com.university.codesolution.discuss.entity.Category;
+import com.university.codesolution.discuss.mapper.CategoryMapper;
 import com.university.codesolution.discuss.service.CategoryService;
 import com.university.codesolution.discuss.service.CategoryServiceImpl;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -18,8 +20,8 @@ import java.util.List;
 
 public class CategoryController {
 
-    private  CategoryService categoryService;
-
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
     @PostMapping("/")
     public ResponseEntity<CategoryDTO> createCategory(
             @RequestBody CategoryDTO categoryDTO) {
@@ -51,8 +53,9 @@ public class CategoryController {
 
     @GetMapping("/")
     public ResponseEntity<List<CategoryDTO>> getCategories() {
-        List<CategoryDTO> categories = this.categoryService.getCategories();
-        return ResponseEntity.ok(categories);
+        List<Category> categories = this.categoryService.getCategories();
+        List<CategoryDTO> categoryDTOS = this.categoryMapper.dtos(categories);
+        return ResponseEntity.ok(categoryDTOS);
     }
 
 }

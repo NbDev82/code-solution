@@ -1,8 +1,18 @@
 package com.university.codesolution.discuss.controller;
 
+import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
+import com.university.codesolution.discuss.entity.Discuss;
+import com.university.codesolution.discuss.mapper.DiscussMapper;
+import com.university.codesolution.discuss.mapper.DiscussMapperImpl;
 import com.university.codesolution.discuss.service.DiscussService;
+import com.university.codesolution.discuss.service.DiscussServiceImpl;
+import com.university.codesolution.login.dto.UserDTO;
+import com.university.codesolution.login.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 public class DiscussController {
     private DiscussService discussService;
-    @PostMapping("/users/{userId}/category/{categoryId}/posts")
+    @Autowired
+    private DiscussMapper discussMapper;
+    @Autowired
+    private ModelMapper modelMapper;
+    @PostMapping("/user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<DiscussDTO> createDiscuss(
             @RequestBody DiscussDTO discussDTO,
             @PathVariable Long userId,
@@ -24,7 +38,7 @@ public class DiscussController {
         DiscussDTO createDiscuss = this.discussService.createDiscuss(discussDTO, userId, categoryId);
         return new ResponseEntity<DiscussDTO>(createDiscuss, HttpStatus.CREATED);
     }
-    @GetMapping("/users/{userId}/posts")
+    @GetMapping("/user/{userId}/posts")
     public ResponseEntity<List<DiscussDTO>> getDiscussByUser(@PathVariable Long userId) {
         List<DiscussDTO> discussDTOS = this.discussService.getDiscussesByUser(userId);
         return new ResponseEntity<List<DiscussDTO>>(discussDTOS,HttpStatus.OK);
@@ -35,9 +49,26 @@ public class DiscussController {
         return new ResponseEntity<List<DiscussDTO>>(discussDTOS,HttpStatus.OK);
     }
     @GetMapping("/posts")
-    public ResponseEntity<List<DiscussDTO>> getAllDiscusses(){
-        List<DiscussDTO> discussDTOS = this.discussService.getAllDiscuss();
+    public ResponseEntity<List<DiscussDTO>> getAllDiscusses(
+            @RequestParam(value = "pageNumber", defaultValue = "10", required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1",required = false) Integer pageSize
+    ){
+        List<DiscussDTO> discussDTOS = this.discussService.getAllDiscuss(pageNumber, pageSize);
         return new ResponseEntity<List<DiscussDTO>>(discussDTOS,HttpStatus.OK);
+    }
+    @GetMapping("/posts/{discussId}")
+    public ResponseEntity<DiscussDTO> getDiscussById(@PathVariable Long discussId){
+        Discuss discuss = this.discussService.getDiscussById(discussId);
+        DiscussDTO discussDTO = this.discussMapper.toDto(discuss);
+
+        return new ResponseEntity<DiscussDTO>(discussDTO,HttpStatus.OK);
+    }
+    @GetMapping("/posts/search/{keywords}")
+    public ResponseEntity<List<DiscussDTO>> searchDiscussByTitle(
+            @PathVariable("keywords") String keywords
+    ){
+        List<DiscussDTO> result = this.discussService.searchDiscusses(keywords);
+        return new ResponseEntity<List<DiscussDTO>>(result,HttpStatus.OK);
     }
 
 }
