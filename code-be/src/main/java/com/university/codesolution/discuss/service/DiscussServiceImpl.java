@@ -59,8 +59,9 @@ public class DiscussServiceImpl implements DiscussService {
                 .orElseThrow(()->new ResourceNotFoundException("Discuss"));
         discuss.setTopic(discussDTO.getTopic());
         discuss.setContent(discussDTO.getContent());
+        discuss.setImage(discussDTO.getImage());
 
-        return null;
+        return discuss;
     }
 
     @Override

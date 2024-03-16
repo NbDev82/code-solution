@@ -7,16 +7,21 @@ import com.university.codesolution.discuss.mapper.DiscussMapper;
 import com.university.codesolution.discuss.mapper.DiscussMapperImpl;
 import com.university.codesolution.discuss.service.DiscussService;
 import com.university.codesolution.discuss.service.DiscussServiceImpl;
+import com.university.codesolution.discuss.service.FileService;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,10 +29,10 @@ import java.util.List;
 @AllArgsConstructor
 public class DiscussController {
     private DiscussService discussService;
-    @Autowired
+    private FileService fileService;
+
     private DiscussMapper discussMapper;
-    @Autowired
-    private ModelMapper modelMapper;
+
     @PostMapping("/user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<DiscussDTO> createDiscuss(
             @RequestBody DiscussDTO discussDTO,
@@ -70,5 +75,17 @@ public class DiscussController {
         List<DiscussDTO> result = this.discussService.searchDiscusses(keywords);
         return new ResponseEntity<List<DiscussDTO>>(result,HttpStatus.OK);
     }
+    @PostMapping("/post/image/upload/{discussId}")
+    public ResponseEntity<DiscussDTO> uploadPostImage(
+            @RequestParam("image") MultipartFile image,
+            @PathVariable Long discussId) throws IOException {
+        String fileName = this.fileService.storeFile(image);
+        DiscussDTO discussDTO = this.discussMapper.toDto(this.discussService.getDiscussById(discussId));
+        discussDTO.setImage(fileName);
+        DiscussDTO updateDiscussDTO = this.discussMapper.toDto(this.discussService.updateDiscuss(discussDTO, discussId));
+        return new ResponseEntity<DiscussDTO>(updateDiscussDTO,HttpStatus.OK);
+
+    }
+
 
 }
