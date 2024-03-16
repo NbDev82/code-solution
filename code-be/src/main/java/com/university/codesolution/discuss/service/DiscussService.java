@@ -7,15 +7,13 @@ import com.university.codesolution.login.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-@Service
 public interface DiscussService {
     DiscussDTO createDiscuss(DiscussDTO discussDTO, Long userId, Integer categoryId);
     Discuss updateDiscuss(DiscussDTO discussDTO, Long discussId);
     void deleteDiscuss(Long discussId);
-    List<DiscussDTO> getAllDiscuss();
-    DiscussDTO getDiscussById(Long discussId);
+    List<DiscussDTO> getAllDiscuss(Integer pageNumber, Integer pageSize);
+    Discuss getDiscussById(Long discussId);
     List<DiscussDTO> getDiscussesByCategory(Integer categoryId);
     List<DiscussDTO> getDiscussesByUser(Long userId);
-    List<Discuss> searchDiscusses(String keyword);
+    List<DiscussDTO> searchDiscusses(String keyword);
 }
