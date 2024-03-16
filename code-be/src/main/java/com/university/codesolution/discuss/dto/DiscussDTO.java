@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class DiscussDTO {
     private String topic;
     private String content;
+    private String image;
     private LocalDateTime dateTime;
     private CategoryDTO category;
     private UserDTO user;

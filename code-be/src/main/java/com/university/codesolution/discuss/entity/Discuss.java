@@ -22,10 +22,13 @@ public class Discuss implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 100 , nullable = false)
     private String topic;
+
     @Column(length = 10000)
     private String content;
+
     private String description;
 
     @Column(name = "start_date")
@@ -33,6 +36,8 @@ public class Discuss implements Serializable {
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
+
+    private String image;
 
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
