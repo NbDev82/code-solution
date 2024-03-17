@@ -1,19 +1,29 @@
 import React from 'react';
-import './HomeNavbar.scss';
+import '../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
-import ButtonLight from '~/components/Buttons/ButtonLight';
+import Button from '~/components/Buttons/Button';
 
 function HomeNavbar(props) {
   return (
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
       <div className="navbar--list">
-        <ButtonLight id="btnDevelop" children="Develop" onClick={props.onSelectBtn}></ButtonLight>
-        <ButtonLight id="btnContest" children="Contest" onClick={props.onSelectBtn}></ButtonLight>
-        <ButtonLight id="btnDiscuss" children="Discuss" onClick={props.onSelectBtn}></ButtonLight>
-        <ButtonLight id="btnSignin" children="Sign In" onClick={props.onSelectBtn}></ButtonLight>
+        <div className="navbar--list__gap20">
+          <Button id="develop" light onClick={props.onSelectBtn}>
+            Develop
+          </Button>
+          <Button id="contest" light onClick={props.onSelectBtn}>
+            Contest
+          </Button>
+          <Button id="discuss" light onClick={props.onSelectBtn}>
+            Discuss
+          </Button>
+          <Button id="signin" light onClick={props.onSelectBtn}>
+            Sign In
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
-export default HomeNavbar;
+export default React.memo(HomeNavbar);
