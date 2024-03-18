@@ -1,25 +1,36 @@
 import React from 'react';
-import './MainNavbar.scss';
-import LogoGroup from '~/assets/images/Logo-Group.svg';
-import Bell from '~/assets/images/Bell.svg';
-import AvatarSample from '~/assets/images/AvatarSample.png';
-import ButtonLight from '~/components/Buttons/ButtonLight';
 import { Avatar } from '@chakra-ui/react';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
-function MainNavbar() {
+import '../Navbar.scss';
+import LogoGroup from '~/assets/images/Logo-Group.svg';
+import AvatarSample from '~/assets/images/AvatarSample.png';
+import Button from '~/components/Buttons/Button';
+
+function MainNavbar(props) {
   return (
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
       <div className="navbar--list">
-        <ButtonLight children="Problems"></ButtonLight>
-        <ButtonLight children="Contests"></ButtonLight>
-        <ButtonLight children="Discuss"></ButtonLight>
+        <div className="navbar--list__gap20">
+          <Button id="problems" light onClick={props.onSelectBtn}>
+            Problems
+          </Button>
+          <Button id="contests" light onClick={props.onSelectBtn}>
+            Contests
+          </Button>
+          <Button id="disscuss" light onClick={props.onSelectBtn}>
+            Discuss
+          </Button>
+        </div>
       </div>
       <div className="navbar__group">
-        <img className="navbar__group--notify" src={Bell} alt="Bell Icon"></img>
-        <Avatar className="navbar__group--avatar" borderRadius="100%" name="My" src={AvatarSample} />
+        <Button id="notify" icon onClick={props.onSelectBtn}>
+          <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
+        </Button>
+        <Avatar size="lg" name="My" src={AvatarSample} />
       </div>
     </div>
   );
 }
-export default MainNavbar;
+export default React.memo(MainNavbar);

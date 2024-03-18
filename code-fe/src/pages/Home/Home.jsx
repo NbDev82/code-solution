@@ -1,19 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
+import Lottie from 'react-lottie';
+import { useNavigate } from 'react-router-dom';
+
+import './Home.scss';
 import Navbar from '~/components/Navbars/HomeNavbar';
 import Footer from '~/components/Footer';
+import Button from '~/components/Buttons/Button';
+
 import IntroVideo from '~/assets/video/Intro-Video.gif';
 import TextVideo from '~/assets/video/Text-Video.gif';
-import ButtonHighLight from '~/components/Buttons/ButtonHighLight';
-import './Home.scss';
-import Lottie from 'react-lottie';
 import HumanWork from '~/assets/lotties/HumanWork';
 import Discuss from '~/assets/lotties/Discuss';
 import Winner from '~/assets/lotties/Winner';
 import Moutains from '~/assets/images/Moutains.svg';
-import { useNavigate } from 'react-router-dom';
+
 function Home() {
   const navigate = useNavigate();
-  const targetElementRef = useRef(null);
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -21,27 +23,30 @@ function Home() {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
-  const handleSelectBtn = async (btnID) => {
-    if (btnID === 'btnSignin') {
-      navigate('/sign-in');
-    } else {
-      console.log(btnID);
-      if (targetElementRef.current) {
-        // Sử dụng scrollTop để cuộn tới vị trí của phần tử
-        window.scrollTo({
-          top: targetElementRef.current.offsetTop,
-          behavior: 'smooth', // Thêm animation cuộn mềm mại
-        });
-      }
+  const handleSelectBtn = useCallback((id) => {
+    switch (id) {
+      case 'signin':
+        navigate('/sign-in');
+        break;
+      case 'develop':
+        break;
+      case 'contest':
+        break;
+      case 'discuss':
+        break;
+      default:
+        console.error('Action is invalid');
     }
-  };
+  }, []);
 
   return (
     <div className="container">
       <Navbar onSelectBtn={handleSelectBtn}></Navbar>
       <section className="intro">
         <img className="intro__video" src={IntroVideo} alt="IntroVideo"></img>
-        <ButtonHighLight className="btn--newacc" children="Create Account"></ButtonHighLight>
+        <Button className="btn--newacc" highlight>
+          Create Account
+        </Button>
       </section>
       <section className="content">
         <section className="content__group">

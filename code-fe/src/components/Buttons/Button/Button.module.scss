@@ -1,0 +1,65 @@
+$radius-size: 30px;
+$radius-size-small: 10px;
+%buttonStyle {
+  width: auto;
+  height: auto;
+  border-radius: $radius-size;
+  background-color: var(--white);
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 10px 20px;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.default {
+  @extend %buttonStyle;
+}
+
+.light {
+  &:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+  }
+}
+
+.dark {
+  background-color: var(--secondary-color);
+  color: var(--white);
+  &:hover {
+    background-color: var(--primary-color);
+  }
+}
+
+.highlight {
+  background-color: var(--primary-color);
+  color: var(--white);
+  &:hover {
+    background-color: var(--gray-light);
+    color: var(--secondary-color);
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-size-small;
+  color: var(--gray-300);
+  gap: 3px;
+  &:hover {
+    background-color: var(--gray-light-light);
+    color: var(--secondary-color);
+  }
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.gray {
+  color: var(--gray-300);
+}
