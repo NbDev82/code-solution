@@ -16,13 +16,34 @@ $container-height: 1200px;
     height: $container-height;
     @include row();
     &--col {
-      height: 100%;
-      width: 50%;
-      @include column();
-      align-items: center;
-      justify-content: start;
-      gap: 20px;
-      padding: 20px;
+      &--60 {
+        @extend %colStyle;
+        width: 60%;
+      }
+      &--40 {
+        @extend %colStyle;
+        width: 40%;
+      }
+      &--50 {
+        @extend %colStyle;
+        width: 50%;
+      }
+      &--70 {
+        @extend %colStyle;
+        width: 70%;
+      }
+      &--30 {
+        @extend %colStyle;
+        width: 30%;
+      }
     }
   }
+}
+%colStyle {
+  height: 100%;
+  @include column();
+  align-items: center;
+  justify-content: start;
+  gap: 20px;
+  padding: 25px;
 }
