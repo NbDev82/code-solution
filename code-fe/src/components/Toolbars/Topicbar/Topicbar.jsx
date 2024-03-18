@@ -3,11 +3,11 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import './Topicbar.scss';
 import Button from '~/components/Buttons/Button';
-import {limitTopics} from '~/Const'
+import { LIMIT_QUANTITY_TOPICS } from '~/Const';
 
 function Topicbar({ topics, onFillterProblem }) {
   const [sliceStartPoint, setSliceStartPoint] = useState(0);
-  const [sliceEndPoint, setSliceEndPoint] = useState(limitTopics);
+  const [sliceEndPoint, setSliceEndPoint] = useState(LIMIT_QUANTITY_TOPICS);
   const [topicCurrent, setTopicCurrent] = useState([]);
 
   useEffect(() => {
@@ -18,12 +18,12 @@ function Topicbar({ topics, onFillterProblem }) {
     let start = sliceEndPoint;
     let end = sliceEndPoint;
     start = end;
-    end = end + limitTopics;
+    end = end + LIMIT_QUANTITY_TOPICS;
     setTopicCurrent((prev) => topics.slice(start, end));
 
     if (sliceEndPoint >= topics.length) {
       start = 0;
-      end = limitTopics;
+      end = LIMIT_QUANTITY_TOPICS;
     }
 
     setSliceStartPoint((prev) => start);
@@ -36,7 +36,7 @@ function Topicbar({ topics, onFillterProblem }) {
         All Topic
       </Button>
       <div className="topicbar__list">
-        {topicCurrent.map((topic, index) => (
+        {topicCurrent.map((topic) => (
           <Button key={topic.id} id={topic.id} textHighLight small badge={topic.quantity} onClick={onFillterProblem}>
             {topic.title}
           </Button>
