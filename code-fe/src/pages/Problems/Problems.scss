@@ -1,0 +1,28 @@
+$container-height: 1200px;
+@mixin center {
+  align-items: center;
+  justify-content: center;
+}
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+@mixin column {
+  display: flex;
+  flex-direction: column;
+}
+.problems {
+  &__container {
+    height: $container-height;
+    @include row();
+    &--col {
+      height: 100%;
+      width: 50%;
+      @include column();
+      align-items: center;
+      justify-content: start;
+      gap: 20px;
+      padding: 20px;
+    }
+  }
+}

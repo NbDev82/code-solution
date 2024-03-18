@@ -14,13 +14,22 @@ function Button(props) {
           [styles.highlight]: props.highlight,
           [styles.icon]: props.icon,
           [styles.disable]: props.disable,
-          [styles.gray]: props.gray,
+          [styles.small]: props.small,
+          [styles.large]: props.large,
+          [styles.textHighLight]: props.textHighLight,
         },
         defaultClasses,
       )}
       onClick={() => props.onClick(props.id)}
+      style={{
+        borderRadius: props.radius,
+        color: props.color,
+        fontSize: props.fontSize,
+        backgroundColor: props.backgroundColor,
+      }}
     >
       {props.children}
+      { props.badge && <div className={styles.badge}>{props.badge}</div> }
     </button>
   );
 }

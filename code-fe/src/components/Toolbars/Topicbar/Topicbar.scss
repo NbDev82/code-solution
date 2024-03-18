@@ -1,0 +1,24 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+@mixin center {
+  justify-content: center;
+  align-items: center;
+}
+.topicbar {
+  background-color: var(--white);
+  width: 100%;
+  height: 65px;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--radius-size-small);
+  @include row();
+  @include center();
+  padding: 0 10px;
+  gap: 5px;
+  &__list {
+    @include row();
+    @include center();
+    width: 70%;
+  }
+}
