@@ -1,20 +1,5 @@
 export let LIMIT_QUANTITY_TOPICS = 5;
 export let LIMIT_ROW_PROBLEMS_TABLE = 20;
-export const TOPICS_SAMPLE = [
-  { id: 0, title: 'String', quantity: 22 },
-  { id: 1, title: 'Array', quantity: 56 },
-  { id: 2, title: 'Sorting', quantity: 18 },
-  { id: 3, title: 'Math', quantity: 9 },
-  { id: 4, title: 'Counting', quantity: 27 },
-  { id: 5, title: 'Searching', quantity: 9 },
-  { id: 6, title: 'Recursion', quantity: 26 },
-  { id: 7, title: 'Regex', quantity: 11 },
-  { id: 8, title: 'Random', quantity: 21 },
-  { id: 9, title: 'Stack', quantity: 18 },
-  { id: 10, title: 'Geometry', quantity: 6 },
-  { id: 11, title: 'Data Structures', quantity: 2 },
-  { id: 12, title: 'Looping', quantity: 7 },
-];
 export const PROBLEMS_SAMPLE = [
   {
     id: 0,
@@ -69,7 +54,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Factorial Calculator',
     status: 'Attempted',
     acceptance: 14.28,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['Math', 'Recursion'],
   },
   {
@@ -85,7 +70,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Validate Email Addresses',
     status: 'Solved',
     acceptance: 11.27,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['String', 'Regex'],
   },
   {
@@ -109,7 +94,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Convert Roman Numerals to Integer',
     status: 'Todo',
     acceptance: 15.36,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['String', 'Math'],
   },
   {
@@ -125,7 +110,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Check Anagrams',
     status: 'Todo',
     acceptance: 25.78,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['String'],
   },
   {
@@ -149,7 +134,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Find Longest Common Prefix',
     status: 'Todo',
     acceptance: 22.45,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['String'],
   },
   {
@@ -173,7 +158,7 @@ export const PROBLEMS_SAMPLE = [
     title: 'Check Balanced Parentheses',
     status: 'Todo',
     acceptance: 37.4,
-    difficulty: 'Medium',
+    difficulty: 'Normal',
     topics: ['String', 'Stack'],
   },
   {
@@ -200,4 +185,19 @@ export const PROBLEMS_SAMPLE = [
     difficulty: 'Hard',
     topics: ['Array', 'Searching'],
   },
+];
+export const TOPICS_SAMPLE = [
+  { id: 0, title: 'String', quantity: 22 },
+  { id: 1, title: 'Array', quantity: 56 },
+  { id: 2, title: 'Sorting', quantity: 18 },
+  { id: 3, title: 'Math', quantity: 9 },
+  { id: 4, title: 'Counting', quantity: 27 },
+  { id: 5, title: 'Searching', quantity: 9 },
+  { id: 6, title: 'Recursion', quantity: 26 },
+  { id: 7, title: 'Regex', quantity: 11 },
+  { id: 8, title: 'Random', quantity: 21 },
+  { id: 9, title: 'Stack', quantity: 18 },
+  { id: 10, title: 'Geometry', quantity: 6 },
+  { id: 11, title: 'Data Structures', quantity: 2 },
+  { id: 12, title: 'Looping', quantity: 7 },
 ];

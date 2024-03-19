@@ -15,6 +15,13 @@ $container-height: 1200px;
   &__container {
     height: $container-height;
     @include row();
+    &--layout {
+      box-shadow: var(--box-shadow);
+      padding: 5px;
+      border-radius: var(--radius-size-small);
+      @extend %colStyle;
+      width: 100%;
+    }
     &--col {
       &--60 {
         @extend %colStyle;
@@ -39,6 +46,7 @@ $container-height: 1200px;
     }
   }
 }
+
 %colStyle {
   height: 100%;
   @include column();
@@ -46,4 +54,12 @@ $container-height: 1200px;
   justify-content: start;
   gap: 20px;
   padding: 25px;
+}
+
+.table__control {
+  @include row();
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 20px;
 }

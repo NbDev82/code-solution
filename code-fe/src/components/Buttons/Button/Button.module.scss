@@ -40,13 +40,13 @@
   background-color: var(--primary-color);
   color: var(--white);
   &:hover {
-    background-color: var(--gray-light);
+    background-color: var(--primary-light-color);
     color: var(--secondary-color);
   }
 }
 
 .icon {
-  border-radius: var(--radius-size-small);
+  border-radius: var(--radius-size-smallsmall);
   color: var(--gray-300);
   gap: 3px;
   &:hover {
@@ -83,6 +83,9 @@
   color: var(--secondary-color);
 }
 
-%buttonStyle:hover .badge{
+%buttonStyle:hover .badge {
   color: var(--primary-color);
+}
+%buttonStyle:hover {
+  transform: scale(1.05);
 }
