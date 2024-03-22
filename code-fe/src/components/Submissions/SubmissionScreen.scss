@@ -13,30 +13,33 @@
     }
   }
 
+
   &__cell {
     padding: 10px;
     border-bottom: 1px solid #ada8a8;
+
+    &--status {
+      width: 100px;
+    }
+
+    &--language {
+      border-radius: 1px;
+      color: white;
+      width: 150px;
+    }
+
+    &--runtime,
+    &--memory {
+      width: 100px;
+      text-align: right;
+    }
+
+    &--notes {
+      width: 200px;
+    }
   }
 
-  &__cell--status {
-    width: 100px;
-  }
 
-  &__cell--language {
-    border-radius: 1px;
-    color: white;
-    width: 150px;
-  }
-
-  &__cell--runtime,
-  &__cell--memory {
-    width: 100px;
-    text-align: right;
-  }
-
-  &__cell--notes {
-    width: 200px;
-  }
 
   &__icon {
     display: inline-block;
@@ -57,7 +60,7 @@
       color: #4caf50;
     }
 
-    &--wrong_answer {
+    &--wrong_answer, &--compile_error {
       color: #e1201a;
     }
   }

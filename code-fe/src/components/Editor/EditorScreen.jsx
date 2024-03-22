@@ -1,12 +1,13 @@
 import {useContext, useEffect, useState} from 'react';
 import Editor from "@monaco-editor/react"
-import Button from "../../components/Buttons/ButtonDark"
+import Button from "../../components/Buttons/Button"
 import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 import './EditorScreen.scss'
 import axios from 'axios';
 
 function EditorScreen() {
   const {setResult} = useContext(AppContext);
+  const {problemId} = useContext(AppContext);
   const [code, setCode] = useState('');
 
   const [language, setLanguage] = useState('java');
@@ -21,7 +22,6 @@ function EditorScreen() {
 
   const fetchCode = async () => {
     try {
-      const problemId = 1
       const response = await axios.get('http://localhost:8000/api/submit-code/getInputCode', {
         params: {
           problemId: problemId,
@@ -38,14 +38,14 @@ function EditorScreen() {
      fetchCode().then(data => {
        setCode(data)
      })
-  }, [language]);
+  }, [problemId, language]);
 
   const handleSendCode = () => {
     const request = {
       userId: 1, // will amend soon
       code: code,
       language: language,
-      problemId: 1 // will amend soon
+      problemId: problemId // will amend soon
     };
 
     axios.post('http://localhost:8000/api/submit-code/run', request)
