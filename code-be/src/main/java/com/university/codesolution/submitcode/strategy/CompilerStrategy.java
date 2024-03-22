@@ -1,7 +1,6 @@
 package com.university.codesolution.submitcode.strategy;
 
 import com.university.codesolution.submitcode.DTO.ResultDTO;
-import com.university.codesolution.submitcode.ECompilerConstants;
 import com.university.codesolution.submitcode.parameter.entity.Parameter;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
@@ -14,6 +13,6 @@ public interface CompilerStrategy {
 
     void writeFile(String fileName, String code);
     void deleteFileCompiled();
-    ECompilerConstants compile(String code, String fileName);
+    CompilerResult compile(String code, String fileName);
     ResultDTO run(String code, Problem problem);
 }

@@ -11,6 +11,7 @@ import com.university.codesolution.submitcode.exception.UnsupportedLanguageExcep
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import com.university.codesolution.submitcode.strategy.CompilerProcessor;
+import com.university.codesolution.submitcode.strategy.CompilerResult;
 import com.university.codesolution.submitcode.strategy.CompilerStrategy;
 import com.university.codesolution.submitcode.strategy.JavaCompiler;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
@@ -58,45 +59,36 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public String getInputCode(Problem problem, ELanguage eLanguage) {
-        compilerStrategy = switch (eLanguage) {
-            case JAVA -> new JavaCompiler(parameterService);
-            case PYTHON, CSHARP ->
-                    throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
-        };
+        compilerStrategy = determineCompilerStrategy(eLanguage);
         return compilerStrategy.createInputCode(problem , "", problem.getTestCases().get(0));
     }
 
     @Override
     public ResultDTO compile(String code, ELanguage eLanguage) {
         if(compilerStrategy == null) {
-            compilerStrategy = switch (eLanguage) {
-                case JAVA -> new JavaCompiler(parameterService);
-                case PYTHON, CSHARP ->
-                        throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
-            };
+            compilerStrategy = determineCompilerStrategy(eLanguage);
         }
 
         String fileName = "Solution.java";
-        if(compilerStrategy.compile(code,fileName).equals(ECompilerConstants.SUCCESS)) {
-            return ResultDTO.builder()
-                    .isAccepted(true)
-                    .status(EStatus.ACCEPTED)
-                    .build();
-        } else {
-            return ResultDTO.builder()
-                    .isAccepted(false)
-                    .status(EStatus.COMPILE_ERROR)
-                    .build();
-        }
+
+        CompilerResult compilerResult = compilerStrategy.compile(code,fileName);
+
+        return createResultDTO(compilerResult);
+    }
+
+    private ResultDTO createResultDTO(CompilerResult compilerResult) {
+        return ResultDTO.builder()
+                .isAccepted(compilerResult.getCompilerConstants().equals(ECompilerConstants.SUCCESS))
+                .message(compilerResult.getError())
+                .status(compilerResult.getCompilerConstants().equals(ECompilerConstants.SUCCESS)
+                        ? EStatus.ACCEPTED
+                        : EStatus.COMPILE_ERROR)
+                .build();
     }
 
     @Override
     public ResultDTO runCode(Long userId, String code, Problem problem, ELanguage eLanguage) {
-        compilerStrategy = switch (eLanguage) {
-            case JAVA -> new JavaCompiler(parameterService);
-            case PYTHON, CSHARP ->
-                    throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
-        };
+        compilerStrategy = determineCompilerStrategy(eLanguage);
 
         User user = userMapper.toEntity(userService.getUserById(userId));
         if(user == null) {
@@ -104,52 +96,74 @@ public class SubmissionServiceImpl implements SubmissionService{
         }
 
         String fileName = "Solution.java";
-        compilerStrategy.deleteFileCompiled();
-        compilerStrategy.writeFile(fileName, code);
+        prepareFile(fileName, code);
+        CompilerResult compilerResult = compilerStrategy.compile(code,fileName);
 
-        ECompilerConstants isCompileSuccessful = compilerStrategy.compile(code,fileName);
-
-        if(isCompileSuccessful.equals(ECompilerConstants.SUCCESS)) {
+        if(compilerResult.getCompilerConstants().equals(ECompilerConstants.SUCCESS)) {
             CompilerProcessor compilerProcessor = new CompilerProcessor(compilerStrategy);
-
             ResultDTO resultDTO = compilerProcessor.run(code,problem);
 
-            if(!resultDTO.getStatus().equals(EStatus.COMPILE_ERROR)) {
-                Submission submission = Submission.builder()
-                        .language(eLanguage)
-                        .codeSubmitted(code)
-                        .memory(resultDTO.getMemory())
-                        .runtime(resultDTO.getRuntime())
-                        .status(resultDTO.getStatus())
-                        .createdAt(LocalDateTime.now())
-                        .score(Double.parseDouble(resultDTO.getPassedTestcase()))
-                        .user(user)
-                        .problem(problem)
-                        .build();
-
-                addSubmission(user, submission);
-            }
+            handleSuccessfulExecution(user, resultDTO, eLanguage, code, problem);
 
             return resultDTO;
         }
         else {
+            handleCompilationError(user, code, problem);
+
+            return createCompilationErrorResultDTO(compilerResult.getError());
+        }
+    }
+
+    private ResultDTO createCompilationErrorResultDTO(String error) {
+        return ResultDTO.builder()
+                .status(EStatus.COMPILE_ERROR)
+                .message(error)
+                .isAccepted(false)
+                .build();
+    }
+
+    private void handleCompilationError(User user, String code, Problem problem) {
+        Submission submission = Submission.builder()
+                .codeSubmitted(code)
+                .createdAt(LocalDateTime.now())
+                .user(user)
+                .problem(problem)
+                .language(ELanguage.JAVA)
+                .status(EStatus.COMPILE_ERROR)
+                .build();
+
+        addSubmission(user, submission);
+    }
+
+    private void handleSuccessfulExecution(User user, ResultDTO resultDTO, ELanguage eLanguage, String code, Problem problem) {
+        if(!resultDTO.getStatus().equals(EStatus.COMPILE_ERROR)) {
             Submission submission = Submission.builder()
+                    .language(eLanguage)
                     .codeSubmitted(code)
+                    .memory(resultDTO.getMemory())
+                    .runtime(resultDTO.getRuntime())
+                    .status(resultDTO.getStatus())
                     .createdAt(LocalDateTime.now())
+                    .score(Double.parseDouble(resultDTO.getPassedTestcase()))
                     .user(user)
                     .problem(problem)
-                    .language(ELanguage.JAVA)
-                    .status(EStatus.COMPILE_ERROR)
                     .build();
 
             addSubmission(user, submission);
-
-            return ResultDTO.builder()
-                    .status(EStatus.COMPILE_ERROR)
-                    .message("Can not compile your code.")
-                    .isAccepted(false)
-                    .build();
         }
+    }
+
+    private void prepareFile(String fileName, String code) {
+        compilerStrategy.deleteFileCompiled();
+        compilerStrategy.writeFile(fileName, code);
+    }
+
+    private CompilerStrategy determineCompilerStrategy(ELanguage eLanguage) {
+        return switch (eLanguage) {
+            case JAVA -> new JavaCompiler(parameterService);
+            case PYTHON, CSHARP ->
+                    throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
+        };
     }
 
     @Override
@@ -162,6 +176,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         User user = userMapper.toEntity(userService.getUserById(userId));
         Problem problem = problemService.getEntityByProblemName(problemName);
         List<Submission> submissions = submissionRepos.findByUserAndProblem(user,problem);
+        submissions.sort((submissionA, submissionB) -> submissionB.getCreatedAt().compareTo(submissionA.getCreatedAt()));
         return submissionMapper.toDTOs(submissions);
     }
 

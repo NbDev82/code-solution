@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 @Data
 @Builder
 public class ProblemDTO {
+    private Long id;
     private String name;
     private String description;
     private String questionText;
