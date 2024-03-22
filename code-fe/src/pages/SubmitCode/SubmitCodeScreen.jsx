@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useEffect, useState} from 'react';
 import ProblemScreen from '~/components/Problem/ProblemScreen';
 import EditorScreen from '~/components/Editor/EditorScreen';
 import NavbarProblem from '~/components/Navbars/NavbarProblem/ProblemNavbar/NavbarProblem';
@@ -7,12 +7,36 @@ import MainNavbar from "~/components/Navbars/NavbarProblem/MainNavbar/MainNavbar
 import DiscussesScreen from "~/components/DiscussesProblem/DiscussesScreen";
 import SubmissionScreen from "~/components/Submissions/SubmissionScreen";
 import "./SubmitCodeScreen.scss"
+import axios from "axios";
 
 export const AppContext = createContext(null);
 
 function SubmitCodeScreen() {
     const [result, setResult] = useState("")
     const [activeMenuItem, setActiveMenuItem] = useState("Description")
+    const [problem, setProblem] = useState("");
+    const [problemId, setProblemId] = useState("");
+    const [problemName, setProblemName] = useState("Missing-Number");
+    const [userId, setUserId] = useState(0);
+
+    useEffect(() => {
+        fetchProblem(problemName).then(data => {
+            setProblem(data);
+            setProblemId(data.id)
+            setProblemName(data.name)
+        });
+        setUserId(1)
+    }, []);
+
+    const fetchProblem = async (problemName) => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/problems/' + problemName);
+            return response.data
+        } catch (error) {
+            console.error('Error fetching problem:', error);
+            return error.response?.data?.message
+        }
+    };
 
     const renderActiveScreen = () => {
         switch (activeMenuItem) {
@@ -28,7 +52,11 @@ function SubmitCodeScreen() {
     return (
         <AppContext.Provider value={{
             result, setResult,
-            activeMenuItem, setActiveMenuItem}}>
+            activeMenuItem, setActiveMenuItem,
+            problem, setProblem,
+            problemId, setProblemId,
+            userId, setUserId,
+            problemName, setProblemName}}>
             <section>
                 <div className="layout">
                     <div className="nav__layout centered">

@@ -1,33 +1,20 @@
-import { useEffect, useState } from 'react';
+import {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import './ProblemScreen.scss'
 import axios from "axios";
+import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 
 function ProblemScreen() {
-    const [problem,setProblem] = useState("");
+    const {problem} = useContext(AppContext)
 
-    useEffect(() => {
-        fetchProblem("Palindrome-Number").then(data =>{
-            setProblem(data);
-            console.log(data)
-        });
-    }, []);
-
-    const fetchProblem = async (problemName) => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/problems/' + problemName);
-            return response.data
-        } catch (error) {
-            console.error('Error fetching problem:', error);
-            return error.response?.data?.message
-        }
-    };
+    const descriptionWithLineBreaks = problem?.description?.replace(/\n/g, "<br/>");
 
     return (
         <>
+            {problem !== "" && (
             <div className="problem">
                 <h3 className="problem__name">{problem.name}</h3>
                 {problem && (
-                    <p className="problem__description" dangerouslySetInnerHTML={{ __html: problem?.description?.replace(/\n/g, "<br/>") }} />
+                    <p className="problem__description" dangerouslySetInnerHTML={{ __html: descriptionWithLineBreaks }} />
                 )}
                 <div className="problem__details">
                     <span className="problem__point">Point: {problem.point}</span>
@@ -40,6 +27,7 @@ function ProblemScreen() {
                 </div><br/>
                 <p className="problem__acceptance-rate">Acceptance Rate: {problem.acceptanceRate}%</p>
             </div>
+            )}
         </>
     )
 }
