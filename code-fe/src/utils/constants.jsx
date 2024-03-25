@@ -35,3 +35,20 @@ export function formatDateTime(dateTime) {
 
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 }
+
+export function getStatusColor(status) {
+  switch (status) {
+    case "ACTIVE":
+      return "red.400";
+    case "PREPARING":
+      return "blue.400";
+    case "IN_PROCESS":
+      return "green.400";
+    case "PAUSED":
+      return "yellow.400";
+    case "COMPLETED":
+      return "purple.400";
+    default:
+      return "gray.400";
+  }
+}

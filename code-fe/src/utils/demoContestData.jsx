@@ -35,7 +35,7 @@ export const myDemoContests = [
     endTime: new Date('2024-05-10T09:00:00'),
     duration: 3540000,
     type: 'PRIVATE',
-    status: 'COMPLETED',
+    status: 'PAUSED',
     isDeleted: false,
   },
   {
@@ -61,7 +61,7 @@ export const myDemoContests = [
     endTime: new Date('2024-05-10T09:00:00'),
     duration: 3540000,
     type: 'PRIVATE',
-    status: 'COMPLETED',
+    status: 'IN_PROCESS',
     isDeleted: false,
   },
   {
