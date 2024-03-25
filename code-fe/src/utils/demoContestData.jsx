@@ -22,7 +22,7 @@ export const myDemoContests = [
     endTime: new Date('2024-04-15T12:00:00'),
     duration: 600000,
     type: 'PUBLIC',
-    status: 'ACTIVE',
+    status: 'PREPARING',
     isDeleted: false,
   },
   {

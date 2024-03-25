@@ -25,8 +25,12 @@ import { useEffect, useRef, useState } from 'react';
 import { ContestSearchOptions, formatDateTime, formatDuration } from '~/utils/constants';
 import SimplePagination from '~/components/Pagination/SimplePagination';
 import { myDemoContests } from '~/utils/demoContestData';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
 
 const MyContestList = () => {
+  const navigate = useNavigate();
+
   const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,6 +73,10 @@ const MyContestList = () => {
     console.log("On handleClickContest() method")
   };
 
+  const handleAddContest = () => {
+    navigate(config.routes.add_contest);
+  }
+
   return (
     <Box>
       <Flex align="center" gap={6}>
@@ -103,6 +111,7 @@ const MyContestList = () => {
           colorScheme="teal"
           borderRadius="full"
           variant="outline"
+          onClick={() => handleAddContest()}
         />
       </Flex>
 
