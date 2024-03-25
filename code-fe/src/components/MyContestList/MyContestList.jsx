@@ -1,32 +1,37 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Badge,
   Box,
   Button,
-  Text,
   Flex,
+  IconButton,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
   Select,
-  Image,
-  IconButton,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
+  Stack,
+  Text,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { AddIcon, SearchIcon, DeleteIcon } from '@chakra-ui/icons';
-import { useState, useRef } from 'react';
-import { ContestSearchOptions } from '~/utils/constants';
+import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
+import { useEffect, useRef, useState } from 'react';
+import { ContestSearchOptions, formatDateTime, formatDuration } from '~/utils/constants';
+import SimplePagination from '~/components/Pagination/SimplePagination';
 
 const MyContestList = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
   const [myContests, setMyContests] = useState([
     {
       id: 1,
@@ -36,7 +41,7 @@ const MyContestList = () => {
       desc: 'It is good for practicing',
       startTime: new Date('2024-03-01T07:30:00'),
       endTime: new Date('2024-03-01T10:30:00'),
-      duration: 3600,
+      duration: 3661000,
       type: 'PUBLIC',
       status: 'PREPARING',
       isDeleted: false,
@@ -49,7 +54,7 @@ const MyContestList = () => {
       desc: 'A monthly coding challenge',
       startTime: new Date('2024-04-15T09:00:00'),
       endTime: new Date('2024-04-15T12:00:00'),
-      duration: 10800, // 3 hours
+      duration: 600000, // 3 hours
       type: 'PUBLIC',
       status: 'ACTIVE',
       isDeleted: false,
@@ -62,12 +67,81 @@ const MyContestList = () => {
       desc: 'Entry-level programming contest',
       startTime: new Date('2024-05-10T08:00:00'),
       endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3600, // 1 hour
+      duration: 3540000, // 1 hour
+      type: 'PRIVATE',
+      status: 'COMPLETED',
+      isDeleted: false,
+    },
+    {
+      id: 4,
+      ownerId: 4,
+      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
+      title: "Beginner's Challenge",
+      desc: 'Entry-level programming contest',
+      startTime: new Date('2024-05-10T08:00:00'),
+      endTime: new Date('2024-05-10T09:00:00'),
+      duration: 3540000, // 1 hour
+      type: 'PRIVATE',
+      status: 'COMPLETED',
+      isDeleted: false,
+    },
+    {
+      id: 5,
+      ownerId: 4,
+      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
+      title: "Beginner's Challenge",
+      desc: 'Entry-level programming contest',
+      startTime: new Date('2024-05-10T08:00:00'),
+      endTime: new Date('2024-05-10T09:00:00'),
+      duration: 3540000, // 1 hour
+      type: 'PRIVATE',
+      status: 'COMPLETED',
+      isDeleted: false,
+    },
+    {
+      id: 6,
+      ownerId: 4,
+      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
+      title: "Beginner's Challenge",
+      desc: 'Entry-level programming contest',
+      startTime: new Date('2024-05-10T08:00:00'),
+      endTime: new Date('2024-05-10T09:00:00'),
+      duration: 3540000, // 1 hour
+      type: 'PRIVATE',
+      status: 'COMPLETED',
+      isDeleted: false,
+    },
+    {
+      id: 7,
+      ownerId: 4,
+      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
+      title: "Beginner's Challenge",
+      desc: 'Entry-level programming contest',
+      startTime: new Date('2024-05-10T08:00:00'),
+      endTime: new Date('2024-05-10T09:00:00'),
+      duration: 3540000, // 1 hour
+      type: 'PRIVATE',
+      status: 'COMPLETED',
+      isDeleted: false,
+    },
+    {
+      id: 8,
+      ownerId: 4,
+      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
+      title: "Beginner's Challenge",
+      desc: 'Entry-level programming contest',
+      startTime: new Date('2024-05-10T08:00:00'),
+      endTime: new Date('2024-05-10T09:00:00'),
+      duration: 3540000, // 1 hour
       type: 'PRIVATE',
       status: 'COMPLETED',
       isDeleted: false,
     },
   ]);
+
+  useEffect(() => {
+    console.log('Page changed');
+  }, [currentPage]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -93,6 +167,10 @@ const MyContestList = () => {
 
   const handleConfirmDelete = () => {
     onClose();
+  };
+
+  const handleClickContest = (contestId) => {
+    console.log("On handleClickContest() method")
   };
 
   return (
@@ -123,30 +201,63 @@ const MyContestList = () => {
           />
         </InputGroup>
 
-        <Button rightIcon={<AddIcon />} colorScheme="teal" variant="outline" borderRadius="full" />
+        <IconButton
+          aria-label="Add contest"
+          icon={<AddIcon />}
+          colorScheme="teal"
+          borderRadius="full"
+          variant="outline"
+        />
       </Flex>
 
-      {myContests.map((contest) => (
-        <Flex key={contest.id} align="center" mt={4}>
-          <Image src={contest.imageUrl} alt={contest.title} boxSize="50px" borderRadius="full" />
-          <Box ml={4}>
-            <Text fontSize="lg" fontWeight="bold">
-              {contest.title}
-            </Text>
-            <Text>Type: {contest.type}</Text>
-            <Flex align="center">
+      <Box mt={10}>
+        {myContests.map((contest) => (
+          <Flex
+            key={contest.id}
+            align="center"
+            justifyContent="space-between"
+            mb={4}
+            cursor="pointer"
+            onClick={() => handleClickContest(contest.id)}
+          >
+            <Box>
+              <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
+            </Box>
+            <Box ml={4} flex="1" textAlign="start">
+              <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
+                {contest.title}
+              </Text>
+              <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
+                {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
+              </Text>
+              <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                Duration: {formatDuration(contest.duration)}
+              </Text>
+            </Box>
+
+            <Box>
+              <Badge variant="subtle" borderRadius="md" color="purple.400" px={4} me={10}>
+                {contest.type}
+              </Badge>
+
               <IconButton
                 aria-label="Delete contest"
                 icon={<DeleteIcon />}
                 colorScheme="red"
                 variant="ghost"
-                onClick={() => handleDeleteContest(contest.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteContest(contest.id);
+                }}
               />
-              <Text ml={2}>{contest.duration} seconds</Text>
-            </Flex>
-          </Box>
-        </Flex>
-      ))}
+            </Box>
+          </Flex>
+        ))}
+      </Box>
+
+      <Box mt={10}>
+        <SimplePagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
+      </Box>
 
       <AlertDialog motionPreset="scale" leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
         <AlertDialogOverlay />

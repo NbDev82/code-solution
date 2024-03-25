@@ -31,16 +31,16 @@ const ContestsManagement = () => {
     <Box bg="var(--primary-bg-color)">
       <MainNavbar />
 
-      <Flex templateColumns="1fr 1fr" gap={10} p="50px" h="1000px" align="flex-start" justify="center">
+      <Flex templateColumns="1fr 1fr" gap={10} p="50px" h="fit-content" align="flex-start" justify="center">
         <Card
           direction={{ base: 'column', sm: 'row' }}
           overflow="hidden"
           variant="elevated"
-          p="10px"
+          py="10px"
           borderRadius="3xl"
           boxShadow="xl"
           w="66.67%"
-          h="100%"
+          h="fit-content"
         >
           <Stack spacing={6} ml={{ base: 0, sm: 8 }} flex="1">
             <CardBody>
