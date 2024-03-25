@@ -1,3 +1,16 @@
+export const CONTEST_STATUS_OPTIONS = [
+  { value: 'PREPARING', label: 'Preparing', color: 'blue.400' },
+  { value: 'IN_PROCESS', label: 'In Process', color: 'green.400' },
+  { value: 'PAUSED', label: 'Paused', color: 'yellow.400' },
+  { value: 'COMPLETED', label: 'Completed', color: 'purple.400' },
+  { value: 'DELETED', label: 'Deleted', color: 'gray.400' },
+];
+
+export const CONTEST_TYPE_OPTIONS = [
+  { value: 'PRIVATE', label: 'Private' },
+  { value: 'PUBLIC', label: 'Public' },
+];
+
 export const ContestSearchOptions = [
   { displayName: 'Title', value: 'TITLE' },
   { displayName: 'ID', value: 'ID' },
@@ -37,18 +50,6 @@ export function formatDateTime(dateTime) {
 }
 
 export function getStatusColor(status) {
-  switch (status) {
-    case "ACTIVE":
-      return "red.400";
-    case "PREPARING":
-      return "blue.400";
-    case "IN_PROCESS":
-      return "green.400";
-    case "PAUSED":
-      return "yellow.400";
-    case "COMPLETED":
-      return "purple.400";
-    default:
-      return "gray.400";
-  }
+  const option = CONTEST_STATUS_OPTIONS.find((opt) => opt.value === status);
+  return option ? option.color : "gray.400";
 }
