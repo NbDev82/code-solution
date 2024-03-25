@@ -24,6 +24,7 @@ import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { useEffect, useRef, useState } from 'react';
 import { ContestSearchOptions, formatDateTime, formatDuration } from '~/utils/constants';
 import SimplePagination from '~/components/Pagination/SimplePagination';
+import { myDemoContests } from '~/utils/demoContestData';
 
 const MyContestList = () => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -32,112 +33,7 @@ const MyContestList = () => {
   const cancelRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
-  const [myContests, setMyContests] = useState([
-    {
-      id: 1,
-      ownerId: 2,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: 'Weekly contest 1',
-      desc: 'It is good for practicing',
-      startTime: new Date('2024-03-01T07:30:00'),
-      endTime: new Date('2024-03-01T10:30:00'),
-      duration: 3661000,
-      type: 'PUBLIC',
-      status: 'PREPARING',
-      isDeleted: false,
-    },
-    {
-      id: 2,
-      ownerId: 3,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: 'Monthly Contest',
-      desc: 'A monthly coding challenge',
-      startTime: new Date('2024-04-15T09:00:00'),
-      endTime: new Date('2024-04-15T12:00:00'),
-      duration: 600000, // 3 hours
-      type: 'PUBLIC',
-      status: 'ACTIVE',
-      isDeleted: false,
-    },
-    {
-      id: 3,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-    {
-      id: 4,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-    {
-      id: 5,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-    {
-      id: 6,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-    {
-      id: 7,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-    {
-      id: 8,
-      ownerId: 4,
-      imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-      title: "Beginner's Challenge",
-      desc: 'Entry-level programming contest',
-      startTime: new Date('2024-05-10T08:00:00'),
-      endTime: new Date('2024-05-10T09:00:00'),
-      duration: 3540000, // 1 hour
-      type: 'PRIVATE',
-      status: 'COMPLETED',
-      isDeleted: false,
-    },
-  ]);
+  const [myContests, setMyContests] = useState(myDemoContests);
 
   useEffect(() => {
     console.log('Page changed');

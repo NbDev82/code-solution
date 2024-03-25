@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Pagination/SimplePagination.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/demoContestData.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constants.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/RankingList/RankingList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RankingList/RankingList.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +77,7 @@
       <workItem from="1711271986643" duration="4455000" />
       <workItem from="1711291749700" duration="5265000" />
       <workItem from="1711327857350" duration="5916000" />
-      <workItem from="1711349322527" duration="5902000" />
+      <workItem from="1711349322527" duration="6331000" />
     </task>
     <servers />
   </component>
@@ -90,7 +89,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx</url>
-          <line>201</line>
+          <line>97</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
