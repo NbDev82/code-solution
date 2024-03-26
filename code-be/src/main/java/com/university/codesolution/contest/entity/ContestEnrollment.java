@@ -26,9 +26,6 @@ public class ContestEnrollment implements Serializable {
     private boolean acceptedSubmission;
 
     @Enumerated(EnumType.STRING)
-    private EType type;
-
-    @Enumerated(EnumType.STRING)
     private EStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -38,10 +35,6 @@ public class ContestEnrollment implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-
-    public enum EType {
-        REQUESTED_INVITE, DIRECT_JOIN
-    }
 
     public enum EStatus {
         PENDING_APPROVAL, ACCEPTED, DENIED, EXPIRED

@@ -31,6 +31,8 @@ public class Contest implements Serializable {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
+    private long durationInMillis;
+
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
