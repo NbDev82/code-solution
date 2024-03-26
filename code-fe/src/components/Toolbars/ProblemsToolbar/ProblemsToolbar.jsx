@@ -105,8 +105,9 @@ function ProblemsToolbar({onPickOnProblem,onSearchSubmit,onFilterStatus,onFilter
         width="40%"
         px="15px"
         fontSize="16px"
-        height="100%"
+        height="80%"
         size="lg"
+        variant='outline'
         borderRadius="var(--radius-size)"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}

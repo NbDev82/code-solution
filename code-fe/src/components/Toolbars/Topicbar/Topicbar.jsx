@@ -11,7 +11,7 @@ function Topicbar({ topics, onFilterTopics }) {
   const [topicCurrent, setTopicCurrent] = useState([]);
 
   useEffect(() => {
-    setTopicCurrent((prev) => topics.slice(sliceStartPoint, sliceEndPoint));
+    setTopicCurrent(topics.slice(sliceStartPoint, sliceEndPoint));
   }, []);
 
   const handleShowNextTopic = () => {

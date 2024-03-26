@@ -62,5 +62,8 @@ TableProblems.propTypes = {
   problems: PropTypes.array,
   onSelectProblem: PropTypes.func,
 };
+TableProblems.defaultProps = {
+  problems: [],
+};
 
 export default TableProblems;

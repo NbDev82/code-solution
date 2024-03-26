@@ -1,4 +1,4 @@
-$container-height: 1200px;
+$container-height: 'auto';
 @mixin center {
   align-items: center;
   justify-content: center;
@@ -63,3 +63,4 @@ $container-height: 1200px;
   justify-content: center;
   gap: 20px;
 }
+
