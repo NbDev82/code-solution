@@ -97,7 +97,7 @@ public class ContestEnrollmentController {
                     )
             }
     )
-    @GetMapping("/get-enrollments/{contestId}")
+    @GetMapping("/get-enrollments")
     public ResponseEntity<List<ContestEnrollmentDTO>> getEnrollments(
             @Valid GetEnrollmentRequest getRequest) {
         List<ContestEnrollmentDTO> contestDTOs = contestEnrollmentService.getEnrollments(getRequest);

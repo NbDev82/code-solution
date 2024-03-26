@@ -9,8 +9,8 @@ public record GetEnrollmentRequest(
         @Schema(description = "ID of the contest to retrieve enrollments for", example = "456")
         Long contestId,
 
-        @RequestParam(name = "page", defaultValue = "0")
-        @Schema(description = "Page number (starts from 0)", example = "0")
+        @RequestParam(name = "page", defaultValue = "1")
+        @Schema(description = "Page number (starts from 1)", example = "1")
         @Min(value = 0, message = "Page number must be greater than or equal to 0")
         int page,
 
