@@ -9,6 +9,7 @@ import com.university.codesolution.contest.mapper.ContestEnrollmentMapper;
 import com.university.codesolution.contest.mapper.ContestMapper;
 import com.university.codesolution.contest.repos.ContestEnrollmentRepos;
 import com.university.codesolution.contest.request.AddEnrollmentRequest;
+import com.university.codesolution.contest.request.GetEnrollmentRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.service.UserService;
@@ -36,7 +37,6 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
         ContestEnrollmentDTO contestEnrollmentDTO = ContestEnrollmentDTO.builder()
                 .score( request.score() )
                 .acceptedSubmission( request.acceptedSubmission() )
-                .type( request.type() )
                 .contest(contestDTO)
                 .user(userDTO)
                 .build();
@@ -49,7 +49,6 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
 
         contestEnrollmentDTO.setScore( updateRequest.score() );
         contestEnrollmentDTO.setAcceptedSubmission( updateRequest.acceptedSubmission() );
-        contestEnrollmentDTO.setType( updateRequest.type() );
         contestEnrollmentDTO.setStatus( updateRequest.status() );
 
         return save(contestEnrollmentDTO);
@@ -64,10 +63,10 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
     }
 
     @Override
-    public List<ContestEnrollmentDTO> getEnrollments(Long contestId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public List<ContestEnrollmentDTO> getEnrollments(GetEnrollmentRequest getRequest) {
+        Pageable pageable = PageRequest.of(getRequest.page(), getRequest.size());
         List<ContestEnrollment> contestEnrollments = contestEnrollmentRepos
-                .getByContestId(contestId, pageable);
+                .getByContestId(getRequest.contestId(), pageable);
         return ceMapper.toDTOs(contestEnrollments);
     }
 

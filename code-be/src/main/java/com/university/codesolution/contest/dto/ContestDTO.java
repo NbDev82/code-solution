@@ -3,7 +3,6 @@ package com.university.codesolution.contest.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.login.dto.UserDTO;
-import com.university.codesolution.login.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +20,7 @@ public class ContestDTO {
     private String desc;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private long durationInMillis;
     private Contest.EStatus status;
     private Long ownerId;
 

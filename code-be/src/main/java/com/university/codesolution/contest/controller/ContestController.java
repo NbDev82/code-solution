@@ -4,11 +4,14 @@ import com.university.codesolution.contest.Constants;
 import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.request.AddContestRequest;
+import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.contest.service.ContestService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +43,7 @@ public class ContestController {
             }
     )
     @PostMapping("/add-contest")
-    public ResponseEntity<String> addContest(@RequestBody AddContestRequest addRequest) {
+    public ResponseEntity<String> addContest(@RequestBody @Valid AddContestRequest addRequest) {
         contestService.add(addRequest);
         log.info(Constants.CONTEST_ADDED_SUCCESSFULLY);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -58,7 +61,7 @@ public class ContestController {
             }
     )
     @PutMapping("/update-contest")
-    public ResponseEntity<String> updateContest(@RequestBody UpdateContestRequest updateRequest) {
+    public ResponseEntity<String> updateContest(@RequestBody @Valid UpdateContestRequest updateRequest) {
         contestService.update(updateRequest);
         log.info(Constants.CONTEST_UPDATED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_UPDATED_SUCCESSFULLY);
@@ -76,8 +79,14 @@ public class ContestController {
     )
     @PutMapping("/update-contest-status")
     public ResponseEntity<String> updateContestStatus(
-            @RequestParam("contestId") Long contestId,
-            @RequestParam("contestStatus") Contest.EStatus contestStatus) {
+            @RequestParam("contestId")
+            @Schema(description = "ID of the contest", example = "123")
+            Long contestId,
+
+            @RequestParam("contestStatus")
+            @Schema(description = "New status of the contest", example = "IN_PROCESS")
+            Contest.EStatus contestStatus) {
+
         contestService.updateStatus(contestId, contestStatus);
         log.info(Constants.CONTEST_UPDATED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_UPDATED_SUCCESSFULLY);
@@ -94,7 +103,10 @@ public class ContestController {
             }
     )
     @DeleteMapping("/delete-contest/{contestId}")
-    public ResponseEntity<String> deleteContest(@PathVariable("contestId") Long contestId) {
+    public ResponseEntity<String> deleteContest(
+            @PathVariable("contestId")
+            @Schema(description = "ID of the contest to be deleted", example = "123")
+            Long contestId) {
         contestService.updateStatus(contestId, Contest.EStatus.DELETED);
         log.info(Constants.CONTEST_DELETED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_DELETED_SUCCESSFULLY);
@@ -111,11 +123,8 @@ public class ContestController {
             }
     )
     @GetMapping("/get-contests/{userId}")
-    public ResponseEntity<List<ContestDTO>> getContests(
-            @PathVariable("userId") Long userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        List<ContestDTO> contestDTOs = contestService.getContests(userId, page, size);
+    public ResponseEntity<List<ContestDTO>> getContests(@Valid GetContestsRequest getRequest) {
+        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
         log.info(Constants.CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }

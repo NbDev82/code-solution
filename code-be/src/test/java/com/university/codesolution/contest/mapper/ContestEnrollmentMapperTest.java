@@ -20,7 +20,6 @@ class ContestEnrollmentMapperTest {
         dto.setId(1L);
         dto.setScore(90.5);
         dto.setAcceptedSubmission(true);
-        dto.setType(ContestEnrollment.EType.REQUESTED_INVITE);
         dto.setStatus(ContestEnrollment.EStatus.PENDING_APPROVAL);
         dto.setContestId(100L);
         dto.setUserId(200L);
@@ -41,7 +40,6 @@ class ContestEnrollmentMapperTest {
         assertEquals(dto.getId(), entity.getId());
         assertEquals(dto.getScore(), entity.getScore());
         assertEquals(dto.isAcceptedSubmission(), entity.isAcceptedSubmission());
-        assertEquals(dto.getType(), entity.getType());
         assertEquals(dto.getStatus(), entity.getStatus());
         assertEquals(dto.getContestId(), entity.getContest().getId());
         assertEquals(dto.getUserId(), entity.getUser().getId());
@@ -54,7 +52,6 @@ class ContestEnrollmentMapperTest {
         entity.setId(1L);
         entity.setScore(90.5);
         entity.setAcceptedSubmission(true);
-        entity.setType(ContestEnrollment.EType.REQUESTED_INVITE);
         entity.setStatus(ContestEnrollment.EStatus.PENDING_APPROVAL);
 
         Contest contest = new Contest();
@@ -73,7 +70,6 @@ class ContestEnrollmentMapperTest {
         assertEquals(entity.getId(), dto.getId());
         assertEquals(entity.getScore(), dto.getScore());
         assertEquals(entity.isAcceptedSubmission(), dto.isAcceptedSubmission());
-        assertEquals(entity.getType(), dto.getType());
         assertEquals(entity.getStatus(), dto.getStatus());
         assertEquals(entity.getContest().getId(), dto.getContestId());
         assertEquals(entity.getUser().getId(), dto.getUserId());

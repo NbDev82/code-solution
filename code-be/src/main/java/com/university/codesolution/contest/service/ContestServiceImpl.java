@@ -6,6 +6,7 @@ import com.university.codesolution.contest.exeption.ContestNotFoundException;
 import com.university.codesolution.contest.mapper.ContestMapper;
 import com.university.codesolution.contest.repos.ContestRepos;
 import com.university.codesolution.contest.request.AddContestRequest;
+import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.service.UserService;
@@ -40,6 +41,7 @@ public class ContestServiceImpl implements ContestService {
                 .desc( addRequest.desc() )
                 .startTime( addRequest.startTime() )
                 .endTime( addRequest.endTime() )
+                .durationInMillis(addRequest.durationInMillis())
                 .status( addRequest.status() )
                 .owner(userDTO)
                 .build();
@@ -68,9 +70,9 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public List<ContestDTO> getContests(Long ownerId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("endTime").descending());
-        List<Contest> contests = contestRepos.getByOwnerId(ownerId, pageable);
+    public List<ContestDTO> getContests(GetContestsRequest getRequest) {
+        Pageable pageable = PageRequest.of(getRequest.page(), getRequest.size(), Sort.by("endTime").descending());
+        List<Contest> contests = contestRepos.getByOwnerId(getRequest.userId(), pageable);
         return cMapper.toDTOs(contests);
     }
 
