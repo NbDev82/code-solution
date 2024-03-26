@@ -1,32 +1,29 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
   Flex,
   Heading,
-  Image,
   Stack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
-  Grid,
 } from '@chakra-ui/react';
 
-import React from 'react';
+import React, { useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
-import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import RankingList from '~/components/RankingList/RankingList';
 import GlobalContestList from '~/components/GlobalContestList/GlobalContestList';
 import MyContestList from '~/components/MyContestList/MyContestList';
 import Footer from '~/components/Footer';
 
 const ContestsManagement = () => {
+  const [curUserId, setCurUserId] = useState(0);
+
   return (
     <Box bg="var(--primary-bg-color)">
       <MainNavbar />
@@ -54,7 +51,7 @@ const ContestsManagement = () => {
                     <GlobalContestList />
                   </TabPanel>
                   <TabPanel>
-                    <MyContestList />
+                    <MyContestList curUserId={curUserId} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

@@ -15,9 +15,7 @@ import {
   InputGroup,
   InputRightElement,
   Select,
-  Stack,
   Text,
-  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
@@ -27,8 +25,9 @@ import SimplePagination from '~/components/Pagination/SimplePagination';
 import { myDemoContests } from '~/utils/demoContestData';
 import { useNavigate } from 'react-router-dom';
 import config from '~/config';
+import ContestService from '~/services/ContestService';
 
-const MyContestList = () => {
+const MyContestList = ({ curUserId }) => {
   const navigate = useNavigate();
 
   const [selectedOption, setSelectedOption] = useState('');
@@ -40,8 +39,17 @@ const MyContestList = () => {
   const [myContests, setMyContests] = useState(myDemoContests);
 
   useEffect(() => {
-    console.log('Page changed');
+    fetchContests();
+  }, [curUserId]);
+
+  useEffect(() => {
+    fetchContests();
   }, [currentPage]);
+
+  const fetchContests = async () => {
+    const contests = await ContestService.getContests(curUserId, currentPage, 10);
+    setMyContests(contests);
+  };
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -70,12 +78,12 @@ const MyContestList = () => {
   };
 
   const handleClickContest = (contestId) => {
-    console.log("On handleClickContest() method")
+    console.log('On handleClickContest() method');
   };
 
   const handleAddContest = () => {
     navigate(config.routes.add_contest);
-  }
+  };
 
   return (
     <Box>
