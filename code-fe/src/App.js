@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import { ChakraProvider } from '@chakra-ui/react';
+import customTheme from "~/themes/customTheme";
 function App() {
   return (
     <Router>
-      <ChakraProvider>
+      <ChakraProvider theme={customTheme}>
         <div className="App">
           <Routes>
             {publicRoutes.map((route, index) => {
