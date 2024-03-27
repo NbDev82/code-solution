@@ -1,18 +1,20 @@
-$radius-size: 30px;
-$radius-size-small: 10px;
 %buttonStyle {
   width: auto;
   height: auto;
-  border-radius: $radius-size;
+  border-radius: var(--radius-size);
   background-color: var(--white);
   font-family: var(--font-family);
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  padding: 10px 20px;
+  padding: 8px 20px;
   color: var(--secondary-color);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .default {
@@ -38,16 +40,13 @@ $radius-size-small: 10px;
   background-color: var(--primary-color);
   color: var(--white);
   &:hover {
-    background-color: var(--gray-light);
+    background-color: var(--primary-light-color);
     color: var(--secondary-color);
   }
 }
 
 .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: $radius-size-small;
+  border-radius: var(--radius-size-smallsmall);
   color: var(--gray-300);
   gap: 3px;
   &:hover {
@@ -60,6 +59,33 @@ $radius-size-small: 10px;
   pointer-events: none;
 }
 
-.gray {
-  color: var(--gray-300);
+.large {
+  font-size: 20px;
+}
+
+.small {
+  font-size: 15px;
+}
+
+.textHighLight {
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+.badge {
+  background-color: var(--gray-light-light);
+  border-radius: var(--radius-size);
+  font-size: 12px;
+  padding: 2px 4px;
+  min-width: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--secondary-color);
+}
+
+%buttonStyle:hover .badge {
+  color: var(--primary-color);
+}
+%buttonStyle:hover {
+  transform: scale(1.05);
 }

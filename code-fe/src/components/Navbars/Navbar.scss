@@ -20,7 +20,7 @@
   height: var(--nav-size);
   top: 0;
   right: 0;
-  border-bottom: solid 0.5px var(--gray-light);
+  box-shadow: var(--box-shadow);
   &--logo {
     height: 35%;
     margin-left: 2%;

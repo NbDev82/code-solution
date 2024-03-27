@@ -7,7 +7,7 @@
   --secondary-color: #001730;
   --highlight-color: #fe4a49;
   --gray-dark: #a9a9a9;
-  --gray-light: #d3d3d3;
+  --gray-light: #F8F8F8;
   --gray-light-light: rgb(239, 239, 239);
   --gray: #808080;
   --gray-100: #707070;
@@ -16,9 +16,17 @@
   --gray-400: #484848;
   --black: #000;
   --white: #fff;
+  --green: #6fd75c;
+  --orange: #f79d14;
+  --red: #fe4a49;
   --text-color: #001730;
   --font-family: 'Nunito Sans', sans-serif;
   --nav-size: 80px;
+  --box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1), 0px 0px 6px 0px rgba(0, 0, 0, 0.09),
+    0px 0px 8px 0px rgba(0, 0, 0, 0.05), 0px 0px 9px 0px rgba(0, 0, 0, 0.01), 0px 0px 10px 0px rgba(0, 0, 0, 0);
+  --radius-size: 30px;
+  --radius-size-small: 20px;
+  --radius-size-smallsmall: 10px;
 }
 
 * {
