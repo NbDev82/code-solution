@@ -22,7 +22,7 @@ import MyContestList from '~/components/MyContestList/MyContestList';
 import Footer from '~/components/Footer';
 
 const ContestsManagement = () => {
-  const [curUserId, setCurUserId] = useState(0);
+  const [curUserId, setCurUserId] = useState(1);
 
   return (
     <Box bg="var(--primary-bg-color)">
@@ -48,7 +48,7 @@ const ContestsManagement = () => {
                 </TabList>
                 <TabPanels>
                   <TabPanel>
-                    <GlobalContestList />
+                    <GlobalContestList curUserId={curUserId} />
                   </TabPanel>
                   <TabPanel>
                     <MyContestList curUserId={curUserId} />

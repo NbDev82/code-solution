@@ -12,20 +12,46 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { myDemoContests } from '~/utils/demoContestData';
-import { ContestSearchOptions, formatDateTime, formatDuration, getStatusColor } from '~/utils/constants';
+import {
+  ContestSearchOptions,
+  ensureMinLoadingDuration,
+  formatDateTime,
+  formatDuration,
+  getStatusColor,
+} from '~/utils/constants';
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import SimplePagination from '~/components/Pagination/SimplePagination';
+import ContestService from '~/services/ContestService';
+import ContestSkeleton from '~/components/Skeletons/ContestSkeleton';
 
-const GlobalContestList = () => {
+const MIN_LOADING_DURATION = 1000;
+
+const GlobalContestList = ({ curUserId }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
+  const [isContestsLoading, setIsContestsLoading] = useState(false);
   const [globalContests, setGlobalContests] = useState(myDemoContests);
 
   useEffect(() => {
-    console.log('Page changed');
-  }, [currentPage]);
+    fetchGlobalContests();
+  }, [curUserId, currentPage]);
+
+  const fetchGlobalContests = async () => {
+    setIsContestsLoading(true);
+    const startTime = Date.now();
+    try {
+      const contests = await ContestService.getGlobalContests(curUserId, currentPage, 10);
+      setGlobalContests(contests);
+
+      await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
+    } catch (error) {
+      console.error('Error fetching global contests:', error);
+    } finally {
+      setIsContestsLoading(false);
+    }
+  };
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -79,38 +105,43 @@ const GlobalContestList = () => {
       </Flex>
 
       <Box mt={10}>
-        {globalContests.map((contest) => (
-          <Flex
-            key={contest.id}
-            align="center"
-            justifyContent="space-between"
-            mb={4}
-            cursor="pointer"
-            onClick={() => handleClickContest(contest.id)}
-          >
-            <Box>
-              <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
-            </Box>
-            <Box ml={4} flex="1" textAlign="start">
-              <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
-                {contest.title}
-              </Text>
-              <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
-                {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
-              </Text>
-              <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                Duration: {formatDuration(contest.duration)}
-              </Text>
-            </Box>
+        {isContestsLoading ? (
+          <ContestSkeleton count={5} />
+        ) : (
+          globalContests.map((contest) => (
+              <Flex
+                key={contest.id}
+                align="center"
+                justifyContent="space-between"
+                mb={4}
+                cursor="pointer"
+                onClick={() => handleClickContest(contest.id)}
+              >
+                <Box>
+                  <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
+                </Box>
+                <Box ml={4} flex="1" textAlign="start">
+                  <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
+                    {contest.title}
+                  </Text>
+                  <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
+                    {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
+                  </Text>
+                  <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                    Duration: {formatDuration(contest.duration)}
+                  </Text>
+                </Box>
 
-            <Box>
-              <Badge variant="subtle" borderRadius="md" color={getStatusColor(contest.status)} px={4} me={10}>
-                {contest.status}
-              </Badge>
-            </Box>
-          </Flex>
-        ))}
+                <Box>
+                  <Badge variant="subtle" borderRadius="md" color={getStatusColor(contest.status)} px={4} me={10}>
+                    {contest.status}
+                  </Badge>
+                </Box>
+              </Flex>
+            ))
+        )}
       </Box>
+
 
       <Box mt={10}>
         <SimplePagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />

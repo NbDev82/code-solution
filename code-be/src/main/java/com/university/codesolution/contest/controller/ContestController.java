@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -122,10 +121,27 @@ public class ContestController {
                     )
             }
     )
-    @GetMapping("/get-contests")
-    public ResponseEntity<List<ContestDTO>> getContests(@Valid GetContestsRequest getRequest) {
+    @GetMapping("/get-my-contests")
+    public ResponseEntity<List<ContestDTO>> getMyContests(@Valid GetContestsRequest getRequest) {
         List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
-        log.info(Constants.CONTESTS_RETRIEVED_SUCCESSFULLY);
+        log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
+        return ResponseEntity.ok(contestDTOs);
+    }
+
+    @Operation(
+            summary = "Get Global Contests",
+            description = "Retrieve global contests available for all users.",
+            responses = {
+                    @ApiResponse(
+                            description = "Contests retrieved successfully.",
+                            responseCode = "200"
+                    )
+            }
+    )
+    @GetMapping("/get-global-contests")
+    public ResponseEntity<List<ContestDTO>> getGlobalContests(@Valid GetContestsRequest getRequest) {
+        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+        log.info(Constants.GLOBAL_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }
 }
