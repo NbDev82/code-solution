@@ -73,8 +73,14 @@ const deleteContest = async (contestId) => {
   }
 };
 
-const getContests = async (userId, page = 1, size = 10) => {
-  const apiUrl = `${CONTEST_API_URL}/get-contests?userId=${userId}&page=${page}&size=${size}`;
+const getMyContests = async (userId, page = 1, size = 10) => {
+  const apiUrl = `${CONTEST_API_URL}/get-my-contests?userId=${userId}&page=${page}&size=${size}`;
+  const response = await axios.get(apiUrl);
+  return response.data;
+};
+
+const getGlobalContests = async (userId, page = 1, size = 10) => {
+  const apiUrl = `${CONTEST_API_URL}/get-global-contests?userId=${userId}&page=${page}&size=${size}`;
   const response = await axios.get(apiUrl);
   return response.data;
 };
@@ -84,7 +90,8 @@ const ContestService = {
   updateContest,
   updateContestStatus,
   deleteContest,
-  getContests,
+  getMyContests,
+  getGlobalContests
 };
 
 export default ContestService;

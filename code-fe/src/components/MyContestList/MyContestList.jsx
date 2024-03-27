@@ -20,12 +20,15 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { useEffect, useRef, useState } from 'react';
-import { ContestSearchOptions, formatDateTime, formatDuration } from '~/utils/constants';
+import { ContestSearchOptions, ensureMinLoadingDuration, formatDateTime, formatDuration } from '~/utils/constants';
 import SimplePagination from '~/components/Pagination/SimplePagination';
 import { myDemoContests } from '~/utils/demoContestData';
 import { useNavigate } from 'react-router-dom';
 import config from '~/config';
 import ContestService from '~/services/ContestService';
+import ContestSkeleton from '../Skeletons/ContestSkeleton';
+
+const MIN_LOADING_DURATION = 1000;
 
 const MyContestList = ({ curUserId }) => {
   const navigate = useNavigate();
@@ -36,19 +39,26 @@ const MyContestList = ({ curUserId }) => {
   const cancelRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
+  const [isContestsLoading, setIsContestsLoading] = useState(false);
   const [myContests, setMyContests] = useState(myDemoContests);
 
   useEffect(() => {
     fetchContests();
-  }, [curUserId]);
-
-  useEffect(() => {
-    fetchContests();
-  }, [currentPage]);
+  }, [curUserId, currentPage]);
 
   const fetchContests = async () => {
-    const contests = await ContestService.getContests(curUserId, currentPage, 10);
-    setMyContests(contests);
+    setIsContestsLoading(true);
+    const startTime = Date.now();
+    try {
+      const contests = await ContestService.getMyContests(curUserId, currentPage, 10);
+      setMyContests(contests);
+
+      await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
+    } catch (error) {
+      console.error('Error fetching my contests:', error);
+    } finally {
+      setIsContestsLoading(false);
+    }
   };
 
   const handleOptionChange = (e) => {
@@ -124,48 +134,52 @@ const MyContestList = ({ curUserId }) => {
       </Flex>
 
       <Box mt={10}>
-        {myContests.map((contest) => (
-          <Flex
-            key={contest.id}
-            align="center"
-            justifyContent="space-between"
-            mb={4}
-            cursor="pointer"
-            onClick={() => handleClickContest(contest.id)}
-          >
-            <Box>
-              <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
-            </Box>
-            <Box ml={4} flex="1" textAlign="start">
-              <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
-                {contest.title}
-              </Text>
-              <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
-                {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
-              </Text>
-              <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                Duration: {formatDuration(contest.duration)}
-              </Text>
-            </Box>
+        {isContestsLoading ? (
+          <ContestSkeleton count={5} />
+        ) : (
+          myContests.map((contest) => (
+            <Flex
+              key={contest.id}
+              align="center"
+              justifyContent="space-between"
+              mb={4}
+              cursor="pointer"
+              onClick={() => handleClickContest(contest.id)}
+            >
+              <Box>
+                <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
+              </Box>
+              <Box ml={4} flex="1" textAlign="start">
+                <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
+                  {contest.title}
+                </Text>
+                <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
+                  {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
+                </Text>
+                <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                  Duration: {formatDuration(contest.duration)}
+                </Text>
+              </Box>
 
-            <Box>
-              <Badge variant="subtle" borderRadius="md" color="purple.400" px={4} me={10}>
-                {contest.type}
-              </Badge>
+              <Box>
+                <Badge variant="subtle" borderRadius="md" color="purple.400" px={4} me={10}>
+                  {contest.type}
+                </Badge>
 
-              <IconButton
-                aria-label="Delete contest"
-                icon={<DeleteIcon />}
-                colorScheme="red"
-                variant="ghost"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteContest(contest.id);
-                }}
-              />
-            </Box>
-          </Flex>
-        ))}
+                <IconButton
+                  aria-label="Delete contest"
+                  icon={<DeleteIcon />}
+                  colorScheme="red"
+                  variant="ghost"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteContest(contest.id);
+                  }}
+                />
+              </Box>
+            </Flex>
+          ))
+        )}
       </Box>
 
       <Box mt={10}>
