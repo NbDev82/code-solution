@@ -4,7 +4,12 @@ public enum EStatus {
     ACCEPTED(0),
     WRONG_ANSWER(1),
     COMPILE_ERROR(2),
-    TIME_LIMIT_EXCEEDED(3);
+    TIME_LIMIT_EXCEEDED(3),
+    ERROR(4),
+    SYNTAX_ERROR(5),
+    CLASS_NOT_FOUND(6),
+    TYPE_NOT_PRESENT(7);
+
     private final int value;
     EStatus(int value) {
         this.value = value;

@@ -1,6 +1,5 @@
 package com.university.codesolution.submitcode.problem.entity;
 
-import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
@@ -30,9 +29,10 @@ public class Problem implements Serializable {
 
     private String name;
 
+    @Column(columnDefinition = "text")
     private String description;
 
-    @Column(name = "question_text")
+    @Column(name = "question_text", columnDefinition = "text")
     private String questionText;
 
     @Column(name = "added_at")

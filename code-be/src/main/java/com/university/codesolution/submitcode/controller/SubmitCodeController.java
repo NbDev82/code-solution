@@ -71,5 +71,4 @@ public class SubmitCodeController {
         String inputCode = submissionService.getInputCode(problem,eLanguage);
         return ResponseEntity.ok(inputCode);
     }
-
 }
