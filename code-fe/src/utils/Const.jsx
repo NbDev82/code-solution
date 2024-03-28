@@ -1,4 +1,4 @@
-export let LIMIT_QUANTITY_TOPICS = 5;
+export let LIMIT_QUANTITY_TOPICS = 4;
 export let LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const ORIGINAL_API_URL = 'http://localhost:8000';

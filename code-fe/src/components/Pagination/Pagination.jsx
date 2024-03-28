@@ -10,7 +10,6 @@ function Pagination(props) {
     <ReactPaginate
       pageCount={Math.ceil(props.totalRows / props.limit)}
       pageRangeDisplayed={5}
-      initialPage={props.currentPage - 1}
       onPageChange={props.onPageChange}
       previousLabel={<ArrowBackIosIcon sx={{ fontSize: 18 }} />}
       nextLabel={<ArrowForwardIosIcon sx={{ fontSize: 18 }} />}
@@ -34,12 +33,10 @@ Pagination.propTypes = {
   onPageChange: PropTypes.func,
   totalRows: PropTypes.number,
   limit: PropTypes.number,
-  currentPage: PropTypes.number,
 };
 Pagination.defaultProps = {
-  totalRows: 0,
+  totalRows: 1,
   limit: LIMIT_ROW_PROBLEMS_TABLE,
-  currentPage: 1,
 };
 
 export default memo(Pagination);
