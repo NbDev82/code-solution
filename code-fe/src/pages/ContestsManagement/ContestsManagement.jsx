@@ -14,7 +14,7 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
 import RankingList from '~/components/RankingList/RankingList';
 import GlobalContestList from '~/components/GlobalContestList/GlobalContestList';
