@@ -6,23 +6,13 @@ import { Input } from '@chakra-ui/react';
 import './ProblemsToolbar.scss';
 import ButtonDefault from '~/components/Buttons/Button';
 
-function ProblemsToolbar({onPickOnProblem,onSearchSubmit,onFilterStatus,onFilterDifficulty}) {
+function ProblemsToolbar({ onPickOnProblem, onSearchSubmit, onFilterStatus, onFilterDifficulty }) {
   const [inputValue, setInputValue] = useState('');
-  const [statusFilterValue, setStatusFilterValue] = useState('all');
-  const [difficultyFilterValue, setDifficultyFilterValue] = useState('all');
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      onSearchSubmit(inputValue)
+      onSearchSubmit(inputValue);
     }
   };
-
-  useEffect(() => {
-    onFilterStatus(statusFilterValue)
-  }, [statusFilterValue]);
-
-  useEffect(() => {
-    onFilterDifficulty(difficultyFilterValue)
-  }, [difficultyFilterValue]);
 
   return (
     <div className="filter_container">
@@ -45,17 +35,17 @@ function ProblemsToolbar({onPickOnProblem,onSearchSubmit,onFilterStatus,onFilter
           Status
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-          <MenuOptionGroup defaultValue={statusFilterValue}>
-            <MenuItemOption value="all" type="radio" onClick={(e) => setStatusFilterValue(e.currentTarget.value)}>
+          <MenuOptionGroup defaultValue={'all'}>
+            <MenuItemOption value="all" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
               All
             </MenuItemOption>
-            <MenuItemOption value="todo" type="radio" onClick={(e) => setStatusFilterValue(e.currentTarget.value)}>
+            <MenuItemOption value="todo" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
               Todo
             </MenuItemOption>
-            <MenuItemOption value="solved" type="radio" onClick={(e) => setStatusFilterValue(e.currentTarget.value)}>
+            <MenuItemOption value="solved" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
               Solved
             </MenuItemOption>
-            <MenuItemOption value="attempted" type="radio" onClick={(e) => setStatusFilterValue(e.currentTarget.value)}>
+            <MenuItemOption value="attempted" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
               Attempted
             </MenuItemOption>
           </MenuOptionGroup>
@@ -80,21 +70,17 @@ function ProblemsToolbar({onPickOnProblem,onSearchSubmit,onFilterStatus,onFilter
           Difficulty
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-          <MenuOptionGroup defaultValue={difficultyFilterValue}>
-            <MenuItemOption value="all" type="radio" onClick={(e) => setDifficultyFilterValue(e.currentTarget.value)}>
+          <MenuOptionGroup defaultValue={'all'}>
+            <MenuItemOption value="all" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
               All
             </MenuItemOption>
-            <MenuItemOption value="easy" type="radio" onClick={(e) => setDifficultyFilterValue(e.currentTarget.value)}>
+            <MenuItemOption value="easy" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
               Easy
             </MenuItemOption>
-            <MenuItemOption
-              value="normal"
-              type="radio"
-              onClick={(e) => setDifficultyFilterValue(e.currentTarget.value)}
-            >
+            <MenuItemOption value="normal" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
               Normal
             </MenuItemOption>
-            <MenuItemOption value="hard" type="radio" onClick={(e) => setDifficultyFilterValue(e.currentTarget.value)}>
+            <MenuItemOption value="hard" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
               Hard
             </MenuItemOption>
           </MenuOptionGroup>
@@ -107,7 +93,7 @@ function ProblemsToolbar({onPickOnProblem,onSearchSubmit,onFilterStatus,onFilter
         fontSize="16px"
         height="80%"
         size="lg"
-        variant='outline'
+        variant="outline"
         borderRadius="var(--radius-size)"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}

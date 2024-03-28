@@ -1,6 +1,42 @@
 import clsx from 'clsx';
 import styles from './Button.module.scss';
 import React from 'react';
+import PropTypes from 'prop-types';
+
+Button.propTypes = {
+  className: PropTypes.string,
+  id: PropTypes.any,
+  onClick: PropTypes.func,
+  light: PropTypes.bool,
+  dark: PropTypes.bool,
+  highlight: PropTypes.bool,
+  icon: PropTypes.bool,
+  disable: PropTypes.bool,
+  small: PropTypes.bool,
+  large: PropTypes.bool,
+  textHighLight: PropTypes.bool,
+  radius: PropTypes.string,
+  color: PropTypes.string,
+  fontSize: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  badge: PropTypes.number,
+};
+Button.defaultProps = {
+  className: '',
+  light: false,
+  dark: false,
+  highlight: false,
+  icon: false,
+  disable: false,
+  small: false,
+  large: false,
+  textHighLight: false,
+  radius: '',
+  color: '',
+  fontSize: '',
+  backgroundColor: '',
+  badge: null,
+};
 
 function Button(props) {
   const defaultClasses = props.className;
@@ -29,7 +65,7 @@ function Button(props) {
       }}
     >
       {props.children}
-      { props.badge && <div className={styles.badge}>{props.badge}</div> }
+      {props.badge && <div className={styles.badge}>{props.badge}</div>}
     </button>
   );
 }

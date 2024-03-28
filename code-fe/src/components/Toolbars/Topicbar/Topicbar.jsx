@@ -1,4 +1,4 @@
-import { useState, memo, useEffect } from 'react';
+import { useState, memo } from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import './Topicbar.scss';
@@ -8,26 +8,24 @@ import { LIMIT_QUANTITY_TOPICS } from '~/utils/Const';
 function Topicbar({ topics, onFilterTopics }) {
   const [sliceStartPoint, setSliceStartPoint] = useState(0);
   const [sliceEndPoint, setSliceEndPoint] = useState(LIMIT_QUANTITY_TOPICS);
-  const [topicCurrent, setTopicCurrent] = useState([]);
-
-  useEffect(() => {
-    setTopicCurrent(topics.slice(sliceStartPoint, sliceEndPoint));
-  }, []);
+  const [topicCurrent, setTopicCurrent] = useState(() => {
+    return topics.slice(sliceStartPoint, sliceEndPoint);
+  });
 
   const handleShowNextTopic = () => {
     let start = sliceEndPoint;
     let end = sliceEndPoint;
     start = end;
     end = end + LIMIT_QUANTITY_TOPICS;
-    setTopicCurrent((prev) => topics.slice(start, end));
+    setTopicCurrent(topics.slice(start, end));
 
     if (sliceEndPoint >= topics.length) {
       start = 0;
       end = LIMIT_QUANTITY_TOPICS;
     }
 
-    setSliceStartPoint((prev) => start);
-    setSliceEndPoint((prev) => end);
+    setSliceStartPoint(start);
+    setSliceEndPoint(end);
   };
 
   return (

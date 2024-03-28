@@ -6,15 +6,17 @@ import ContestInvitation from '~/pages/ContestInvitation/ContestInvitation';
 import Problems from '~/pages/Problems';
 import Contests from '~/pages/Contests';
 import Discuss from '~/pages/Discuss';
+import NotFound from '~/components/Errors/NotFound';
 
 const publicRoutes = [
-  { path: config.routes.home[0], component: Home },
-  { path: config.routes.home[1], component: Home },
-  { path: config.routes.login, component: SignIn },
-  { path: config.routes.contest_invitation, component: ContestInvitation },
-  { path: config.routes.problems, component: Problems },
-  { path: config.routes.contests, component: Contests },
-  { path: config.routes.discuss, component: Discuss },
+  { path: config.routes.home[0], component: Home, exact: true },
+  { path: config.routes.home[1], component: Home, exact: true },
+  { path: config.routes.login, component: SignIn, exact: true },
+  { path: config.routes.contest_invitation, component: ContestInvitation, exact: false },
+  { path: config.routes.problems, component: Problems, exact: false },
+  { path: config.routes.contests, component: Contests, exact: false },
+  { path: config.routes.discuss, component: Discuss, exact: false },
+  { path: "*", component: NotFound },
 ];
 
 const privateRoutes = [];

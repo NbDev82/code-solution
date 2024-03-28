@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
-
+import { Skeleton } from '@chakra-ui/react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Problems.scss';
 import Navbar from '~/components/Navbars/MainNavbar';
 import Footer from '~/components/Footer';
@@ -26,61 +27,64 @@ function Problems(props) {
     return TOPICS_SAMPLE;
   });
   const [problems, setProblems] = useState([]);
-  const [filters, setFilters] = useState({
-    limit: LIMIT_ROW_PROBLEMS_TABLE,
-    currentPage: 1,
-    totalRows: 30,
-    status: 'all',
-    difficulty: 'all',
-    topic: 'all',
-    searchTerm: '',
-  });
+  const [filters, setFilters] = useState({});
   const [statisticsDatasets, setStatisticsDatasets] = useState(() => {
     // const response = await getStatisticsDatasets()
     return STATISTICSDATASETS_SAMPLE;
   });
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProblemsList() {
+      setLoading(true);
       try {
+        console.log('fetching.......', filters);
         const paramsString = queryString.stringify(filters);
-        console.log(paramsString);
+        navigate(`${location.pathname}?${paramsString}`);
         // const response = await getProblems(paramsString)
         // console.log(response)
         setProblems(PROBLEMS_SAMPLE.slice(0, 20));
       } catch (error) {}
+      setLoading(false);
     }
     fetchProblemsList();
   }, [filters]);
 
   const handleFilterTopics = useCallback((value) => {
-    setFilters((prev) => ({ ...prev, topic: topics[value].title }));
+    console.log('handleFilterTopics: ', value);
+    setFilters({ topic: topics[value].title });
   }, []);
 
   const handleFilterStatus = useCallback((value) => {
-    setFilters((prev) => ({ ...prev, status: value }));
+    console.log('handleFilterStatus: ', value);
+    setFilters({ status: value });
   }, []);
 
   const handleFilterDifficulty = useCallback((value) => {
-    setFilters((prev) => ({ ...prev, difficulty: value }));
+    console.log('handleFilterDifficulty: ', value);
+    setFilters({ difficulty: value });
   }, []);
 
   const handlePickOnProblem = useCallback((value) => {
-    if (value === 'pickone') {
-      console.log(problems[Math.floor(Math.random() * problems.length)]);
-    }
+    console.log('handlePickOnProblem: ', value);
+    setFilters({ pickone: true });
   }, []);
 
   const handleSearchSubmit = useCallback((value) => {
-    setFilters((prev) => ({ ...prev, searchTerm: value }));
+    console.log('handleSearchSubmit: ', value);
+    setFilters({ searchTerm: value });
   }, []);
 
   const handleSelectProblem = useCallback((problem) => {
-    console.log(problem);
+    console.log('handleSelectProblem: ', problem);
+    setFilters({ problemID: problem.id });
   }, []);
 
   const handlePageChange = useCallback(({ selected: page }) => {
-    setFilters((prev) => ({ ...prev, currentPage: page+1 }));
+    console.log('handlePageChange: ', page + 1);
+    setFilters({ currentPage: page + 1 });
   }, []);
 
   return (
@@ -88,7 +92,7 @@ function Problems(props) {
       <Navbar></Navbar>
       <section className="problems__container">
         <div className="problems__container--col--60">
-          <Topicbar topics={topics} onFilterTopics={handleFilterTopics}></Topicbar>
+          <Topicbar topics={topics} onFilterTopics={handleFilterTopics} />
           <div className="problems__container--layout">
             <ProblemsToolbar
               onPickOnProblem={handlePickOnProblem}
@@ -96,34 +100,44 @@ function Problems(props) {
               onFilterStatus={handleFilterStatus}
               onFilterDifficulty={handleFilterDifficulty}
             ></ProblemsToolbar>
-            <TableProblems problems={problems} onSelectProblem={handleSelectProblem}></TableProblems>
+            <Skeleton minHeight={'600px'} width={'100%'} borderRadius={'10px'} isLoaded={!loading}>
+              <TableProblems problems={problems} onSelectProblem={handleSelectProblem} />
+            </Skeleton>
+
             <Pagination
-              limit={filters.limit}
-              totalRows={filters.totalRows}
-              currentPage={filters.currentPage}
+              totalRows={22}
               onPageChange={handlePageChange}
-            ></Pagination>
+            />
           </div>
         </div>
         <div className="problems__container--col--40">
           <CalendarBasic></CalendarBasic>
+
           <DoughnutChart
             title="Total number of problems solved"
             labels={['Easy', 'Normal', 'Hard']}
+            backgroundColor={['#6fd75c', '#f79d14', '#fe4a49']}
+            borderColor={['#6fd75c', '#f79d14', '#fe4a49']}
             dataValues={[statisticsDatasets.totalEasy, statisticsDatasets.totalNormal, statisticsDatasets.totalHard]}
           ></DoughnutChart>
+
           <BarChart
             title="Total number of problems solved this week"
             labels={WEEKS}
+            backgroundColor={['#6fd75c', '#f79d14', '#fe4a49']}
+            borderColor={['#6fd75c', '#f79d14', '#fe4a49']}
             dataValues={[
               { dataLabel: 'Easy', dataValues: statisticsDatasets.Easy },
               { dataLabel: 'Normal', dataValues: statisticsDatasets.Normal },
               { dataLabel: 'Hard', dataValues: statisticsDatasets.Hard },
             ]}
           ></BarChart>
+
           <LineChart
             title="Total number of problems solved this week"
             labels={WEEKS}
+            backgroundColor={['#6fd75c', '#f79d14', '#fe4a49']}
+            borderColor={['#6fd75c', '#f79d14', '#fe4a49']}
             dataValues={[
               { dataLabel: 'Easy', dataValues: statisticsDatasets.Easy },
               { dataLabel: 'Normal', dataValues: statisticsDatasets.Normal },
