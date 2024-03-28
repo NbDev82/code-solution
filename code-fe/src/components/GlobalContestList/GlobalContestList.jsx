@@ -2,7 +2,6 @@ import {
   Badge,
   Box,
   Flex,
-  IconButton,
   Image,
   Input,
   InputGroup,
@@ -10,7 +9,7 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { myDemoContests } from '~/utils/demoContestData';
 import {
   ContestSearchOptions,
@@ -19,10 +18,11 @@ import {
   formatDuration,
   getStatusColor,
 } from '~/utils/constants';
-import { AddIcon, SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import SimplePagination from '~/components/Pagination/SimplePagination';
 import ContestService from '~/services/ContestService';
 import ContestSkeleton from '~/components/Skeletons/ContestSkeleton';
+import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
 
 const MIN_LOADING_DURATION = 1000;
 
@@ -48,6 +48,7 @@ const GlobalContestList = ({ curUserId }) => {
       await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
     } catch (error) {
       console.error('Error fetching global contests:', error);
+      setGlobalContests([]);
     } finally {
       setIsContestsLoading(false);
     }
@@ -77,7 +78,7 @@ const GlobalContestList = ({ curUserId }) => {
 
   return (
     <Box>
-      <Flex align="center" gap={6}>
+      <Flex align="center" gap={6} mt={2}>
         <Select value={selectedOption} onChange={handleOptionChange} variant="unstyled" w={'fit-content'}>
           {ContestSearchOptions.map((options) => (
             <option key={options.value} value={options.value}>
@@ -140,8 +141,10 @@ const GlobalContestList = ({ curUserId }) => {
               </Flex>
             ))
         )}
+        {(!isContestsLoading && (globalContests === null || globalContests.length === 0)) && (
+          <EmptyListIcon my={150} />
+        )}
       </Box>
-
 
       <Box mt={10}>
         <SimplePagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />

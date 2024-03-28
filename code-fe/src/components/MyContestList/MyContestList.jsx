@@ -7,7 +7,7 @@ import {
   AlertDialogOverlay,
   Badge,
   Box,
-  Button,
+  Button, Center,
   Flex,
   IconButton,
   Image,
@@ -19,7 +19,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ContestSearchOptions, ensureMinLoadingDuration, formatDateTime, formatDuration } from '~/utils/constants';
 import SimplePagination from '~/components/Pagination/SimplePagination';
 import { myDemoContests } from '~/utils/demoContestData';
@@ -27,6 +27,8 @@ import { useNavigate } from 'react-router-dom';
 import config from '~/config';
 import ContestService from '~/services/ContestService';
 import ContestSkeleton from '../Skeletons/ContestSkeleton';
+import EmptyList from '~/assets/images/EmptyList.svg';
+import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
 
 const MIN_LOADING_DURATION = 1000;
 
@@ -56,6 +58,7 @@ const MyContestList = ({ curUserId }) => {
       await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
     } catch (error) {
       console.error('Error fetching my contests:', error);
+      setMyContests([]);
     } finally {
       setIsContestsLoading(false);
     }
@@ -97,7 +100,7 @@ const MyContestList = ({ curUserId }) => {
 
   return (
     <Box>
-      <Flex align="center" gap={6}>
+      <Flex align="center" gap={6} mt={2}>
         <Select value={selectedOption} onChange={handleOptionChange} variant="unstyled" w={'fit-content'}>
           {ContestSearchOptions.map((options) => (
             <option key={options.value} value={options.value}>
@@ -179,6 +182,9 @@ const MyContestList = ({ curUserId }) => {
               </Box>
             </Flex>
           ))
+        )}
+        {(myContests === null || myContests.length === 0) && (
+          <EmptyListIcon my={150} />
         )}
       </Box>
 
