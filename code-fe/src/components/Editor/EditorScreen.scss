@@ -5,10 +5,12 @@ body {
   .navbar__editor {
     background-color: #1e1e1e;
     border-radius: 10px;
+    display: flex;
+    gap: 20px;
 
     .selected__language {
       height: 20%;
-      width: 15%;
+      width: auto;
       background-color: #1a1919;
       color: #e8e4e4;
       margin: 10px;

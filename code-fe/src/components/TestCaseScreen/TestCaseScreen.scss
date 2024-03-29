@@ -4,7 +4,7 @@
   align-items: center;
   background-color: transparent;
   padding: 3px;
-  border-bottom: 1px solid #ada8a8;
+  border-bottom: 1px solid var(--gray-light);
 }
 
 .button {
@@ -12,14 +12,14 @@
   align-items: center;
   border: none;
   background-color: transparent;
-  color: #e1d6d6;
+  color: var(--gray-light);
   padding: 5px 15px 5px 5px;
   border-radius: 5px;
   cursor: pointer;
   margin: 0 10px 1px 10px;
 
   &:hover {
-    background-color: #706d6d;
+    background-color: var(--gray);
   }
 }
 
@@ -37,18 +37,18 @@
 }
 
 .testcase__result__details {
-  color: #e1d6d6;
+  color: var(--gray-light);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .success__color {
-  color: #267d1b;
+  color: var(--green);
 }
 
 .failed__color {
-  color: #7d1a12;
+  color: var(--red);
 }
 
 .status {
@@ -59,7 +59,7 @@
   margin-left: 5px;
   width: 2px;
   height: 50%;
-  background-color: #ada8a8;
+  background-color: var(--gray-light);
 }
 
 .hidden {
@@ -70,9 +70,9 @@
 }
 
 .active {
-  background-color: #000;
-  color: #fff;
-  border: 1px solid #fff;
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 1px solid var(--white);
 }
 
 .last_testcase__details {
@@ -93,8 +93,8 @@
     width: 90%;
     margin: 10px;
     padding: 10px;
-    border: 1px solid #3f3636;
-    background-color: grey;
+    border: 1px solid var(--gray-dark);
+    background-color: var(--gray);
     border-radius: 10px;
   }
 }
