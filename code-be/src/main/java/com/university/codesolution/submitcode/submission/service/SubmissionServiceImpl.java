@@ -12,8 +12,6 @@ import com.university.codesolution.submitcode.strategy.JavaCompiler;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.submission.entity.Submission;
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
-import com.university.codesolution.submitcode.submission.enums.EStatus;
 import com.university.codesolution.submitcode.submission.repository.SubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +39,7 @@ public class SubmissionServiceImpl implements SubmissionService{
     private ParameterService parameterService;
 
     @Override
-    public String getInputCode(Problem problem, ELanguage eLanguage) {
+    public String getInputCode(Problem problem, Submission.ELanguage eLanguage) {
         if(compilerStrategy == null) {
             compilerStrategy = switch (eLanguage) {
                 case JAVA -> new JavaCompiler(parameterService);
@@ -53,7 +51,7 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public ResultDTO compile(String code, ELanguage eLanguage) {
+    public ResultDTO compile(String code, Submission.ELanguage eLanguage) {
         if(compilerStrategy == null) {
             compilerStrategy = switch (eLanguage) {
                 case JAVA -> new JavaCompiler(parameterService);
@@ -66,18 +64,18 @@ public class SubmissionServiceImpl implements SubmissionService{
         if(compilerStrategy.compile(code,fileName)) {
             return ResultDTO.builder()
                     .isAccepted(true)
-                    .status(EStatus.ACCEPTED)
+                    .status(Submission.EStatus.ACCEPTED)
                     .build();
         } else {
             return ResultDTO.builder()
                     .isAccepted(false)
-                    .status(EStatus.COMPILE_ERROR)
+                    .status(Submission.EStatus.COMPILE_ERROR)
                     .build();
         }
     }
 
     @Override
-    public ResultDTO runCode(Long userId, String code, Problem problem, ELanguage eLanguage) {
+    public ResultDTO runCode(Long userId, String code, Problem problem, Submission.ELanguage eLanguage) {
         compilerStrategy = switch (eLanguage) {
             case JAVA -> new JavaCompiler(parameterService);
             case PYTHON, CSHARP ->
@@ -123,13 +121,13 @@ public class SubmissionServiceImpl implements SubmissionService{
                     .createdAt(LocalDateTime.now())
                     .user(user)
                     .problem(problem)
-                    .language(ELanguage.JAVA)
-                    .status(EStatus.COMPILE_ERROR)
+                    .language(Submission.ELanguage.JAVA)
+                    .status(Submission.EStatus.COMPILE_ERROR)
                     .build();
             submissionRepos.save(submission);
 
             return ResultDTO.builder()
-                    .status(EStatus.COMPILE_ERROR)
+                    .status(Submission.EStatus.COMPILE_ERROR)
                     .isAccepted(false)
                     .build();
         }

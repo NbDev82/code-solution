@@ -2,7 +2,7 @@ package com.university.codesolution.submitcode.problem.mapper;
 
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
-import com.university.codesolution.submitcode.submission.enums.EStatus;
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,7 +16,7 @@ public interface ProblemMapper {
     @Mapping(target = "submissionCount",
             expression = "java(problem.getSubmissions() != null ? problem.getSubmissions().size() : 0)")
     @Mapping(target = "discussCount",
-            expression = "java(problem.getDiscusses() != null ? problem.getDiscusses().size() : 0)")
+            expression = "java(problem.getComments() != null ? problem.getComments().size() : 0)")
     @Mapping(target = "acceptedCount",
             expression = "java(countAccepted(problem))")
     ProblemDTO toDTO(Problem problem);
@@ -32,6 +32,6 @@ public interface ProblemMapper {
     List<Problem> toEntities(List<ProblemDTO> problemDTOs);
 
     default int countAccepted(Problem problem) {
-        return problem.getSubmissions() != null ? (int) problem.getSubmissions().stream().filter(s -> s.getStatus().equals(EStatus.ACCEPTED)).count() : 0;
+        return problem.getSubmissions() != null ? (int) problem.getSubmissions().stream().filter(s -> s.getStatus().equals(Submission.EStatus.ACCEPTED)).count() : 0;
     }
 }

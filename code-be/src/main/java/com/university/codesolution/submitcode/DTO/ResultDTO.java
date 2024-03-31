@@ -1,6 +1,6 @@
 package com.university.codesolution.submitcode.DTO;
 
-import com.university.codesolution.submitcode.submission.enums.EStatus;
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Builder
 public class ResultDTO {
-    private EStatus status;
+    private Submission.EStatus status;
     private boolean isAccepted;
     private String message;
 
@@ -24,6 +24,4 @@ public class ResultDTO {
 
     private double runtime;
     private double memory;
-
-
 }

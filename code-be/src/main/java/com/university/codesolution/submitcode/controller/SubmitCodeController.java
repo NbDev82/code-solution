@@ -5,8 +5,8 @@ import com.university.codesolution.submitcode.exception.ProblemNotFoundException
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.repository.ProblemRepository;
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.request.SubmitCodeRequest;
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import com.university.codesolution.submitcode.submission.service.SubmissionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,10 +30,10 @@ public class SubmitCodeController {
         Long userId = request.getUserId();
         String code = request.getCode();
         Problem problem = problemRepos.findById(request.getProblemId()).orElse(null);
-        ELanguage eLanguage;
+        Submission.ELanguage eLanguage;
 
         try{
-            eLanguage = ELanguage.valueOf(request.getLanguage().toUpperCase());
+            eLanguage = Submission.ELanguage.valueOf(request.getLanguage().toUpperCase());
         } catch (IllegalArgumentException e){
             throw new UnsupportedLanguageException("Language is not supported yet!");
         }
@@ -45,10 +45,10 @@ public class SubmitCodeController {
     @GetMapping("/compile")
     public ResponseEntity<ResultDTO> compileCode(@RequestBody SubmitCodeRequest request) {
         String code = request.getCode();
-        ELanguage eLanguage;
+        Submission.ELanguage eLanguage;
 
         try{
-            eLanguage = ELanguage.valueOf(request.getLanguage().toUpperCase());
+            eLanguage = Submission.ELanguage.valueOf(request.getLanguage().toUpperCase());
         } catch (IllegalArgumentException e){
             throw new UnsupportedLanguageException("Language is not supported yet!");
         }
@@ -59,10 +59,10 @@ public class SubmitCodeController {
 
     @GetMapping("/getInputCode")
     public ResponseEntity<String> getInputCode(Long problemId, String language) {
-        ELanguage eLanguage;
+        Submission.ELanguage eLanguage;
 
         try{
-            eLanguage = ELanguage.valueOf(language.toUpperCase());
+            eLanguage = Submission.ELanguage.valueOf(language.toUpperCase());
         } catch (IllegalArgumentException e){
             throw new UnsupportedLanguageException("Language is not supported yet!");
         }

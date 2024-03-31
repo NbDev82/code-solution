@@ -1,9 +1,7 @@
 package com.university.codesolution.submitcode.submission.entity;
 
 import com.university.codesolution.login.entity.User;
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
 import com.university.codesolution.submitcode.problem.entity.Problem;
-import com.university.codesolution.submitcode.submission.enums.EStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,10 +19,10 @@ import java.time.LocalDateTime;
 @Builder
 public class Submission implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private ELanguage language;
 
     @Column(name = "code_submitted")
@@ -32,7 +30,7 @@ public class Submission implements Serializable {
 
     private double score;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EStatus status;
 
     @Column(name = "created_at")
@@ -45,4 +43,12 @@ public class Submission implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "problem_id")
     private Problem problem;
+
+    public enum ELanguage {
+        JAVA, PYTHON, CSHARP;
+    }
+
+    public enum EStatus {
+        ACCEPTED, WRONG_ANSWER, COMPILE_ERROR, TIME_LIMIT_EXCEEDED;
+    }
 }
