@@ -5,7 +5,8 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import './DiscussesScreen.scss'
-import DisCussContent from './DiscussContent/DisscussContent'
+import DisCussContent from './DiscussContent/DiscussContent'
+import CommentEditText from "~/components/DiscussesProblem/CommentEditText/CommentEditText";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -32,6 +33,7 @@ const theme = createTheme({
 export default function DiscussesScreen() {
     return (
         <ThemeProvider theme={theme}>
+            <CommentEditText/>
             <Stack
                 spacing={2}
                 className="discuss__layout"
