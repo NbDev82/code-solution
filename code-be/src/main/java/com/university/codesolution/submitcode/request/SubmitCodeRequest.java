@@ -1,6 +1,5 @@
 package com.university.codesolution.submitcode.request;
 
-import com.university.codesolution.submitcode.problem.entity.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

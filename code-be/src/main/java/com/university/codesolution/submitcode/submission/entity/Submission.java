@@ -25,7 +25,7 @@ public class Submission implements Serializable {
     @Enumerated(EnumType.STRING)
     private ELanguage language;
 
-    @Column(name = "code_submitted")
+    @Column(name = "code_submitted", columnDefinition = "text")
     private String codeSubmitted;
 
     private double score;

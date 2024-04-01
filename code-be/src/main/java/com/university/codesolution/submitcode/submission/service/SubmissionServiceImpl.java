@@ -1,10 +1,10 @@
 package com.university.codesolution.submitcode.submission.service;
 
 import com.university.codesolution.login.entity.User;
+import com.university.codesolution.login.exception.UserNotFoundException;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
 import com.university.codesolution.login.service.UserService;
-import com.university.codesolution.submitcode.CompilerConstants;
 import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.strategy.CompilerProcessor;
@@ -27,6 +27,7 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Autowired
     private SubmissionRepository submissionRepos;
+
     @Autowired
     private UserRepos userRepos;
 
@@ -82,6 +83,10 @@ public class SubmissionServiceImpl implements SubmissionService{
         };
 
         User user = userMapper.toEntity(userService.getUserById(userId));
+        if(user == null) {
+            throw new UserNotFoundException("User not found with Id: "+userId);
+        }
+
         String fileName = "Solution.java";
         compilerStrategy.deleteFileCompiled();
         compilerStrategy.writeFile(fileName, code);
@@ -92,24 +97,19 @@ public class SubmissionServiceImpl implements SubmissionService{
             CompilerProcessor compilerProcessor = new CompilerProcessor(compilerStrategy);
 
             ResultDTO resultDTO = compilerProcessor.run(code,problem);
-            Submission submission = Submission.builder()
-                    .language(eLanguage)
-                    .codeSubmitted(code)
-                    .status(resultDTO.getStatus())
-                    .createdAt(LocalDateTime.now())
-                    .score(Double.parseDouble(resultDTO.getPassedTestcase()))
-                    .user(user)
-                    .problem(problem)
-                    .build();
 
-            if (user != null) {
-                List<Submission> submissions = user.getSubmissions();
-                if (submissions == null) {
-                    submissions = new ArrayList<>(); // hoặc sử dụng bất kỳ cấu trúc dữ liệu nào phù hợp
-                    user.setSubmissions(submissions);
-                }
-                submissions.add(submission);
-                userRepos.save(user);
+            if(!resultDTO.getStatus().equals(EStatus.COMPILE_ERROR)) {
+                Submission submission = Submission.builder()
+                        .language(eLanguage)
+                        .codeSubmitted(code)
+                        .status(resultDTO.getStatus())
+                        .createdAt(LocalDateTime.now())
+                        .score(Double.parseDouble(resultDTO.getPassedTestcase()))
+                        .user(user)
+                        .problem(problem)
+                        .build();
+
+                addSubmission(user, submission);
             }
 
             return resultDTO;
@@ -123,10 +123,12 @@ public class SubmissionServiceImpl implements SubmissionService{
                     .language(Submission.ELanguage.JAVA)
                     .status(Submission.EStatus.COMPILE_ERROR)
                     .build();
-            submissionRepos.save(submission);
+
+            addSubmission(user, submission);
 
             return ResultDTO.builder()
                     .status(Submission.EStatus.COMPILE_ERROR)
+                    .message("Can not compile your code.")
                     .isAccepted(false)
                     .build();
         }
@@ -142,5 +144,15 @@ public class SubmissionServiceImpl implements SubmissionService{
         User user = userMapper.toEntity(userService.getUserById(userId));
         Problem problem = null;
         return submissionRepos.findByUserAndProblem(user,problem);
+    }
+
+    public void addSubmission(User user, Submission submission) {
+        List<Submission> submissions = user.getSubmissions();
+        if (submissions == null) {
+            submissions = new ArrayList<>();
+            user.setSubmissions(submissions);
+        }
+        submissions.add(submission);
+        userRepos.save(user);
     }
 }
