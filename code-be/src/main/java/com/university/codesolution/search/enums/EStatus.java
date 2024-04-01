@@ -1,2 +1,7 @@
-package com.university.codesolution.search.enums;public class EStatus {
+package com.university.codesolution.search.enums;
+
+public enum EStatus {
+    SOLVED,
+    ATTEMPTED,
+    TODO
 }
