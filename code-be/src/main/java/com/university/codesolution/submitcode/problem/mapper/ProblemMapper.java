@@ -19,6 +19,7 @@ public interface ProblemMapper {
             expression = "java(problem.getComments() != null ? problem.getComments().size() : 0)")
     @Mapping(target = "acceptedCount",
             expression = "java(countAccepted(problem))")
+    @Mapping(source = "id", target = "id")
     ProblemDTO toDTO(Problem problem);
 
     List<ProblemDTO> toDTOs(List<Problem> problems);

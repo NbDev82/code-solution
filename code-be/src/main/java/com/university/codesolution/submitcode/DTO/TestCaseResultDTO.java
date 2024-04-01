@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class TestCaseResultDTO {
+    private String input;
+
     private String outputData;
     private String outputDatatype;
 

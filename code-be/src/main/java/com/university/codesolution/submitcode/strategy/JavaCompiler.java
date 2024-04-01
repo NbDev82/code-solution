@@ -17,17 +17,17 @@ import org.springframework.stereotype.Service;
 import java.io.FileWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-import javax.tools.ToolProvider;
+import javax.tools.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JavaCompiler implements CompilerStrategy{
@@ -40,64 +40,70 @@ public class JavaCompiler implements CompilerStrategy{
         this.parameterService = parameterService;
     }
 
+    private boolean hasMatchingDataTypesAndOutput(TestCaseResultDTO testCaseResultDTO) {
+        return testCaseResultDTO.getOutputDatatype().equals(testCaseResultDTO.getExpectedDatatype()) &&
+                testCaseResultDTO.getOutputData().equals(testCaseResultDTO.getExpected());
+    }
+
+
     @Override
     public ResultDTO run(String code, Problem problem) {
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        List<TestCaseResultDTO> testCaseResultDTOs = new ArrayList<>();
+        ResultDTO.ResultDTOBuilder builder = ResultDTO.builder();
+
+        String functionName = problem.getFunctionName();
+
         double memoryUsedAverage = 0;
         double runtimeAverage = 0;
         int maxTestCase = 0;
 
         List<TestCase> testCases = problem.getTestCases();
-        List<TestCaseResultDTO> testCaseResultDTOs = new ArrayList<>();
-
-        String functionName = problem.getFunctionName();
 
         for(TestCase testCase: testCases){
-            List<Parameter> parameters = testCase.getParameters();
+            String runCode = createRunCode(code, testCase.getParameters(), functionName, problem.getOutputDataType());
 
-            String runCode = createRunCode(code, parameters, functionName, problem.getOutputDataType());
-            String fileName = "Solution.java";
-            writeFile(fileName,runCode);
+            try {
+                writeFile("Solution.java",runCode);
+                CompilerResult compile = compile(code,"Solution.java");
 
-            ECompilerConstants isStatusCompiled = compile(code,fileName);
+                if(compile.getCompilerConstants() != ECompilerConstants.SUCCESS) {
+                    return createCompilationFailureResult(compile);
+                }
 
-            if(isStatusCompiled != ECompilerConstants.SUCCESS) {
-                return createCompilationFailureResult(isStatusCompiled);
+                long startTimeMillis = System.currentTimeMillis();
+                long startMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();
+
+                TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
+
+                long endTimeMillis = System.currentTimeMillis();
+                long endMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();
+
+                double runtimeSeconds = (endTimeMillis - startTimeMillis) / 1000.0;
+                double memoryUsedMB = (endMemoryBytes - startMemoryBytes) / (1024.0 * 1024.0);
+
+                testCaseResultDTO.setInput(generateParameterInput(testCase.getParameters()));
+                testCaseResultDTO.setExpectedDatatype(problem.getOutputDataType());
+                testCaseResultDTO.setExpected(testCase.getOutputData());
+                testCaseResultDTO.setPassed(hasMatchingDataTypesAndOutput(testCaseResultDTO));
+
+                testCaseResultDTOs.add(testCaseResultDTO);
+
+                if(!testCaseResultDTO.isPassed()) {
+                    builder.lastTestcase(testCaseResultDTO);
+                    break;
+                }
+                maxTestCase++;
+                memoryUsedAverage += memoryUsedMB;
+                runtimeAverage += runtimeSeconds;
+            } finally {
+                deleteFileCompiled();
             }
-
-            double startTime = System.currentTimeMillis();
-            MemoryUsage heapMemoryUsageBefore = memoryMXBean.getHeapMemoryUsage();
-
-            TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
-
-            double endTime = System.currentTimeMillis();
-            MemoryUsage heapMemoryUsageAfter = memoryMXBean.getHeapMemoryUsage();
-
-            long memoryUsedBytes = heapMemoryUsageAfter.getUsed() - heapMemoryUsageBefore.getUsed();
-            double memoryUsedMB = bytesToMegabytes(memoryUsedBytes);
-            memoryUsedAverage += memoryUsedMB;
-
-            double runtimeSeconds = (endTime - startTime) / 1000.0;
-            runtimeAverage += runtimeSeconds;
-
-            testCaseResultDTO.setExpectedDatatype(problem.getOutputDataType());
-            testCaseResultDTO.setExpected(testCase.getOutputData());
-            testCaseResultDTO.setPassed(
-                    testCaseResultDTO.getOutputDatatype().equals(testCaseResultDTO.getExpectedDatatype()) &&
-                    testCaseResultDTO.getOutputData().equals(testCaseResultDTO.getExpected()));
-
-            testCaseResultDTOs.add(testCaseResultDTO);
-
-            if(!testCaseResultDTO.isPassed())
-                break;
-            maxTestCase +=1;
         }
-
-        deleteFileCompiled();
 
         boolean isAccepted = testCases.size() == maxTestCase;
 
-        return ResultDTO.builder()
+        return builder
                 .message("That is your result of your code for this problem")
                 .memory(memoryUsedAverage/maxTestCase)
                 .runtime(runtimeAverage/maxTestCase)
@@ -109,97 +115,142 @@ public class JavaCompiler implements CompilerStrategy{
                 .build();
     }
 
-    private ResultDTO createCompilationFailureResult(ECompilerConstants isStatusCompiled) {
-        return switch (isStatusCompiled) {
-            case ERROR, SYNTAX_ERROR, CLASS_NOT_FOUND, TYPE_NOT_PRESENT -> ResultDTO.builder()
-                    .status(EStatus.COMPILE_ERROR)
-                    .message("Testcase not valid!")
-                    .build();
-            default -> null;
-        };
+    private ResultDTO createCompilationFailureResult(CompilerResult compilerResult) {
+        String message;
+        EStatus status;
+
+        switch (compilerResult.getCompilerConstants()) {
+            case ERROR:
+                message = "Testcase not valid!";
+                status = EStatus.COMPILE_ERROR;
+                break;
+            case SYNTAX_ERROR:
+                message = compilerResult.getError();
+                status = EStatus.SYNTAX_ERROR;
+                break;
+            case CLASS_NOT_FOUND:
+                message = "Class not found!";
+                status = EStatus.CLASS_NOT_FOUND;
+                break;
+            case TYPE_NOT_PRESENT:
+                message = "Type not present!";
+                status = EStatus.TYPE_NOT_PRESENT;
+                break;
+            default:
+                log.warn("Unexpected compilation error: {}", compilerResult.getCompilerConstants());
+                return null;
+        }
+
+        return ResultDTO.builder()
+                .status(status)
+                .message(message)
+                .build();
     }
+
 
     @Override
     public String createRunCode(String code, List<Parameter> parameters, String functionName, String outputDataType) {
-        int index1 = code.indexOf("{");
-        index1 +=1;
-        int index2 = code.length()-3;
-        String codeSplit1 = code.substring(0,index1);
-        String codeSplit2 = code.substring(index1,index2);
-        String codeSplit3 = code.substring(index2);
+        int firstBraceIndex = code.indexOf("{") + 1;
+        int lastBraceIndex = code.length() - 3;
 
-        StringBuilder listParamsDeclare = new StringBuilder("\n\t");
-        StringBuilder listParamsRef = new StringBuilder();
+        String header = code.substring(0, firstBraceIndex);
+        String body = code.substring(firstBraceIndex, lastBraceIndex);
+        String footer = code.substring(lastBraceIndex);
 
-        for(Parameter p: parameters) {
-            String param = "public static "+ p.getInputDataType() +" " + p.getName() + " = " + p.getInputData() + ";\n";
-            listParamsDeclare.append(param);
-            listParamsRef.append(p.getName()).append(",");
+        String parameterDeclarations = generateParameterDeclarations(parameters);
+
+        String parameterReferences = parameters.stream()
+                .map(Parameter::getName)
+                .collect(Collectors.joining(", "));
+
+        String staticMethod = String.format(
+                """
+                       public static %s %s() {
+                        \t return %s(%s);
+                        }
+                        """,
+                outputDataType,
+                functionName,
+                functionName,
+                parameterReferences
+        );
+        return header + "\n" +  parameterDeclarations  + body + "\n" + staticMethod + footer;
+    }
+
+    public String generateParameterDeclarations(List<Parameter> parameters) {
+        return parameters.stream()
+                .map(p -> String.format("public static %s %s = %s;\n", p.getInputDataType(), p.getName(), p.getInputData()))
+                .collect(Collectors.joining("\n\t"));
+    }
+
+    private String generateParameterInput(List<Parameter> parameters) {
+        return parameters.stream()
+                .map(p -> String.format("%s = %s\n", p.getName(), p.getInputData()))
+                .collect(Collectors.joining("\n\t"));
+    }
+
+    private void validateTestCase(TestCase testCase) {
+        if (testCase == null) {
+            throw new IllegalArgumentException("Test case cannot be null");
         }
-        listParamsRef = new StringBuilder(listParamsRef.substring(0, listParamsRef.length() - 1));
-
-        String staticMethodString = "public static " + outputDataType + " " + functionName + "() { " +
-                    "return " + functionName + "("+listParamsRef+");" +
-                "}";
-
-        return codeSplit1 + listParamsDeclare + codeSplit2 + "\n\t" + staticMethodString + codeSplit3;
     }
 
     @Override
     public String createInputCode(Problem problem, String code, TestCase testCase) {
-        if(testCase == null)
-            throw new NullPointerException();
+        validateTestCase(testCase);
 
-        List<Parameter> parameters = testCase.getParameters();
-        StringBuilder listParameter = parameterService.createListParameter(parameters);
+        StringBuilder listParameter = parameterService.createListParameter(testCase.getParameters());
+        String importStatements = createImportStatements(problem);
 
-        List<LibrariesSupport> librariesSupports = problem.getLibrariesSupports();
-        StringBuilder libraries = new StringBuilder();
+        return String.format(
+                """
+                        %s
+                        public class Solution {
+                        \tpublic static %s %s (%s) {
+                        \t\t%s
+                        \t}
+                        }
+                        """,
+                importStatements,
+                problem.getOutputDataType(),
+                problem.getFunctionName(),
+                listParameter,
+                code);
+    }
 
-        String functionName = problem.getFunctionName();
-        String outputDataType = problem.getOutputDataType();
-        String className = "Solution";
+    private String createImportStatements(Problem problem) {
+        return problem.getLibrariesSupports().stream()
+                .map(LibrariesSupport::getName)
+                .map(name -> "import " + name + ";\n")
+                .collect(Collectors.joining());
+    }
 
-        librariesSupports.forEach(lib -> libraries
-                .append("import ")
-                .append(lib.getName())
-                .append(";\n"));
-
-        return libraries +
-                "public class " + className + " {\n" +
-                "    public static " + outputDataType + " " +functionName+ " ("+listParameter+") {\n" +
-                "\t\t"+code + "\n" +
-                "    }\n" +
-                "}\n";
+    private Class<?> loadClass() throws IOException, ClassNotFoundException, java.lang.ClassNotFoundException {
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
+        return Class.forName("Solution", true, classLoader);
     }
 
     public TestCaseResultDTO runWithTestCase(String functionName){
         TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
-
-        String className = "Solution";
         try {
             // Compilation success, load and execute the class
-            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{new File("").toURI().toURL()});
-            Class<?> cls = Class.forName(className, true, classLoader);
+            Class<?> cls = loadClass();
             Method method = cls.getDeclaredMethod(functionName);
-            Class<?> returnDataType = method.getReturnType();
 
-            Object result;
-            if (Modifier.isStatic(method.getModifiers())) {
-                result = method.invoke(null); // Invoke static method with null instance
-            } else {
-                Object obj = cls.getDeclaredConstructor().newInstance();
-                result = method.invoke(obj); // Invoke method on the instance
-            }
+            // Invoke the method based on its static nature
+            Object result = Modifier.isStatic(method.getModifiers())
+                    ? method.invoke(null)              // Invoke static method
+                    : method.invoke(cls.getDeclaredConstructor().newInstance());  // Invoke instance method
+
+            Class<?> returnDataType = method.getReturnType();
             String returnValue = result.toString();
-            log.info("Return value: " + returnValue);
+            log.info("Return value: {}", returnValue);
 
             testCaseResultDTO
                     .outputData(returnValue)
                     .outputDatatype(returnDataType.getName());
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
-                 InvocationTargetException | InstantiationException | java.lang.ClassNotFoundException e) {
-            log.info(e.getMessage());
+        } catch (ReflectiveOperationException | IOException e) {
+            log.warn("Error executing method: {}", e.getMessage());
         }
         return testCaseResultDTO.build();
     }
@@ -221,16 +272,62 @@ public class JavaCompiler implements CompilerStrategy{
     }
 
     @Override
-    public ECompilerConstants compile(String code, String fileName) {
+    public CompilerResult compile(String code, String fileName) {
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int resultCompiled = compiler.run(null, null, null, fileName);
-        return ECompilerConstants.values()[resultCompiled];
+
+        if (compiler == null) {
+            return new CompilerResult(ECompilerConstants.COMPILER_NOT_FOUND);
+        }
+
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
+            JavaFileObject compilationUnit = getFileObject(fileName, fileManager);
+            List<JavaFileObject> compilationUnits = Collections.singletonList(compilationUnit);
+
+            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+            javax.tools.JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
+
+            // Explicitly check for compilation errors
+            boolean compilationSuccess = task.call();
+
+            if (!compilationSuccess) {
+                final StringBuilder errorStringBuilder = getErrorStringBuilder(diagnostics);
+                return new CompilerResult(ECompilerConstants.COMPILATION_ERROR, errorStringBuilder.toString());
+            }
+            return new CompilerResult(ECompilerConstants.SUCCESS);
+        } catch (Exception e) {
+            log.error("Compilation failed: {}", e.getMessage());
+            return new CompilerResult(ECompilerConstants.COMPILATION_FAILED, e.getMessage());
+        }
     }
 
-    private long bytesToMegabytes(long bytes) {
-        return bytes / (1024L * 1024L);
+    private static StringBuilder getErrorStringBuilder(DiagnosticCollector<JavaFileObject> diagnostics) {
+        List<Diagnostic<? extends JavaFileObject>> errors = diagnostics.getDiagnostics();
+        StringBuilder errorStringBuilder = new StringBuilder();
+        errors.forEach(error -> {
+            errorStringBuilder
+                    .append("Line ")
+                    .append(error.getLineNumber())
+                    .append(" : ")
+                    .append(error.getMessage(null))
+                    .append("\n");
+            log.error("Compilation error: Line {} {}", error.getLineNumber() ,error.getMessage(null));
+        });
+        return errorStringBuilder;
     }
 
+    //http://www.java2s.com/example/java-api/javax/tools/javafilemanager/getjavafileforinput-3-0.html
+    private JavaFileObject getFileObject(String fileName, StandardJavaFileManager fileManager) throws IOException {
+        JavaFileObject fileObject = fileManager.getJavaFileForInput(StandardLocation.PLATFORM_CLASS_PATH, fileName, JavaFileObject.Kind.CLASS);
+        if (fileObject != null)
+            return fileObject;
+
+        fileObject = fileManager.getJavaFileForInput(StandardLocation.CLASS_PATH, fileName,
+                JavaFileObject.Kind.CLASS);
+        if (fileObject != null)
+            return fileObject;
+
+        return fileManager.getJavaFileObjects(fileName).iterator().next();
+    }
 
     @Override
     public void deleteFileCompiled(){
