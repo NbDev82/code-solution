@@ -117,24 +117,24 @@ public class JavaCompiler implements CompilerStrategy{
 
     private ResultDTO createCompilationFailureResult(CompilerResult compilerResult) {
         String message;
-        EStatus status;
+        Submission.EStatus status;
 
         switch (compilerResult.getCompilerConstants()) {
             case ERROR:
                 message = "Testcase not valid!";
-                status = EStatus.COMPILE_ERROR;
+                status = Submission.EStatus.COMPILE_ERROR;
                 break;
             case SYNTAX_ERROR:
                 message = compilerResult.getError();
-                status = EStatus.SYNTAX_ERROR;
+                status = Submission.EStatus.COMPILE_ERROR;
                 break;
             case CLASS_NOT_FOUND:
                 message = "Class not found!";
-                status = EStatus.CLASS_NOT_FOUND;
+                status = Submission.EStatus.COMPILE_ERROR;
                 break;
             case TYPE_NOT_PRESENT:
                 message = "Type not present!";
-                status = EStatus.TYPE_NOT_PRESENT;
+                status = Submission.EStatus.COMPILE_ERROR;
                 break;
             default:
                 log.warn("Unexpected compilation error: {}", compilerResult.getCompilerConstants());

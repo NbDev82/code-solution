@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.problem.entity;
 
+import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.submission.entity.Submission;

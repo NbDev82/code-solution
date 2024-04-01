@@ -56,7 +56,7 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public String getInputCode(Problem problem, ELanguage eLanguage) {
+    public String getInputCode(Problem problem, Submission.ELanguage eLanguage) {
         compilerStrategy = determineCompilerStrategy(eLanguage);
         return compilerStrategy.createInputCode(problem , "", problem.getTestCases().get(0));
     }
@@ -79,13 +79,13 @@ public class SubmissionServiceImpl implements SubmissionService{
                 .isAccepted(compilerResult.getCompilerConstants().equals(ECompilerConstants.SUCCESS))
                 .message(compilerResult.getError())
                 .status(compilerResult.getCompilerConstants().equals(ECompilerConstants.SUCCESS)
-                        ? EStatus.ACCEPTED
-                        : EStatus.COMPILE_ERROR)
+                        ? Submission.EStatus.ACCEPTED
+                        : Submission.EStatus.COMPILE_ERROR)
                 .build();
     }
 
     @Override
-    public ResultDTO runCode(Long userId, String code, Problem problem, ELanguage eLanguage) {
+    public ResultDTO runCode(Long userId, String code, Problem problem, Submission.ELanguage eLanguage) {
         compilerStrategy = determineCompilerStrategy(eLanguage);
 
         User user = userMapper.toEntity(userService.getUserById(userId));
@@ -114,7 +114,7 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     private ResultDTO createCompilationErrorResultDTO(String error) {
         return ResultDTO.builder()
-                .status(EStatus.COMPILE_ERROR)
+                .status(Submission.EStatus.COMPILE_ERROR)
                 .message(error)
                 .isAccepted(false)
                 .build();
@@ -126,15 +126,15 @@ public class SubmissionServiceImpl implements SubmissionService{
                 .createdAt(LocalDateTime.now())
                 .user(user)
                 .problem(problem)
-                .language(ELanguage.JAVA)
-                .status(EStatus.COMPILE_ERROR)
+                .language(Submission.ELanguage.JAVA)
+                .status(Submission.EStatus.COMPILE_ERROR)
                 .build();
 
         addSubmission(user, submission);
     }
 
-    private void handleSuccessfulExecution(User user, ResultDTO resultDTO, ELanguage eLanguage, String code, Problem problem) {
-        if(!resultDTO.getStatus().equals(EStatus.COMPILE_ERROR)) {
+    private void handleSuccessfulExecution(User user, ResultDTO resultDTO, Submission.ELanguage eLanguage, String code, Problem problem) {
+        if(!resultDTO.getStatus().equals(Submission.EStatus.COMPILE_ERROR)) {
             Submission submission = Submission.builder()
                     .language(eLanguage)
                     .codeSubmitted(code)
@@ -156,7 +156,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         compilerStrategy.writeFile(fileName, code);
     }
 
-    private CompilerStrategy determineCompilerStrategy(ELanguage eLanguage) {
+    private CompilerStrategy determineCompilerStrategy(Submission.ELanguage eLanguage) {
         return switch (eLanguage) {
             case JAVA -> new JavaCompiler(parameterService);
             case PYTHON, CSHARP ->

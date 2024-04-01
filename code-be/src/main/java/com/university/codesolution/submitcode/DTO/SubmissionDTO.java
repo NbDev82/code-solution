@@ -1,7 +1,6 @@
 package com.university.codesolution.submitcode.DTO;
 
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
-import com.university.codesolution.submitcode.submission.enums.EStatus;
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SubmissionDTO {
     private Long id;
-    private ELanguage language;
+    private Submission.ELanguage language;
     private String codeSubmitted;
     private double score;
-    private EStatus status;
+    private Submission.EStatus status;
     private String runtime;
     private String memory;
     private String createdAt;

@@ -15,7 +15,6 @@ public class ProblemDTO {
     private Long id;
     private String name;
     private String description;
-    private String questionText;
     private double point;
     private String difficultyLevel;
     private boolean isDeleted;
