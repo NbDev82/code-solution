@@ -34,6 +34,14 @@ public class Contest implements Serializable {
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
+    private Long duration;
+
+    @Enumerated(EnumType.STRING)
+    private EType type;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private User owner;
@@ -50,5 +58,9 @@ public class Contest implements Serializable {
 
     public enum EStatus {
         PREPARING, IN_PROCESS, PAUSED, COMPLETED, DELETED
+    }
+
+    public enum EType {
+        PRIVATE, PUBLIC
     }
 }

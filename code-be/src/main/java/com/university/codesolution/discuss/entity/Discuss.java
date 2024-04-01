@@ -38,10 +38,10 @@ public class Discuss implements Serializable {
     @JoinColumn(name = "user_id")
     private User owner;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "problem_id")
-    private Problem problem;
-
     @OneToMany(mappedBy = "discuss",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "discuss_category_id")
+    private DiscussCategory category;
 }

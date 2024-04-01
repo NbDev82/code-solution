@@ -2,11 +2,9 @@ package com.university.codesolution.submitcode.problem.entity;
 
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
-import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.submission.entity.Submission;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
-import com.university.codesolution.submitcode.problem.enums.EDifficultyLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,10 +28,8 @@ public class Problem implements Serializable {
 
     private String name;
 
+    @Column(columnDefinition = "text")
     private String description;
-
-    @Column(name = "question_text")
-    private String questionText;
 
     @Column(name = "added_at")
     private LocalDateTime addedAt;
@@ -49,11 +45,15 @@ public class Problem implements Serializable {
 
     private double point;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EDifficultyLevel difficultyLevel;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = ETopic.class)
+    private List<ETopic> topics;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "contest_id")
@@ -66,8 +66,16 @@ public class Problem implements Serializable {
     private List<TestCase> testCases;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
-    private List<Discuss> discusses;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<Submission> submissions;
+
+    public enum EDifficultyLevel {
+        EASY, NORMAL, HARD;
+    }
+
+    public enum ETopic {
+        STRING, ARRAY, SORTING, MATH, COUNTING, SEARCH;
+    }
 }

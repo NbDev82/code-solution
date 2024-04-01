@@ -10,12 +10,10 @@ import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.parameter.entity.Parameter;
 import com.university.codesolution.submitcode.parameter.service.ParameterService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
-import com.university.codesolution.submitcode.submission.enums.ELanguage;
-import com.university.codesolution.submitcode.submission.enums.EStatus;
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;
@@ -102,7 +100,7 @@ public class JavaCompiler implements CompilerStrategy{
                 .passedTestcase(String.valueOf(maxTestCase))
                 .testCaseResultDTOS(testCaseResultDTOs)
                 .isAccepted(testCases.size() == maxTestCase)
-                .status(isAccepted? EStatus.ACCEPTED : EStatus.WRONG_ANSWER)
+                .status(isAccepted? Submission.EStatus.ACCEPTED : Submission.EStatus.WRONG_ANSWER)
                 .build();
     }
 
