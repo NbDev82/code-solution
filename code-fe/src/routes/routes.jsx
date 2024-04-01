@@ -8,6 +8,7 @@ import Contests from '~/pages/Contests';
 import Discuss from '~/pages/Discuss';
 import NotFound from '~/components/Errors/NotFound';
 import Profile from '~/pages/Profile';
+import ContestsManagement from '~/pages/ContestsManagement/ContestsManagement';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
@@ -19,6 +20,7 @@ const publicRoutes = [
   { path: config.routes.discuss, component: Discuss, exact: false },
   { path: config.routes.profile, component: Profile, exact: false },
   { path: "*", component: NotFound },
+  { path: config.routes.contests_management, component: ContestsManagement },
 ];
 
 const privateRoutes = [];
