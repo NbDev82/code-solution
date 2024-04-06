@@ -7,9 +7,14 @@ import '../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import AvatarSample from '~/assets/images/AvatarSample.png';
 import Button from '~/components/Buttons/Button';
+import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
+import { useDisclosure } from '@chakra-ui/react';
 
 function MainNavbar(props) {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const avatarRef = React.useRef();
+
   const handleRoutePages = (id) => {
     switch (id) {
       case 'problems':
@@ -45,8 +50,9 @@ function MainNavbar(props) {
         <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name="My" src={AvatarSample} />
+        <Avatar ref={avatarRef} size="lg" name="My" src={AvatarSample} onClick={onOpen} />
       </div>
+      <DrawerRightDefault isOpen={isOpen} onClose={onClose} btnRef={avatarRef}></DrawerRightDefault>
     </div>
   );
 }

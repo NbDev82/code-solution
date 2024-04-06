@@ -7,6 +7,7 @@ import Problems from '~/pages/Problems';
 import Contests from '~/pages/Contests';
 import Discuss from '~/pages/Discuss';
 import NotFound from '~/components/Errors/NotFound';
+import Profile from '~/pages/Profile';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
@@ -16,6 +17,7 @@ const publicRoutes = [
   { path: config.routes.problems, component: Problems, exact: false },
   { path: config.routes.contests, component: Contests, exact: false },
   { path: config.routes.discuss, component: Discuss, exact: false },
+  { path: config.routes.profile, component: Profile, exact: false },
   { path: "*", component: NotFound },
 ];
 
