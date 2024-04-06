@@ -27,12 +27,16 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
 public class JavaCompiler implements CompilerStrategy{
     public static final String FILE_NAME = "Solution.java";
+    public static final int TIME_LIMITED = 2;
     private static final Logger log = LogManager.getLogger(JavaCompiler.class);
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private final ParameterService parameterService;
 
@@ -71,15 +75,21 @@ public class JavaCompiler implements CompilerStrategy{
                     return createCompilationFailureResult(compile);
                 }
 
-                long startTimeMillis = System.currentTimeMillis();
+                long startTime = System.nanoTime();
                 long startMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();
 
-                TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
+                CompletableFuture<TestCaseResultDTO> completableFuture = new CompletableFuture<>();
 
-                long endTimeMillis = System.currentTimeMillis();
+                completableFuture.complete(runWithTestCase(functionName));
+
+                TestCaseResultDTO testCaseResultDTO = completableFuture.get();
+
+//                TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
+
+                long endTime = System.nanoTime();
                 long endMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();
 
-                double runtimeSeconds = (endTimeMillis - startTimeMillis) / 1000.0;
+                double runtimeSeconds = (double) (endTime - startTime) / 1_000_000_000;
                 double memoryUsedMB = (endMemoryBytes - startMemoryBytes) / (1024.0 * 1024.0);
 
                 testCaseResultDTO.setInput(generateParameterInput(testCase.getParameters()));
@@ -89,29 +99,42 @@ public class JavaCompiler implements CompilerStrategy{
 
                 testCaseResultDTOs.add(testCaseResultDTO);
 
-                if(!testCaseResultDTO.isPassed()) {
+                if(runtimeSeconds > TIME_LIMITED) {
+                    testCaseResultDTO.setStatus(Submission.EStatus.TIME_LIMIT_EXCEEDED);
                     builder.lastTestcase(testCaseResultDTO);
                     break;
                 }
+
+                if(!testCaseResultDTO.isPassed()) {
+                    testCaseResultDTO.setStatus(Submission.EStatus.WRONG_ANSWER);
+                    builder.lastTestcase(testCaseResultDTO);
+                    break;
+                }
+
                 maxTestCase++;
                 memoryUsedAverage += memoryUsedMB;
                 runtimeAverage += runtimeSeconds;
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
             } finally {
                 deleteFileCompiled();
             }
         }
 
         boolean isAccepted = testCases.size() == maxTestCase;
+        Submission.EStatus status = testCaseResultDTOs.get(testCaseResultDTOs.size()-1).getStatus();
 
         return builder
                 .message("That is your result of your code for this problem")
-                .memory(memoryUsedAverage/maxTestCase)
-                .runtime(runtimeAverage/maxTestCase)
+                .memory(memoryUsedAverage / maxTestCase)
+                .runtime(runtimeAverage / maxTestCase)
                 .maxTestcase(String.valueOf(testCases.size()))
                 .passedTestcase(String.valueOf(maxTestCase))
                 .testCaseResultDTOS(testCaseResultDTOs)
                 .isAccepted(testCases.size() == maxTestCase)
-                .status(isAccepted? Submission.EStatus.ACCEPTED : Submission.EStatus.WRONG_ANSWER)
+                .status(isAccepted ? Submission.EStatus.ACCEPTED
+                        : status.equals(Submission.EStatus.WRONG_ANSWER)
+                        ? Submission.EStatus.WRONG_ANSWER : Submission.EStatus.TIME_LIMIT_EXCEEDED)
                 .build();
     }
 
@@ -274,10 +297,6 @@ public class JavaCompiler implements CompilerStrategy{
     @Override
     public CompilerResult compile(String code, String fileName) {
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-
-        if (compiler == null) {
-            return new CompilerResult(ECompilerConstants.COMPILER_NOT_FOUND);
-        }
 
         try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
             JavaFileObject compilationUnit = getFileObject(fileName, fileManager);
