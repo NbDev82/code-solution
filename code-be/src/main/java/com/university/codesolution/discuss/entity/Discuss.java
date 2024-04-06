@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "discusses")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 public class Discuss implements Serializable {
     @Id
@@ -26,7 +25,7 @@ public class Discuss implements Serializable {
     @Column(length = 100 , nullable = false)
     private String topic;
 
-    @Column(length = 10000)
+    @Column(length = 100000000 )
     private String content;
 
     private String description;

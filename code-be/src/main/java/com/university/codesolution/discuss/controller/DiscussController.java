@@ -1,27 +1,37 @@
 package com.university.codesolution.discuss.controller;
 
+import com.university.codesolution.comment.dto.BlogCommentDTO;
+import com.university.codesolution.comment.mapper.BlogCommentMapper;
 import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.discuss.mapper.DiscussMapper;
-import com.university.codesolution.discuss.mapper.DiscussMapperImpl;
+import com.university.codesolution.discuss.response.DiscussListResponse;
 import com.university.codesolution.discuss.service.DiscussService;
 import com.university.codesolution.discuss.service.DiscussServiceImpl;
 import com.university.codesolution.discuss.service.FileService;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -30,6 +40,7 @@ import java.util.List;
 public class DiscussController {
     private DiscussService discussService;
     private FileService fileService;
+    private BlogCommentMapper blogCommentMapper;
 
     private DiscussMapper discussMapper;
 
@@ -40,7 +51,7 @@ public class DiscussController {
             @PathVariable Integer categoryId
     )
     {
-        DiscussDTO createDiscuss = this.discussService.createDiscuss(discussDTO, userId, categoryId);
+        DiscussDTO createDiscuss = discussService.createDiscuss(discussDTO, userId, categoryId);
         return new ResponseEntity<DiscussDTO>(createDiscuss, HttpStatus.CREATED);
     }
     @GetMapping("/user/{userId}/posts")
@@ -50,8 +61,9 @@ public class DiscussController {
     }
     @GetMapping("/category/{categoryId}/posts")
     public ResponseEntity<List<DiscussDTO>> getDiscussesByCategory(@PathVariable Integer categoryId) {
-        List<DiscussDTO> discussDTOS = this.discussService.getDiscussesByCategory(categoryId);
+        List<DiscussDTO> discussDTOS =discussService.getDiscussesByCategory(categoryId);
         return new ResponseEntity<List<DiscussDTO>>(discussDTOS,HttpStatus.OK);
+
     }
     @GetMapping("/posts")
     public ResponseEntity<List<DiscussDTO>> getAllDiscusses(
@@ -60,12 +72,11 @@ public class DiscussController {
     ){
         List<DiscussDTO> discussDTOS = this.discussService.getAllDiscuss(pageNumber, pageSize);
         return new ResponseEntity<List<DiscussDTO>>(discussDTOS,HttpStatus.OK);
+
     }
     @GetMapping("/posts/{discussId}")
     public ResponseEntity<DiscussDTO> getDiscussById(@PathVariable Long discussId){
-        Discuss discuss = this.discussService.getDiscussById(discussId);
-        DiscussDTO discussDTO = this.discussMapper.toDto(discuss);
-
+        DiscussDTO discussDTO = this.discussService.getDiscussById(discussId);
         return new ResponseEntity<DiscussDTO>(discussDTO,HttpStatus.OK);
     }
     @GetMapping("/posts/search/{keywords}")
@@ -80,12 +91,32 @@ public class DiscussController {
             @RequestParam("image") MultipartFile image,
             @PathVariable Long discussId) throws IOException {
         String fileName = this.fileService.storeFile(image);
-        DiscussDTO discussDTO = this.discussMapper.toDto(this.discussService.getDiscussById(discussId));
-        discussDTO.setImage(fileName);
-        DiscussDTO updateDiscussDTO = this.discussMapper.toDto(this.discussService.updateDiscuss(discussDTO, discussId));
-        return new ResponseEntity<DiscussDTO>(updateDiscussDTO,HttpStatus.OK);
+        DiscussDTO discussDTO = this.discussService.updateDiscuss(fileName, discussId);
+    return new ResponseEntity<DiscussDTO>(discussDTO,HttpStatus.OK);
 
     }
+    @GetMapping(value = "/post/image/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName) throws MalformedURLException {
+        try{
+            java.nio.file.Path imagePath = Paths.get("uploads/"+imageName);
+            UrlResource resource = new UrlResource(imagePath.toUri());
+            if (resource.exists()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource);
+            }  else {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(new UrlResource(Paths.get("uploads/notfound.jpeg").toUri()));
+            //return ResponseEntity.notFound().build();
+            }
+        }  catch (Exception e) {
+        return ResponseEntity.notFound().build();
+        }
+
+    }
+
+
 
 
 }

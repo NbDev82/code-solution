@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface CategoryService {
-    CategoryDTO createCategory (CategoryDTO categoryDTO);
+    Category createCategory (CategoryDTO categoryDTO);
     CategoryDTO updateCategory (CategoryDTO categoryDTO, Integer categoryId);
     void deleteCategory(Integer categoryId);
-    CategoryDTO getCategory(Integer categoryId);
+    Category getCategory(Integer categoryId);
     List<Category> getCategories();
 }

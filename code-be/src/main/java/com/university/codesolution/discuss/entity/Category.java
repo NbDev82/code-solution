@@ -1,10 +1,7 @@
 package com.university.codesolution.discuss.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +11,8 @@ import java.util.List;
 @Table(name = "categories")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 public class Category implements Serializable {
     @Id

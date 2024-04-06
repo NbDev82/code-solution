@@ -25,8 +25,9 @@ public class CategoryController {
     @PostMapping("/")
     public ResponseEntity<CategoryDTO> createCategory(
             @RequestBody CategoryDTO categoryDTO) {
-        CategoryDTO createCategory = this.categoryService.createCategory(categoryDTO);
-        return new ResponseEntity<CategoryDTO>(createCategory, HttpStatus.CREATED);
+        Category createCategory = this.categoryService.createCategory(categoryDTO);
+        CategoryDTO cat = this.categoryMapper.toDto(createCategory);
+        return new ResponseEntity<CategoryDTO>(cat, HttpStatus.CREATED);
     }
 
     @PutMapping("/{catId}")
@@ -47,8 +48,8 @@ public class CategoryController {
     @GetMapping("/{catId}")
     public ResponseEntity<CategoryDTO> getCategory(
             @PathVariable Integer catId) {
-        CategoryDTO categoryDTO = this.categoryService.getCategory(catId);
-        return new ResponseEntity<CategoryDTO>(categoryDTO, HttpStatus.OK);
+        Category category = this.categoryService.getCategory(catId);
+        return new ResponseEntity<CategoryDTO>(this.categoryMapper.toDto(category), HttpStatus.OK);
     }
 
     @GetMapping("/")

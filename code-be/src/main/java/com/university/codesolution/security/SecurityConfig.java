@@ -37,7 +37,7 @@ public class SecurityConfig {
                     requests
                             .requestMatchers(
                                     String.format("%s/login/**", apiPrefix),
-
+                                    String.format("%s/register/**", apiPrefix),
                                     String.format("%s/categories/**",apiPrefix),
                                     String.format("%s/category/**",apiPrefix),
                                     String.format("%s/posts/**",apiPrefix),

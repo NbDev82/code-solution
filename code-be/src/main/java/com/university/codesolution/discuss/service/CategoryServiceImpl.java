@@ -20,10 +20,10 @@ public class CategoryServiceImpl implements CategoryService{
 
 
     @Override
-    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+    public Category createCategory(CategoryDTO categoryDTO) {
         Category cat = this.modelMapper.map(categoryDTO, Category.class);
         Category addedCat = this.categoryRepos.save(cat);
-        return this.modelMapper.map(addedCat, CategoryDTO.class);
+        return addedCat;
     }
 
     @Override
@@ -44,10 +44,10 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryDTO getCategory(Integer categoryId) {
-        Category cat = this.categoryRepos.findById(categoryId)
+    public Category getCategory(Integer categoryId) {
+        Category category = this.categoryRepos.findById(categoryId)
                 .orElseThrow(()->new ResourceNotFoundException("CategoryId"));
-        return this.modelMapper.map(cat, CategoryDTO.class);
+        return category;
     }
 
     @Override

@@ -1,32 +1,53 @@
 package com.university.codesolution.discuss.mapper;
-
 import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
+import com.university.codesolution.discuss.entity.Category;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.dto.UserDTO;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.mapstruct.Mapper;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper
-@AllArgsConstructor
-@NoArgsConstructor
+
+@Component
 public class DiscussMapper {
+    @Autowired
+    private final ModelMapper modelMapper ;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public DiscussMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+        configureModelMapper();
+    }
 
+    private void configureModelMapper() {
+        Converter<Category, CategoryDTO> categoryConverter = new Converter<>() {
+            @Override
+            public CategoryDTO convert(MappingContext<Category, CategoryDTO> context) {
+                Category source = context.getSource();
+                CategoryDTO destination = new CategoryDTO();
+                destination.setCategoryId(source.getId());
+                // Set other properties as needed
+                return destination;
+            }
+        };
+        modelMapper.createTypeMap(Category.class, CategoryDTO.class)
+                .setConverter(categoryConverter);
+    }
     public DiscussDTO toDto(Discuss discuss) {
         UserDTO userDTO = modelMapper.map(discuss.getOwner(), UserDTO.class);
         CategoryDTO categoryDTO = modelMapper.map(discuss.getCategory(), CategoryDTO.class);
         DiscussDTO discussDTO = modelMapper.map(discuss, DiscussDTO.class);
         discussDTO.setUser(userDTO);
         discussDTO.setCategory(categoryDTO);
+        discussDTO.setStartDate(discuss.getStartDate());
+        if(discuss.getImage() == null)
+            discussDTO.setImage("null");
         return discussDTO;
     }
 
