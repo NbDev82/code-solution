@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -11,8 +11,12 @@ import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import AvatarSample from '~/assets/images/AvatarSample.png';
 import Button from '~/components/Buttons/Button';
+import axios from 'axios';
+import { AppContext } from '~/pages/SubmitCode/SubmitCodeScreen';
 
 function MainNavbar(props) {
+  const { userId, code, language, problemId } = useContext(AppContext);
+
   return (
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
@@ -42,7 +46,7 @@ function MainNavbar(props) {
           <Button light id="compile" onClick={props.onSelectBtn}>
             Compile
           </Button>
-          <Button highlight id="submit" onClick={props.onSelectBtn}>
+          <Button highlight id="run" onClick={props.onSelectBtn}>
             Submit
           </Button>
         </div>

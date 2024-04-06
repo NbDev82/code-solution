@@ -18,14 +18,16 @@ function SubmitCodeScreen() {
   const [problemId, setProblemId] = useState('');
   const [problemName, setProblemName] = useState('Missing-Number');
   const [userId, setUserId] = useState(0);
+  const [code, setCode] = useState('');
+  const [language, setLanguage] = useState('java');
 
   useEffect(() => {
-    // fetchProblem(problemName).then((data) => {
-    //   setProblem(data);
-    //   setProblemId(data.id);
-    //   setProblemName(data.name);
-    // });
-    setProblemId(2);
+    fetchProblem(problemName).then((data) => {
+      console.log(data);
+      setProblem(data);
+      setProblemId(data.id);
+      setProblemName(data.name);
+    });
     setUserId(1);
   }, []);
 
@@ -50,6 +52,50 @@ function SubmitCodeScreen() {
     }
   };
 
+  const handleCode = (action) => {
+    const request = {
+      userId: userId, // will amend soon
+      code: code,
+      language: language,
+      problemId: problemId, // will amend soon
+    };
+
+    axios
+      .post('http://localhost:8000/api/submit-code/' + action, request)
+      .then((response) => {
+        setResult(response.data);
+        console.log('Server response:', response.data);
+      })
+      .catch((error) => {
+        setResult(error?.response?.data.message);
+        console.error('Error sending code:', error.response.data.message);
+      });
+  };
+
+  const handleCompileCode = () => {
+    const request = {
+      userId: userId, // will amend soon
+      code: code,
+      language: language,
+      problemId: problemId, // will amend soon
+    };
+
+    axios
+      .post('http://localhost:8000/api/submit-code/compile', request)
+      .then((response) => {
+        setResult(response.data);
+        console.log('Server response:', response.data);
+      })
+      .catch((error) => {
+        setResult(error?.response?.data.message);
+        console.error('Error sending code:', error.response.data.message);
+      });
+  };
+
+  const handleSelectedBtn = (type) => {
+    handleCode(type);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -65,12 +111,16 @@ function SubmitCodeScreen() {
         setUserId,
         problemName,
         setProblemName,
+        code,
+        setCode,
+        language,
+        setLanguage,
       }}
     >
       <section>
         <div className="layout">
           <div className="nav__layout centered">
-            <MainNavbar />
+            <MainNavbar onSelectBtn={handleSelectedBtn} />
           </div>
 
           <div className="nav__problem__layout centered">

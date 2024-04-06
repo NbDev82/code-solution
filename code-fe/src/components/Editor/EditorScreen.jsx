@@ -8,9 +8,8 @@ import axios from 'axios';
 function EditorScreen() {
   const { setResult } = useContext(AppContext);
   const { problemId } = useContext(AppContext);
-  const [code, setCode] = useState('');
-
-  const [language, setLanguage] = useState('java');
+  const { code, setCode } = useContext(AppContext);
+  const { language, setLanguage } = useContext(AppContext);
 
   const handleEditorChange = (code) => {
     setCode(code);
@@ -40,26 +39,6 @@ function EditorScreen() {
       setCode(data);
     });
   }, [problemId, language]);
-
-  const handleSendCode = () => {
-    const request = {
-      userId: 1, // will amend soon
-      code: code,
-      language: language,
-      problemId: problemId, // will amend soon
-    };
-
-    axios
-      .post('http://localhost:8000/api/submit-code/run', request)
-      .then((response) => {
-        setResult(response.data);
-        console.log('Server response:', response.data);
-      })
-      .catch((error) => {
-        setResult(error?.response?.data.message);
-        console.error('Error sending code:', error.response.data.message);
-      });
-  };
 
   return (
     <>
