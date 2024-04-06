@@ -52,7 +52,5 @@ public class Discuss implements Serializable {
     @OneToMany(mappedBy = "discuss",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "discuss_category_id")
-    private DiscussCategory category;
+
 }
