@@ -1,1 +1,1 @@
-export { default } from '../SubmitCode';
+export { default } from './Home';
