@@ -68,6 +68,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         }
 
         String fileName = "Solution.java";
+        prepareFile(fileName, code);
 
         CompilerResult compilerResult = compilerStrategy.compile(code,fileName);
 

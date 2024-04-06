@@ -42,7 +42,7 @@ public class SubmitCodeController {
         return ResponseEntity.ok(resultDTO);
     }
 
-    @GetMapping("/compile")
+    @PostMapping("/compile")
     public ResponseEntity<ResultDTO> compileCode(@RequestBody SubmitCodeRequest request) {
         String code = request.getCode();
         Submission.ELanguage eLanguage;
