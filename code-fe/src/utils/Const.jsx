@@ -2,6 +2,13 @@ export let LIMIT_QUANTITY_TOPICS = 4;
 export let LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const ORIGINAL_API_URL = 'http://localhost:8000';
+export const DEFAULT_LOTTIE_OPTIONS = {
+  loop: true,
+  autoplay: true,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+};
 export const PROBLEMS_SAMPLE = [
   {
     id: 0,
@@ -203,11 +210,20 @@ export const TOPICS_SAMPLE = [
   { id: 11, title: 'Data Structures', quantity: 2 },
   { id: 12, title: 'Looping', quantity: 7 },
 ];
-export const STATISTICSDATASETS_SAMPLE={
+export const STATISTICSDATASETS_SAMPLE = {
   totalEasy: 35,
   totalNormal: 12,
   totalHard: 5,
   Easy: [12, 2, 0, 2, 5, 6, 7],
   Normal: [8, 2, 5, 6, 8, 2, 0],
   Hard: [0, 1, 5, 6, 4, 8, 1],
-}
+};
+
+export const USER_SAMPLE = {
+  id: '12444',
+  fullName: 'Nguyễn Trường An',
+  phoneNumber: '032442215',
+  dateOfBirth: '28/12/2003',
+  email: 'ndgdh@gmail.com',
+  avatarSrc:''
+};
