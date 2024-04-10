@@ -4,6 +4,7 @@ const routes = {
   problems: '/problems',
   contests: '/contests',
   discuss: '/discuss',
+  profile: '/profile',
   contest_invitation: '/contest-invitation',
 };
 

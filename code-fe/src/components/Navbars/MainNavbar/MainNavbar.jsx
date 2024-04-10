@@ -5,11 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 import '../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
-import AvatarSample from '~/assets/images/AvatarSample.png';
 import Button from '~/components/Buttons/Button';
+import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
+import { useDisclosure } from '@chakra-ui/react';
+import { USER_SAMPLE } from '~/utils/Const';
 
 function MainNavbar(props) {
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const user = USER_SAMPLE
   const handleRoutePages = (id) => {
     switch (id) {
       case 'problems':
@@ -45,8 +49,9 @@ function MainNavbar(props) {
         <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name="My" src={AvatarSample} />
+        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc}  />
       </div>
+      <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>
   );
 }

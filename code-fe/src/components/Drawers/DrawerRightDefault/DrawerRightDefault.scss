@@ -1,0 +1,27 @@
+.drawer {
+  &__heading {
+    font-family: var(--font-family);
+    color: var(--secondary-color);
+  }
+  &__item {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 5px 20px;
+    font-size: 18px;
+    color: var(--gray-300);
+    gap: 5%;
+    cursor: pointer;
+    &:hover {
+      background: var(--gray-light);
+      color: var(--secondary-color);
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  border: none;
+}
