@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 const ProblemCard = (props) => {
@@ -32,20 +31,15 @@ const ProblemCard = (props) => {
               <Heading size="sm" fontFamily="var(--font-family)">
                 {user.fullName}
               </Heading>
-              <Text>{problem.title}</Text>
+              <Text>Problem</Text>
             </Box>
           </Flex>
           <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
         </Flex>
       </CardHeader>
-      <CardBody>
-        <Text></Text>
+      <CardBody >
+        <Text textAlign='center'>{problem.title}</Text>
       </CardBody>
-      <Image
-        objectFit="cover"
-        src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        alt="Chakra UI"
-      />
 
       <CardFooter
         justify="space-between"
@@ -56,14 +50,11 @@ const ProblemCard = (props) => {
           },
         }}
       >
-        <Button flex="1" variant="ghost" leftIcon={<ChatBubbleOutlineOutlinedIcon />}>
-          Like
-        </Button>
         <Button flex="1" variant="ghost" leftIcon={<CreateOutlinedIcon />}>
-          Comment
+          Edit
         </Button>
         <Button flex="1" variant="ghost" leftIcon={<DeleteOutlineOutlinedIcon />}>
-          Share
+          Delete
         </Button>
       </CardFooter>
     </Card>
