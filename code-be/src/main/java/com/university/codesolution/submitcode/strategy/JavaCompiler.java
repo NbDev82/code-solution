@@ -256,14 +256,12 @@ public class JavaCompiler implements CompilerStrategy{
     public TestCaseResultDTO runWithTestCase(String functionName){
         TestCaseResultDTO.TestCaseResultDTOBuilder testCaseResultDTO = TestCaseResultDTO.builder();
         try {
-            // Compilation success, load and execute the class
             Class<?> cls = loadClass();
             Method method = cls.getDeclaredMethod(functionName);
 
-            // Invoke the method based on its static nature
             Object result = Modifier.isStatic(method.getModifiers())
-                    ? method.invoke(null)              // Invoke static method
-                    : method.invoke(cls.getDeclaredConstructor().newInstance());  // Invoke instance method
+                    ? method.invoke(null)
+                    : method.invoke(cls.getDeclaredConstructor().newInstance());
 
             Class<?> returnDataType = method.getReturnType();
             String returnValue = result.toString();
@@ -305,7 +303,6 @@ public class JavaCompiler implements CompilerStrategy{
             DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
             javax.tools.JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
 
-            // Explicitly check for compilation errors
             boolean compilationSuccess = task.call();
 
             if (!compilationSuccess) {

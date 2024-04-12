@@ -63,9 +63,7 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public ResultDTO compile(String code, Submission.ELanguage eLanguage) {
-        if(compilerStrategy == null) {
-            compilerStrategy = determineCompilerStrategy(eLanguage);
-        }
+        compilerStrategy = determineCompilerStrategy(eLanguage);
 
         String fileName = "Solution.java";
         prepareFile(fileName, code);
@@ -108,7 +106,6 @@ public class SubmissionServiceImpl implements SubmissionService{
         }
         else {
             handleCompilationError(user, code, problem);
-
             return createCompilationErrorResultDTO(compilerResult.getError());
         }
     }
@@ -149,6 +146,7 @@ public class SubmissionServiceImpl implements SubmissionService{
                     .build();
 
             addSubmission(user, submission);
+            plusScore(user,problem);
         }
     }
 
@@ -163,11 +161,6 @@ public class SubmissionServiceImpl implements SubmissionService{
             case PYTHON, CSHARP ->
                     throw new UnsupportedLanguageException("Language " + eLanguage.name().toLowerCase() + " is not supported yet!");
         };
-    }
-
-    @Override
-    public void add(Submission submission) {
-        submissionRepos.save(submission);
     }
 
     @Override
@@ -187,5 +180,17 @@ public class SubmissionServiceImpl implements SubmissionService{
         submissions.add(submission);
         user.setSubmissions(submissions);
         userRepos.save(user);
+    }
+
+    private void plusScore(User user, Problem problem) {
+        if(isNotExistSubmissionBefore(user, problem)) {
+            double score = user.getCumulativeScore() + problem.getPoint();
+            user.setCumulativeScore(score);
+            userRepos.save(user);
+        }
+    }
+
+    private boolean isNotExistSubmissionBefore(User user, Problem problem) {
+        return submissionRepos.findByUserAndProblem(user, problem).isEmpty();
     }
 }
