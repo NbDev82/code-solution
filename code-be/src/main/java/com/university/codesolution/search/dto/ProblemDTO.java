@@ -1,6 +1,7 @@
 package com.university.codesolution.search.dto;
 
 import com.university.codesolution.search.enums.EStatus;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 public class ProblemDTO {
     private String title;
-    private String difficultyLevel;
+    private Problem.EDifficultyLevel difficulty;
     private boolean isDeleted;
     private EStatus status;
     private int acceptedCount;

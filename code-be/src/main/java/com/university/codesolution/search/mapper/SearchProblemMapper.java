@@ -1,6 +1,5 @@
 package com.university.codesolution.search.mapper;
 
-import com.university.codesolution.login.entity.User;
 import com.university.codesolution.search.dto.ProblemDTO;
 import com.university.codesolution.search.enums.EStatus;
 import com.university.codesolution.submitcode.problem.entity.Problem;
@@ -23,8 +22,8 @@ public interface SearchProblemMapper {
     @Mapping(target = "difficulty",
             expression = "java(problem.getDifficultyLevel())")
     @Mapping(target = "status",
-            expression = "java(É)")
-    ProblemDTO toDTO(Problem problem);
+            expression = "java(getStatus(problem,userId))")
+    ProblemDTO toDTO(Problem problem, Long userId);
 
     List<ProblemDTO> toDTOs(List<Problem> problems);
 
@@ -42,9 +41,25 @@ public interface SearchProblemMapper {
     default int countAccepted(Problem problem) {
         return problem.getSubmissions() != null ? (int) problem.getSubmissions().stream().filter(s -> s.getStatus().equals(Submission.EStatus.ACCEPTED)).count() : 0;
     }
-    default EStatus getStatus(Problem problem, User user) {
-        List<Submission> submissions = problem.getSubmissions();
-        submissions = submissions.stream().filter(s -> s.getUser().equals(user)).toList();
-        return EStatus.TODO;
+    default EStatus getStatus(Problem problem, Long userId) {
+
+        long attemptedCount = problem.getSubmissions()
+                .stream()
+                .filter(submission -> submission.getUser().getId().equals(userId))
+                .count();
+
+        long acceptedCount = problem.getSubmissions()
+                .stream()
+                .filter(submission -> submission.getUser().getId().equals(userId)
+                        && submission.getStatus().equals(Submission.EStatus.ACCEPTED))
+                .count();
+
+        if (attemptedCount <= 0) {
+            return EStatus.TODO;
+        } else if (acceptedCount > 0) {
+            return EStatus.SOLVED;
+        } else {
+            return EStatus.ATTEMPTED;
+        }
     }
 }

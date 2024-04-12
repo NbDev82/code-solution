@@ -1,13 +1,10 @@
 package com.university.codesolution.search.controller;
-import com.university.codesolution.contest.service.ContestService;
+import com.university.codesolution.search.dto.ProblemDTO;
+import com.university.codesolution.search.dto.SearchResultDTO;
+import com.university.codesolution.search.requestmodel.SearchRequest;
 import com.university.codesolution.search.service.SearchService;
-import com.university.codesolution.search.service.SearchServiceImpl;
-import com.university.codesolution.submitcode.DTO.ProblemDTO;
-import com.university.codesolution.submitcode.controller.ProblemController;
-import com.university.codesolution.submitcode.problem.service.ProblemService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +14,15 @@ import java.util.List;
 @RequestMapping("/api/search")
 public class SearchController {
     private static final Logger log = LogManager.getLogger(SearchController.class);
-    private SearchService searchService;
-    @GetMapping("/problems")
-    public ResponseEntity<List<ProblemDTO>> getProblems(int page, int limit, String searchTerm) {
+    private final SearchService searchService;
 
-        return null;
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+    @PostMapping("/problems")
+    public ResponseEntity<SearchResultDTO> getProblems(@RequestBody SearchRequest request) {
+        SearchResultDTO searchResultDTO = searchService.getProblems(request);
+        return ResponseEntity.ok(searchResultDTO);
     }
 }
