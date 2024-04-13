@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -6,14 +6,14 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Avatar } from '@chakra-ui/react';
-import { USER_SAMPLE } from '~/utils/Const';
+import {ProblemContext} from '~/pages/SubmitCode/SubmitCodeScreen'
 
 import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
 
 function MainNavbar(props) {
-  const user = USER_SAMPLE
+  const {user} = useContext(ProblemContext);
   const iconStyle = {fontSize: 20}
   return (
     <div className="navbar">

@@ -1,10 +1,9 @@
-import {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import {useContext} from 'react';
 import './ProblemScreen.scss'
-import axios from "axios";
-import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
+import {ProblemContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 
 function ProblemScreen() {
-    const {problem} = useContext(AppContext)
+    const {problem} = useContext(ProblemContext)
 
     const descriptionWithLineBreaks = problem?.description?.replace(/\n/g, "<br/>");
 

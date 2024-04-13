@@ -9,8 +9,8 @@ import SubmissionScreen from "~/components/Submissions/SubmissionScreen";
 import "./SubmitCodeScreen.scss"
 import queryString from 'query-string';
 import {getProblem} from '~/services/ProblemService'
-
-export const AppContext = createContext(null);
+import {USER_SAMPLE} from '~/utils/Const'
+export const ProblemContext = createContext(null);
 
 function SubmitCodeScreen() {
     const [result, setResult] = useState("")
@@ -19,6 +19,7 @@ function SubmitCodeScreen() {
     const [problemId, setProblemId] = useState("");
     const [problemName, setProblemName] = useState("Missing-Number");
     const [userId, setUserId] = useState(0);
+    const [user,setUser] = useState(USER_SAMPLE);
 
     useEffect(() => {
         // fetchProblem(problemName).then(data => {
@@ -53,13 +54,14 @@ function SubmitCodeScreen() {
     };
 
     return (
-        <AppContext.Provider value={{
+        <ProblemContext.Provider value={{
             result, setResult,
             activeMenuItem, setActiveMenuItem,
             problem, setProblem,
             problemId, setProblemId,
             userId, setUserId,
-            problemName, setProblemName}}>
+            problemName, setProblemName
+            ,user}}>
             <section>
                 <div className="layout">
                     <div className="nav__layout centered">
@@ -83,7 +85,7 @@ function SubmitCodeScreen() {
                     </div>
                 </div>
             </section>
-        </AppContext.Provider>
+        </ProblemContext.Provider>
     )
 }
 

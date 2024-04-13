@@ -1,10 +1,10 @@
 import {useContext} from 'react';
 import "./NavbarProblem.scss"
-import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
+import {ProblemContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 import { HStack } from '@chakra-ui/react';
 
 function NavbarProblem() {
-    const {activeMenuItem, setActiveMenuItem} = useContext(AppContext);
+    const {activeMenuItem, setActiveMenuItem} = useContext(ProblemContext);
     return (
         <div className="navbar__container">
             <HStack className="navbar__menu">

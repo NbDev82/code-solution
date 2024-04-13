@@ -3,11 +3,11 @@ import "./SubmissionScreen.scss"
 import axios from "axios";
 
 import { TableContainer, Table, Thead, Tr, Th, Tbody, Td, Box, Flex, Text } from '@chakra-ui/react';
-import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
+import {ProblemContext} from "~/pages/SubmitCode/SubmitCodeScreen";
 
 function SubmissionScreen() {
-    const {userId} = useContext(AppContext)
-    const {problemName} = useContext(AppContext)
+    const {userId} = useContext(ProblemContext)
+    const {problemName} = useContext(ProblemContext)
     const [submissions, setSubmissions] = useState([])
 
     useEffect(() => {

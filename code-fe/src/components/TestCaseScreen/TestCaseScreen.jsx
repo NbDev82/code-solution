@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext} from 'react';
 import './TestCaseScreen.scss';
-import { AppContext } from '~/pages/SubmitCode/SubmitCodeScreen';
+import { ProblemContext } from '~/pages/SubmitCode/SubmitCodeScreen';
 import { Tabs, TabList, TabPanels, TabPanel, Tab, StackDivider, VStack, HStack, Text } from '@chakra-ui/react';
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 
 function TestCaseScreen() {
-  const { result } = useContext(AppContext);
+  const { result } = useContext(ProblemContext);
   const renderTabColor = () => {
     let value = 'var(--orange)';
     if (result !== '') {
