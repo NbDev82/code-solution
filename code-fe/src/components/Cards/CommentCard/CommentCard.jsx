@@ -11,16 +11,15 @@ import {
   Heading,
   Text,
   IconButton,
-  Image,
   Button,
 } from '@chakra-ui/react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-const ProblemCard = (props) => {
+const CommentCard = (props) => {
   const user = props.user;
-  const problem = props.problem;
+  const comment = props.comment;
   return (
     <Card w={props.w} borderRadius="var(--radius-size-small)" boxShadow={'var(--box-shadow)'}>
       <CardHeader>
@@ -31,14 +30,13 @@ const ProblemCard = (props) => {
               <Heading size="sm" fontFamily="var(--font-family)">
                 {user.fullName}
               </Heading>
-              <Text>Problem</Text>
             </Box>
           </Flex>
           <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
         </Flex>
       </CardHeader>
       <CardBody >
-        <Text textAlign='center'>{problem.name}</Text>
+        <Text textAlign='center'>{comment.content}</Text>
       </CardBody>
 
       <CardFooter
@@ -61,13 +59,13 @@ const ProblemCard = (props) => {
   );
 };
 
-ProblemCard.propTypes = {
+CommentCard.propTypes = {
   w: PropTypes.string,
   user: PropTypes.object,
-  problem: PropTypes.object,
+  comment: PropTypes.object,
 };
 
-ProblemCard.defaultProps = {
+CommentCard.defaultProps = {
   w: '100%',
   user: {
     id: '',
@@ -77,14 +75,11 @@ ProblemCard.defaultProps = {
     email: '',
     avatarSrc: '',
   },
-  problem: {
+  comment: {
     id: '',
-    title: '',
-    status: '',
-    acceptance: 0,
-    difficulty: '',
-    topics: [],
+    content: '',
+    like: 0
   },
 };
 
-export default ProblemCard;
+export default CommentCard;

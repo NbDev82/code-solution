@@ -12,7 +12,7 @@ export const DEFAULT_LOTTIE_OPTIONS = {
 export const PROBLEMS_SAMPLE = [
   {
     id: 0,
-    title: 'Two Sum',
+    name: 'Two Sum',
     status: 'Todo',
     acceptance: 38.27,
     difficulty: 'Easy',
@@ -20,7 +20,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 1,
-    title: 'Sort Banana',
+    name: 'Sort Banana',
     status: 'Solved',
     acceptance: 34.29,
     difficulty: 'Normal',
@@ -28,7 +28,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 2,
-    title: 'Search Pig Film',
+    name: 'Search Pig Film',
     status: 'Attempted',
     acceptance: 42.57,
     difficulty: 'Hard',
@@ -36,7 +36,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 3,
-    title: 'Palindrome Checker',
+    name: 'Palindrome Checker',
     status: 'Todo',
     acceptance: 27.24,
     difficulty: 'Easy',
@@ -44,7 +44,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 4,
-    title: 'FizzBuzz',
+    name: 'FizzBuzz',
     status: 'Todo',
     acceptance: 35.67,
     difficulty: 'Easy',
@@ -52,7 +52,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 5,
-    title: 'Reverse Array',
+    name: 'Reverse Array',
     status: 'Todo',
     acceptance: 17.82,
     difficulty: 'Normal',
@@ -60,7 +60,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 6,
-    title: 'Factorial Calculator',
+    name: 'Factorial Calculator',
     status: 'Attempted',
     acceptance: 14.28,
     difficulty: 'Normal',
@@ -68,7 +68,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 7,
-    title: 'Find Prime Numbers',
+    name: 'Find Prime Numbers',
     status: 'Todo',
     acceptance: 85.36,
     difficulty: 'Hard',
@@ -76,7 +76,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 8,
-    title: 'Validate Email Addresses',
+    name: 'Validate Email Addresses',
     status: 'Solved',
     acceptance: 11.27,
     difficulty: 'Normal',
@@ -84,7 +84,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 9,
-    title: 'Calculate Fibonacci Sequence',
+    name: 'Calculate Fibonacci Sequence',
     status: 'Solved',
     acceptance: 35.25,
     difficulty: 'Hard',
@@ -92,7 +92,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 10,
-    title: 'Implement Binary Search',
+    name: 'Implement Binary Search',
     status: 'Attempted',
     acceptance: 28.92,
     difficulty: 'Normal',
@@ -100,7 +100,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 11,
-    title: 'Convert Roman Numerals to Integer',
+    name: 'Convert Roman Numerals to Integer',
     status: 'Todo',
     acceptance: 15.36,
     difficulty: 'Normal',
@@ -108,7 +108,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 12,
-    title: 'Generate Random Passwords',
+    name: 'Generate Random Passwords',
     status: 'Todo',
     acceptance: 35.01,
     difficulty: 'Easy',
@@ -116,7 +116,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 13,
-    title: 'Check Anagrams',
+    name: 'Check Anagrams',
     status: 'Todo',
     acceptance: 25.78,
     difficulty: 'Normal',
@@ -124,7 +124,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 14,
-    title: 'Calculate Area of Shapes',
+    name: 'Calculate Area of Shapes',
     status: 'Todo',
     acceptance: 12.35,
     difficulty: 'Normal',
@@ -132,7 +132,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 15,
-    title: 'Implement Stack Data Structure',
+    name: 'Implement Stack Data Structure',
     status: 'Todo',
     acceptance: 24.37,
     difficulty: 'Hard',
@@ -140,7 +140,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 16,
-    title: 'Find Longest Common Prefix',
+    name: 'Find Longest Common Prefix',
     status: 'Todo',
     acceptance: 22.45,
     difficulty: 'Normal',
@@ -148,7 +148,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 17,
-    title: 'Calculate Factorial using Iteration',
+    name: 'Calculate Factorial using Iteration',
     status: 'Todo',
     acceptance: 12.24,
     difficulty: 'Easy',
@@ -156,7 +156,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 18,
-    title: 'Implement Queue Data Structure',
+    name: 'Implement Queue Data Structure',
     status: 'Todo',
     acceptance: 35.36,
     difficulty: 'Normal',
@@ -164,7 +164,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 19,
-    title: 'Check Balanced Parentheses',
+    name: 'Check Balanced Parentheses',
     status: 'Todo',
     acceptance: 37.4,
     difficulty: 'Normal',
@@ -172,7 +172,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 20,
-    title: 'Find Missing Number in Array',
+    name: 'Find Missing Number in Array',
     status: 'Todo',
     acceptance: 24.25,
     difficulty: 'Hard',
@@ -180,7 +180,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 21,
-    title: 'Count Cat In My House',
+    name: 'Count Cat In My House',
     status: 'Todo',
     acceptance: 14.23,
     difficulty: 'Hard',
@@ -188,7 +188,7 @@ export const PROBLEMS_SAMPLE = [
   },
   {
     id: 22,
-    title: 'Find Cat in Bushes',
+    name: 'Find Cat in Bushes',
     status: 'Todo',
     acceptance: 9.25,
     difficulty: 'Hard',
@@ -196,20 +196,21 @@ export const PROBLEMS_SAMPLE = [
   },
 ];
 export const TOPICS_SAMPLE = [
-  { id: 0, title: 'String', quantity: 22 },
-  { id: 1, title: 'Array', quantity: 56 },
-  { id: 2, title: 'Sorting', quantity: 18 },
-  { id: 3, title: 'Math', quantity: 9 },
-  { id: 4, title: 'Counting', quantity: 27 },
-  { id: 5, title: 'Searching', quantity: 9 },
-  { id: 6, title: 'Recursion', quantity: 26 },
-  { id: 7, title: 'Regex', quantity: 11 },
-  { id: 8, title: 'Random', quantity: 21 },
-  { id: 9, title: 'Stack', quantity: 18 },
-  { id: 10, title: 'Geometry', quantity: 6 },
-  { id: 11, title: 'Data Structures', quantity: 2 },
-  { id: 12, title: 'Looping', quantity: 7 },
+  { id: 0, name: 'String', quantity: 22 },
+  { id: 1, name: 'Array', quantity: 56 },
+  { id: 2, name: 'Sorting', quantity: 18 },
+  { id: 3, name: 'Math', quantity: 9 },
+  { id: 4, name: 'Counting', quantity: 27 },
+  { id: 5, name: 'Searching', quantity: 9 },
+  { id: 6, name: 'Recursion', quantity: 26 },
+  { id: 7, name: 'Regex', quantity: 11 },
+  { id: 8, name: 'Random', quantity: 21 },
+  { id: 9, name: 'Stack', quantity: 18 },
+  { id: 10, name: 'Geometry', quantity: 6 },
+  { id: 11, name: 'Data Structures', quantity: 2 },
+  { id: 12, name: 'Looping', quantity: 7 },
 ];
+
 export const STATISTICSDATASETS_SAMPLE = {
   totalEasy: 35,
   totalNormal: 12,
@@ -227,3 +228,4 @@ export const USER_SAMPLE = {
   email: 'ndgdh@gmail.com',
   avatarSrc: '',
 };
+

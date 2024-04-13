@@ -78,8 +78,7 @@ function Problems(props) {
   }, []);
 
   const handleSelectProblem = useCallback((problem) => {
-    console.log('handleSelectProblem: ', problem);
-    setFilters({ problemID: problem.id });
+    navigate(`${location.pathname}/${problem.name}`);
   }, []);
 
   const handlePageChange = useCallback(({ selected: page }) => {

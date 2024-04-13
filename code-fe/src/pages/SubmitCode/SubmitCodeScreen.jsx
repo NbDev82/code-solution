@@ -7,7 +7,8 @@ import MainNavbar from "~/components/Navbars/NavbarProblem/MainNavbar/MainNavbar
 import DiscussesScreen from "~/components/DiscussesProblem/DiscussesScreen";
 import SubmissionScreen from "~/components/Submissions/SubmissionScreen";
 import "./SubmitCodeScreen.scss"
-import axios from "axios";
+import queryString from 'query-string';
+import {getProblem} from '~/services/ProblemService'
 
 export const AppContext = createContext(null);
 
@@ -20,18 +21,18 @@ function SubmitCodeScreen() {
     const [userId, setUserId] = useState(0);
 
     useEffect(() => {
-        fetchProblem(problemName).then(data => {
-            setProblem(data);
-            setProblemId(data.id)
-            setProblemName(data.name)
-        });
-        setUserId(1)
+        // fetchProblem(problemName).then(data => {
+        //     setProblem(data);
+        //     setProblemId(data.id)
+        //     setProblemName(data.name)
+        // });
+        // setUserId(1)
     }, []);
 
     const fetchProblem = async (problemName) => {
         try {
-            const response = await axios.get('http://localhost:8000/api/problems/' + problemName);
-            return response.data
+            //const response = await getProblem(queryString.stringify({problemId}));
+            //return response.data
         } catch (error) {
             console.error('Error fetching problem:', error);
             return error.response?.data?.message
@@ -46,6 +47,8 @@ function SubmitCodeScreen() {
                 return <DiscussesScreen/>;
             case "Submissions":
                 return <SubmissionScreen/>;
+            default:
+                break;
         }
     };
 

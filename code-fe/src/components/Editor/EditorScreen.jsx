@@ -1,32 +1,18 @@
-import {useContext, useEffect, useState} from 'react';
-import Editor from "@monaco-editor/react"
-import Button from "../../components/Buttons/Button"
-import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
-import './EditorScreen.scss'
-import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import Editor from '@monaco-editor/react';
+import { AppContext } from '~/pages/SubmitCode/SubmitCodeScreen';
+import './EditorScreen.scss';
+import queryString from 'query-string';
+import { getInputCode, runCode } from '~/services/SubmitCodeService';
 
-function EditorScreen() {
-  const {setResult} = useContext(AppContext);
-  const {problemId} = useContext(AppContext);
+const EditorScreen = () => {
+  const { setResult } = useContext(AppContext);
+  const { problemId } = useContext(AppContext);
   const [code, setCode] = useState('');
-
   const [language, setLanguage] = useState('java');
-
-  const handleEditorChange = (code) => {
-    setCode(code);
-  };
-
-  const handleLanguageChange = async (event) => {
-    setLanguage(event.target.value)
-  }
-
   const fetchCode = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/submit-code/getInputCode', {
-        params: {
-          problemId: problemId,
-          language: language
-        } });
+      const response = await getInputCode(queryString.stringify({ problemId, language }));
       return response.data;
     } catch (error) {
       console.error('Error fetching code:', error);
@@ -35,51 +21,50 @@ function EditorScreen() {
   };
 
   useEffect(() => {
-     fetchCode().then(data => {
-       setCode(data)
-     })
+    fetchCode().then((data) => {
+      setCode(data);
+    });
   }, [problemId, language]);
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     const request = {
       userId: 1, // will amend soon
       code: code,
       language: language,
-      problemId: problemId // will amend soon
+      problemId: problemId, // will amend soon
     };
-
-    axios.post('http://localhost:8000/api/submit-code/run', request)
-      .then(response => {
-        setResult(response.data)
-        console.log('Server response:', response.data);
-      })
-      .catch(error => {
-        setResult(error?.response?.data.message)
-        console.error('Error sending code:', error.response.data.message);
-      });
+    try {
+      const response = await runCode(request);
+      setResult(response.data);
+      console.log('Server response:', response.data);
+    } catch (error) {
+      setResult(error?.response?.data.message);
+      console.error('Error sending code:', error.response.data.message);
+    }
   };
+
+  useEffect(() => {
+    console.log('change');
+  }, [language]);
 
   return (
     <>
       <div className="navbar__editor">
-        <select onChange={handleLanguageChange} className="lg:block selected__language">
+        <select onChange={(e) => setLanguage(e.currentTarget.value)} className="selected__language">
           <option value="java">Java</option>
           <option value="csharp">C#</option>
           <option value="python">Python</option>
         </select>
-        <Button onClick={handleSendCode}>Submit Code</Button>
       </div>
-
       <Editor
         height="48vh"
         width="100%"
-        theme="vs-dark"
         language={language}
         value={code}
-        onChange={handleEditorChange}
+        onChange={(e) => setCode(e.currentTarget.value)}
       />
     </>
-  )
-}
+  );
+};
 
-export default EditorScreen
+export default EditorScreen;

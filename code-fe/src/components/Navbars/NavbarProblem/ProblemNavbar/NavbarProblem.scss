@@ -2,30 +2,35 @@
   display: flex;
   flex-direction: row;
 }
-
-.navbar__container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.navbar{
+  &__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__menu {
+    width: 50%;
+    justify-content: space-around;
+    &-item {
+      font-family: var(--font-family);
+      font-size: 1.6rem;
+      background-color: var(--white);
+      color: var(--secondary-color);
+      padding: 10px;
+      margin-right: 50px;
+      &.menu__active {
+        border-bottom: 3px solid var(--primary-color);
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+    }
+  }
+  
 }
 
-.navbar__menu {
-  display: flex;
-  list-style: none;
-  margin-right: 20px;
-}
 
-.navbar__menu-item {
-  font-family: var(--font-family);
-  font-size: 1.6rem;
-  background-color: transparent;
-  color: white;
-  padding: 10px;
-  margin-right: 50px;
-}
 
-.navbar__menu-item.menu__active {
-  border-bottom: 2px solid green;
-}
+
+
+

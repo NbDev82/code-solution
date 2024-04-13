@@ -1,27 +1,23 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext} from 'react';
 import "./NavbarProblem.scss"
 import {AppContext} from "~/pages/SubmitCode/SubmitCodeScreen";
+import { HStack } from '@chakra-ui/react';
 
 function NavbarProblem() {
     const {activeMenuItem, setActiveMenuItem} = useContext(AppContext);
-
-    const handleMenuItemClick = (event) => {
-        setActiveMenuItem(event.target.value);
-    };
-
     return (
         <div className="navbar__container">
-            <ul className="navbar__menu">
-                <button value="Description" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Description' ? 'menu__active' : ''}`}>
+            <HStack className="navbar__menu">
+                <button value="Description" onClick={(e)=>setActiveMenuItem(e.currentTarget.value)} className={`navbar__menu-item ${activeMenuItem === 'Description' ? 'menu__active' : ''}`}>
                     Description
                 </button>
-                <button value="Discusses" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Discusses'? 'menu__active' : ''}`}>
+                <button value="Discusses" onClick={(e)=>setActiveMenuItem(e.currentTarget.value)} className={`navbar__menu-item ${activeMenuItem === 'Discusses'? 'menu__active' : ''}`}>
                     Discusses
                 </button>
-                <button value="Submissions" onClick={handleMenuItemClick} className={`navbar__menu-item ${activeMenuItem === 'Submissions'? 'menu__active' : ''}`}>
+                <button value="Submissions" onClick={(e)=>setActiveMenuItem(e.currentTarget.value)} className={`navbar__menu-item ${activeMenuItem === 'Submissions'? 'menu__active' : ''}`}>
                     Submissions
                 </button>
-            </ul>
+            </HStack>
         </div>
     )
 }

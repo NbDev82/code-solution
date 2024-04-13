@@ -11,6 +11,7 @@ import Profile from '~/pages/Profile';
 import ContestsManagement from '~/pages/ContestsManagement/ContestsManagement';
 import AddContest from '~/pages/AddContest/AddContest';
 import ContestResult from '~/pages/ContestResult/ContestResult';
+import SubmitCode from '~/pages/SubmitCode';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
@@ -18,7 +19,8 @@ const publicRoutes = [
   { path: config.routes.login, component: SignIn, exact: true },
   { path: config.routes.SignUp, component: SignUp, exact: true },
   { path: config.routes.contest_invitation, component: ContestInvitation, exact: false },
-  { path: config.routes.problems, component: Problems, exact: false },
+  { path: config.routes.problems, component: Problems, exact: true },
+  { path: config.routes.submit_code, component: SubmitCode, exact: false },
   { path: config.routes.contests, component: Contests, exact: false },
   { path: config.routes.discuss, component: Discuss, exact: false },
   { path: config.routes.profile, component: Profile, exact: false },
@@ -31,3 +33,4 @@ const publicRoutes = [
 const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
+

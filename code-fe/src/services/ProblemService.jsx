@@ -10,4 +10,9 @@ const getAllTopics = async () => {
 const getStatisticsDatasets = async () => {
   return await httpRequest.get(`/get-statistics-datasets?values`);
 };
-export { getProblems, getAllTopics, getStatisticsDatasets };
+
+const getProblem = async (paramsString)=>{
+  const requestURL = `${CONV_API_URL}/findById?${paramsString}`;
+  return await axios.get(requestURL);
+}
+export { getProblems, getAllTopics, getStatisticsDatasets ,getProblem};
