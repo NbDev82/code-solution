@@ -6,24 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class ResultDTO {
+public class SubmissionDTO {
+    private Long id;
+    private Submission.ELanguage language;
+    private String codeSubmitted;
+    private double score;
     private Submission.EStatus status;
-    private boolean isAccepted;
-    private String message;
-
-    private List<TestCaseResultDTO> testCaseResultDTOS;
-
-    private String passedTestcase;
-    private String maxTestcase;
-
-    private double runtime;
-    private double memory;
-
-    private TestCaseResultDTO lastTestcase;
+    private String runtime;
+    private String memory;
+    private String createdAt;
 }

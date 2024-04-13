@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.DTO;
 
+import com.university.codesolution.submitcode.submission.entity.Submission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class TestCaseResultDTO {
+    private String input;
+
     private String outputData;
     private String outputDatatype;
 
@@ -17,4 +20,9 @@ public class TestCaseResultDTO {
     private String expectedDatatype;
 
     private boolean isPassed;
+    private Submission.EStatus status;
+
+    public TestCaseResultDTO(Submission.EStatus status) {
+        this.status = status;
+    }
 }
