@@ -1,3 +1,5 @@
+import {DATA_LOGIN_SAMPLE} from '~/utils/Const'
+
 export const isLoggedIn = () => {
   let data = localStorage.getItem('data');
   debugger;

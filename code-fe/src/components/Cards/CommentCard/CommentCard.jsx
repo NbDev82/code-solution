@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -10,76 +10,123 @@ import {
   Avatar,
   Heading,
   Text,
-  IconButton,
   Button,
+  IconButton,
+  Divider,
+  Collapse,
+  useDisclosure,
+  HStack,
 } from '@chakra-ui/react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import {ProblemContext} from '~/pages/SubmitCode/SubmitCodeScreen'
+import { ChatIcon } from '@chakra-ui/icons';
+import EmojiComment from '~/components/Emoji/EmojiComment';
+import style from './CommentCart.module.scss';
 
 const CommentCard = (props) => {
-  const user = props.user;
   const comment = props.comment;
-  return (
-    <Card w={props.w} borderRadius="var(--radius-size-small)" boxShadow={'var(--box-shadow)'}>
-      <CardHeader>
-        <Flex spacing="4">
-          <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-            <Avatar name={user.fullName} src={user.avatarSrc} />
-            <Box>
-              <Heading size="sm" fontFamily="var(--font-family)">
-                {user.fullName}
-              </Heading>
-            </Box>
-          </Flex>
-          <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
-        </Flex>
-      </CardHeader>
-      <CardBody >
-        <Text textAlign='center'>{comment.content}</Text>
-      </CardBody>
+  const [chosenEmoji, setChosenEmoji] = useState(props.comment.emoji);
+  const handleEmojiClick = (emoji) => {
+    setChosenEmoji(emoji);
+  };
+  const { isOpen, onToggle } = useDisclosure();
 
-      <CardFooter
-        justify="space-between"
-        flexWrap="wrap"
-        sx={{
-          '& > button': {
-            minW: '136px',
-          },
-        }}
-      >
-        <Button flex="1" variant="ghost" leftIcon={<CreateOutlinedIcon />}>
-          Edit
-        </Button>
-        <Button flex="1" variant="ghost" leftIcon={<DeleteOutlineOutlinedIcon />}>
-          Delete
-        </Button>
-      </CardFooter>
-    </Card>
+  return (
+    <div className={style.container}>
+      <Card>
+        <CardHeader>
+          <Flex spacing="4">
+            <Flex flex="1" gap="4" alignItems="center" justifyContent="start" flexWrap="wrap">
+              <Avatar name={comment.userName} src="" />
+              <Box>
+                <Heading size="md" fontFamily="var(--font-family)">
+                  {comment.userName}
+                </Heading>
+                <Text as="sup">{comment.updateAt}</Text>
+              </Box>
+            </Flex>
+            <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
+          </Flex>
+        </CardHeader>
+        <CardBody padding={0}>
+          <Text padding=" 0 5%" noOfLines={1} textAlign="left">
+            {comment.text}
+          </Text>
+        </CardBody>
+
+        <CardFooter
+          justifyContent="space-around"
+          flexWrap="wrap"
+          sx={{
+            '& > button': {
+              minW: '136px',
+            },
+          }}
+        >
+          <EmojiComment onSelectEmoji={handleEmojiClick}>
+            <Button h="40px" bg="transparent" _hover={{ bg: 'transparent', transform: 'Scale(1.05)' }}>
+              <span className={style.emoji}>{chosenEmoji.emoji}</span>
+              <span className={style.emoji__name}>
+                {' '}
+                {chosenEmoji.name}
+                {' ('}
+                {comment.emojiQuantity}
+                {')'}
+              </span>
+            </Button>
+          </EmojiComment>
+
+          <Button
+            onClick={onToggle}
+            fontSize="14px"
+            h="40px"
+            bg="transparent"
+            _hover={{ bg: 'transparent', transform: 'Scale(1.05)' }}
+            leftIcon={<ChatIcon />}
+          >
+            Comment{' ('}
+            {comment.replyComments.length}
+            {')'}
+          </Button>
+        </CardFooter>
+      </Card>
+      <Collapse in={isOpen} animateOpacity>
+        <Box
+          className={style.replies}
+          boxShadow={'var(--box-shadow-small)'}
+          color="var(--secondary-color)"
+          bg="var(--gray-light)"
+        >
+          {comment.replyComments.map((comment) => (
+            <HStack key={comment.id} spacing={1} align="stretch">
+              <div className={style.divider}></div>
+              <CommentCard comment={comment}></CommentCard>
+            </HStack>
+          ))}
+          <br></br>
+        </Box>
+      </Collapse>
+    </div>
   );
 };
 
 CommentCard.propTypes = {
   w: PropTypes.string,
-  user: PropTypes.object,
   comment: PropTypes.object,
 };
 
 CommentCard.defaultProps = {
   w: '100%',
-  user: {
-    id: '',
-    fullName: 'User',
-    phoneNumber: '',
-    dateOfBirth: '',
-    email: '',
-    avatarSrc: '',
-  },
   comment: {
-    id: '',
-    content: '',
-    like: 0
+    id: 0,
+    text: '',
+    updateAt: '',
+    userName: '',
+    emoji: {
+      name: '',
+      emoji: '',
+    },
+    emojiQuantity: 0,
+    replyComments: [],
   },
 };
 

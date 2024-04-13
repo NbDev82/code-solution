@@ -1,21 +1,20 @@
-import  React,{useContext} from 'react';
+import React, { useContext, useState } from 'react';
 import { VStack } from '@chakra-ui/react';
 import './DiscussesScreen.scss';
-import CommentEditText from '~/components/DiscussesProblem/CommentEditText/CommentEditText';
 import CommentCard from '../Cards/CommentCard';
-import {ProblemContext} from '~/context/Problem'
+import { ProblemContext } from '~/context/Problem';
+import { COMMENTS_SAMPLE } from '~/utils/Const';
 
-
- const DiscussesScreen = () => {
-  const {user} = useContext(ProblemContext)
+const DiscussesScreen = () => {
+  const { user } = useContext(ProblemContext);
+  const [comments, setComments] = useState(COMMENTS_SAMPLE);
   return (
-    <div>   
-      <VStack spacing={2} className="discuss__layout">
-        <CommentCard user={user}></CommentCard>
-      </VStack>
-      <CommentEditText />
-    </div>
+    <VStack spacing={5} padding={5} className="discuss__layout">
+      {comments.map((comment) => (
+        <CommentCard key={comment.id} comment={comment} w="95%"></CommentCard>
+      ))}
+    </VStack>
   );
-}
+};
 
 export default DiscussesScreen;

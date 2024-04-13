@@ -234,7 +234,7 @@ export const DATA_LOGIN_SAMPLE = {
     'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjIsImVtYWlsIjoibmd1eWVuZHFkdXlAZ21haWwuY29tIiwic3ViIjoiMDk2MTE2Mjk3OSIsImV4cCI6MTcxNTYxNTMzM30.xw2DthsajQoFeMpkTvXXPcSIxHgT5LVAB0oMxtWDgF8',
   user: {
     id: 2,
-    fullName: 'Duy',
+    fullName: 'Nguyễn Đình Quốc Duy',
     phoneNumber: '0961162979',
     dateOfBirth: '1990-01-01T00:00:00',
     email: 'nguyendqduy@gmail.com',
@@ -246,3 +246,72 @@ export const DATA_LOGIN_SAMPLE = {
     avatarSrc: '',
   },
 };
+
+export const EMOJI_COMMENT = {
+  love: { emoji: '❤️', name: 'Love' },
+  woww: { emoji: '😲', name: 'Woww' },
+  humm: { emoji: '🙄', name: 'Humm' },
+  haha: { emoji: '😆', name: 'Haha' },
+  huhu: { emoji: '😭', name: 'Huhu' },
+  angry: { emoji: '😡', name: 'Angry' },
+};
+
+export const COMMENTS_SAMPLE = [
+  {
+    id: 1,
+    text: 'Bạn Trường An rất là đẹp trai và dthw !',
+    updateAt: '1th5 21:41',
+    userName: 'Nguyễn Văn Hoàng',
+    emoji: EMOJI_COMMENT.love,
+    emojiQuantity: 99,
+    replyComments: [
+      {
+        id: 2,
+        text: 'Cảm ơn bạn nhiều nha <3 love',
+        updateAt: '1th5 21:44',
+        userName: 'Nguyễn Trường An',
+        emoji: EMOJI_COMMENT.haha,
+        emojiQuantity: 8,
+        replyComments: [],
+      },
+      {
+        id: 5,
+        text: 'Cảm ơn bạn nhiều nha <3 love',
+        updateAt: '1th5 21:44',
+        userName: 'Nguyễn Trường An',
+        emoji: EMOJI_COMMENT.haha,
+        emojiQuantity: 8,
+        replyComments: [],
+      },
+    ],
+  },
+  {
+    id: 3,
+    text: 'Bài code này khó quá, thằng nào tạo ra nó vậy????',
+    updateAt: '1th5 21:47',
+    userName: 'Trần Văn An',
+    emoji: EMOJI_COMMENT.angry,
+    emojiQuantity: 5,
+    replyComments: [
+      {
+        id: 4,
+        text: 'T tạo nè m có ý kiến gì hemmm thằng đần này????',
+        updateAt: '1th5 21:48',
+        userName: 'Nguyễn Đình Quốc Duy',
+        emoji: EMOJI_COMMENT.humm,
+        emojiQuantity: 1,
+        replyComments: [
+          {
+            id: 6,
+            text: 'Cảm ơn bạn nhiều nha <3 love',
+            updateAt: '1th5 21:44',
+            userName: 'Nguyễn Trường An',
+            emoji: EMOJI_COMMENT.haha,
+            emojiQuantity: 8,
+            replyComments: [],
+          },
+        ],
+      },
+    ],
+  },
+];
