@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService{
@@ -187,6 +188,11 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     private boolean isNotExistAcceptedSubmissionBefore(User user, Problem problem) {
-        return submissionRepos.findByUserAndProblem(user, problem).isEmpty();
+        List<Submission> submissions =  submissionRepos.findByUserAndProblem(user, problem);
+        submissions = submissions.stream()
+                .filter(submission -> submission.getStatus().equals(Submission.EStatus.ACCEPTED))
+                .collect(Collectors.toList());
+
+        return submissions.isEmpty();
     }
 }
