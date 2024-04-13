@@ -36,7 +36,7 @@ function Topicbar({ topics, onFilterTopics }) {
       <div className="topicbar__list">
         {topicCurrent.map((topic) => (
           <Button key={topic.id} id={topic.id} textHighLight small badge={topic.quantity} onClick={onFilterTopics}>
-            {topic.title}
+            {topic.name}
           </Button>
         ))}
       </div>
