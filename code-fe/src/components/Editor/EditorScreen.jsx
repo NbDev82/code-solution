@@ -61,7 +61,7 @@ const EditorScreen = () => {
         width="100%"
         language={language}
         value={code}
-        onChange={(e) => setCode(e.currentTarget.value)}
+        onChange={(e) => setCode(e.target.value)}
       />
     </>
   );

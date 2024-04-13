@@ -1,59 +1,60 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './TestCaseScreen.scss';
 import { AppContext } from '~/pages/SubmitCode/SubmitCodeScreen';
-import { Tabs, TabList, TabPanels, TabPanel, Tab, Button } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { Tabs, TabList, TabPanels, TabPanel, Tab, StackDivider, VStack, HStack, Text } from '@chakra-ui/react';
+import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 
 function TestCaseScreen() {
   const { result } = useContext(AppContext);
-  const [activeTab, setActiveTab] = useState('result');
-
-  const handleButtonClick = (tabName) => {
-    setActiveTab(tabName);
+  const renderTabColor = () => {
+    let value = 'var(--orange)';
+    if (result !== '') {
+      result.status === 'ACCEPTED' ? (value = 'var(--green)') : (value = 'var(--red)');
+    }
+    return { color: value };
   };
-
   return (
     <Tabs className="tabs" defaultIndex={0}>
       <TabList className="tabs__list">
-        <Tab className="tabs__list--item" fontSize="16px" _selected={{ color: 'var(--orange)' }}>
+        <Tab className="tabs__list--item" fontSize="16px" _selected={() => renderTabColor()}>
           Result
         </Tab>
-        <Tab className="tabs__list--item" fontSize="16px" _selected={{ color: 'var(--orange)' }}>
+        <Tab className="tabs__list--item" fontSize="16px" _selected={() => renderTabColor()}>
           Last Testcase
         </Tab>
       </TabList>
       <TabPanels>
         <TabPanel className="tabs__panel">
-          {' '}
           {result === '' && <h3 className="centered">You must run your code first.</h3>}
           {result !== '' && (
-            <>
-              <h3 className="status">
-                <p className={result.status === 'ACCEPTED' ? 'success__color' : 'failed__color'}>{result.status}</p>
-              </h3>
-              <div className="right-border"></div>
-              <p className="status">
-                <h3 className="centered">Message</h3>
-                <p className="centered">{result.message}</p>
-              </p>
-              <div className="right-border"></div>
-              <p className="status">
-                <h3 className="centered">Testcase</h3>
-                <p className="centered">
+            <VStack divider={<StackDivider borderColor="gray.200" />} spacing={4} align="stretch" w="100%">
+              <HStack>
+                <Text>Status: </Text>
+                {result.status === 'ACCEPTED' ? (
+                  <CheckCircleIcon w={8} h={8} color="var(--green)" />
+                ) : (
+                  <WarningIcon w={8} h={8} color="var(--red)" />
+                )}
+              </HStack>
+              <HStack>
+                <Text>Message: </Text>
+                <Text noOfLines={1}>{result.message}</Text>
+              </HStack>
+              <HStack>
+                <Text>Testcase: </Text>
+                <Text>
                   {result.passedTestcase} / {result.maxTestcase}
-                </p>
-              </p>
-              <div className="right-border"></div>
-              <p className="status">
-                <h3 className="centered">Runtime</h3>
-                <p className="centered">{result.runtime}s</p>
-              </p>
-              <div className="right-border"></div>
-              <p className="status">
-                <h3 className="centered">Memory Usage</h3>
-                <p className="centered">{result.memory}MB</p>
-              </p>
-            </>
+                </Text>
+              </HStack>
+              <HStack>
+                <Text>Runtime: </Text>
+                <Text>{result.runtime}s</Text>
+              </HStack>
+              <HStack>
+                <Text>Memory Usage: </Text>
+                <Text>{result.memory}MB</Text>
+              </HStack>
+            </VStack>
           )}
         </TabPanel>
         <TabPanel className="tabs__panel">
@@ -61,14 +62,20 @@ function TestCaseScreen() {
           {result.status === 'ACCEPTED' && <h3 className="centered">Your problem has passed.</h3>}
           {result === '' && <h3 className="centered">You must run your code first.</h3>}
           {result !== '' && result.status === 'WRONG_ANSWER' && (
-            <div>
-              <div className="last_testcase__details__label">Input:</div>
-              <div className="last_testcase__details__input">{result.lastTestcase.input}</div>
-              <div className="last_testcase__details__label">Output:</div>
-              <div className="last_testcase__details__output">{result.lastTestcase.outputData}</div>
-              <div className="last_testcase__details__label">Expected:</div>
-              <div className="last_testcase__details__expected">{result.lastTestcase.expected}</div>
-            </div>
+            <VStack divider={<StackDivider borderColor="gray.200" />} spacing={4} align="stretch" w="100%">
+              <HStack>
+                <Text>Input: </Text>
+                <Text>{result.lastTestcase.input}</Text>
+              </HStack>
+              <HStack>
+                <Text>Output: </Text>
+                <Text>{result.lastTestcase.outputData}</Text>
+              </HStack>
+              <HStack>
+                <Text>Expected: </Text>
+                <Text>{result.lastTestcase.expected}</Text>
+              </HStack>
+            </VStack>
           )}
         </TabPanel>
       </TabPanels>
