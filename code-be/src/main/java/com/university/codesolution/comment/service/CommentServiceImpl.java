@@ -46,10 +46,8 @@ public class CommentServiceImpl implements CommentService {
                                 userService.getUserById(request.userId())
                         )
                 )
-//                .problem(problemMapper.toEntity(
-//                                problemService.getProblemById(request.problemId())
-//                        )
-//                )
+                .problem(problemService.findById(request.problemId(), Problem.class)
+                )
                 .commentParent(commentRepos.findById(request.commentId())
                         .orElse(null))
                 .build();

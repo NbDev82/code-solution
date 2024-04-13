@@ -2,6 +2,7 @@ package com.university.codesolution.comment.controller;
 
 import com.university.codesolution.comment.Constants;
 import com.university.codesolution.comment.dto.CommentDTO;
+import com.university.codesolution.comment.exception.InvalidCommentLengthException;
 import com.university.codesolution.comment.request.AddCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
 import com.university.codesolution.comment.service.CommentService;
@@ -36,6 +37,10 @@ public class CommentController {
     )
     @PostMapping("/add-comment")
     public ResponseEntity<String> addComment(@RequestBody AddCommentRequest request) {
+        int MINIMUM_LENGTH_OF_MESSAGE = 10;
+        if(request.text().length() < MINIMUM_LENGTH_OF_MESSAGE)
+            throw new InvalidCommentLengthException("Comment must not less than 10 characters");
+
         commentService.add(request);
         log.info(Constants.ADD_COMMENT_SUCCESSFULLY);
         return ResponseEntity.status(HttpStatus.CREATED)
