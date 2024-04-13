@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/topics")
 public class TopicController {
-    private static final Logger log = LogManager.getLogger(SearchController.class);
+    private static final Logger log = LogManager.getLogger(TopicController.class);
 
     private final TopicService topicService;
 

@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.submission.service;
 
+import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.exception.UserNotFoundException;
 import com.university.codesolution.login.mapper.UserMapper;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubmissionServiceImpl implements SubmissionService{
@@ -166,6 +168,20 @@ public class SubmissionServiceImpl implements SubmissionService{
         List<Submission> submissions = submissionRepos.findByUserAndProblem(user,problem);
         submissions.sort((submissionA, submissionB) -> submissionB.getCreatedAt().compareTo(submissionA.getCreatedAt()));
         return submissionMapper.toDTOs(submissions);
+    }
+
+    @Override
+    public <T> List<T> getByUserId(long userId, Class<T> returnType) {
+        User user = userMapper.toEntity(userService.getUserById(userId));
+
+        List<Submission> submissions = submissionRepos.findByUser(user);
+
+        return returnType.equals(Submission.class)
+                        ? (List<T>) submissions
+                        : submissions.stream()
+                            .map(submissionMapper::toDTO)
+                            .map(returnType::cast)
+                            .collect(Collectors.toList());
     }
 
     public void addSubmission(User user, Submission submission) {

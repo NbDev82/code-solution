@@ -1,6 +1,8 @@
 package com.university.codesolution.statistic.service;
 
 
+import com.university.codesolution.statistic.dto.StatisticDTO;
 
-public class StatisticService implements StatisticServiceImpl {
+public interface StatisticService {
+    StatisticDTO getStatistic(Long userId);
 }
