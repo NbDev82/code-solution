@@ -1,5 +1,6 @@
 export const isLoggedIn = () => {
   let data = localStorage.getItem('data');
+  debugger;
   if (data != null) return true;
   else return false;
 };
@@ -16,7 +17,13 @@ export const doLogout = (next) => {
 
 export const getCurrentUserDetail = () => {
   if (isLoggedIn()) {
-    return JSON.parse(localStorage.getItem('data').user);
+    const data = localStorage.getItem('data');
+    const jsonData = JSON.parse(data);
+
+    // Truy cập trường "user"
+    const user = jsonData.user;
+    debugger;
+    return user;
   } else {
     return undefined;
   }
