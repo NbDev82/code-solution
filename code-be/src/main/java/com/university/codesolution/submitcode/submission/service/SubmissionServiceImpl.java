@@ -118,35 +118,31 @@ public class SubmissionServiceImpl implements SubmissionService{
                 .build();
     }
 
-    private void handleCompilationError(User user, String code, Problem problem) {
-        Submission submission = Submission.builder()
+    private Submission createSubmission(User user, String code, Problem problem, Submission.ELanguage eLanguage, Submission.EStatus status) {
+        return Submission.builder()
+                .language(eLanguage)
                 .codeSubmitted(code)
                 .createdAt(LocalDateTime.now())
+                .status(status)
                 .user(user)
                 .problem(problem)
-                .language(Submission.ELanguage.JAVA)
-                .status(Submission.EStatus.COMPILE_ERROR)
                 .build();
+    }
 
+    private void handleCompilationError(User user, String code, Problem problem) {
+        Submission submission = createSubmission(user, code, problem, Submission.ELanguage.JAVA, Submission.EStatus.COMPILE_ERROR);
         addSubmission(user, submission);
     }
 
     private void handleSuccessfulExecution(User user, ResultDTO resultDTO, Submission.ELanguage eLanguage, String code, Problem problem) {
         if(!resultDTO.getStatus().equals(Submission.EStatus.COMPILE_ERROR)) {
-            Submission submission = Submission.builder()
-                    .language(eLanguage)
-                    .codeSubmitted(code)
-                    .memory(resultDTO.getMemory())
-                    .runtime(resultDTO.getRuntime())
-                    .status(resultDTO.getStatus())
-                    .createdAt(LocalDateTime.now())
-                    .score(Double.parseDouble(resultDTO.getPassedTestcase()))
-                    .user(user)
-                    .problem(problem)
-                    .build();
+            Submission submission = createSubmission(user, code, problem, eLanguage, resultDTO.getStatus());
+            submission.setMemory(resultDTO.getMemory());
+            submission.setRuntime(resultDTO.getRuntime());
+            submission.setScore(Double.parseDouble(resultDTO.getPassedTestcase()));
 
             addSubmission(user, submission);
-            plusScore(user,problem);
+            plusScore(user, problem);
         }
     }
 
@@ -183,14 +179,14 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     private void plusScore(User user, Problem problem) {
-        if(isNotExistSubmissionBefore(user, problem)) {
+        if(isNotExistAcceptedSubmissionBefore(user, problem)) {
             double score = user.getCumulativeScore() + problem.getPoint();
             user.setCumulativeScore(score);
             userRepos.save(user);
         }
     }
 
-    private boolean isNotExistSubmissionBefore(User user, Problem problem) {
+    private boolean isNotExistAcceptedSubmissionBefore(User user, Problem problem) {
         return submissionRepos.findByUserAndProblem(user, problem).isEmpty();
     }
 }
