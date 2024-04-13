@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 import { doLogin } from '~/auth';
 import { useNavigate } from 'react-router-dom';
@@ -84,8 +83,7 @@ const SignIn = () => {
             data: data.user,
             login: true,
           });
-
-          navigate('/sign-up');
+          navigate('/');
         });
 
         toast.success('Login successful!');
