@@ -11,5 +11,5 @@ public interface SubmissionService {
     String getInputCode(Problem problem, Submission.ELanguage language);
     ResultDTO compile(String code, Submission.ELanguage eLanguage);
     ResultDTO runCode(Long userId, String code, Problem problem, Submission.ELanguage eLanguage);
-    List<SubmissionDTO> getByUserIdAndProblemId(Long userId, String problemName);
+    List<SubmissionDTO> getByUserIdAndProblemId(Long userId, Long problemId);
 }

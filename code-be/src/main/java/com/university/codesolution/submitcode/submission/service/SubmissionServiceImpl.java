@@ -160,9 +160,9 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public List<SubmissionDTO> getByUserIdAndProblemId(Long userId, String problemName) {
+    public List<SubmissionDTO> getByUserIdAndProblemId(Long userId, Long problemId) {
         User user = userMapper.toEntity(userService.getUserById(userId));
-        Problem problem = problemService.getEntityByProblemName(problemName);
+        Problem problem = problemService.getEntityByProblemId(problemId);
         List<Submission> submissions = submissionRepos.findByUserAndProblem(user,problem);
         submissions.sort((submissionA, submissionB) -> submissionB.getCreatedAt().compareTo(submissionA.getCreatedAt()));
         return submissionMapper.toDTOs(submissions);

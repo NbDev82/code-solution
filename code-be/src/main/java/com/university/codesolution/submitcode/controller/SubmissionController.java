@@ -25,8 +25,8 @@ public class SubmissionController {
     }
 
     @GetMapping("/gets")
-    public ResponseEntity<List<SubmissionDTO>> getSubmissions(Long userId, String problemName) {
-        List<SubmissionDTO> submissionDTOs = submissionService.getByUserIdAndProblemId(userId,problemName);
+    public ResponseEntity<List<SubmissionDTO>> getSubmissions(Long userId, Long problemId) {
+        List<SubmissionDTO> submissionDTOs = submissionService.getByUserIdAndProblemId(userId,problemId);
         log.info("Retrieved submissions from SubmissionController");
         return ResponseEntity.ok(submissionDTOs);
     }

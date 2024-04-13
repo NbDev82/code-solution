@@ -26,16 +26,16 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public ProblemDTO getByProblemName(String problemName) {
-        Problem problem = getEntityByProblemName(problemName);
+    public ProblemDTO findById(Long problemId) {
+        Problem problem = getEntityByProblemId(problemId);
         log.info("get problemDTO from ProblemServiceImpl");
         return mapper.toDTO(problem);
     }
 
     @Override
-    public Problem getEntityByProblemName(String problemName) {
+    public Problem getEntityByProblemId(Long problemId) {
         log.info("get problem from ProblemServiceImpl");
-        return problemRepository.findByName(problemName)
+        return problemRepository.findById(problemId)
                 .orElseThrow(() -> new ProblemNotFoundException("Requested problem not found"));
     }
 }
