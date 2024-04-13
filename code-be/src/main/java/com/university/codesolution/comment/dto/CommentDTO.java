@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -15,8 +18,8 @@ import lombok.NoArgsConstructor;
 public class CommentDTO {
     private Long id;
     private String text;
-    private boolean isDeleted;
-    private User user;
-    private Discuss discuss;
-    private Comment commentParent;
+    private String updatedAt;
+    private String userName;
+
+    private List<CommentDTO> replyComments;
 }
