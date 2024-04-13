@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useState } from 'react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -6,15 +6,18 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Avatar } from '@chakra-ui/react';
-import {ProblemContext} from '~/pages/SubmitCode/SubmitCodeScreen'
+import { getCurrentUserDetail } from '~/auth';
+import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
+import { useDisclosure } from '@chakra-ui/react';
 
 import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
-
+import { ProblemContext } from '~/context/Problem';
 function MainNavbar(props) {
-  const {user} = useContext(ProblemContext);
-  const iconStyle = {fontSize: 20}
+  const [user, setUser] = useState(getCurrentUserDetail());
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const iconStyle = { fontSize: 20 };
   return (
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
@@ -53,8 +56,9 @@ function MainNavbar(props) {
         <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name={user.fullName} src={user.avatarSrc} />
+        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc} />
       </div>
+      <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>
   );
 }

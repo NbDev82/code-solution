@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import "./NavbarProblem.scss"
-import {ProblemContext} from "~/pages/SubmitCode/SubmitCodeScreen";
+import {ProblemContext} from "~/context/Problem";
 import { HStack } from '@chakra-ui/react';
 
 function NavbarProblem() {

@@ -14,15 +14,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
-import './Profile.scss';
+import styles from './Profile.module.scss';
 import { Image } from '@chakra-ui/react';
 import Moutains from '~/assets/images/Moutains.svg';
 import InfoCard from '~/components/Cards/InfoCard';
 import ProblemCard from '~/components/Cards/ProblemCard';
 import AchievementsCard from '~/components/Cards/AchievementsCard';
 import Footer from '~/components/Footer';
-import { USER_SAMPLE, PROBLEMS_SAMPLE } from '~/utils/Const';
-
+import { PROBLEMS_SAMPLE } from '~/utils/Const';
+import { getCurrentUserDetail } from '~/auth';
 function Profile(props) {
   const CustomTab = React.forwardRef((props, ref) => {
     const tabProps = useTab({ ...props, ref });
@@ -34,7 +34,7 @@ function Profile(props) {
         leftIcon={isSelected ? <StarIcon fontSize={10} color={'var(--primary-color)'}></StarIcon> : ''}
         __css={styles.tab}
         {...tabProps}
-        className="tab__item"
+        className={styles.tab__item}
         fontWeight="700"
         fontSize="16px"
         color="var(--secondary-color)"
@@ -45,7 +45,7 @@ function Profile(props) {
     );
   });
 
-  const [user, setUser] = useState(USER_SAMPLE);
+  const [user, setUser] = useState(getCurrentUserDetail());
   const [problems, setProblems] = useState(PROBLEMS_SAMPLE);
 
   const [achievements, setAchievements] = useState({
@@ -57,18 +57,18 @@ function Profile(props) {
   return (
     <div className="profile">
       <MainNavbar></MainNavbar>
-      <Tabs className="tabs" orientation="vertical" isFitted variant="enclosed">
-        <TabList className="tabs__list">
+      <Tabs className={styles.tabs} orientation="vertical" isFitted variant="enclosed">
+        <TabList className={styles.tabs__list}>
           <CustomTab>Profile</CustomTab>
           <CustomTab>Problems</CustomTab>
           <CustomTab>Edit</CustomTab>
         </TabList>
         <TabPanels padding={0}>
-          <TabPanel className="tabs__panel">
+          <TabPanel className={styles.tabs__panel}>
             <VStack h="100%" gap="100px">
-              <Box className="box__avatar">
+              <Box className={styles.box__avatar}>
                 <Image width={'100%'} objectFit="cover" src={Moutains} alt="Moutains" />
-                <Avatar size="2xl" name={user.fullName} className="avatar" src={user.avatarSrc} />
+                <Avatar size="2xl" name={user.fullName} className={styles.avatar} src={user.avatarSrc} />
               </Box>
               <HStack gap="20px" w="100%" h="auto" alignItems="start" justifyContent="center">
                 <VStack w="45%" gap="20px" alignItems="center" justifyContent="center" marginBottom="100px">
@@ -83,8 +83,8 @@ function Profile(props) {
               </HStack>
             </VStack>
           </TabPanel>
-          <TabPanel className="tabs__panel">2</TabPanel>
-          <TabPanel className="tabs__panel">3</TabPanel>
+          <TabPanel className={styles.tabs__panel}>2</TabPanel>
+          <TabPanel className={styles.tabs__panel}>3</TabPanel>
         </TabPanels>
       </Tabs>
       <Footer></Footer>

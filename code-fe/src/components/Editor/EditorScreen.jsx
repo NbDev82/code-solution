@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { ProblemContext } from '~/pages/SubmitCode/SubmitCodeScreen';
+import { ProblemContext } from '~/context/Problem';
 import './EditorScreen.scss';
 import queryString from 'query-string';
 import { getInputCode, runCode } from '~/services/SubmitCodeService';
 
 const EditorScreen = () => {
-  const { setResult } = useContext(ProblemContext);
-  const { problemId } = useContext(ProblemContext);
+  const { setResult,problemId } = useContext(ProblemContext);
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('java');
   const fetchCode = async () => {

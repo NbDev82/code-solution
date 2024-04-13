@@ -229,3 +229,20 @@ export const USER_SAMPLE = {
   avatarSrc: '',
 };
 
+export const DATA_LOGIN_SAMPLE = {
+  token:
+    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjIsImVtYWlsIjoibmd1eWVuZHFkdXlAZ21haWwuY29tIiwic3ViIjoiMDk2MTE2Mjk3OSIsImV4cCI6MTcxNTYxNTMzM30.xw2DthsajQoFeMpkTvXXPcSIxHgT5LVAB0oMxtWDgF8',
+  user: {
+    id: 2,
+    fullName: 'Duy',
+    phoneNumber: '0961162979',
+    dateOfBirth: '1990-01-01T00:00:00',
+    email: 'nguyendqduy@gmail.com',
+    password: '$2a$10$QUyg4P9ogx6aX40V4YbzYu7/8kT/q7epP6/ITBe1fY3Rcxuh/.pLq',
+    cumulativeScore: 0.0,
+    addedAt: '1990-01-01T00:00:00',
+    updatedAt: '1990-01-01T12:34:56',
+    role: 'USER',
+    avatarSrc: '',
+  },
+};

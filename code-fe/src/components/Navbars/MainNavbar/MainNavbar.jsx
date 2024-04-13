@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar } from '@chakra-ui/react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useNavigate } from 'react-router-dom';
@@ -8,12 +8,13 @@ import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
 import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
 import { useDisclosure } from '@chakra-ui/react';
-import { USER_SAMPLE } from '~/utils/Const';
+import { getCurrentUserDetail } from '~/auth';
 
 function MainNavbar(props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const user = USER_SAMPLE
+  const [user, setUser] = useState(getCurrentUserDetail());
+
   const handleRoutePages = (id) => {
     switch (id) {
       case 'problems':
@@ -49,7 +50,7 @@ function MainNavbar(props) {
         <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc}  />
+        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

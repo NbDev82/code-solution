@@ -19,7 +19,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import {ProblemContext} from '~/pages/SubmitCode/SubmitCodeScreen'
 
 const CommentCard = (props) => {
-  const user = useContext(ProblemContext);
+  const user = props.user;
   const comment = props.comment;
   return (
     <Card w={props.w} borderRadius="var(--radius-size-small)" boxShadow={'var(--box-shadow)'}>
@@ -68,6 +68,14 @@ CommentCard.propTypes = {
 
 CommentCard.defaultProps = {
   w: '100%',
+  user: {
+    id: '',
+    fullName: 'User',
+    phoneNumber: '',
+    dateOfBirth: '',
+    email: '',
+    avatarSrc: '',
+  },
   comment: {
     id: '',
     content: '',
