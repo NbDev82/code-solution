@@ -11,7 +11,8 @@ public interface UserService {
     UserDTO createUser(UserDTO userDTO);
     String login(String phoneNumber, String password, ERole eRole) throws Exception;
     User getUserDetailsFromToken(String token )throws Exception;
-    User getUserById(Long userId);
+    UserDTO getUserById(Long userId);
+    User getEntityUserById(Long userId);
     User updateUser(UserDTO userDTO, Long userId);
     List<UserDTO> getAllUsers();
     void deleteUser(int userId);

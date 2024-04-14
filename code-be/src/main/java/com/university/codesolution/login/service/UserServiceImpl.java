@@ -50,7 +50,14 @@ public class UserServiceImpl implements UserService  {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public UserDTO getUserById(Long userId) {
+        User user = userRepos.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Could not find any user with id=" + userId));
+        return uMapper.toDTO(user);
+    }
+
+    @Override
+    public User getEntityUserById(Long userId) {
         User user = userRepos.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Could not find any user with id=" + userId));
         return user;
