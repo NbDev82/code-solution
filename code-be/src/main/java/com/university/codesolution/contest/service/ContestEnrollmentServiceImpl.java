@@ -2,14 +2,12 @@ package com.university.codesolution.contest.service;
 
 import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.dto.ContestEnrollmentDTO;
-import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.contest.exeption.ContestEnrollmentNotFoundException;
 import com.university.codesolution.contest.mapper.ContestEnrollmentMapper;
-import com.university.codesolution.contest.mapper.ContestMapper;
 import com.university.codesolution.contest.repos.ContestEnrollmentRepos;
 import com.university.codesolution.contest.request.AddEnrollmentRequest;
-import com.university.codesolution.contest.request.GetEnrollmentRequest;
+import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.service.UserService;
@@ -63,7 +61,7 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
     }
 
     @Override
-    public List<ContestEnrollmentDTO> getEnrollments(GetEnrollmentRequest getRequest) {
+    public List<ContestEnrollmentDTO> getEnrollments(GetEnrollmentsRequest getRequest) {
         Pageable pageable = PageRequest.of(getRequest.page(), getRequest.size());
         List<ContestEnrollment> contestEnrollments = contestEnrollmentRepos
                 .getByContestId(getRequest.contestId(), pageable);
@@ -76,6 +74,14 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
         ContestEnrollment contestEnrollment = contestEnrollmentRepos.findById(contestEnrollmentId)
                 .orElseThrow(() -> new ContestEnrollmentNotFoundException(msg));
         return ceMapper.toDTO(contestEnrollment);
+    }
+
+    @Override
+    public ContestEnrollmentDTO getEnrollment(Long contestId, Long userId) {
+        String msg = String.format("Could not find any contest with contestId=%s and userId=%s", contestId, userId);
+        ContestEnrollment enrollment = contestEnrollmentRepos.findByContestIdAndUserId(contestId, userId)
+                .orElseThrow(() -> new ContestEnrollmentNotFoundException(msg));
+        return ceMapper.toDTO(enrollment);
     }
 
     private ContestEnrollmentDTO save(ContestEnrollmentDTO contestEnrollmentDTO) {

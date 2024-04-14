@@ -4,7 +4,7 @@ import com.university.codesolution.contest.Constants;
 import com.university.codesolution.contest.dto.ContestEnrollmentDTO;
 import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.contest.request.AddEnrollmentRequest;
-import com.university.codesolution.contest.request.GetEnrollmentRequest;
+import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.contest.service.ContestEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -82,7 +82,7 @@ public class ContestEnrollmentController {
             @PathVariable("contestEnrollmentId")
             Long contestEnrollmentId) {
 
-        contestEnrollmentService.updateStatus(contestEnrollmentId, ContestEnrollment.EStatus.DENIED);
+        contestEnrollmentService.updateStatus(contestEnrollmentId, ContestEnrollment.EStatus.EXPIRED);
         log.info(Constants.CONTEST_DELETED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_DELETED_SUCCESSFULLY);
     }
@@ -99,9 +99,32 @@ public class ContestEnrollmentController {
     )
     @GetMapping("/get-enrollments")
     public ResponseEntity<List<ContestEnrollmentDTO>> getEnrollments(
-            @Valid GetEnrollmentRequest getRequest) {
+            @Valid GetEnrollmentsRequest getRequest) {
         List<ContestEnrollmentDTO> contestDTOs = contestEnrollmentService.getEnrollments(getRequest);
         log.info(Constants.CONTEST_ENROLLMENTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
+    }
+
+    @Operation(
+            summary = "Get enrollment",
+            description = "Retrieve an enrollment by providing the contest ID and user ID",
+            responses = @ApiResponse(
+                    description = "An enrollment retrieved successfully",
+                    responseCode = "200"
+            )
+    )
+    @GetMapping("/get-enrollment")
+    public ResponseEntity<ContestEnrollmentDTO> getEnrollment(
+            @Schema(description = "ID of the contest", example = "1")
+            @RequestParam("contestId")
+            Long contestId,
+
+            @Schema(description = "ID of the user", example = "1")
+            @RequestParam("userId")
+            Long userId) {
+
+        ContestEnrollmentDTO contestEnrollmentDTO = contestEnrollmentService.getEnrollment(contestId, userId);
+        log.info(Constants.CONTEST_ENROLLMENT_RETRIEVED_SUCCESSFULLY);
+        return ResponseEntity.ok(contestEnrollmentDTO);
     }
 }

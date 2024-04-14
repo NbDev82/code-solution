@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.RequestParam;
 
-public record GetEnrollmentRequest(
+public record GetEnrollmentsRequest(
         @RequestParam("contestId")
         @Schema(description = "ID of the contest to retrieve enrollments for", example = "456")
         Long contestId,

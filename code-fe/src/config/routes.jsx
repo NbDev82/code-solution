@@ -7,7 +7,8 @@ const routes = {
   profile: '/profile',
   contest_invitation: '/contest-invitation',
   contests_management: '/contests-management',
-  add_contest: '/add-contest'
+  add_contest: '/add-contest',
+  contest_result: '/contest-result',
 };
 
 export default routes;

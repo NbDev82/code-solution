@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,9 +140,46 @@ public class ContestController {
             }
     )
     @GetMapping("/get-global-contests")
-    public ResponseEntity<List<ContestDTO>> getGlobalContests(@Valid GetContestsRequest getRequest) {
-        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+    public ResponseEntity<<ContestDTO> getGlobalContests(@Valid GetContestsRequest getRequest) {
+        List<ContestDTO> contestDTOs = contestService.getGlobalContests(getRequest);
         log.info(Constants.GLOBAL_CONTESTS_RETRIEVED_SUCCESSFULLY);
+        return ResponseEntity.ok(contestDTOs);
+    }
+
+    @Operation(
+            summary = "Get a contest",
+            description = "Retrieve a contest by providing contestID.",
+            responses = {
+                    @ApiResponse(
+                            description = "Contests retrieved successfully.",
+                            responseCode = "200"
+                    )
+            }
+    )
+    @GetMapping("/get-contest/{contestId}")
+    public ResponseEntity<ContestDTO> getContest(
+            @Schema(description = "ID of the contest", example = "1")
+            @PathVariable("contestId")
+            Long contestId) {
+        ContestDTO contestDTO = contestService.getById(contestId);
+        log.info(Constants.CONTEST_RETRIEVED_SUCCESSFULLY);
+        return ResponseEntity.ok(contestDTO);
+    }
+
+    @Operation(
+            summary = "Get Contests",
+            description = "Retrieve contests for a specific user by providing the user ID.",
+            responses = {
+                    @ApiResponse(
+                            description = "Contests retrieved successfully.",
+                            responseCode = "200"
+                    )
+            }
+    )
+    @GetMapping("/get-my-contests")
+    public ResponseEntity<List<ContestDTO>> getContestsByTitle(@Valid GetContestsRequest getRequest) {
+        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+        log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }
 }

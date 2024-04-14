@@ -51,11 +51,11 @@ export function formatDateTime(dateTime) {
 
 export function getStatusColor(status) {
   const option = CONTEST_STATUS_OPTIONS.find((opt) => opt.value === status);
-  return option ? option.color : "gray.400";
+  return option ? option.color : 'gray.400';
 }
 
 export async function ensureMinLoadingDuration(startTime, minLoadingDuration) {
   const elapsedTime = Date.now() - startTime;
   const remainingTime = Math.max(0, minLoadingDuration - elapsedTime);
-  await new Promise(resolve => setTimeout(resolve, remainingTime));
+  await new Promise((resolve) => setTimeout(resolve, remainingTime));
 }

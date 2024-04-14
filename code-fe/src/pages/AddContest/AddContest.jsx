@@ -3,27 +3,41 @@ import AddContestForm from '~/components/AddContestForm/AddContestForm';
 import Footer from '~/components/Footer';
 import AddProblemsForContestForm from '~/components/AddProblemsForContestForm/AddProblemsForContestForm';
 import InviteUsersForm from '~/components/InviteUsersForm/InviteUsersForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
+import ContestService from '~/services/ContestService';
 
 function AddContest() {
+  const [curUserId, setCurUserId] = useState(1);
   const [curContest, setCurContest] = useState({
     id: 1,
-    ownerId: 2,
+    ownerId: curUserId,
     imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
     title: 'Weekly contest 1',
     desc: 'It is good for practicing',
-    startTime: new Date('2024-03-01T07:30:00'),
-    endTime: new Date('2024-03-01T10:30:00'),
-    duration: 3661000,
+    startTime: new Date(),
+    endTime: new Date(),
+    duration: 3660000,
     type: 'PUBLIC',
     status: 'PREPARING',
     isDeleted: false,
   });
 
-  const handleStartNow = () => {};
+  useEffect(() => {
+    console.log('curContest: ' + JSON.stringify(curContest));
+  }, [curContest]);
 
-  const handleAddOfflineContest = () => {};
+  const handleStartNow = () => {
+    ContestService.addContest(curContest);
+  };
+
+  const handleAddOfflineContest = () => {
+    ContestService.addContest(curContest);
+  };
+
+  const updateContest = (updatedContest) => {
+    setCurContest(updatedContest);
+  };
 
   return (
     <Box bg="var(--primary-bg-color)">
@@ -32,7 +46,7 @@ function AddContest() {
       <VStack gap={10} my={20}>
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="30px" w="fit-content" h="fit-content">
           <CardBody>
-            <AddContestForm contest={curContest} />
+            <AddContestForm contest={curContest} onUpdateContest={updateContest} />
           </CardBody>
         </Card>
 

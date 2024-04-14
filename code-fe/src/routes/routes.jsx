@@ -10,6 +10,7 @@ import NotFound from '~/components/Errors/NotFound';
 import Profile from '~/pages/Profile';
 import ContestsManagement from '~/pages/ContestsManagement/ContestsManagement';
 import AddContest from '~/pages/AddContest/AddContest';
+import ContestResult from '~/pages/ContestResult/ContestResult';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
@@ -23,6 +24,7 @@ const publicRoutes = [
   { path: "*", component: NotFound },
   { path: config.routes.contests_management, component: ContestsManagement },
   { path: config.routes.add_contest, component: AddContest },
+  { path: config.routes.contest_result, component: ContestResult },
 ];
 
 const privateRoutes = [];

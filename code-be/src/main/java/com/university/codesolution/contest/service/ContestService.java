@@ -13,5 +13,6 @@ public interface ContestService {
     ContestDTO update(UpdateContestRequest updateRequest);
     ContestDTO updateStatus(Long contestId, Contest.EStatus status);
     List<ContestDTO> getContests(GetContestsRequest getRequest);
+    List<ContestDTO> getGlobalContests(GetContestsRequest getRequest);
     ContestDTO getById(Long contestId);
 }

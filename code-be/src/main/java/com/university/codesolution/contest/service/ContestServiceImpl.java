@@ -77,6 +77,11 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public List<ContestDTO> getGlobalContests(GetContestsRequest getRequest) {
+        return null;
+    }
+
+    @Override
     public ContestDTO getById(Long contestId) {
         Contest contest = contestRepos.findById(contestId)
                 .orElseThrow(() -> new ContestNotFoundException("Could not find any contest with id=" + contestId));
