@@ -11,7 +11,7 @@ public record UpdateEnrollmentRequest(
                 example = "123",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        Long contestEnrollmentId,
+        Long enrollmentId,
 
         @Schema(
                 description = "New score for the enrollment",
@@ -31,7 +31,7 @@ public record UpdateEnrollmentRequest(
 
         @Schema(
                 description = "New status for the enrollment",
-                example = "APPROVED",
+                example = "ACCEPTED",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         ContestEnrollment.EStatus status

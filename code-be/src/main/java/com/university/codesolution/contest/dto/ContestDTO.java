@@ -18,10 +18,7 @@ public class ContestDTO {
     private Long id;
     private String title;
     private String desc;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
     private long durationInMillis;
-    private Contest.EStatus status;
     private Long ownerId;
 
     @JsonIgnore

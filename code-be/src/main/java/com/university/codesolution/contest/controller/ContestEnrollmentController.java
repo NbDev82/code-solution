@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +63,31 @@ public class ContestEnrollmentController {
     @PutMapping("/update-enrollment")
     public ResponseEntity<String> updateEnrollment(@RequestBody @Valid UpdateEnrollmentRequest updateRequest) {
         contestEnrollmentService.update(updateRequest);
+        log.info(Constants.CONTEST_ENROLLMENT_UPDATED_SUCCESSFULLY);
+        return ResponseEntity.ok(Constants.CONTEST_ENROLLMENT_UPDATED_SUCCESSFULLY);
+    }
+
+    @Operation(
+            summary = "Update Enrollment Status",
+            description = "Update the status of an existing enrollment by providing the enrollment ID and a new status.",
+            responses = {
+                    @ApiResponse(
+                            description = "Contest enrollment status updated successfully.",
+                            responseCode = "200"
+                    )
+            }
+    )
+    @PutMapping("/update-enrollment-status")
+    public ResponseEntity<String> updateEnrollmentStatus(
+            @Schema(description = "ID of the enrollment to delete", example = "123")
+            @RequestParam("enrollmentId")
+            Long enrollmentId,
+
+            @Schema(description = "New status for the enrollment", example = "ACCEPTED")
+            @RequestParam("status")
+            ContestEnrollment.EStatus status) {
+
+        contestEnrollmentService.updateStatus(enrollmentId, status);
         log.info(Constants.CONTEST_ENROLLMENT_UPDATED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_ENROLLMENT_UPDATED_SUCCESSFULLY);
     }

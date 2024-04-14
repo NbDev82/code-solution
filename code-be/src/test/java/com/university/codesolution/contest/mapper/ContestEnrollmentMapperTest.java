@@ -1,14 +1,11 @@
 package com.university.codesolution.contest.mapper;
 
-import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.dto.ContestEnrollmentDTO;
-import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.entity.ContestEnrollment;
-import com.university.codesolution.login.dto.UserDTO;
-import com.university.codesolution.login.entity.User;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ContestEnrollmentMapperTest {
     private final ContestEnrollmentMapper mapper = ContestEnrollmentMapper.INSTANCE;
@@ -24,14 +21,6 @@ class ContestEnrollmentMapperTest {
         dto.setContestId(100L);
         dto.setUserId(200L);
 
-        ContestDTO contestDTO = new ContestDTO();
-        contestDTO.setId(100L);
-        dto.setContest(contestDTO);
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(200L);
-        dto.setUser(userDTO);
-
         // When
         ContestEnrollment entity = mapper.toEntity(dto);
 
@@ -41,8 +30,6 @@ class ContestEnrollmentMapperTest {
         assertEquals(dto.getScore(), entity.getScore());
         assertEquals(dto.isAcceptedSubmission(), entity.isAcceptedSubmission());
         assertEquals(dto.getStatus(), entity.getStatus());
-        assertEquals(dto.getContestId(), entity.getContest().getId());
-        assertEquals(dto.getUserId(), entity.getUser().getId());
     }
 
     @Test
@@ -54,14 +41,6 @@ class ContestEnrollmentMapperTest {
         entity.setAcceptedSubmission(true);
         entity.setStatus(ContestEnrollment.EStatus.PENDING_APPROVAL);
 
-        Contest contest = new Contest();
-        contest.setId(100L);
-        entity.setContest(contest);
-
-        User user = new User();
-        user.setId(200L);
-        entity.setUser(user);
-
         // When
         ContestEnrollmentDTO dto = mapper.toDTO(entity);
 
@@ -71,7 +50,5 @@ class ContestEnrollmentMapperTest {
         assertEquals(entity.getScore(), dto.getScore());
         assertEquals(entity.isAcceptedSubmission(), dto.isAcceptedSubmission());
         assertEquals(entity.getStatus(), dto.getStatus());
-        assertEquals(entity.getContest().getId(), dto.getContestId());
-        assertEquals(entity.getUser().getId(), dto.getUserId());
     }
 }

@@ -43,7 +43,7 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
 
     @Override
     public ContestEnrollmentDTO update(UpdateEnrollmentRequest updateRequest) {
-        ContestEnrollmentDTO contestEnrollmentDTO = getById( updateRequest.contestEnrollmentId() );
+        ContestEnrollmentDTO contestEnrollmentDTO = getById( updateRequest.enrollmentId() );
 
         contestEnrollmentDTO.setScore( updateRequest.score() );
         contestEnrollmentDTO.setAcceptedSubmission( updateRequest.acceptedSubmission() );

@@ -25,21 +25,8 @@ public class Contest implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String desc;
 
-    @Column(name = "start_time")
-    private LocalDateTime startTime;
-
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
-
+    @Column(name = "duration_in_milliseconds")
     private long durationInMillis;
-
-    @Enumerated(EnumType.STRING)
-    private EStatus status;
-
-    private Long duration;
-
-    @Enumerated(EnumType.STRING)
-    private EType type;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -57,12 +44,4 @@ public class Contest implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<ContestEnrollment> contestEnrollments;
-
-    public enum EStatus {
-        PREPARING, IN_PROCESS, PAUSED, COMPLETED, DELETED
-    }
-
-    public enum EType {
-        PRIVATE, PUBLIC
-    }
 }

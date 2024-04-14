@@ -2,9 +2,9 @@ package com.university.codesolution.contest.controller;
 
 import com.university.codesolution.contest.Constants;
 import com.university.codesolution.contest.dto.ContestDTO;
-import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.request.AddContestRequest;
 import com.university.codesolution.contest.request.GetContestsRequest;
+import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.contest.service.ContestService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,31 +67,6 @@ public class ContestController {
     }
 
     @Operation(
-            summary = "Update Contest Status",
-            description = "Update the status of an existing contest by providing contest ID and new status.",
-            responses = {
-                    @ApiResponse(
-                            description = "Contest status updated successfully.",
-                            responseCode = "200"
-                    )
-            }
-    )
-    @PutMapping("/update-contest-status")
-    public ResponseEntity<String> updateContestStatus(
-            @RequestParam("contestId")
-            @Schema(description = "ID of the contest", example = "123")
-            Long contestId,
-
-            @RequestParam("contestStatus")
-            @Schema(description = "New status of the contest", example = "IN_PROCESS")
-            Contest.EStatus contestStatus) {
-
-        contestService.updateStatus(contestId, contestStatus);
-        log.info(Constants.CONTEST_UPDATED_SUCCESSFULLY);
-        return ResponseEntity.ok(Constants.CONTEST_UPDATED_SUCCESSFULLY);
-    }
-
-    @Operation(
             summary = "Delete Contest",
             description = "Delete an existing contest by providing the contest ID.",
             responses = {
@@ -107,7 +81,7 @@ public class ContestController {
             @PathVariable("contestId")
             @Schema(description = "ID of the contest to be deleted", example = "123")
             Long contestId) {
-        contestService.updateStatus(contestId, Contest.EStatus.DELETED);
+        contestService.markContestAsDeleted(contestId);
         log.info(Constants.CONTEST_DELETED_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.CONTEST_DELETED_SUCCESSFULLY);
     }
@@ -140,7 +114,7 @@ public class ContestController {
             }
     )
     @GetMapping("/get-global-contests")
-    public ResponseEntity<<ContestDTO> getGlobalContests(@Valid GetContestsRequest getRequest) {
+    public ResponseEntity<List<ContestDTO>> getGlobalContests(@Valid GetContestsRequest getRequest) {
         List<ContestDTO> contestDTOs = contestService.getGlobalContests(getRequest);
         log.info(Constants.GLOBAL_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
@@ -167,8 +141,8 @@ public class ContestController {
     }
 
     @Operation(
-            summary = "Get Contests",
-            description = "Retrieve contests for a specific user by providing the user ID.",
+            summary = "Get My Contests By Title",
+            description = "Retrieve contests for a specific user by providing the user ID and the title.",
             responses = {
                     @ApiResponse(
                             description = "Contests retrieved successfully.",
@@ -176,9 +150,9 @@ public class ContestController {
                     )
             }
     )
-    @GetMapping("/get-my-contests")
-    public ResponseEntity<List<ContestDTO>> getContestsByTitle(@Valid GetContestsRequest getRequest) {
-        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+    @GetMapping("/get-my-contests-by-title")
+    public ResponseEntity<List<ContestDTO>> getMyContestsByTitle(@Valid GetContestsRequestByTitle getRequest) {
+        List<ContestDTO> contestDTOs = contestService.getMyContestsByTitle(getRequest);
         log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }
