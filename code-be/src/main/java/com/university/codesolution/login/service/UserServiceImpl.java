@@ -50,10 +50,10 @@ public class UserServiceImpl implements UserService  {
     }
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public User getUserById(Long userId) {
         User user = userRepos.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Could not find any user with id=" + userId));
-        return uMapper.toDTO(user);
+        return user;
     }
 
     @Transactional
