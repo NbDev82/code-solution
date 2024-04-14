@@ -16,7 +16,6 @@ public class ContestEnrollmentDTO {
     private Long id;
     private double score;
     private boolean acceptedSubmission;
-    private ContestEnrollment.EType type;
     private ContestEnrollment.EStatus status;
     private Long contestId;
     private Long userId;

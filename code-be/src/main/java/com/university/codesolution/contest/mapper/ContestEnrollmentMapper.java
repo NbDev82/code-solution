@@ -13,16 +13,16 @@ public interface ContestEnrollmentMapper {
 
     ContestEnrollmentMapper INSTANCE = Mappers.getMapper(ContestEnrollmentMapper.class);
 
-    @Mapping(target = "contest", source = "contest")
-    @Mapping(target = "user", source = "user")
     @Mapping(target = "contestId", source = "contest.id")
     @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "contest", ignore = true)
+    @Mapping(target = "user", ignore = true)
     ContestEnrollmentDTO toDTO(ContestEnrollment entity);
 
     List<ContestEnrollmentDTO> toDTOs(List<ContestEnrollment> entity);
 
-    @Mapping(target = "contest", source = "contest")
-    @Mapping(target = "user", source = "user")
+    @Mapping(target = "contest", ignore = true)
+    @Mapping(target = "user", ignore = true)
     ContestEnrollment toEntity(ContestEnrollmentDTO dto);
 
     List<ContestEnrollment> toEntities(List<ContestEnrollmentDTO> dto);
