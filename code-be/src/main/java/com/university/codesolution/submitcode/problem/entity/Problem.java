@@ -76,6 +76,17 @@ public class Problem implements Serializable {
     }
 
     public enum ETopic {
-        STRING, ARRAY, SORTING, MATH, COUNTING, SEARCH;
+        STRING,
+        ARRAY,
+        SORTING,
+        MATH,
+        COUNTING,
+        SEARCH,
+        RECURSION,
+        REGEX,
+        STACK,
+        GEOMETRY,
+        DATA_STRUCTURE,
+        LOOPING;
     }
 }

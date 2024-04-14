@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.submission.service;
 
+import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.SubmissionDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
@@ -12,4 +13,5 @@ public interface SubmissionService {
     ResultDTO compile(String code, Submission.ELanguage eLanguage);
     ResultDTO runCode(Long userId, String code, Problem problem, Submission.ELanguage eLanguage);
     List<SubmissionDTO> getByUserIdAndProblemId(Long userId, Long problemId);
+    <T> List<T> getByUserId(long userId, Class<T> returnType);
 }

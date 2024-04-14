@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProblemServiceImpl implements ProblemService{
     private static final Logger log = LogManager.getLogger(ProblemServiceImpl.class);
@@ -30,6 +32,11 @@ public class ProblemServiceImpl implements ProblemService{
         Problem problem = getEntityByProblemId(problemId);
         log.info("get problemDTO from ProblemServiceImpl");
         return mapper.toDTO(problem);
+    }
+
+    @Override
+    public List<Problem> getAll() {
+        return problemRepository.findAll();
     }
 
     @Override
