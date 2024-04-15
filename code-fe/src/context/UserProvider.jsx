@@ -1,9 +1,9 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { getCurrentUserDetails, isLoggedIn } from '~/auth';
+import { getCurrentUserDetail, isLoggedIn } from '~/auth';
 import userContext from './userContext';
-export default function UserProvider({ children }) {
+function UserProvider({ children }) {
   const [user, setUser] = useState({
     data: {},
     login: false,
@@ -11,10 +11,12 @@ export default function UserProvider({ children }) {
 
   useEffect(() => {
     setUser({
-      data: getCurrentUserDetails,
-      login: isLoggedIn,
+      data: getCurrentUserDetail(),
+      login: isLoggedIn(),
     });
   }, []);
-
+  debugger;
   return <userContext.Provider value={{ user, setUser }}>{children}</userContext.Provider>;
 }
+
+export default UserProvider;

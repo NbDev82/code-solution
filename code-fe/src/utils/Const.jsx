@@ -1,7 +1,7 @@
 export let LIMIT_QUANTITY_TOPICS = 4;
 export let LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-export const ORIGINAL_API_URL = 'http://localhost:8000';
+export const ORIGINAL_API_URL = 'http://localhost:8000/';
 export const DEFAULT_LOTTIE_OPTIONS = {
   loop: true,
   autoplay: true,
@@ -225,5 +225,5 @@ export const USER_SAMPLE = {
   phoneNumber: '032442215',
   dateOfBirth: '28/12/2003',
   email: 'ndgdh@gmail.com',
-  avatarSrc:''
+  avatarSrc: '',
 };

@@ -1,18 +1,13 @@
-import axios from 'axios';
-import { ORIGINAL_API_URL } from '~/utils/Const';
-const CONV_API_URL = `${ORIGINAL_API_URL}/api/problems`;
+import httpRequest from '~/utils/httpRequest';
 const getProblems = async (paramsString) => {
-  const requestURL = `${CONV_API_URL}/get-problems?${paramsString}`;
-  return await axios.get(requestURL);
+  return await httpRequest.get(`/api/problems/get-problems?${paramsString}`);
 };
 
 const getAllTopics = async () => {
-  const requestURL = `${CONV_API_URL}/get-all-topics?all`;
-  return await axios.get(requestURL);
+  return await httpRequest.get(`/get-all-topics?all`);
 };
 
 const getStatisticsDatasets = async () => {
-  const requestURL = `${CONV_API_URL}/get-statistics-datasets?values`;
-  return await axios.get(requestURL);
+  return await httpRequest.get(`/get-statistics-datasets?values`);
 };
 export { getProblems, getAllTopics, getStatisticsDatasets };

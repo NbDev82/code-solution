@@ -22,7 +22,7 @@ const publicRoutes = [
   { path: config.routes.contests, component: Contests, exact: false },
   { path: config.routes.discuss, component: Discuss, exact: false },
   { path: config.routes.profile, component: Profile, exact: false },
-  { path: "*", component: NotFound },
+  { path: '*', component: NotFound },
   { path: config.routes.contests_management, component: ContestsManagement },
   { path: config.routes.add_contest, component: AddContest },
   { path: config.routes.contest_result, component: ContestResult },

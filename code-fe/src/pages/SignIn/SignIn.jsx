@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { doLogin } from '~/auth';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '~/components/Buttons/Button';
+import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -37,7 +38,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+const SignIn = () => {
   const navigate = useNavigate();
 
   const userContextData = useContext(userContext);
@@ -60,18 +61,19 @@ export default function SignIn() {
     setLoginDetail({
       phoneNumber: '',
       password: '',
-      role: '',
+      role: 'USER',
     });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     //validation
-    debugger;
     if (loginDetail.phoneNumber.trim() == '' || loginDetail.password.trim() == '') {
-      toast.error('Username or Password is required');
+      toast.error('Username or Password  is required !!');
       return;
     }
+
+    //submit the data to server to generate token
     loginUser(loginDetail)
       .then((data) => {
         //save the data to localStorage
@@ -81,14 +83,18 @@ export default function SignIn() {
             data: data.user,
             login: true,
           });
-          debugger;
-          navigate('/sign-up');
+          navigate('/');
         });
 
-        toast.success('Login Success');
+        toast.success('Login successful!');
       })
       .catch((error) => {
-        toast.error('Something went wrong  on sever !!');
+        console.log(error);
+        if (error.response.status == 400 || error.response.status == 404) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Something went wrong  on sever !!');
+        }
       });
   };
 
@@ -125,11 +131,11 @@ export default function SignIn() {
               required
               fullWidth
               id="phoneNumber"
-              label="Email Address"
+              label="Phone Number"
               value={loginDetail.phoneNumber}
               onChange={(e) => handleChange(e, 'phoneNumber')}
-              name="email"
-              autoComplete="email"
+              name="phoneNumber"
+              autoComplete="phoneNumber"
               autoFocus
             />
             <TextField
@@ -145,12 +151,16 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
-            </Button>
-            <Button onClick={handleReset} className="ms-2" outline color="secondary">
-              Reset
-            </Button>
+            <Container>
+              <Button type="submit" className="ms-1">
+                Sign In
+              </Button>
+
+              <Button onClick={handleReset} className="ms-2" outline color="secondary">
+                Reset
+              </Button>
+            </Container>
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -169,4 +179,5 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+export default SignIn;
