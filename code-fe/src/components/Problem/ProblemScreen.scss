@@ -4,55 +4,59 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-}
 
-.problem__name {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
+  &__name {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
 
-.problem__description {
-  line-height: 1.5;
-}
+  &__description {
+    line-height: 1.5;
+  }
 
-.problem__details {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
 
-.problem__point,
-.problem__difficulty-level {
-  font-size: 1.5rem;
-  color: #666;
-}
+  &__point {
+    font-size: 1.5rem;
+    color: #666;
+  }
 
-.problem__difficulty-level__easy {
-  color: green;
-}
+  &__difficulty-level {
+    font-size: 1.5rem;
+    color: #666;
 
-.problem__difficulty-level__normal {
-  color: #18278f;
-}
+    &__easy {
+      color: green;
+    }
 
-.problem__difficulty-level__hard {
-  color: red;
-}
+    &__normal {
+      color: #18278f;
+    }
 
-.problem__stats {
-  display: flex;
-  justify-content: space-between;
-}
+    &__hard {
+      color: red;
+    }
+  }
 
-.problem__accepted-count,
-.problem__discuss-count,
-.problem__submission-count {
-  font-size: 2rem;
-}
+  &__stats {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.problem__acceptance-rate {
-  font-weight: bold;
-  font-size: 2rem;
-  margin-top: 0.5rem;
+  &__accepted-count,
+  &__discuss-count,
+  &__submission-count {
+    font-size: 2rem;
+  }
+
+  &__acceptance-rate {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+  }
 }

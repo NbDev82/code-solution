@@ -36,9 +36,7 @@
   height: 70%;
 }
 
-.testcase__result__details,
-.last_testcase__details {
-  height: 80%;
+.testcase__result__details {
   color: #e1d6d6;
   display: flex;
   justify-content: center;
@@ -75,4 +73,28 @@
   background-color: #000;
   color: #fff;
   border: 1px solid #fff;
+}
+
+.last_testcase__details {
+  height: 100px;
+  overflow-y: auto;
+  max-height: 100%;
+
+  &.hidden {
+    display: none;
+  }
+
+  &__label {
+    margin: 0 10px 10px 10px;
+  }
+
+  &__input, &__output, &__expected {
+    height: auto;
+    width: 90%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #3f3636;
+    background-color: grey;
+    border-radius: 10px;
+  }
 }

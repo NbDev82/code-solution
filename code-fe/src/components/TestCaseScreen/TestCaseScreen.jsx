@@ -64,7 +64,18 @@ function TestCaseScreen() {
         </div>
           <div className={`last_testcase__details
               ${activeTab === 'result' ? 'hidden' : ''}`}>
-              <h3 className="centered">This is last testcase</h3>
+              {result.status === "ACCEPTED" && <h3 className="centered">Your problem has passed.</h3>}
+              {result === "" && <h3 className="centered">You must run your code first.</h3>}
+              {result !== "" && result.status === "WRONG_ANSWER" && (
+                  <div>
+                      <div className="last_testcase__details__label">Input:</div>
+                      <div className="last_testcase__details__input">{result.lastTestcase.input}</div>
+                      <div className="last_testcase__details__label">Output:</div>
+                      <div className="last_testcase__details__output">{result.lastTestcase.outputData}</div>
+                      <div className="last_testcase__details__label">Expected:</div>
+                      <div className="last_testcase__details__expected">{result.lastTestcase.expected}</div>
+                  </div>
+              )}
           </div>
       </div>
     </>
