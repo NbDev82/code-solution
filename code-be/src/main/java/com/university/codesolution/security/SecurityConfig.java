@@ -24,34 +24,49 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
-
+    @Value("/api")
+    private String apiPrefix;
     @Value("${frontend.url}")
     private String frontendUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/users/public-string",
-                                "/v2/api-docs",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui/**",
-                                "/webjars/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(except -> except.authenticationEntryPoint(authEntryPoint))
-                .httpBasic(Customizer.withDefaults());
+                .authorizeHttpRequests(requests -> {
+                    requests
+                            .requestMatchers(
+                                    String.format("%s/login/**", apiPrefix),
+                                    String.format("%s/register/**", apiPrefix),
+                                    String.format("%s/categories/**",apiPrefix),
+                                    String.format("%s/category/**",apiPrefix),
+                                    String.format("%s/posts/**",apiPrefix),
+                                    String.format("%s/post/**",apiPrefix),
+                                    String.format("%s/comments/**",apiPrefix),
+                                    String.format("%s/user/**",apiPrefix),
+
+
+
+
+
+                                    "/v2/api-docs",
+                                    "/v3/api-docs",
+                                    "/v3/api-docs/**",
+                                    "/swagger-resources",
+                                    "/swagger-resources/**",
+                                    "/configuration/ui",
+                                    "/configuration/security",
+                                    "/swagger-ui/**",
+                                    "/webjars/**",
+                                    "/swagger-ui.html"
+                            ).permitAll()
+                            .anyRequest().authenticated();
+                })
+                .csrf(AbstractHttpConfigurer::disable);
+
+
+
+
         return http.build();
     }
 

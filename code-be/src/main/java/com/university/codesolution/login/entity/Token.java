@@ -28,7 +28,7 @@ public class Token implements Serializable {
     @Column(name="expiration")
     private LocalDateTime expirationDate;
 
-    private int expired;
+    private boolean expired;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
