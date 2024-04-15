@@ -1,13 +1,13 @@
 import httpRequest from '~/utils/httpRequest';
-const getProblems = async (paramsString) => {
-  return await httpRequest.get(`/api/problems/get-problems?${paramsString}`);
+const getProblems = async (request) => {
+  return await httpRequest.post(`/api/problems`,request);
 };
 
 const getAllTopics = async () => {
-  return await httpRequest.get(`/get-all-topics?all`);
+  return await httpRequest.get(`/api/topics`);
 };
 
 const getStatisticsDatasets = async () => {
-  return await httpRequest.get(`/get-statistics-datasets?values`);
+  return await httpRequest.get(`/api/statistics`);
 };
 export { getProblems, getAllTopics, getStatisticsDatasets };

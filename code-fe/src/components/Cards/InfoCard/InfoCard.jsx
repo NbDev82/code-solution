@@ -18,7 +18,6 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import Lottie from 'react-lottie';
 import KingDefault from '~/assets/lotties/KingDefault';
 import { DEFAULT_LOTTIE_OPTIONS } from '~/utils/Const';
-
 const InfoCard = (props) => {
   const user = props.user;
   const styleText = {

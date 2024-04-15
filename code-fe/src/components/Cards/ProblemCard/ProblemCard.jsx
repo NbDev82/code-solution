@@ -38,7 +38,7 @@ const ProblemCard = (props) => {
         </Flex>
       </CardHeader>
       <CardBody >
-        <Text textAlign='center'>{problem.title}</Text>
+        <Text textAlign='center'>{problem.name}</Text>
       </CardBody>
 
       <CardFooter

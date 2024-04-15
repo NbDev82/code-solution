@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { Skeleton } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './Problems.scss';
+import styles from './Problems.module.scss';
 import Navbar from '~/components/Navbars/MainNavbar';
 import Footer from '~/components/Footer';
 import Topicbar from '~/components/Toolbars/Topicbar';
@@ -78,8 +78,7 @@ function Problems(props) {
   }, []);
 
   const handleSelectProblem = useCallback((problem) => {
-    console.log('handleSelectProblem: ', problem);
-    setFilters({ problemID: problem.id });
+    navigate(`${location.pathname}/${problem.name}`);
   }, []);
 
   const handlePageChange = useCallback(({ selected: page }) => {
@@ -90,10 +89,10 @@ function Problems(props) {
   return (
     <div className="problems">
       <Navbar></Navbar>
-      <section className="problems__container">
-        <div className="problems__container--col--60">
+      <section className={styles.problems__container}>
+        <div className={styles.problems__container_col_60}>
           <Topicbar topics={topics} onFilterTopics={handleFilterTopics} />
-          <div className="problems__container--layout">
+          <div className={styles.problems__container_layout}>
             <ProblemsToolbar
               onPickOnProblem={handlePickOnProblem}
               onSearchSubmit={handleSearchSubmit}
@@ -104,13 +103,10 @@ function Problems(props) {
               <TableProblems problems={problems} onSelectProblem={handleSelectProblem} />
             </Skeleton>
 
-            <Pagination
-              totalRows={22}
-              onPageChange={handlePageChange}
-            />
+            <Pagination totalRows={22} onPageChange={handlePageChange} />
           </div>
         </div>
-        <div className="problems__container--col--40">
+        <div className={styles.problems__container_col_40}>
           <CalendarBasic></CalendarBasic>
 
           <DoughnutChart

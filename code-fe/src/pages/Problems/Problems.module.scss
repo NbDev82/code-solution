@@ -15,31 +15,31 @@ $container-height: 'auto';
   &__container {
     height: $container-height;
     @include row();
-    &--layout {
+    &_layout {
       box-shadow: var(--box-shadow);
       padding: 5px;
       border-radius: var(--radius-size-small);
       @extend %colStyle;
       width: 100%;
     }
-    &--col {
-      &--60 {
+    &_col {
+      &_60 {
         @extend %colStyle;
         width: 60%;
       }
-      &--40 {
+      &_40 {
         @extend %colStyle;
         width: 40%;
       }
-      &--50 {
+      &_50 {
         @extend %colStyle;
         width: 50%;
       }
-      &--70 {
+      &_70 {
         @extend %colStyle;
         width: 70%;
       }
-      &--30 {
+      &_30 {
         @extend %colStyle;
         width: 30%;
       }

@@ -47,7 +47,7 @@ const TableProblems = memo((props) => {
                 <img src={getStatus(problem.status)} alt={problem.status}></img>
               </Td>
 
-              <Td>{problem.title}</Td>
+              <Td>{problem.name}</Td>
               <Td>{problem.acceptance}%</Td>
               <Td style={{ color: getColor(problem.difficulty) }}>{problem.difficulty}</Td>
             </Tr>

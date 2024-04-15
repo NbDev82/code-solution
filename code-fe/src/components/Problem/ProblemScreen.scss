@@ -1,0 +1,62 @@
+.problem {
+  overflow-y: auto;
+  max-height: 100%;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  &__name {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  &__description {
+    line-height: 1.5;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  &__point {
+    font-size: 1.5rem;
+    color: #666;
+  }
+
+  &__difficulty-level {
+    font-size: 1.5rem;
+    color: #666;
+
+    &__easy {
+      color: green;
+    }
+
+    &__normal {
+      color: #18278f;
+    }
+
+    &__hard {
+      color: red;
+    }
+  }
+
+  &__stats {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__accepted-count,
+  &__discuss-count,
+  &__submission-count {
+    font-size: 2rem;
+  }
+
+  &__acceptance-rate {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+  }
+}
