@@ -1,18 +1,14 @@
-import axios from 'axios';
-export const BASE_URL = 'http://localhost:8000/api/';
+import { httpRequest } from '~/utils/httpRequest';
 
-const customAxios = axios.create({
-  baseURL: BASE_URL,
-});
 export const signUp = (user) => {
-  return customAxios.post('/register', user).then((response) => response.data);
+  return httpRequest.post('/api/register', user).then((response) => response.data);
   debugger;
 };
 
 export const loginUser = (loginDetail) => {
-  return customAxios.post('/login', loginDetail).then((response) => response.data);
+  return httpRequest.post('/api/login', loginDetail).then((response) => response.data);
 };
 
 export const getUser = (userId) => {
-  return customAxios.get(`/users/${userId}`).then((resp) => resp.data);
+  return httpRequest.get(`/api/users/${userId}`).then((resp) => resp.data);
 };
