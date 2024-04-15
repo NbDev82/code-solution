@@ -10,20 +10,39 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProblemServiceImpl implements ProblemService{
     private static final Logger log = LogManager.getLogger(ProblemServiceImpl.class);
 
-    @Autowired
-    private ProblemRepository problemRepository;
+    private final ProblemRepository problemRepository;
+
+    private final ProblemMapper mapper;
 
     @Autowired
-    private ProblemMapper mapper;
+    public ProblemServiceImpl(ProblemRepository problemRepository,
+                              ProblemMapper mapper) {
+        this.problemRepository = problemRepository;
+        this.mapper = mapper;
+    }
 
     @Override
-    public ProblemDTO getByProblemName(String problemName) {
-        Problem problem = problemRepository.findByName(problemName)
-                .orElseThrow(() -> new ProblemNotFoundException("Requested problem not found"));
+    public ProblemDTO findById(Long problemId) {
+        Problem problem = getEntityByProblemId(problemId);
+        log.info("get problemDTO from ProblemServiceImpl");
         return mapper.toDTO(problem);
+    }
+
+    @Override
+    public List<Problem> getAll() {
+        return problemRepository.findAll();
+    }
+
+    @Override
+    public Problem getEntityByProblemId(Long problemId) {
+        log.info("get problem from ProblemServiceImpl");
+        return problemRepository.findById(problemId)
+                .orElseThrow(() -> new ProblemNotFoundException("Requested problem not found"));
     }
 }

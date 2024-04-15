@@ -1,7 +1,13 @@
 package com.university.codesolution.submitcode.problem.service;
 
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
+import com.university.codesolution.submitcode.problem.entity.Problem;
+
+import java.util.List;
 
 public interface ProblemService {
-    ProblemDTO getByProblemName(String problemName);
+    Problem getEntityByProblemId(Long problemId);
+
+    ProblemDTO findById(Long problemId);
+    List<Problem> getAll();
 }

@@ -28,6 +28,7 @@ public interface ContestMapper {
     List<ContestDTO> toDTOs(List<Contest> entity);
 
     @Mapping(target = "owner", source = "owner", qualifiedByName = "userDTOToUser")
+    @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "problems", ignore = true)
     @Mapping(target = "contestEnrollments", ignore = true)
     Contest toEntity(ContestDTO dto);

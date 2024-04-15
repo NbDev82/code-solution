@@ -6,10 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/problems")
@@ -19,11 +16,10 @@ public class ProblemController {
     @Autowired
     private ProblemService problemService;
 
-    @GetMapping("/{problemName}")
-    public ResponseEntity<ProblemDTO> fetchProblem(@PathVariable String problemName) {
-        problemName = problemName.replace("-", " ");
-        ProblemDTO problemDTO = problemService.getByProblemName(problemName);
-        log.info("Fetching problem by name: {}", problemName);
+    @GetMapping("/findById")
+    public ResponseEntity<ProblemDTO> fetchProblem(Long problemId) {
+        ProblemDTO problemDTO = problemService.findById(problemId);
+        log.info("Fetching problem by id: {}", problemId);
         return ResponseEntity.ok(problemDTO);
     }
 }

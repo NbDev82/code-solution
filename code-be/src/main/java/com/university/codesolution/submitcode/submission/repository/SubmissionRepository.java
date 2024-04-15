@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface SubmissionRepository extends JpaRepository<Submission, Long> {
     List<Submission> findByUserAndProblem(User user, Problem problem);
+    List<Submission> findByUser(User user);
 }

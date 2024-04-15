@@ -38,3 +38,5 @@ build/
 # Visual Studio Code
 .vscode/
 mylog.log.*.gz
+
+*.plantuml

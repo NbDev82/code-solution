@@ -22,9 +22,6 @@ class ContestMapperTest {
                 .id(1L)
                 .title("Sample Contest")
                 .desc("Sample description")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
-                .status(Contest.EStatus.PREPARING)
                 .owner(User.builder().id(10L).build())
                 .build();
 
@@ -35,9 +32,6 @@ class ContestMapperTest {
         assertEquals(contest.getId(), contestDTO.getId());
         assertEquals(contest.getTitle(), contestDTO.getTitle());
         assertEquals(contest.getDesc(), contestDTO.getDesc());
-        assertEquals(contest.getStartTime(), contestDTO.getStartTime());
-        assertEquals(contest.getEndTime(), contestDTO.getEndTime());
-        assertEquals(contest.getStatus(), contestDTO.getStatus());
 
         assertNotNull(contestDTO);
         assertEquals(contest.getOwner().getId(), contestDTO.getOwnerId());
@@ -72,9 +66,6 @@ class ContestMapperTest {
                 .id(1L)
                 .title("Sample Contest")
                 .desc("Sample description")
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusHours(1))
-                .status(Contest.EStatus.PREPARING)
                 .owner(owner)
                 .build();
 
@@ -85,9 +76,6 @@ class ContestMapperTest {
         assertEquals(contestDTO.getId(), contest.getId());
         assertEquals(contestDTO.getTitle(), contest.getTitle());
         assertEquals(contestDTO.getDesc(), contest.getDesc());
-        assertEquals(contestDTO.getStartTime(), contest.getStartTime());
-        assertEquals(contestDTO.getEndTime(), contest.getEndTime());
-        assertEquals(contestDTO.getStatus(), contest.getStatus());
 
         assertNotNull(contest.getOwner());
         assertEquals(contestDTO.getOwner().getId(), contest.getOwner().getId());

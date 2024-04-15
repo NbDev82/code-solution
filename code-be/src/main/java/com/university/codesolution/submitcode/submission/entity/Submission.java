@@ -25,13 +25,17 @@ public class Submission implements Serializable {
     @Enumerated(EnumType.STRING)
     private ELanguage language;
 
-    @Column(name = "code_submitted")
+    @Column(name = "code_submitted", columnDefinition = "text")
     private String codeSubmitted;
 
     private double score;
 
     @Enumerated(EnumType.STRING)
     private EStatus status;
+
+    private double runtime;
+
+    private double memory;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
