@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Popover, PopoverTrigger, PopoverContent, PopoverBody, PopoverArrow, HStack, Tooltip } from '@chakra-ui/react';
 import styles from './EmoijComment.module.scss';
 import { EMOJI_COMMENT } from '~/utils/Const';
-export default function EmojiComment({ onSelectEmoji, children }) {
+ function EmojiComment({ onSelectEmoji, children }) {
   const [listEmoji, setListEmoji] = useState([
     EMOJI_COMMENT.love,
     EMOJI_COMMENT.haha,
@@ -11,7 +11,6 @@ export default function EmojiComment({ onSelectEmoji, children }) {
     EMOJI_COMMENT.woww,
     EMOJI_COMMENT.angry,
   ]);
-  console.log(listEmoji)
   return (
     <Popover>
       <PopoverTrigger>{children}</PopoverTrigger>
@@ -32,3 +31,4 @@ export default function EmojiComment({ onSelectEmoji, children }) {
     </Popover>
   );
 }
+export default React.memo(EmojiComment);

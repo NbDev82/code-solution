@@ -6,12 +6,12 @@ import queryString from 'query-string';
 import { getInputCode, runCode } from '~/services/SubmitCodeService';
 
 const EditorScreen = () => {
-  const { setResult,problemId } = useContext(ProblemContext);
+  const { setResult,problem } = useContext(ProblemContext);
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('java');
   const fetchCode = async () => {
     try {
-      const response = await getInputCode(queryString.stringify({ problemId, language }));
+      const response = await getInputCode(queryString.stringify({ problemID:problem.id, language }));
       return response.data;
     } catch (error) {
       console.error('Error fetching code:', error);
@@ -23,14 +23,14 @@ const EditorScreen = () => {
     fetchCode().then((data) => {
       setCode(data);
     });
-  }, [problemId, language]);
+  }, [problem.id, language]);
 
   const handleSendCode = async () => {
     const request = {
       userId: 1, // will amend soon
       code: code,
       language: language,
-      problemId: problemId, // will amend soon
+      problemId: problem.id, // will amend soon
     };
     try {
       const response = await runCode(request);
