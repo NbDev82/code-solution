@@ -6,10 +6,10 @@ const customAxios = axios.create({
 });
 export const signUp = (user) => {
   return customAxios.post('/register', user).then((response) => response.data);
+  debugger;
 };
 
 export const loginUser = (loginDetail) => {
-  debugger;
   return customAxios.post('/login', loginDetail).then((response) => response.data);
 };
 

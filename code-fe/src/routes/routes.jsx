@@ -12,6 +12,8 @@ import ContestsManagement from '~/pages/ContestsManagement/ContestsManagement';
 import AddContest from '~/pages/AddContest/AddContest';
 import ContestResult from '~/pages/ContestResult/ContestResult';
 
+import SignUp from '~/pages/SignUp';
+
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
   { path: config.routes.home[1], component: Home, exact: true },

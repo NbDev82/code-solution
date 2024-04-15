@@ -5,8 +5,8 @@ export const isLoggedIn = () => {
 };
 
 export const doLogin = (data, next) => {
-  debugger;
   localStorage.setItem('data', JSON.stringify(data));
+  debugger;
   next();
 };
 export const doLogout = (next) => {
@@ -14,7 +14,7 @@ export const doLogout = (next) => {
   next();
 };
 
-export const getCurrentUserDetails = () => {
+export const getCurrentUserDetail = () => {
   if (isLoggedIn()) {
     return JSON.parse(localStorage.getItem('data').user);
   } else {
