@@ -1,7 +1,9 @@
+import { signUp } from '~/services/UserService';
+
 const routes = {
   home: ['/', '/home'],
   login: '/sign-in',
-  SignUp: '/sign-up',
+  signUp: '/sign-up',
   problems: '/problems',
   contests: '/contests',
   discuss: '/discuss',
@@ -11,6 +13,7 @@ const routes = {
   contests_management: '/contests-management',
   add_contest: '/add-contest',
   contest_result: '/contest-result',
+  post: '/post',
 };
 
 export default routes;

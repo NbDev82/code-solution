@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-
 import { format } from 'date-fns';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -36,23 +35,8 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    const dateOfBirth = new Date();
-    const formattedDateOfBirth = dateOfBirth.toISOString();
-
-    console.log({
-      fullName: data.get('fullName'),
-      phoneNumber: data.get('phoneNumber'),
-      dateOfBirth: formattedDateOfBirth,
-      email: data.get('email'),
-      password: data.get('password'),
-      role: 'USER',
-    });
-  };
   const [data, setData] = useState({
     fullName: '',
     email: '',
@@ -61,16 +45,19 @@ export default function SignUp() {
     dateOfBirth: '',
     role: 'USER',
   });
-  const [error, setError] = useState({
-    errors: {},
-    isError: false,
+
+  const [errors, setErrors] = useState({
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
   });
 
   const handleChange = (event, property) => {
     setData({ ...data, [property]: event.target.value });
   };
+
   const resetData = () => {
-    debugger;
     setData({
       fullName: '',
       email: '',
@@ -80,29 +67,38 @@ export default function SignUp() {
       role: 'USER',
     });
   };
-  const submitForm = (event) => {
+  const submitForm = async (event) => {
     event.preventDefault();
+
+    setIsSubmitting(true);
+
     signUp(data)
       .then((resp) => {
-        toast.success('User is registered successfully !! user id ' + resp.id);
-
-        setData({
-          fullName: '',
-          email: '',
-          phoneNumber: '',
-          password: '',
-          dateOfBirth: '',
-          role: 'USER',
-        });
-        navigate('/sign-in');
+        debugger;
+        if ((resp.message = 'user.login.register_successfully')) {
+          toast.success('User is registered successfully !! user id ' + resp.id);
+          setData({
+            fullName: '',
+            email: '',
+            phoneNumber: '',
+            password: '',
+            dateOfBirth: '',
+            role: 'USER',
+          });
+          navigate('/sign-in');
+          debugger;
+        } else {
+          // Handle non-successful response
+          toast.error('Registration failed. Please try again.');
+        }
       })
       .catch((error) => {
-        setError({
-          errors: error,
-          isError: true,
-        });
+        toast.error('An error occurred. Please try again.');
+        console.error(error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
-    debugger;
   };
 
   return (
@@ -123,7 +119,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={submitForm} sx={{ mt: 3 }}>
+          <Box component="form" validateForm onSubmit={submitForm} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -134,6 +130,8 @@ export default function SignUp() {
                   name="fullName"
                   value={data.fullName}
                   onChange={(e) => handleChange(e, 'fullName')}
+                  error={!!errors.fullName}
+                  helperText={errors.fullName}
                   autoComplete="fullName"
                 />
               </Grid>
@@ -146,6 +144,8 @@ export default function SignUp() {
                   name="phoneNumber"
                   value={data.phoneNumber}
                   onChange={(e) => handleChange(e, 'phoneNumber')}
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber}
                   autoComplete="phoneNumber"
                 />
               </Grid>
@@ -169,6 +169,8 @@ export default function SignUp() {
                   name="email"
                   value={data.email}
                   onChange={(e) => handleChange(e, 'email')}
+                  error={!!errors.email}
+                  helperText={errors.email}
                   autoComplete="email"
                 />
               </Grid>
@@ -180,8 +182,10 @@ export default function SignUp() {
                   label="Password"
                   name="password"
                   type="password"
-                  onChange={(e) => handleChange(e, 'password')}
                   value={data.password}
+                  onChange={(e) => handleChange(e, 'password')}
+                  error={!!errors.password}
+                  helperText={errors.password}
                   autoComplete="password"
                 />
               </Grid>
@@ -194,8 +198,8 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Container>
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Sign Up
+              <Button type="submit" disabled={isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                {isSubmitting ? 'Loading...' : 'Sign Up'}
               </Button>
               <Button onClick={resetData} className="ms-2" outline color="secondary">
                 Reset

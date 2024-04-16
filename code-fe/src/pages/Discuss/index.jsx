@@ -1,1 +1,1 @@
-export { default } from './Discuss';
+export { default } from './PostPage';
