@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const BASE_URL = `${process.env.REACT_APP_BASE_API_URL}/api`;
-
 const getProblems = async (request) => {
   const requestURL = `${BASE_URL}/search/problems`;
   return await axios.post(requestURL, request);

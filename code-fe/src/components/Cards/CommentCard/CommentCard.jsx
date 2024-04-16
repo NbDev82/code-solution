@@ -98,7 +98,7 @@ const CommentCard = (props) => {
       if (response.data) {
         setIsEditing(false);
         updatedComment.text = text;
-        updateComment.updateAt = new Date().toISOString();
+        updateComment.updatedAt = new Date().toISOString();
         setComment(updatedComment);
       }
     } catch (error) {
@@ -119,7 +119,7 @@ const CommentCard = (props) => {
                   <Heading size="md" fontFamily="var(--font-family)">
                     {comment.userName}
                   </Heading>
-                  <Text as="sup">{comment.updateAt}</Text>
+                  <Text as="sup">{comment.updatedAt}</Text>
                 </Box>
               </Flex>
               <Popover>
@@ -300,7 +300,7 @@ CommentCard.defaultProps = {
   comment: {
     id: 0,
     text: '',
-    updateAt: '',
+    updatedAt: '',
     userName: '',
     emoji: {
       name: '',

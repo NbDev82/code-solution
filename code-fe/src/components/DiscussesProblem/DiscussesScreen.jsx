@@ -18,9 +18,10 @@ const DiscussesScreen = () => {
   const [commentText, setCommentText] = useState('');
   const [isWaiting, setIsWaiting] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [isCommentValid, setIsCommentValid] = useState(true);
   const fetchComments = async () => {
     try {
-      const response = await getComments(queryString.stringify({ problemId: problem.id }));
+      const response = await getComments(problem.id);
       setComments(response.data);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -31,17 +32,16 @@ const DiscussesScreen = () => {
   }, []);
 
   const handleNewComment = async (text) => {
+    if (text.length < 10) {
+      setIsCommentValid(false);
+      return;
+    }
+    setIsCommentValid(true);
+
     const comment = {
-      id: 0,
       text: text,
-      updatedAt: new Date().toISOString(),
-      userName: user.fullName,
-      emoji: {
-        name: '',
-        emoji: '',
-      },
-      emojiQuantity: 0,
-      replyComments: [],
+      userId: user.id,
+      problemId: problem.id,
     };
     try {
       setIsWaiting(true);
@@ -49,7 +49,8 @@ const DiscussesScreen = () => {
       if (response.data) {
         setIsAdding(false);
         setIsWaiting(false);
-        fetchComments();
+        const newComment = response.data;
+        setComments((prevComments) => [...prevComments, newComment]);
       }
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -74,6 +75,7 @@ const DiscussesScreen = () => {
             onEnter={handleNewComment}
             placeholder="Type a message"
           ></InputEmoji>
+          {!isCommentValid && <span>Comment must be at least 10 characters</span>}
           <Button colorScheme="red" variant="link" onClick={() => setIsAdding(false)}>
             cancel
           </Button>

@@ -28,7 +28,6 @@ function SubmitCodeScreen() {
 
   const fetchProblem = async (problemId) => {
     try {
-      console.log(queryString.stringify({ problemId }));
       const response = await getProblem(queryString.stringify({ problemId }));
       return response.data;
     } catch (error) {

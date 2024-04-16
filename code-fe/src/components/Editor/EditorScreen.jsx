@@ -12,7 +12,7 @@ const EditorScreen = () => {
   const [language, setLanguage] = useState('java');
   const fetchCode = async () => {
     try {
-      const response = await getInputCode(queryString.stringify({ problemId: 1, language }));
+      const response = await getInputCode(queryString.stringify({ problemId: problem.id, language }));
       return response.data;
     } catch (error) {
       console.error('Error fetching code:', error);
@@ -32,10 +32,10 @@ const EditorScreen = () => {
 
   const handleSendCode = async () => {
     const request = {
-      userId: 1, // will amend soon
+      userId: user.id,
       code: code,
       language: language,
-      problemId: problem.id, // will amend soon
+      problemId: problem.id,
     };
     try {
       const response = await runCode(request);
