@@ -4,7 +4,7 @@ import SignIn from '~/pages/SignIn';
 import ContestInvitation from '~/pages/ContestInvitation/ContestInvitation';
 import Problems from '~/pages/Problems';
 import Contests from '~/pages/Contests';
-import Discuss from '~/pages/Discuss';
+import PostPage from '~/pages/Discuss';
 import NotFound from '~/components/Errors/NotFound';
 import SignUp from '~/pages/SignUp';
 import Profile from '~/pages/Profile';
@@ -23,7 +23,7 @@ const publicRoutes = [
   { path: config.routes.problems, component: Problems, exact: true },
   { path: config.routes.submit_code, component: SubmitCode, exact: false },
   { path: config.routes.contests, component: Contests, exact: false },
-  { path: config.routes.discuss, component: Discuss, exact: false },
+  { path: config.routes.discuss, component: PostPage, exact: false },
   { path: config.routes.profile, component: Profile, exact: false },
   { path: config.routes.contests_management, component: ContestsManagement },
   { path: config.routes.add_contest, component: AddContest },
@@ -34,4 +34,3 @@ const publicRoutes = [
 const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };
-
