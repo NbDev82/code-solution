@@ -68,23 +68,6 @@ public class FileServiceImpl implements FileService{
         return uniqueFilename;
     }
 
-//    @Override
-//    public Resource getResource(String fileName) throws FileNotFoundException {
-//        Path filePath = Paths.get(UPLOADS_FOLDER, fileName);
-//
-//        if (Files.exists(filePath)) {
-//            try {
-//                Resource resource = new UrlResource(filePath.toUri());
-//                if (resource.exists() && resource.isReadable()) {
-//                    return resource;
-//                } else {
-//                    throw new FileNotFoundException("Cannot access file: " + fileName);
-//                }
-//            } catch (MalformedURLException e) {
-//                throw new FileNotFoundException("Invalid file path: " + fileName);
-//            }
-//        } else {
-//            throw new FileNotFoundException("File not found: " + fileName);
-//        }
+
 
 }

@@ -1,5 +1,6 @@
 package com.university.codesolution.login.service;
 
+import com.university.codesolution.discuss.exception.ResourceNotFoundException;
 import com.university.codesolution.login.component.JwtTokenUtils;
 import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.login.dto.UserDTO;
@@ -8,14 +9,16 @@ import com.university.codesolution.login.exception.PermissionDenyException;
 import com.university.codesolution.login.exception.UserNotFoundException;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
+import com.university.codesolution.security.LocalizationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.university.codesolution.login.utils.MessageKeys;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService  {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtils jwtTokenUtil;
+    private final LocalizationUtils localizationUtils;
 
     @Override
     public UserDTO createUser(UserDTO userDTO)  {
@@ -101,13 +105,16 @@ public class UserServiceImpl implements UserService  {
 
     @Override
     public String login(String phoneNumber,String password,ERole eRole) throws Exception{
-        Optional<User> optionalUser=userRepos.findByPhoneNumber(phoneNumber);
-        User existingUse=optionalUser.get();
-        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
-                phoneNumber,password,existingUse.getAuthorities()
-        );
+        User existingUser = userRepos.findByPhoneNumber(phoneNumber);
+        if(!passwordEncoder.matches(password, existingUser.getPassword())){
+            throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.PASSWORD_NOT_MATCH));
+        }
+
+//        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
+//                phoneNumber,password,existingUser.getAuthorities()
+//        );
 //        authenticationManager.authenticate(authenticationToken);
-        return jwtTokenUtil.generateToken(existingUse);
+        return jwtTokenUtil.generateToken(existingUser);
     }
     @Override
     public User getUserDetailsFromToken(String token) throws Exception{
@@ -115,9 +122,10 @@ public class UserServiceImpl implements UserService  {
             throw new Exception("Token is expired");
         }
         String phoneNumber= jwtTokenUtil.extractPhoneNumber(token);
-        Optional<User> user=userRepos.findByPhoneNumber(phoneNumber);
-        if(user.isPresent()){
-            return user.get();
+        User user = userRepos.findByPhoneNumber(phoneNumber);
+//        Optional<User> user=userRepos.findByPhoneNumber(phoneNumber);
+        if(user != null){
+            return user;
         }else{
             throw new Exception("User not found");
         }
