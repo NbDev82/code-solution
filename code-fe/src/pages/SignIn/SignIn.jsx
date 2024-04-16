@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { doLogin } from '~/auth';
@@ -20,7 +21,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { loginUser } from '~/services/UserService';
 import userContext from '~/context/userContext';
-
+import { Label } from '@mui/icons-material';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -40,8 +41,9 @@ const defaultTheme = createTheme();
 
 const SignIn = () => {
   const navigate = useNavigate();
-
+  const [error, setError] = useState();
   const userContextData = useContext(userContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [loginDetail, setLoginDetail] = useState({
     phoneNumber: '',
@@ -65,8 +67,10 @@ const SignIn = () => {
     });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
+
     //validation
     if (loginDetail.phoneNumber.trim() == '' || loginDetail.password.trim() == '') {
       toast.error('Username or Password  is required !!');
@@ -76,35 +80,28 @@ const SignIn = () => {
     //submit the data to server to generate token
     loginUser(loginDetail)
       .then((data) => {
-        //save the data to localStorage
-        doLogin(data, () => {
-          //redirect to user dashboard page
-          userContextData.setUser({
-            data: data.user,
-            login: true,
+        if ((data.message = 'user.login.login_successfully'))
+          //save the data to localStorage
+          doLogin(data, () => {
+            //redirect to user dashboard page
+            userContextData.setUser({
+              data: data.user,
+              login: true,
+            });
+            navigate('/');
           });
-          navigate('/');
-        });
 
         toast.success('Login successful!');
       })
       .catch((error) => {
-        console.log(error);
+        setIsSubmitting(false);
+
         if (error.response.status == 400 || error.response.status == 404) {
           toast.error(error.response.data.message);
         } else {
           toast.error('Something went wrong  on sever !!');
         }
       });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   return (
@@ -125,7 +122,7 @@ const SignIn = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleFormSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleFormSubmit} validateForm sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -152,9 +149,10 @@ const SignIn = () => {
             />
             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Container>
-              <Button type="submit" className="ms-1">
-                Sign In
+              <Button type="submit" disabled={isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                {isSubmitting ? 'Loading...' : 'Sign In'}
               </Button>
+              {error ? <Label>{error}</Label> : null}
 
               <Button onClick={handleReset} className="ms-2" outline color="secondary">
                 Reset
