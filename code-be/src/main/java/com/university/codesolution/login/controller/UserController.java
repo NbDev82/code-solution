@@ -8,6 +8,8 @@ import com.university.codesolution.login.response.LoginResponse;
 import com.university.codesolution.login.response.RegisterResponse;
 import com.university.codesolution.login.service.TokenService;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.login.utils.MessageKeys;
+import com.university.codesolution.security.LocalizationUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class UserController {
     private final TokenService tokenService;
     private final LoginResponse loginResponse;
     private final UserMapper userMapper;
+    private final LocalizationUtils localizationUtils;
     @GetMapping("/public-string")
     public String publicApi() {
         log.info("get public string");
@@ -45,8 +48,12 @@ public class UserController {
          UserDTO user = userService.createUser(userDTO);
          registerResponse.setMessage("Register successfully");
          registerResponse.setUser(user);
-         return ResponseEntity.ok(registerResponse);
-     } catch (Exception e) {
+         return ResponseEntity.ok(RegisterResponse.builder()
+                 .message(MessageKeys.REGISTER_SUCCESSFULLY)
+                 .user(userDTO)
+                 .build());
+     }
+     catch (Exception e) {
        registerResponse.setMessage(e.getMessage());
        return ResponseEntity.badRequest().body(registerResponse);
      }
@@ -62,16 +69,22 @@ public class UserController {
                   userLoginDTO.getPassword(),
                   userLoginDTO.getRole()
           );
-          String userAgent = request.getHeader("User-Agent");
           User user = userService.getUserDetailsFromToken(token);
           UserDTO userDTO = this. userMapper.toDTO(user);
           tokenService.addToken(user,token);
           loginResponse.setUser(userDTO);
           loginResponse.setToken(token);
 
-          return ResponseEntity.ok(loginResponse);
+          return ResponseEntity.ok(LoginResponse.builder()
+                  .message(MessageKeys.LOGIN_SUCCESSFULLY)
+                  .token(token)
+                  .user(userDTO)
+                  .build());
       }catch (Exception e){
-          return ResponseEntity.badRequest().body(loginResponse);
+          return ResponseEntity.badRequest().body(
+                  LoginResponse.builder()
+                          .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+                          .build());
       }
     }
 }
