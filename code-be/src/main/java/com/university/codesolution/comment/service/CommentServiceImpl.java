@@ -6,6 +6,7 @@ import com.university.codesolution.comment.exception.CommentNotFoundException;
 import com.university.codesolution.comment.mapper.CommentMapper;
 import com.university.codesolution.comment.repos.CommentRepository;
 import com.university.codesolution.comment.request.AddCommentRequest;
+import com.university.codesolution.comment.request.ReplyCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.service.UserService;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,14 +28,12 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
     private final ProblemService problemService;
 
-    private final UserMapper userMapper;
     private final CommentMapper commentMapper;
 
-    public CommentServiceImpl(CommentRepository commentRepos, UserService userService, ProblemService problemService, UserMapper userMapper, CommentMapper commentMapper) {
+    public CommentServiceImpl(CommentRepository commentRepos, UserService userService, ProblemService problemService, CommentMapper commentMapper) {
         this.commentRepos = commentRepos;
         this.userService = userService;
         this.problemService = problemService;
-        this.userMapper = userMapper;
         this.commentMapper = commentMapper;
     }
 
@@ -41,15 +41,11 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO add(AddCommentRequest request) {
         Comment comment = Comment.builder()
                 .text(request.text())
+                .updatedAt(LocalDateTime.now())
                 .isDeleted(false)
-                .user(userMapper.toEntity(
-                                userService.getUserById(request.userId())
-                        )
+                .user(userService.getEntityUserById(request.userId())
                 )
-                .problem(problemService.findById(request.problemId(), Problem.class)
-                )
-                .commentParent(commentRepos.findById(request.commentId())
-                        .orElse(null))
+                .problem(problemService.findById(request.problemId(), Problem.class))
                 .build();
 
         Comment saved = commentRepos.save(comment);
@@ -86,5 +82,18 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDTO> getByProblemId(Long problemId) {
         Problem problem = problemService.findById(problemId, Problem.class);
         return commentMapper.toDTOs(commentRepos.findByProblem(problem));
+    }
+
+    @Override
+    public void reply(ReplyCommentRequest request) {
+        Comment comment = Comment.builder()
+                .text(request.text())
+                .isDeleted(false)
+                .user(userService.getEntityUserById(request.userId())
+                )
+                .commentParent(commentRepos.findById(request.commentId()).orElse(null))
+                .build();
+
+        commentRepos.save(comment);
     }
 }

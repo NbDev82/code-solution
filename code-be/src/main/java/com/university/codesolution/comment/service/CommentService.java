@@ -2,6 +2,7 @@ package com.university.codesolution.comment.service;
 
 import com.university.codesolution.comment.dto.CommentDTO;
 import com.university.codesolution.comment.request.AddCommentRequest;
+import com.university.codesolution.comment.request.ReplyCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface CommentService {
     CommentDTO update(UpdateCommentRequest request);
     CommentDTO getById(Long commentId);
     List<CommentDTO> getByProblemId(Long discussId);
+
+    void reply(ReplyCommentRequest request);
 }

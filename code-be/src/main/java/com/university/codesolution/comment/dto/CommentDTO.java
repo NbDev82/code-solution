@@ -1,6 +1,7 @@
 package com.university.codesolution.comment.dto;
 
 import com.university.codesolution.comment.entity.Comment;
+import com.university.codesolution.comment.entity.Emoji;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.entity.User;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class CommentDTO {
     private String text;
     private String updatedAt;
     private String userName;
+    private Emoji emoji;
+    private int emojiQuantity;
 
     private List<CommentDTO> replyComments;
 }

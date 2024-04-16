@@ -4,6 +4,7 @@ import com.university.codesolution.comment.Constants;
 import com.university.codesolution.comment.dto.CommentDTO;
 import com.university.codesolution.comment.exception.InvalidCommentLengthException;
 import com.university.codesolution.comment.request.AddCommentRequest;
+import com.university.codesolution.comment.request.ReplyCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
 import com.university.codesolution.comment.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,15 +38,27 @@ public class CommentController {
             }
     )
     @PostMapping("/add-comment")
-    public ResponseEntity<String> addComment(@RequestBody AddCommentRequest request) {
+    public ResponseEntity<CommentDTO> addComment(@RequestBody AddCommentRequest request) {
         int MINIMUM_LENGTH_OF_MESSAGE = 10;
         if(request.text().length() < MINIMUM_LENGTH_OF_MESSAGE)
             throw new InvalidCommentLengthException("Comment must not less than 10 characters");
 
-        commentService.add(request);
+        CommentDTO response = commentService.add(request);
         log.info(Constants.ADD_COMMENT_SUCCESSFULLY);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Constants.ADD_COMMENT_SUCCESSFULLY);
+                .body(response);
+    }
+
+    @PostMapping("/reply-comment")
+    public ResponseEntity<String> replyComment(@RequestBody ReplyCommentRequest request) {
+        int MINIMUM_LENGTH_OF_MESSAGE = 10;
+        if(request.text().length() < MINIMUM_LENGTH_OF_MESSAGE)
+            throw new InvalidCommentLengthException("Comment must not less than 10 characters");
+
+        commentService.reply(request);
+        log.info(Constants.REPLY_COMMENT_SUCCESSFULLY);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Constants.REPLY_COMMENT_SUCCESSFULLY);
     }
 
     @Operation(
