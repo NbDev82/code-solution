@@ -8,6 +8,6 @@ import java.util.List;
 public interface ProblemService {
     Problem getEntityByProblemId(Long problemId);
 
-    ProblemDTO findById(Long problemId);
+    <T> T findById(Long problemId, Class<T> returnType);
     List<Problem> getAll();
 }

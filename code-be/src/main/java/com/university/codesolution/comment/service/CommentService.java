@@ -11,5 +11,5 @@ public interface CommentService {
     void delete(Long commentId);
     CommentDTO update(UpdateCommentRequest request);
     CommentDTO getById(Long commentId);
-    List<CommentDTO> getByDiscussId(Long discussId);
+    List<CommentDTO> getByProblemId(Long discussId);
 }

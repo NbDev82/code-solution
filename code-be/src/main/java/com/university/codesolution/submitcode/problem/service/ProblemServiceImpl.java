@@ -28,10 +28,13 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public ProblemDTO findById(Long problemId) {
+    public <T> T findById(Long problemId, Class<T> returnType) {
         Problem problem = getEntityByProblemId(problemId);
         log.info("get problemDTO from ProblemServiceImpl");
-        return mapper.toDTO(problem);
+
+        return returnType.equals(Problem.class)
+                ? returnType.cast(problem)
+                : returnType.cast(mapper.toDTO(problem));
     }
 
     @Override

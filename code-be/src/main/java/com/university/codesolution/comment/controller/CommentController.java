@@ -52,9 +52,9 @@ public class CommentController {
                     )
             }
     )
-    @GetMapping("/get-comments/{discussId}")
-    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable Long discussId) {
-        List<CommentDTO> commentDTOs = commentService.getByDiscussId(discussId);
+    @GetMapping("/get-comments/{problemId}")
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable Long problemId) {
+        List<CommentDTO> commentDTOs = commentService.getByProblemId(problemId);
         log.info(Constants.COMMENTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(commentDTOs);
     }

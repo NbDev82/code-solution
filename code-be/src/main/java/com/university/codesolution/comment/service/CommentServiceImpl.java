@@ -9,9 +9,10 @@ import com.university.codesolution.comment.request.AddCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.problem.service.ProblemService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,23 +21,21 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     private static final Logger log = LogManager.getLogger(CommentServiceImpl.class);
 
-    @Autowired
-    private CommentRepository commentRepos;
+    private final CommentRepository commentRepos;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final ProblemService problemService;
 
-//    @Autowired
-//    private ProblemService problemService;
+    private final UserMapper userMapper;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
-//    @Autowired
-//    private ProblemMapper problemMapper;
-
-    @Autowired
-    private CommentMapper commentMapper;
+    public CommentServiceImpl(CommentRepository commentRepos, UserService userService, ProblemService problemService, UserMapper userMapper, CommentMapper commentMapper) {
+        this.commentRepos = commentRepos;
+        this.userService = userService;
+        this.problemService = problemService;
+        this.userMapper = userMapper;
+        this.commentMapper = commentMapper;
+    }
 
     @Override
     public CommentDTO add(AddCommentRequest request) {
@@ -86,7 +85,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getByDiscussId(Long discussId) {
-        return null;
+    public List<CommentDTO> getByProblemId(Long problemId) {
+        Problem problem = problemService.findById(problemId, Problem.class);
+        return commentMapper.toDTOs(commentRepos.findByProblem(problem));
     }
 }
