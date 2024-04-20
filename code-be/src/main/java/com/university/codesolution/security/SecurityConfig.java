@@ -50,7 +50,6 @@ public class SecurityConfig {
 
 
                                     "/v2/api-docs",
-                                    "api/**",
                                     "/v3/api-docs",
                                     "/v3/api-docs/**",
                                     "/swagger-resources",
