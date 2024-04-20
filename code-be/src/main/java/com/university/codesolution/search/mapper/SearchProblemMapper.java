@@ -23,6 +23,8 @@ public interface SearchProblemMapper {
             expression = "java(problem.getDifficultyLevel())")
     @Mapping(target = "status",
             expression = "java(getStatus(problem,userId))")
+    @Mapping(target = "id",
+            expression = "java(problem.getId())")
     ProblemDTO toDTO(Problem problem, Long userId);
 
     List<ProblemDTO> toDTOs(List<Problem> problems);

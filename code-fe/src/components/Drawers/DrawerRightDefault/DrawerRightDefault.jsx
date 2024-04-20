@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent } from '@chakra-ui/react';
+import {
+  Box,
+  VStack,
+  Text,
+  Image,
+  Avatar,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { Avatar } from '@chakra-ui/react';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
-import { Box } from '@chakra-ui/react';
-import { Heading } from '@chakra-ui/react';
-import { Image } from '@chakra-ui/react';
-import { VStack } from '@chakra-ui/react';
 import './DrawerRightDefault.scss';
 import { Link } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
@@ -39,9 +46,7 @@ function DrawerRightDefault(props) {
         <DrawerHeader borderBottomWidth="1px">
           <Box display="flex" alignItems="center" gap="4%" justifyContent="start">
             <Avatar size="xl" name={user.fullName} src={user.avatarSrc} />
-            <Heading as="h2" size="lg" className="drawer__heading">
-              {user.fullName}
-            </Heading>
+            <Text className="drawer__heading">{user.fullName}</Text>
           </Box>
         </DrawerHeader>
 

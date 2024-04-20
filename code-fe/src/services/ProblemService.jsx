@@ -1,13 +1,18 @@
-import httpRequest from '~/utils/httpRequest';
+import axios from 'axios';
+
+const BASE_URL = `${process.env.REACT_APP_BASE_API_URL}/api`;
 const getProblems = async (request) => {
-  return await httpRequest.post(`/api/problems`,request);
+  const requestURL = `${BASE_URL}/search/problems`;
+  return await axios.post(requestURL, request);
 };
 
 const getAllTopics = async () => {
-  return await httpRequest.get(`/api/topics`);
+  const requestURL = `${BASE_URL}/topics`;
+  return await axios.get(requestURL);
 };
 
-const getStatisticsDatasets = async () => {
-  return await httpRequest.get(`/api/statistics`);
+const getStatisticsDatasets = async (paramsString) => {
+  const requestURL = `${BASE_URL}/statistic?${paramsString}`;
+  return await axios.get(requestURL);
 };
 export { getProblems, getAllTopics, getStatisticsDatasets };

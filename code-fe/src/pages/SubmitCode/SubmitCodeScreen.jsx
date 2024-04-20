@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ProblemScreen from '~/components/Problem/ProblemScreen';
 import EditorScreen from '~/components/Editor/EditorScreen';
 import NavbarProblem from '~/components/Navbars/NavbarProblem/ProblemNavbar/NavbarProblem';
@@ -17,6 +18,8 @@ function SubmitCodeScreen() {
   const [activeMenuItem, setActiveMenuItem] = useState('Description');
   const [problem, setProblem] = useState({});
   const [user, setUser] = useState(getCurrentUserDetail());
+  const location = useLocation();
+  const problemId = location.state?.problemId;
   useEffect(() => {
     // fetchProblem(problemName).then(data => {
     //     setProblem(data);

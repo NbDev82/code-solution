@@ -1,25 +1,35 @@
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
+import PropTypes from 'prop-types';
 import './Topicbar.scss';
 import Button from '~/components/Buttons/Button';
 import { LIMIT_QUANTITY_TOPICS } from '~/utils/Const';
 
-function Topicbar({ topics, onFilterTopics }) {
+Topicbar.propTypes = {
+  topics: PropTypes.array,
+  onFilterTopics: PropTypes.func,
+};
+Topicbar.defaultProps = {
+  topics: [],
+};
+
+function Topicbar(props) {
   const [sliceStartPoint, setSliceStartPoint] = useState(0);
   const [sliceEndPoint, setSliceEndPoint] = useState(LIMIT_QUANTITY_TOPICS);
-  const [topicCurrent, setTopicCurrent] = useState(() => {
-    return topics.slice(sliceStartPoint, sliceEndPoint);
-  });
+  const [topicCurrent, setTopicCurrent] = useState([]);
+
+  useEffect(() => {
+    setTopicCurrent(props.topics.slice(sliceStartPoint, sliceEndPoint));
+  }, [props.topics]);
 
   const handleShowNextTopic = () => {
-    let start = sliceEndPoint;
     let end = sliceEndPoint;
-    start = end;
+    let start = end;
     end = end + LIMIT_QUANTITY_TOPICS;
-    setTopicCurrent(topics.slice(start, end));
 
-    if (sliceEndPoint >= topics.length) {
+    setTopicCurrent(props.topics.slice(start, end));
+    console.log(topicCurrent);
+    if (end >= props.topics.length) {
       start = 0;
       end = LIMIT_QUANTITY_TOPICS;
     }
@@ -28,15 +38,24 @@ function Topicbar({ topics, onFilterTopics }) {
     setSliceEndPoint(end);
   };
 
+  function normalizeName(name) {
+    return name
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/(?:^|\s)\S/g, function (a) {
+        return a.toUpperCase();
+      });
+  }
+
   return (
     <div className="topicbar">
-      <Button id="all" dark small onClick={onFilterTopics}>
+      <Button id="ALL" dark small onClick={props.onFilterTopics}>
         All Topic
       </Button>
       <div className="topicbar__list">
-        {topicCurrent.map((topic) => (
-          <Button key={topic.id} id={topic.id} textHighLight small badge={topic.quantity} onClick={onFilterTopics}>
-            {topic.name}
+        {topicCurrent.map((topic, index) => (
+          <Button key={topic.name} id={topic.name} textHighLight small badge={topic.quantity} onClick={props.onFilterTopics}>
+            {normalizeName(topic.name)}
           </Button>
         ))}
       </div>
