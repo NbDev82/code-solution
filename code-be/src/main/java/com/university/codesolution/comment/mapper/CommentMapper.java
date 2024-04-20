@@ -19,6 +19,7 @@ public interface CommentMapper {
 
     @Mapping(target = "userName", expression = "java(comment.getUser().getFullName())")
     @Mapping(target = "emoji", expression = "java(defaultEmoji())")
+    @Mapping(target = "ownerId", expression = "java(comment.getUser().getId())")
     @Mapping(target = "emojiQuantity", expression = "java(defaultEmojiQuantity())")
     @Mapping(target = "replyComments", expression = "java(defaultReplyComments())")
     CommentDTO toDTO(Comment comment);

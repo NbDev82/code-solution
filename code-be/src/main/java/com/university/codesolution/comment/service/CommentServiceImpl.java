@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepos.findById(request.commentId())
                 .orElseThrow(() -> new CommentNotFoundException("Could not found comment with id: "+request.commentId()));
 
-        comment.setUpdatedAt(request.updatedAt());
+        comment.setUpdatedAt(LocalDateTime.now());
         comment.setText(request.text());
 
         commentRepos.save(comment);

@@ -21,6 +21,7 @@ public class CommentDTO {
     private String text;
     private String updatedAt;
     private String userName;
+    private Long ownerId;
     private Emoji emoji;
     private int emojiQuantity;
 

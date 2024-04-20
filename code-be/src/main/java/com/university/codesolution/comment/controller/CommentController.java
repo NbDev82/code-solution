@@ -89,10 +89,10 @@ public class CommentController {
             }
     )
     @PutMapping("/update-comment")
-    public ResponseEntity<String> updateComment(@RequestBody UpdateCommentRequest request) {
-        commentService.update(request);
+    public ResponseEntity<CommentDTO> updateComment(@RequestBody UpdateCommentRequest request) {
+        CommentDTO commentDTO = commentService.update(request);
         log.info(Constants.UPDATE_COMMENT_SUCCESSFULLY);
-        return ResponseEntity.ok(Constants.UPDATE_COMMENT_SUCCESSFULLY);
+        return ResponseEntity.ok(commentDTO);
     }
 
     @Operation(
@@ -106,7 +106,7 @@ public class CommentController {
             }
     )
     @DeleteMapping("/delete-comment")
-    public ResponseEntity<String> deleteComment(@RequestBody Long commentId) {
+    public ResponseEntity<String> deleteComment(Long commentId) {
         commentService.delete(commentId);
         log.info(Constants.DELETE_COMMENT_SUCCESSFULLY);
         return ResponseEntity.ok(Constants.DELETE_COMMENT_SUCCESSFULLY);
