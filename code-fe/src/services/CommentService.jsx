@@ -17,8 +17,10 @@ const updateComment = async (request) => {
   return await axios.put(`${BASE_URL}/update-comment`, request);
 };
 
-const deleteComment = async (request) => {
-  return await axios.delete(`${BASE_URL}/delete-comment`, request);
+const deleteComment = async (paramString) => {
+  console.log(`${BASE_URL}/delete-comment`);
+  console.log(paramString);
+  return await axios.delete(`${BASE_URL}/delete-comment?${paramString}`);
 };
 
 export { getComments, replyComment, addComment, updateComment, deleteComment };

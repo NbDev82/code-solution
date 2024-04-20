@@ -81,7 +81,7 @@ const CommentCard = (props) => {
   const handleDeleteComment = async () => {
     try {
       setIsWaiting(true);
-      const response = await deleteComment(comment);
+      const response = await deleteComment(queryString.stringify({ commentId: comment.id }));
       if (response.data) {
         setIsWaiting(false);
         window.location.reload(true);
@@ -92,14 +92,14 @@ const CommentCard = (props) => {
   };
 
   const handleUpdateComment = async (text) => {
-    const updatedComment = { ...comment };
+    const updatedComment = { commentId: comment.id, text };
+    console.log(updatedComment);
     try {
-      const response = await updateComment(updateComment);
+      const response = await updateComment(updatedComment);
       if (response.data) {
         setIsEditing(false);
-        updatedComment.text = text;
-        updateComment.updatedAt = new Date().toISOString();
-        setComment(updatedComment);
+        // updateComment.updatedAt = new Date().toISOString();
+        setComment(response.data);
       }
     } catch (error) {
       console.error('Error update comment:', error);
@@ -122,37 +122,39 @@ const CommentCard = (props) => {
                   <Text as="sup">{comment.updatedAt}</Text>
                 </Box>
               </Flex>
-              <Popover>
-                <PopoverTrigger>
-                  <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <VStack justifyContent="space-around" alignItems="center">
-                      <Button
-                        className={style.button__icon}
-                        variant="ghost"
-                        rightIcon={<EditOutlinedIcon></EditOutlinedIcon>}
-                        onClick={() => {
-                          setIsEditing(true);
-                          setEditText(comment.text);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        className={style.button__icon}
-                        variant="ghost"
-                        onClick={handleDeleteComment}
-                        rightIcon={<DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>}
-                      >
-                        Remove
-                      </Button>
-                    </VStack>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
+              {user.id === comment.ownerId ? (
+                <Popover>
+                  <PopoverTrigger>
+                    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" icon={<MoreVertIcon />} />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <VStack justifyContent="space-around" alignItems="center">
+                        <Button
+                          className={style.button__icon}
+                          variant="ghost"
+                          rightIcon={<EditOutlinedIcon></EditOutlinedIcon>}
+                          onClick={() => {
+                            setIsEditing(true);
+                            setEditText(comment.text);
+                          }}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          className={style.button__icon}
+                          variant="ghost"
+                          onClick={handleDeleteComment}
+                          rightIcon={<DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>}
+                        >
+                          Remove
+                        </Button>
+                      </VStack>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ) : null}
             </Flex>
           </CardHeader>
           <CardBody padding={0}>
@@ -242,7 +244,7 @@ const CommentCard = (props) => {
             value={editText}
             onChange={setEditText}
             cleanOnEnter
-            onEnter={handleOnEnter}
+            onEnter={handleUpdateComment}
             placeholder="Type a message"
           ></InputEmoji>
           <Button colorScheme="red" variant="link" onClick={() => setIsEditing(false)}>
@@ -279,7 +281,7 @@ const CommentCard = (props) => {
                 value={replyText}
                 onChange={() => setReplyText()}
                 cleanOnEnter
-                onEnter={handleUpdateComment}
+                onEnter={handleOnEnter}
                 placeholder="Type a message"
               ></InputEmoji>
             </div>
@@ -302,6 +304,7 @@ CommentCard.defaultProps = {
     text: '',
     updatedAt: '',
     userName: '',
+    ownerId: '',
     emoji: {
       name: '',
       emoji: '',
