@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar } from '@chakra-ui/react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useNavigate } from 'react-router-dom';
@@ -13,8 +13,10 @@ import { getCurrentUserDetail } from '~/auth';
 function MainNavbar(props) {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [user, setUser] = useState(getCurrentUserDetail());
-
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    setUser(getCurrentUserDetail());
+  }, []);
   const handleRoutePages = (id) => {
     switch (id) {
       case 'problems':

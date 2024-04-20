@@ -18,8 +18,8 @@ public class StatisticController {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<StatisticDTO> getStatistic(@RequestBody Long userId) {
+    @GetMapping
+    public ResponseEntity<StatisticDTO> getStatistic(@RequestParam Long userId) {
         StatisticDTO statisticDTO = service.getStatistic(userId);
         log.info("Get StatisticDTO from StatisticController");
         return ResponseEntity.ok(statisticDTO);

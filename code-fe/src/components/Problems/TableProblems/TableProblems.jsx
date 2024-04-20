@@ -6,16 +6,26 @@ import './TableProblems.scss';
 import Todo from '~/assets/images/Todo.svg';
 import Solved from '~/assets/images/Solved.svg';
 import Attempted from '~/assets/images/Attempted.svg';
-
+import { WarningIcon } from '@chakra-ui/icons';
 const TableProblems = memo((props) => {
-  const getColor = (difficulty) => {
-    if (difficulty === 'Easy') return 'var(--green)';
-    else if (difficulty === 'Normal') return 'var(--orange)';
-    else return 'var(--red)';
+  const getDifficulty = (difficulty) => {
+    switch (difficulty) {
+      case 'EASY':
+        return <Td style={{ color: 'var(--green)' }}>Easy</Td>;
+      case 'NORMAL':
+        return <Td style={{ color: 'var(--orange)' }}>Easy</Td>;
+      case 'HARD':
+        return <Td style={{ color: 'var(--red)' }}>Easy</Td>;
+      default:
+        <Td style={{ color: '#FF0100' }}>
+          <WarningIcon w={8} h={8} color="var(--green)"></WarningIcon>Not found!
+        </Td>;
+        break;
+    }
   };
   const getStatus = (status) => {
-    if (status === 'Todo') return Todo;
-    else if (status === 'Solved') return Solved;
+    if (status === 'TODO') return Todo;
+    else if (status === 'SOLVED') return Solved;
     else return Attempted;
   };
 
@@ -39,17 +49,19 @@ const TableProblems = memo((props) => {
         <Tbody>
           {props.problems.map((problem, index) => (
             <Tr
-              key={problem.id}
+              cursor="pointer"
+              key={index}
               style={{ backgroundColor: index % 2 === 0 ? 'var(--gray-light)' : 'var(--white)' }}
               onClick={() => props.onSelectProblem(problem)}
+              marginBottom="5px"
             >
               <Td>
                 <img src={getStatus(problem.status)} alt={problem.status}></img>
               </Td>
 
-              <Td>{problem.name}</Td>
-              <Td>{problem.acceptance}%</Td>
-              <Td style={{ color: getColor(problem.difficulty) }}>{problem.difficulty}</Td>
+              <Td>{problem.title}</Td>
+              <Td>{problem.acceptanceRate}%</Td>
+              {getDifficulty(problem.difficulty)}
             </Tr>
           ))}
         </Tbody>

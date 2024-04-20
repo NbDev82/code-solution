@@ -1,7 +1,7 @@
-export let LIMIT_QUANTITY_TOPICS = 4;
-export let LIMIT_ROW_PROBLEMS_TABLE = 20;
+export const LIMIT_QUANTITY_TOPICS = 4;
+export const LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-export const ORIGINAL_API_URL = 'http://localhost:8000/';
+export const ORIGINAL_API_URL = 'http://localhost:8000';
 export const DEFAULT_LOTTIE_OPTIONS = {
   loop: true,
   autoplay: true,
@@ -233,7 +233,7 @@ export const DATA_LOGIN_SAMPLE = {
   token:
     'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjIsImVtYWlsIjoibmd1eWVuZHFkdXlAZ21haWwuY29tIiwic3ViIjoiMDk2MTE2Mjk3OSIsImV4cCI6MTcxNTYxNTMzM30.xw2DthsajQoFeMpkTvXXPcSIxHgT5LVAB0oMxtWDgF8',
   user: {
-    id: 2,
+    id: 1,
     fullName: 'Nguyễn Đình Quốc Duy',
     phoneNumber: '0961162979',
     dateOfBirth: '1990-01-01T00:00:00',
@@ -315,3 +315,13 @@ export const COMMENTS_SAMPLE = [
     ],
   },
 ];
+
+export const FILTER_DEFAULT = {
+  userId: '1',
+  pageNumber: '0',
+  limit: LIMIT_ROW_PROBLEMS_TABLE,
+  status: 'ALL',
+  difficulty: 'ALL',
+  topic: 'ALL',
+  searchTerm: '',
+};

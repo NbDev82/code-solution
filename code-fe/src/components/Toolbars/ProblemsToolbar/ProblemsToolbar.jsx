@@ -5,14 +5,17 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { Input } from '@chakra-ui/react';
 import './ProblemsToolbar.scss';
 import ButtonDefault from '~/components/Buttons/Button';
+import PropTypes from 'prop-types';
+import { FILTER_DEFAULT } from '~/utils/Const';
 
-function ProblemsToolbar({ onPickOnProblem, onSearchSubmit, onFilterStatus, onFilterDifficulty }) {
+function ProblemsToolbar(props) {
   const [inputValue, setInputValue] = useState('');
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      onSearchSubmit(inputValue);
+      props.onSearchSubmit(inputValue);
     }
   };
+  console.log(props.filters.difficulty);
 
   return (
     <div className="filter_container">
@@ -35,17 +38,17 @@ function ProblemsToolbar({ onPickOnProblem, onSearchSubmit, onFilterStatus, onFi
           Status
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-          <MenuOptionGroup defaultValue={'all'}>
-            <MenuItemOption value="all" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
+          <MenuOptionGroup defaultValue={'ALL'} value={props.filters.status}>
+            <MenuItemOption value="ALL" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
               All
             </MenuItemOption>
-            <MenuItemOption value="todo" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
+            <MenuItemOption value="TODO" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
               Todo
             </MenuItemOption>
-            <MenuItemOption value="solved" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
+            <MenuItemOption value="SOLVED" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
               Solved
             </MenuItemOption>
-            <MenuItemOption value="attempted" type="radio" onClick={(e) => onFilterStatus(e.currentTarget.value)}>
+            <MenuItemOption value="ATTEMPTED" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
               Attempted
             </MenuItemOption>
           </MenuOptionGroup>
@@ -70,17 +73,21 @@ function ProblemsToolbar({ onPickOnProblem, onSearchSubmit, onFilterStatus, onFi
           Difficulty
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-          <MenuOptionGroup defaultValue={'all'}>
-            <MenuItemOption value="all" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
+          <MenuOptionGroup defaultValue={'ALL'} value={props.filters.difficulty}>
+            <MenuItemOption value="ALL" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
               All
             </MenuItemOption>
-            <MenuItemOption value="easy" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
+            <MenuItemOption value="EASY" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
               Easy
             </MenuItemOption>
-            <MenuItemOption value="normal" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
+            <MenuItemOption
+              value="NORMAL"
+              type="radio"
+              onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}
+            >
               Normal
             </MenuItemOption>
-            <MenuItemOption value="hard" type="radio" onClick={(e) => onFilterDifficulty(e.currentTarget.value)}>
+            <MenuItemOption value="HARD" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
               Hard
             </MenuItemOption>
           </MenuOptionGroup>
@@ -99,12 +106,23 @@ function ProblemsToolbar({ onPickOnProblem, onSearchSubmit, onFilterStatus, onFi
         onChange={(e) => setInputValue(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      <ButtonDefault id="pickone" small highlight color="White" onClick={onPickOnProblem}>
+      <ButtonDefault id="pickone" small highlight color="White" onClick={props.onPickOnProblem}>
         <span>Pick One</span>
         <ShuffleIcon sx={{ fontSize: 24 }}></ShuffleIcon>
       </ButtonDefault>
     </div>
   );
 }
+ProblemsToolbar.propTypes = {
+  filters: PropTypes.object,
+  onPickOnProblem: PropTypes.func,
+  onSearchSubmit: PropTypes.func,
+  onFilterStatus: PropTypes.func,
+  onFilterDifficulty: PropTypes.func,
+};
+
+ProblemsToolbar.defaultProps = {
+  filters: FILTER_DEFAULT,
+};
 
 export default memo(ProblemsToolbar);

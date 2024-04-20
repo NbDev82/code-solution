@@ -15,6 +15,7 @@ import java.util.List;
 @Data
 @Builder
 public class ProblemDTO {
+    private Long id;
     private String title;
     private Problem.EDifficultyLevel difficulty;
     private boolean isDeleted;
