@@ -31,9 +31,15 @@ function TestCaseScreen() {
               <HStack>
                 <Text>Status: </Text>
                 {result.status === 'ACCEPTED' ? (
-                  <CheckCircleIcon w={8} h={8} color="var(--green)" />
+                  <>
+                    <CheckCircleIcon w={8} h={8} color="var(--green)" />
+                    <Text color="var(--green)">{result.status}</Text>
+                  </>
                 ) : (
-                  <WarningIcon w={8} h={8} color="var(--red)" />
+                  <>
+                    <WarningIcon w={8} h={8} color="var(--red)" />
+                    <Text color="var(--red)">{result.status}</Text>
+                  </>
                 )}
               </HStack>
               <HStack>

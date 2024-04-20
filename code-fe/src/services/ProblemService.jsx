@@ -15,4 +15,9 @@ const getStatisticsDatasets = async (paramsString) => {
   const requestURL = `${BASE_URL}/statistic?${paramsString}`;
   return await axios.get(requestURL);
 };
-export { getProblems, getAllTopics, getStatisticsDatasets };
+
+const getProblem = async (paramString) => {
+  return await axios.get(`${BASE_URL}/problems/findById?${paramString}`);
+};
+
+export { getProblems, getAllTopics, getStatisticsDatasets, getProblem };

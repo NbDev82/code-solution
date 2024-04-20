@@ -4,19 +4,24 @@ import { ProblemContext } from '~/context/Problem';
 import './EditorScreen.scss';
 import queryString from 'query-string';
 import { getInputCode, runCode } from '~/services/SubmitCodeService';
+import Button from '../Buttons/Button';
 
 const EditorScreen = () => {
-  const { setResult,problem } = useContext(ProblemContext);
+  const { setResult, problem, user } = useContext(ProblemContext);
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('java');
   const fetchCode = async () => {
     try {
-      const response = await getInputCode(queryString.stringify({ problemID:problem.id, language }));
+      const response = await getInputCode(queryString.stringify({ problemId: problem.id, language }));
       return response.data;
     } catch (error) {
       console.error('Error fetching code:', error);
       return error.response?.data?.message;
     }
+  };
+
+  const handleEditorChange = (code) => {
+    setCode(code);
   };
 
   useEffect(() => {
@@ -27,10 +32,10 @@ const EditorScreen = () => {
 
   const handleSendCode = async () => {
     const request = {
-      userId: 1, // will amend soon
+      userId: user.id,
       code: code,
       language: language,
-      problemId: problem.id, // will amend soon
+      problemId: problem.id,
     };
     try {
       const response = await runCode(request);
@@ -54,14 +59,9 @@ const EditorScreen = () => {
           <option value="csharp">C#</option>
           <option value="python">Python</option>
         </select>
+        <Button onClick={handleSendCode}>Submit Code</Button>
       </div>
-      <Editor
-        height="48vh"
-        width="100%"
-        language={language}
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-      />
+      <Editor height="40vh" width="100%" language={language} value={code} onChange={handleEditorChange} />
     </>
   );
 };
