@@ -21,7 +21,7 @@ function SubmitCodeScreen() {
   const location = useLocation();
   const problemId = location.state?.problemId;
   useEffect(() => {
-    fetchProblem(problem.id).then((data) => {
+    fetchProblem(problemId).then((data) => {
       setProblem(data);
     });
   }, []);

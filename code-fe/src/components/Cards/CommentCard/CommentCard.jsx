@@ -215,7 +215,7 @@ const CommentCard = (props) => {
                 <span className={style.emoji__name_active}>
                   Comment
                   {' ('}
-                  {comment.replyComments.length}
+                  {comment.replyQuantity}
                   {')'}
                 </span>
               </Button>
@@ -231,7 +231,7 @@ const CommentCard = (props) => {
                 <span className={style.emoji__name}>
                   Comment
                   {' ('}
-                  {comment.replyComments.length}
+                  {comment.replyQuantity}
                   {')'}
                 </span>
               </Button>
@@ -310,6 +310,7 @@ CommentCard.defaultProps = {
       emoji: '',
     },
     emojiQuantity: 0,
+    replyQuantity: 0,
     replyComments: [],
   },
 };
