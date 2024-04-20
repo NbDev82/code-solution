@@ -21,18 +21,16 @@ function SubmitCodeScreen() {
   const location = useLocation();
   const problemId = location.state?.problemId;
   useEffect(() => {
-    // fetchProblem(problemName).then(data => {
-    //     setProblem(data);
-    //     setProblemId(data.id)
-    //     setProblemName(data.name)
-    // });
-    // setUserId(1)
+    fetchProblem(problem.id).then((data) => {
+      setProblem(data);
+    });
   }, []);
 
-  const fetchProblem = async (problemName) => {
+  const fetchProblem = async (problemId) => {
     try {
-      //const response = await getProblem(queryString.stringify({problemId}));
-      //return response.data
+      console.log(queryString.stringify({ problemId }));
+      const response = await getProblem(queryString.stringify({ problemId }));
+      return response.data;
     } catch (error) {
       console.error('Error fetching problem:', error);
       return error.response?.data?.message;
