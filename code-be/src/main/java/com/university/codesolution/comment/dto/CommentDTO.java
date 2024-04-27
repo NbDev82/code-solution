@@ -23,6 +23,7 @@ public class CommentDTO {
     private String userName;
     private Long ownerId;
     private Emoji emoji;
+    private int replyQuantity;
     private int emojiQuantity;
 
     private List<CommentDTO> replyComments;

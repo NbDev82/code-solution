@@ -50,15 +50,24 @@ public class CommentController {
     }
 
     @PostMapping("/reply-comment")
-    public ResponseEntity<String> replyComment(@RequestBody ReplyCommentRequest request) {
+    public ResponseEntity<CommentDTO> replyComment(@RequestBody ReplyCommentRequest request) {
         int MINIMUM_LENGTH_OF_MESSAGE = 10;
         if(request.text().length() < MINIMUM_LENGTH_OF_MESSAGE)
             throw new InvalidCommentLengthException("Comment must not less than 10 characters");
 
-        commentService.reply(request);
+        CommentDTO response = commentService.reply(request);
+
         log.info(Constants.REPLY_COMMENT_SUCCESSFULLY);
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Constants.REPLY_COMMENT_SUCCESSFULLY);
+                .body(response);
+    }
+
+    @GetMapping("/get-comments/{problemId}")
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable Long problemId) {
+        List<CommentDTO> commentDTOs = commentService.getByProblemId(problemId);
+        log.info(Constants.COMMENTS_RETRIEVED_SUCCESSFULLY);
+        return ResponseEntity.ok(commentDTOs);
     }
 
     @Operation(
@@ -71,9 +80,9 @@ public class CommentController {
                     )
             }
     )
-    @GetMapping("/get-comments/{problemId}")
-    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable Long problemId) {
-        List<CommentDTO> commentDTOs = commentService.getByProblemId(problemId);
+    @GetMapping("/get-reply-comments/{commentId}")
+    public ResponseEntity<List<CommentDTO>> getReplyComments(@PathVariable Long commentId) {
+        List<CommentDTO> commentDTOs = commentService.getByCommentId(commentId);
         log.info(Constants.COMMENTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(commentDTOs);
     }

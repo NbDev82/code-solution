@@ -85,15 +85,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void reply(ReplyCommentRequest request) {
+    public List<CommentDTO> getByCommentId(Long commentId) {
+        List<Comment> comments = commentRepos.findByCommentParent_Id(commentId);
+        return commentMapper.toDTOs(comments);
+    }
+
+    @Override
+    public CommentDTO reply(ReplyCommentRequest request) {
+        if (request.commentId() == null)
+            return null;
+
         Comment comment = Comment.builder()
                 .text(request.text())
                 .isDeleted(false)
+                .updatedAt(LocalDateTime.now())
                 .user(userService.getEntityUserById(request.userId())
                 )
                 .commentParent(commentRepos.findById(request.commentId()).orElse(null))
                 .build();
 
-        commentRepos.save(comment);
+        Comment saved = commentRepos.save(comment);
+
+        return commentMapper.toDTO(saved);
     }
 }
