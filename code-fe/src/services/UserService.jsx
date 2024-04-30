@@ -10,5 +10,5 @@ export const loginUser = (loginDetail) => {
 };
 
 export const getUser = (userId) => {
-  return httpRequest.get(`/api/users/${userId}`).then((resp) => resp.data);
+  return httpRequest.get(`/api/users/${userId}`).then((response) => response.data);
 };

@@ -1,0 +1,106 @@
+.left-pane {
+  flex: 1 1 auto;
+  min-width: 0px;
+  margin: 0 auto;
+  width: 60%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.rounded-topic-list-wrapper,
+.topic-list-content {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  margin-bottom: 40px;
+  border-radius: 3px;
+}
+
+.subheader {
+  background: #fafafa;
+  padding: 0 20px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subheader-left {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrapper {
+  width: 175px;
+  margin-right: 5px;
+}
+
+.wrapper {
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  color: #546e7a;
+  border: 1px solid #cfd8dc;
+  border-radius: 3px;
+  font-weight: 300;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -o-transition: 0.4s all;
+  transition: 0.4s all;
+}
+
+/* CSS button send */
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 3px;
+  padding: 4px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn.fancy-btn {
+  background-color: #2a0c0c;
+  color: #ffffff;
+}
+
+.btn.btn-xs {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.btn:hover {
+  background-color: #8d8484;
+  color: #000000;
+  border-color: #b0bec5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.customPagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.item {
+  display: inline-block;
+  margin-right: 10px;
+}

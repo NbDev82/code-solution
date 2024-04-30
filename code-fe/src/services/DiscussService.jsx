@@ -1,24 +1,21 @@
-import { httpRequest, privateHttpRequest } from '~/utils/httpRequest';
+import { httpRequest } from '~/utils/httpRequest';
+import { privateHttpRequest } from '~/utils/httpRequest';
 export const createPost = (postData) => {
   return privateHttpRequest
     .post(`/api/user/${postData.userId}/category/${postData.categoryId}/posts`, postData)
-    .then((response) => {
-      response.data;
-    });
+    .then((response) => response.data);
 };
 
 export const loadAllPosts = (pageNumber, pageSize) => {
+  debugger;
+
   return httpRequest
     .get(`/api/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=addedDate&sortDir=desc`)
-    .then((response) => {
-      response.data;
-    });
+    .then((response) => response.data);
 };
 
 export const loadPost = (postId) => {
-  return httpRequest.get('/api/posts/' + postId).then((response) => {
-    response.data;
-  });
+  return httpRequest.get('/api/posts/' + postId).then((response) => response.data);
 };
 
 export const loadComment = (commentId) => {
@@ -46,9 +43,9 @@ export function loadPostCategoryWise(categoryId) {
   return privateHttpRequest.get(`/api/category/${categoryId}/posts`).then((response) => response.data);
 }
 
-export function loadPostUserWise(userId) {
-  return privateHttpRequest.get(`/user/${userId}/posts`).then((response) => response.data);
-}
+export const loadPostUserWise = (userId) => {
+  return privateHttpRequest.get(`/api/user/${userId}/posts`).then((response) => response.data);
+};
 
 export function deletePostService(postId) {
   return privateHttpRequest.delete(`/api/posts/${postId}`).then((response) => response.data);

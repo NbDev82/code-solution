@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { format } from 'date-fns';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signUp } from '~/services/UserService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { AvatarGenerator } from 'random-avatar-generator';
 
 function Copyright(props) {
   return (
@@ -34,6 +34,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const generator = new AvatarGenerator();
+
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,6 +46,7 @@ export default function SignUp() {
     password: '',
     dateOfBirth: '',
     role: 'USER',
+    urlImage: '',
   });
 
   const [errors, setErrors] = useState({
@@ -65,30 +68,37 @@ export default function SignUp() {
       password: '',
       dateOfBirth: '',
       role: 'USER',
+      urlImage: '',
     });
   };
   const submitForm = async (event) => {
     event.preventDefault();
-
     setIsSubmitting(true);
+    let newAvatarUrl = '';
 
-    signUp(data)
+    debugger;
+    try {
+      // Thử tạo giá trị ngẫu nhiên mới cho newAvatarUrl
+      newAvatarUrl = generator.generateRandomAvatar();
+      if (newAvatarUrl.length >= 750) {
+        newAvatarUrl = 'https://example.com/default-avatar.png';
+      }
+    } catch (error) {
+      console.error('Failed to generate random avatar URL:', error);
+      // Xử lý khi không thể tạo giá trị ngẫu nhiên, ví dụ: sử dụng một giá trị mặc định
+      newAvatarUrl = 'https://example.com/default-avatar.png';
+    }
+    const [year, month, day] = data.dateOfBirth.split('-');
+    debugger;
+    const dateOfBirth = `${year}-${month}-${day}T00:00:00.000`;
+
+    signUp({ ...data, dateOfBirth, urlImage: newAvatarUrl })
       .then((resp) => {
-        debugger;
-        if ((resp.message = 'user.login.register_successfully')) {
+        if (resp.message === 'user.login.register_successfully') {
           toast.success('User is registered successfully !! user id ' + resp.id);
-          setData({
-            fullName: '',
-            email: '',
-            phoneNumber: '',
-            password: '',
-            dateOfBirth: '',
-            role: 'USER',
-          });
+          resetData();
           navigate('/sign-in');
-          debugger;
         } else {
-          // Handle non-successful response
           toast.error('Registration failed. Please try again.');
         }
       })
@@ -158,6 +168,8 @@ export default function SignUp() {
                   name="dateOfBirth"
                   type="date"
                   InputLabelProps={{ shrink: true }}
+                  value={data.dateOfBirth}
+                  onChange={(e) => handleChange(e, 'dateOfBirth')}
                 />
               </Grid>
               <Grid item xs={12}>

@@ -13,7 +13,7 @@ const routes = {
   contests_management: '/contests-management',
   add_contest: '/add-contest',
   contest_result: '/contest-result',
-  post: '/post',
+  post: '/posts/:postId',
 };
 
 export default routes;
