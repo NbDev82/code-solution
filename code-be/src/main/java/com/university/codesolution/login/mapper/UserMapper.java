@@ -23,6 +23,7 @@ public interface UserMapper {
     @Mapping(target = "notifications", ignore = true)
     @Mapping(target = "comments", ignore = true)
     @Mapping(target = "submissions", ignore = true)
+    @Mapping(target = "urlImage", source = "urlImage")
     User toEntity(UserDTO userDTO);
 
     List<User> toEntities(List<UserDTO> userDTOs);
