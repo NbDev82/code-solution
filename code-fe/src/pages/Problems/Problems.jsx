@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { Skeleton } from '@chakra-ui/react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Problems.module.scss';
 import Navbar from '~/components/Navbars/MainNavbar';
 import Footer from '~/components/Footer';
@@ -25,8 +24,6 @@ function Problems(props) {
   const [statisticsDatasets, setStatisticsDatasets] = useState({});
   const [loading, setLoading] = useState(false);
   const [totalElement, setTotalElement] = useState(0);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const fetchProblemsList = async () => {
     try {
@@ -81,14 +78,10 @@ function Problems(props) {
     setFilters((prev) => ({ ...prev, difficulty: value }));
   }, []);
 
-  const handlePickOnProblem = useCallback((value) => {}, []);
+  const handlePickOneProblem = useCallback((value) => {}, []);
 
   const handleSearchSubmit = useCallback((value) => {
     setFilters((prev) => ({ ...prev, searchTerm: value }));
-  }, []);
-
-  const handleSelectProblem = useCallback((problem) => {
-    navigate(`${location.pathname}/${problem.title.replace(' ', '-')}`, { state: { problemId:  problem.id} });
   }, []);
 
   const handlePageChange = useCallback(({ selected: page }) => {
@@ -115,14 +108,14 @@ function Problems(props) {
           <div className={styles.problems__container_layout}>
             <ProblemsToolbar
               filters={filters}
-              onPickOnProblem={handlePickOnProblem}
+              onPickOnProblem={handlePickOneProblem}
               onSearchSubmit={handleSearchSubmit}
               onFilterStatus={handleFilterStatus}
               onFilterDifficulty={handleFilterDifficulty}
             ></ProblemsToolbar>
             <FilterStatus filters={filters} onRemoveFilter={handleRemoveStatusFilter}></FilterStatus>
             <Skeleton minHeight={'600px'} width={'100%'} borderRadius={'10px'} isLoaded={!loading}>
-              <TableProblems problems={problems} onSelectProblem={handleSelectProblem} />
+              <TableProblems problems={problems} />
             </Skeleton>
 
             <Pagination totalRows={totalElement} onPageChange={handlePageChange} />

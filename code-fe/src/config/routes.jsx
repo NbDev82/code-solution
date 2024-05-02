@@ -14,6 +14,7 @@ const routes = {
   add_contest: '/add-contest',
   contest_result: '/contest-result',
   post: '/post',
+  problem_details:'/problem-details/:action'
 };
 
 export default routes;

@@ -29,6 +29,21 @@
     align-items: center;
     flex-direction: column;
     padding: 0;
+    &::-webkit-scrollbar {
+      border-radius: 0;
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: transparent;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 0;
+      background-color: var(--white);
+    }
   }
 }
 
@@ -37,7 +52,7 @@
 }
 
 .avatar {
-  transform: translateY(-50%) scale(3) ;
+  transform: translateY(-50%) scale(3);
 }
 
 .box__avatar {
@@ -49,3 +64,17 @@
   justify-content: center;
 }
 
+.problem {
+  &__toolbar {
+    height: 60px;
+    width: 100%;
+    margin: 10px;
+    justify-content: end;
+    align-items: end;
+    font-size: 18px;
+  }
+  &__container {
+    justify-content: center;
+    align-items: center;
+  }
+}
