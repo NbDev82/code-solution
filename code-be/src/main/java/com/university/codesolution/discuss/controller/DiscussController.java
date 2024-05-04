@@ -115,6 +115,15 @@ public class DiscussController {
         }
 
     }
+    @PutMapping("/posts/{discussId}")
+    public ResponseEntity<DiscussDTO> updateDiscuss(
+            @RequestBody DiscussDTO discussDTO,
+            @PathVariable Long discussId
+    )
+    {
+        DiscussDTO updatedDiscuss = discussService.updateDiscuss(discussDTO, discussId);
+        return new ResponseEntity<DiscussDTO>(updatedDiscuss, HttpStatus.OK);
+    }
 
 
 

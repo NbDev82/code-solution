@@ -76,6 +76,20 @@ public class DiscussServiceImpl implements DiscussService {
 
         return this.discussMapper.toDto(updateDiscuss);
     }
+    @Override
+    @Transactional
+
+    public DiscussDTO updateDiscuss(DiscussDTO discussDTO, Long discussId) {
+        Discuss discuss = this. discussRepos.findById(discussId)
+                .orElseThrow(()-> new ResourceNotFoundException("Discuss"));
+        discuss.setTopic(discussDTO.getTopic());
+        discuss.setContent(discussDTO.getContent());
+        if (discussDTO.getImage() != null) {
+            discuss.setImage(discussDTO.getImage());
+        }
+        Discuss updatedDiscuss = this.discussRepos.save(discuss);
+        return this.discussMapper.toDto(updatedDiscuss);
+    }
 
     @Override
     @Transactional

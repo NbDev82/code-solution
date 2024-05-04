@@ -41,7 +41,10 @@ public class DiscussMapper {
     }
     public DiscussDTO toDto(Discuss discuss) {
         UserDTO userDTO = modelMapper.map(discuss.getOwner(), UserDTO.class);
-        CategoryDTO categoryDTO = modelMapper.map(discuss.getCategory(), CategoryDTO.class);
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(discuss.getCategory().getId());
+        categoryDTO.setCategoryTitle(discuss.getCategory().getCategoryTitle());
+        categoryDTO.setCategoryDescription(discuss.getCategory().getCategoryDescription());
         DiscussDTO discussDTO = modelMapper.map(discuss, DiscussDTO.class);
         discussDTO.setUser(userDTO);
         discussDTO.setCategory(categoryDTO);
