@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import AddPost from '../AddPost';
+import AddPost from '../../components/AddPost';
 import UserDashboard from '../User/UserDashboard';
 import { loadPost } from '~/services/DiscussService';
 import { toast } from 'react-toastify';
@@ -14,7 +14,9 @@ import MainNavbar from '~/components/Navbars/MainNavbar';
 const PostPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
-
+  const handleBackClick = () => {
+    window.history.back();
+  };
   const [comment, setComment] = useState({ text: '' });
   const [expandedComments, setExpandedComments] = useState([]);
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -79,7 +81,7 @@ const PostPage = () => {
           </Link>
         )}
         <div style={{ marginRight: '16px', position: 'relative' }}>
-          <a style={{ display: 'flex', alignItems: 'center', fontSize: '14px' }} href="/discuss/">
+          <a style={{ display: 'flex', alignItems: 'center', fontSize: '14px' }} onClick={handleBackClick}>
             <svg viewBox="0 0 24 24" width="1em" height="1em" class="icon__1Md2">
               <path fill-rule="evenodd" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
             </svg>

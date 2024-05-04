@@ -1,3 +1,5 @@
+import UserDashboard from '~/pages/User/UserDashboard';
+import { updatePost } from '~/services/DiscussService';
 import { signUp } from '~/services/UserService';
 
 const routes = {
@@ -14,6 +16,8 @@ const routes = {
   add_contest: '/add-contest',
   contest_result: '/contest-result',
   post: '/posts/:postId',
+  user_dashboard: '/user/:userId/posts',
+  update_post: 'user/update-post/:postId',
 };
 
 export default routes;

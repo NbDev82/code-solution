@@ -3,10 +3,14 @@
     border-bottom: 1px solid #eeeeee;
   }
 }
+.topic-info__tdz0 {
+  margin-left: 10px;
+  margin-right: 0px;
+}
 .topic-item__1Asc {
   display: flex;
   height: 80px;
-  padding: 8px 25px;
+  padding: 8px 20px;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: start;
@@ -31,12 +35,14 @@
   flex: 1;
   min-width: 0;
   box-sizing: border-box;
+  margin-left: 10px;
 }
 
 .item-header__2w29 {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: 10px;
 }
 
 .title-link__1ay5 {

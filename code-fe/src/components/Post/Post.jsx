@@ -7,7 +7,6 @@ import { Box, Text, Flex } from '@chakra-ui/react';
 import { Container } from 'reactstrap';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Avatar } from '@chakra-ui/react';
-import { AvatarGenerator } from 'random-avatar-generator';
 
 function Post({ post, deletePost }) {
   const userContextData = useContext(userContext);

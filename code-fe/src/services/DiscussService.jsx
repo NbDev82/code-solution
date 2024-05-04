@@ -40,6 +40,7 @@ export const uploadPostImage = (image, postId) => {
 };
 
 export function loadPostCategoryWise(categoryId) {
+  debugger;
   return privateHttpRequest.get(`/api/category/${categoryId}/posts`).then((response) => response.data);
 }
 
