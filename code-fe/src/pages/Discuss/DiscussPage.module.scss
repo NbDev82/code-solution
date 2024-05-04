@@ -7,12 +7,13 @@
   display: flex;
   max-width: 1240px;
   margin: 15px auto;
+  width: 70%;
 }
 .left-pane {
   flex: 1 1 auto;
   min-width: 0px;
   margin: 0 auto;
-  width: 60%;
+  width: 100%;
   background-color: #fafafa;
 }
 .right-pane {

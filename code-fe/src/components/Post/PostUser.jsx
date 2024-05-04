@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import userContext from '~/context/userContext';
 import { getCurrentUserDetail, isLoggedIn } from '~/auth';
 import './Post.scss';
-import { Box, Text, Flex } from '@chakra-ui/react';
+import { Box, Text, Flex, Button } from '@chakra-ui/react';
 import { Container } from 'reactstrap';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Avatar } from '@chakra-ui/react';
 
-function Post({ post, deletePost }) {
+function PostUser({ post, deletePost }) {
   const userContextData = useContext(userContext);
   const [user, setUser] = useState(null);
   const [login, setLogin] = useState(null);
@@ -19,10 +19,24 @@ function Post({ post, deletePost }) {
   const printDate = (numbers) => {
     return new Date(numbers).toLocaleDateString();
   };
+  const handleUpdate = (postId) => {
+    // Handle the update action for the post with the specified postId
+    window.location.href = `/user/update-post/${postId}`;
+  };
+  const handleDelete = (postId) => {};
   debugger;
 
+  const handleButtonClick = (event, postId) => {
+    event.stopPropagation(); // Prevent the click event from bubbling up to the Link element
+    if (event.target.name === 'update') {
+      handleUpdate(postId);
+    } else if (event.target.name === 'delete') {
+      handleDelete(postId);
+    }
+  };
+
   return (
-    <Link style={{ width: '70%' }} to={'/posts/' + post.id}>
+    <div>
       <div className="topic-item-wrap__border topic-item__container">
         <div className="topic-info__left-margin">
           <Avatar className="avatar__size" name={post.user.fullName} src={post.user.urlImage} />
@@ -55,9 +69,30 @@ function Post({ post, deletePost }) {
             <Text>{post.views}</Text>
           </div>
         </div>
+        {login && user?.id === post.user.id && (
+          <div style={{ marginTop: '10px' }}>
+            <Button
+              className="custom-button"
+              colorScheme="blue"
+              size="sm"
+              name="update"
+              onClick={(event) => handleButtonClick(event, post.id)}
+            >
+              Update
+            </Button>
+            <Button
+              className="custom-button"
+              size="sm"
+              name="delete"
+              onClick={(event) => handleButtonClick(event, post.id)}
+            >
+              Delete
+            </Button>
+          </div>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
 
-export default Post;
+export default PostUser;

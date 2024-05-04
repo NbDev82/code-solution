@@ -8,13 +8,13 @@ import { loadAllCategories } from '~/services/CatDiscussService';
 import { Card, CardBody, Form, Input, Label, Button, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
 import MainNavbar from '~/components/Navbars/MainNavbar';
+import styles from './UpdatePost.module.scss';
 
 function UpdatePost() {
   const editor = useRef(null);
-
   const [categories, setCategories] = useState([]);
 
-  //   const { postId } = useParams();
+  const { postId } = useParams();
   const object = useContext(userContext);
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -29,7 +29,7 @@ function UpdatePost() {
       });
 
     //load the blog from database
-    loadPost(3)
+    loadPost(postId)
       .then((data) => {
         console.log(data);
         setPost({ ...data, categoryId: data.category.categoryId });
@@ -54,13 +54,16 @@ function UpdatePost() {
       [fieldName]: event.target.value,
     });
   };
+  const handleBackClick = () => {
+    window.history.back();
+  };
   const updatePost = (event) => {
     event.preventDefault();
     console.log(post);
-    doUpdatePost({ ...post, category: { categoryId: post.categoryId } }, post.postId)
+    doUpdatePost({ ...post, category: { categoryId: post.categoryId } }, postId)
       .then((res) => {
-        console.log(res);
         toast.success('Post updated');
+        navigate(`/user/${res.user.id}/posts`, { state: {}, replace: false });
       })
       .catch((error) => {
         console.log(error);
@@ -70,21 +73,32 @@ function UpdatePost() {
   const updateHtml = () => {
     debugger;
     return (
-      <div className="wrapper">
-        <Card className="shadow-sm  border-0 mt-2">
+      <div className={`${styles.wrapper}`}>
+        <Card className={`${styles.card}`}>
           <CardBody>
             <h3>Update post from here !!</h3>
-            <Form onSubmit={updatePost}>
-              <div className="my-3">
-                <Label for="title">Post title</Label>
+            <div style={{ marginRight: '16px', position: 'relative' }}>
+              <a style={{ display: 'flex', alignItems: 'center', fontSize: '14px' }} onClick={handleBackClick}>
+                <svg viewBox="0 0 24 24" width="1em" height="1em" class="icon__1Md2">
+                  <path fill-rule="evenodd" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+                <span>Back</span>
+              </a>
+            </div>
+            <Form onSubmit={updatePost} className={styles['form-group']}>
+              <div className={`${styles.row}`}>
+                <Label className={`${styles.label}`} for="topic">
+                  Post topic
+                </Label>
                 <Input
                   type="text"
-                  id="title"
+                  id="topic"
                   placeholder="Enter here"
                   className="rounded-0"
-                  name="title"
-                  value={post.title}
-                  onChange={(event) => handleChange(event, 'title')}
+                  name="topic"
+                  value={post.topic}
+                  onChange={(event) => handleChange(event, 'topic')}
+                  style={{ width: '100%' }}
                 />
               </div>
 
@@ -107,12 +121,14 @@ function UpdatePost() {
 
               {/* file field  */}
 
-              <div className="mt-3">
-                <Label for="image">Select Post banner</Label>
+              <div className={`${styles.line}`}>
+                <Label className={`${styles.label}`} for="image">
+                  Select Post banner
+                </Label>
                 <Input id="image" type="file" onChange={''} />
               </div>
 
-              <div className="my-3">
+              <div className={`${styles.line}`}>
                 <Label for="category">Post Category</Label>
                 <Input
                   type="select"
@@ -136,12 +152,10 @@ function UpdatePost() {
               </div>
 
               <Container className="text-center">
-                <Button type="submit" className="rounded-0" color="primary">
+                <Button type="submit" className={`${styles.button}`}>
                   Update Post
                 </Button>
-                <Button className="rounded-0 ms-2" color="danger">
-                  Reset Content
-                </Button>
+                <Button className={`${styles.button} ${styles.customBtn}`}>Reset Content</Button>{' '}
               </Container>
             </Form>
           </CardBody>

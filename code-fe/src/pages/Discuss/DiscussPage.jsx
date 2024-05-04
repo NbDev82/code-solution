@@ -143,7 +143,7 @@ const DiscussPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="showPost">{showPost}</div>
+                  <div className={styles['left-pane']}>{showPost}</div>
                 </div>
                 <div className={`${styles.pagination}`}>
                   <Pagination>

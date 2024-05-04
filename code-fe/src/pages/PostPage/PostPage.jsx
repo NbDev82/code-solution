@@ -9,7 +9,7 @@ import { Button, Badge, Card, CardBody, CardText, Col, Container, Input, Row } f
 import styles from './PostPage.module.scss';
 import { colors } from '@mui/material';
 import { Avatar } from '@chakra-ui/react';
-
+import BlogComment from '~/components/BlogComment/BlogComment';
 import MainNavbar from '~/components/Navbars/MainNavbar';
 const PostPage = () => {
   const { postId } = useParams();
@@ -182,6 +182,7 @@ const PostPage = () => {
             </Card>
           </Col>
         </Row>
+        <BlogComment />
       </Container>
     </div>
   );
