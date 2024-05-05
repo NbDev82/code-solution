@@ -1,0 +1,225 @@
+.editor {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+}
+.customContainer {
+  background-color: #6e6363;
+  width: 100%;
+  padding-inline-end: var(--chakra-space-4);
+  max-width: none;
+}
+
+// .container {
+//   background-color: gray.100;
+//   padding: 1rem;
+//   margin-bottom: 1rem;
+//   border-radius: 4px;
+//   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+// }
+
+.input-area {
+  position: relative;
+}
+
+.follower-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cursor-position {
+  display: inline-block;
+  position: relative;
+}
+
+.follower-container {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+}
+
+.style-layer-container {
+  margin-top: 10px;
+}
+
+.text-area {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.action-area {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-actions {
+  display: flex;
+}
+
+.btn {
+  background-color: #6e6363;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.btn:hover {
+  /* Add your hover effect styles here */
+  /* Example: */
+  background-color: #5d4040;
+  color: #f2ecec;
+}
+
+.preview {
+  color: blue;
+}
+
+.button {
+  color: white;
+  background-color: rgba(20, 21, 20, 0.585);
+}
+
+.btn-content-container {
+  display: flex;
+  align-items: center;
+}
+
+.btn-content {
+  margin-left: 5px;
+}
+//CardComment
+.comment {
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.comment-content {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.reputation {
+  font-size: 12px;
+  color: #888;
+}
+
+.post-info {
+  margin-top: 5px;
+}
+
+.comment-text {
+  margin-top: 10px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.created-at {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #888;
+  margin-right: 10px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: #888;
+  margin-right: 5px;
+}
+
+.vote {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.downvote {
+  color: red;
+}
+
+.replySection {
+  margin-top: 10px;
+}
+
+input[type='text'] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.replies {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.reply {
+  display: flex;
+  margin-top: 10px;
+}
+
+.reply .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.reply .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.reply .username {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.reply .reputation {
+  font-size: 12px;
+  color: #888;
+}
+
+.reply .reply-text {
+  margin-top: 5px;
+}

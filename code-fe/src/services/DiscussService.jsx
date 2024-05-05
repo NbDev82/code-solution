@@ -19,11 +19,16 @@ export const loadPost = (postId) => {
 };
 
 export const loadComment = (commentId) => {
-  return httpRequest.get('/api/post/comments' + commentId).then((response) => response.data);
+  return httpRequest.get('/api/post/comment/' + commentId).then((response) => response.data);
+};
+export const loadCommentByDiscuss = (postId) => {
+  debugger;
+  return httpRequest.get('/api/posts/comments/' + postId).then((response) => response.data);
 };
 
-export const createComment = (comment, postId) => {
-  return privateHttpRequest.post(`/api/post/${postId}/comments`, comment);
+export const createComment = (comment, postId, userId) => {
+  debugger;
+  return privateHttpRequest.post(`/api/post/${postId}/user/${userId}/comments`, comment);
 };
 
 export const uploadPostImage = (image, postId) => {

@@ -9,8 +9,9 @@ import { Button, Badge, Card, CardBody, CardText, Col, Container, Input, Row } f
 import styles from './PostPage.module.scss';
 import { colors } from '@mui/material';
 import { Avatar } from '@chakra-ui/react';
-import BlogComment from '~/components/BlogComment/BlogComment';
+import CardComment from '~/components/BlogComment/CardComment';
 import MainNavbar from '~/components/Navbars/MainNavbar';
+import PostComment from '~/components/BlogComment/PostComment';
 const PostPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
@@ -90,7 +91,7 @@ const PostPage = () => {
         </div>
         <Row>
           <Col md={{ size: 12 }}>
-            <Card>
+            <Card className="card">
               {post && (
                 <CardBody>
                   <Container>
@@ -182,7 +183,14 @@ const PostPage = () => {
             </Card>
           </Col>
         </Row>
-        <BlogComment />
+        <div className="root">
+          <Container>
+            <PostComment />
+          </Container>
+          <Container>
+            <CardComment postId={postId} />{' '}
+          </Container>
+        </div>
       </Container>
     </div>
   );
