@@ -3,6 +3,7 @@ package com.university.codesolution.discuss.service;
 import com.university.codesolution.comment.dto.BlogCommentDTO;
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
+import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
 import com.university.codesolution.discuss.entity.Category;
 import com.university.codesolution.discuss.entity.Discuss;
@@ -115,15 +116,7 @@ public class DiscussServiceImpl implements DiscussService {
         Discuss discuss = this.discussRepos.findById(discussId)
                 .orElseThrow(()-> new ResourceNotFoundException("Cannot find Discuss with id: "+discussId));
 
-        List<Comment> commentList = discuss.getComments();
-//        List<Comment> commentNotParent = new ArrayList<>();
-//        for(Comment comment:commentList){
-//            if(comment.getCommentParent() == null)
-//                commentNotParent.add(comment);
-//        }
-        List<BlogCommentDTO> blogCommentDTOList = this.blogCommentMapper.dtos(commentList);
         DiscussDTO discussDTO = this.discussMapper.toDto(discuss);
-        discussDTO.setComments(blogCommentDTOList);
         return discussDTO;
 
 

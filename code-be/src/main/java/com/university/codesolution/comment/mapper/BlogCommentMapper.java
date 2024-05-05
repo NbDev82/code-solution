@@ -2,6 +2,7 @@ package com.university.codesolution.comment.mapper;
 
 import com.university.codesolution.comment.dto.BlogCommentDTO;
 import com.university.codesolution.comment.entity.Comment;
+import com.university.codesolution.login.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.mapstruct.Mapper;
@@ -21,24 +22,35 @@ public class BlogCommentMapper {
 
     public BlogCommentDTO toDto(Comment comment) {
         BlogCommentDTO childComment = this.setComment(comment);
+
         Comment commentParent = comment.getCommentParent();
-        if(commentParent!=null) {
-            childComment.setCommentParent(this.setComment(commentParent));
-        }
+
+
         return childComment;
     }
-    public BlogCommentDTO setComment(Comment comment){
+    public BlogCommentDTO setComment(Comment comment) {
         BlogCommentDTO blogCommentDTO = new BlogCommentDTO();
-        blogCommentDTO.setId(comment.getId());
 
-        blogCommentDTO.setText(comment.getText());
-
-        if(comment.getCommentParent()!=null) {
-            Comment commentParent = comment.getCommentParent();
-            commentParent.setUser(null);
-            commentParent.setDiscuss(null);
-            blogCommentDTO.setCommentParent(null);
+        if (comment.getUser() == null) {
+            // Assign default values for user-related fields
+            UserDTO defaultUserDTO = new UserDTO();
+            defaultUserDTO.setId(0L); // Assign a default user ID
+            defaultUserDTO.setFullName("User"); // Assign a default user name
+            blogCommentDTO.setUser(defaultUserDTO);
+        } else {
+            UserDTO userDTO = modelMapper.map(comment.getUser(), UserDTO.class);
+            blogCommentDTO.setUser(userDTO);
         }
+
+        blogCommentDTO.setId(comment.getId());
+        blogCommentDTO.setText(comment.getText());
+        blogCommentDTO.setUpdatedAt(comment.getUpdatedAt());
+
+        if (comment.getCommentParent() != null) {
+            Comment commentParent = comment.getCommentParent();
+            blogCommentDTO.setCommentParent(commentParent.getId());
+        }
+
         return blogCommentDTO;
     }
 

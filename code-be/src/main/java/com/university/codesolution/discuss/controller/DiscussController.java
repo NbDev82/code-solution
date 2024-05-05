@@ -10,16 +10,9 @@ import com.university.codesolution.discuss.response.DiscussListResponse;
 import com.university.codesolution.discuss.service.DiscussService;
 import com.university.codesolution.discuss.service.DiscussServiceImpl;
 import com.university.codesolution.discuss.service.FileService;
-import com.university.codesolution.login.dto.UserDTO;
-import com.university.codesolution.login.entity.User;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
+import lombok.AllArgsConstructor;
+
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
