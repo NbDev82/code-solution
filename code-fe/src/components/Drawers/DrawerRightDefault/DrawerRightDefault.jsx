@@ -45,7 +45,7 @@ function DrawerRightDefault(props) {
       <DrawerContent backgroundColor={'var(--white)'}>
         <DrawerHeader borderBottomWidth="1px">
           <Box display="flex" alignItems="center" gap="4%" justifyContent="start">
-            <Avatar size="xl" name={user.fullName} src={user.avatarSrc} />
+            <Avatar size="xl" name={user.fullName} src={user.urlImage} />
             <Text className="drawer__heading">{user.fullName}</Text>
           </Box>
         </DrawerHeader>
@@ -61,7 +61,7 @@ function DrawerRightDefault(props) {
               <p>Home</p>
             </Link>
             <Link
-              to={{ pathname: '/profile' }}
+              to={{ pathname: '/profile', state: { tab: 0 } }}
               className="drawer__item"
               style={{ textDecoration: 'none', border: 'none' }}
             >

@@ -27,7 +27,7 @@ import MyTableProblems from '~/components/Problems/MyTableProblems';
 import { getAllProblemByUserId } from '~/services/ProblemService';
 import queryString from 'query-string';
 import Pagination from '~/components/Pagination';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CustomTab = React.forwardRef((props, ref) => {
   const tabProps = useTab({ ...props, ref });
@@ -57,6 +57,8 @@ function Profile(props) {
   const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const tab = location.state?.tab;
   const fetchProblemsList = async () => {
     try {
       // const response = await getAllProblemByUserId(queryString.stringify({ userId: user.id }));
@@ -92,7 +94,7 @@ function Profile(props) {
   return (
     <div className="profile">
       <MainNavbar></MainNavbar>
-      <Tabs className={styles.tabs} orientation="vertical" isFitted variant="enclosed">
+      <Tabs className={styles.tabs} orientation="vertical" isFitted variant="enclosed" defaultIndex={tab}>
         <TabList className={styles.tabs__list}>
           <CustomTab>Profile</CustomTab>
           <CustomTab>Problems</CustomTab>
@@ -108,7 +110,7 @@ function Profile(props) {
                   size="2xl"
                   name={user.fullName}
                   className={styles.avatar}
-                  src={user.avatarSrc}
+                  src={user.urlImage}
                 />
               </Box>
               <HStack gap="20px" w="100%" h="auto" alignItems="start" justifyContent="center">

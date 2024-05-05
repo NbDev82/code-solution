@@ -6,7 +6,8 @@ import { Input } from '@chakra-ui/react';
 import './ProblemsToolbar.scss';
 import ButtonDefault from '~/components/Buttons/Button';
 import PropTypes from 'prop-types';
-import { FILTER_DEFAULT } from '~/utils/Const';
+import { FILTER_DEFAULT, DIFFICULTY_DEFAULT, STATUS_DEFAULT } from '~/utils/Const';
+import { normalizeName } from '~/utils/string';
 
 function ProblemsToolbar(props) {
   const [inputValue, setInputValue] = useState('');
@@ -15,8 +16,6 @@ function ProblemsToolbar(props) {
       props.onSearchSubmit(inputValue);
     }
   };
-  console.log(props.filters.difficulty);
-
   return (
     <div className="filter_container">
       <Menu closeOnSelect={false} className="menu">
@@ -39,18 +38,25 @@ function ProblemsToolbar(props) {
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
           <MenuOptionGroup defaultValue={'ALL'} value={props.filters.status}>
-            <MenuItemOption value="ALL" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
+            <MenuItemOption
+              value="ALL"
+              onClick={(e) => {
+                props.onFilterStatus('ALL');
+              }}
+            >
               All
             </MenuItemOption>
-            <MenuItemOption value="TODO" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
-              Todo
-            </MenuItemOption>
-            <MenuItemOption value="SOLVED" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
-              Solved
-            </MenuItemOption>
-            <MenuItemOption value="ATTEMPTED" type="radio" onClick={(e) => props.onFilterStatus(e.currentTarget.value)}>
-              Attempted
-            </MenuItemOption>
+            {STATUS_DEFAULT.map((value, index) => (
+              <MenuItemOption
+                key={index}
+                value={value}
+                onClick={() => {
+                  props.onFilterStatus(value);
+                }}
+              >
+                {normalizeName(value)}
+              </MenuItemOption>
+            ))}
           </MenuOptionGroup>
         </MenuList>
       </Menu>
@@ -73,23 +79,26 @@ function ProblemsToolbar(props) {
           Difficulty
         </MenuButton>
         <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-          <MenuOptionGroup defaultValue={'ALL'} value={props.filters.difficulty}>
-            <MenuItemOption value="ALL" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
+          <MenuOptionGroup defaultValue={'ALL'} value={props.filters.difficulty} type="radio">
+            <MenuItemOption
+              value="ALL"
+              onClick={(e) => {
+                props.onFilterDifficulty('ALL');
+              }}
+            >
               All
             </MenuItemOption>
-            <MenuItemOption value="EASY" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
-              Easy
-            </MenuItemOption>
-            <MenuItemOption
-              value="NORMAL"
-              type="radio"
-              onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}
-            >
-              Normal
-            </MenuItemOption>
-            <MenuItemOption value="HARD" type="radio" onClick={(e) => props.onFilterDifficulty(e.currentTarget.value)}>
-              Hard
-            </MenuItemOption>
+            {DIFFICULTY_DEFAULT.map((value, index) => (
+              <MenuItemOption
+                key={index}
+                value={value}
+                onClick={() => {
+                  props.onFilterDifficulty(value);
+                }}
+              >
+                {normalizeName(value)}
+              </MenuItemOption>
+            ))}
           </MenuOptionGroup>
         </MenuList>
       </Menu>

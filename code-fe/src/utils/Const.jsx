@@ -2,6 +2,8 @@ export const LIMIT_QUANTITY_TOPICS = 4;
 export const LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const ORIGINAL_API_URL = 'http://localhost:8000';
+export const DIFFICULTY_DEFAULT = ['EASY', 'NORMAL', 'HARD'];
+export const STATUS_DEFAULT = ['TODO', 'SOLVED', 'ATTEMPTED'];
 export const DEFAULT_LOTTIE_OPTIONS = {
   loop: true,
   autoplay: true,
@@ -17,12 +19,15 @@ export const PROBLEMS_SAMPLE = [
     description: 'Given an integer x, return true if x is a \npalindrome\n, and false otherwise.',
     point: 10.0,
     difficulty: 'EASY',
+    topics: [],
     acceptedCount: 0,
     discussCount: 0,
     submissionCount: 0,
     acceptanceRate: '0',
     type: null,
     deleted: false,
+    functionName: '',
+    outputDataType: '',
   },
   {
     id: 2,
@@ -32,12 +37,15 @@ export const PROBLEMS_SAMPLE = [
       'Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.\n\n \n\nExample 1:\n\nInput: nums = [3,0,1]\nOutput: 2\nExplanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.\nExample 2:\n\nInput: nums = [0,1]\nOutput: 2\nExplanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.\nExample 3:\n\nInput: nums = [9,6,4,2,3,5,7,0,1]\nOutput: 8\nExplanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.\n \n\nConstraints:\n\nn == nums.length\n1 <= n <= 104\n0 <= nums[i] <= n\nAll the numbers of nums are unique.\n \n\nFollow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?',
     point: 10.0,
     difficulty: 'EASY',
+    topics: [],
     acceptedCount: 0,
     discussCount: 0,
     submissionCount: 0,
     acceptanceRate: '0',
     type: null,
     deleted: false,
+    functionName: '',
+    outputDataType: '',
   },
 ];
 export const TOPICS_SAMPLE = [
@@ -76,19 +84,21 @@ export const USER_SAMPLE = {
 
 export const DATA_LOGIN_SAMPLE = {
   token:
-    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjIsImVtYWlsIjoibmd1eWVuZHFkdXlAZ21haWwuY29tIiwic3ViIjoiMDk2MTE2Mjk3OSIsImV4cCI6MTcxNTYxNTMzM30.xw2DthsajQoFeMpkTvXXPcSIxHgT5LVAB0oMxtWDgF8',
+    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5OTk5OTk5OTkiLCJ1c2VySWQiOjQsImVtYWlsIjoibWluaHRyYW5AZ21haWwuY29tIiwic3ViIjoiMDk5OTk5OTk5OSIsImV4cCI6MTcxNzM5NDA0Nn0.ndEARKYxYy_9F_0joWNv4GjFA9O3AiqZsmtwfBmRxGs',
+  message: 'user.login.login_successfully',
   user: {
-    id: 1,
-    fullName: 'Nguyễn Đình Quốc Duy',
-    phoneNumber: '0961162979',
-    dateOfBirth: '1990-01-01T00:00:00',
-    email: 'nguyendqduy@gmail.com',
-    password: '$2a$10$QUyg4P9ogx6aX40V4YbzYu7/8kT/q7epP6/ITBe1fY3Rcxuh/.pLq',
+    id: 4,
+    fullName: 'Tran Cong Minh',
+    phoneNumber: '0999999999',
+    dateOfBirth: '2024-04-02T00:00:00',
+    email: 'minhtran@gmail.com',
+    urlImage:
+      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Blue03&clotheType=BlazerSweater&eyeType=Close&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=MoustacheMagnum&hairColor=Blonde&hatColor=Black&mouthType=Disbelief&skinColor=Tanned&topType=WinterHat1',
+    password: '$2a$10$6jLq7WfPOyN18jpUJc8ESeGAyrAa3ikHmCA6gwuVLoff6wI6gxNyG',
     cumulativeScore: 0.0,
-    addedAt: '1990-01-01T00:00:00',
-    updatedAt: '1990-01-01T12:34:56',
+    addedAt: null,
+    updatedAt: null,
     role: 'USER',
-    avatarSrc: '',
   },
 };
 
@@ -177,13 +187,16 @@ export const PROBLEM_INIT = {
   title: '',
   description: '',
   point: 0,
-  difficulty: 'EASY',
+  difficulty: DIFFICULTY_DEFAULT[0],
+  topics: [],
   acceptedCount: 0,
   discussCount: 0,
   submissionCount: 0,
   acceptanceRate: 0,
   type: null,
   deleted: false,
+  functionName: '',
+  outputDataType: '',
 };
 
 export const ACTION = {
@@ -191,3 +204,20 @@ export const ACTION = {
   UPDATE: 'UPDATE',
   DELETE: 'DELETE',
 };
+
+export const DATATYPE_DEFAULT = [
+  'int',
+  'int[]',
+  'long',
+  'long[]',
+  'float',
+  'float[]',
+  'double',
+  'double[]',
+  'char',
+  'char[]',
+  'String',
+  'String[]',
+  'boolean',
+  'boolean[]',
+];

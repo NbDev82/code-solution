@@ -92,11 +92,13 @@ const MyTableProblems = memo((props) => {
               style={{ backgroundColor: index % 2 === 0 ? 'var(--gray-light)' : 'var(--white)' }}
               marginBottom="5px"
             >
-              <Td>{problem.title}</Td>
+              <Td className={styles.text} onClick={() => handleSelectProblem(problem)}>
+                {problem.title}
+              </Td>
               <Td>
                 <Popover>
                   <PopoverTrigger>
-                    <span>{shortenString(problem.description, 50)}</span>
+                    <span className={styles.text}>{shortenString(problem.description, 50)}</span>
                   </PopoverTrigger>
                   <PopoverContent
                     style={{ width: '500px', background: 'var(--gray-dark)', borderRadius: 'var(--radius-size-small)' }}
@@ -137,15 +139,6 @@ const MyTableProblems = memo((props) => {
               {getDifficulty(problem.difficulty)}
               <Td>
                 <HStack spacing={8}>
-                  <Button
-                    color="var(--secondary-color)"
-                    bg="transparent"
-                    _hover={{ color: 'var(--primary-color)' }}
-                    onClick={() => handleSelectProblem(problem)}
-                    leftIcon={<ViewIcon></ViewIcon>}
-                  >
-                    View
-                  </Button>
                   <Button
                     color="var(--secondary-color)"
                     _hover={{ color: 'var(--orange)' }}
