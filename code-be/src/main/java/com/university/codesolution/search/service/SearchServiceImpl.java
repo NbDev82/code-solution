@@ -51,7 +51,7 @@ public class SearchServiceImpl implements SearchService{
 
             List<ProblemDTO> problemDTOs = new ArrayList<>(problemPage.stream().toList().stream()
                     .filter(problem -> topic == null || problem.getTopics().contains(topic))
-                    .filter(problem -> searchTerm.isEmpty() || problem.getName().contains(searchTerm))
+                    .filter(problem -> searchTerm.isEmpty() || problem.getName().toLowerCase().contains(searchTerm.toLowerCase()))
                     .map(problem -> enrichProblemDTO(problem, request.getUserId()))
                     .filter(problemDTO -> status == null || problemDTO.getStatus().equals(status))
                     .toList());

@@ -1,7 +1,8 @@
 package com.university.codesolution.comment.request;
 
-public record AddCommentRequest(
+
+public record ReplyCommentRequest(
         String text,
         Long userId,
-        Long problemId
+        Long commentId
 ) {}

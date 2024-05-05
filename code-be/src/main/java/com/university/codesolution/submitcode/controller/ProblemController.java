@@ -18,7 +18,7 @@ public class ProblemController {
 
     @GetMapping("/findById")
     public ResponseEntity<ProblemDTO> fetchProblem(Long problemId) {
-        ProblemDTO problemDTO = problemService.findById(problemId);
+        ProblemDTO problemDTO = problemService.findById(problemId, ProblemDTO.class);
         log.info("Fetching problem by id: {}", problemId);
         return ResponseEntity.ok(problemDTO);
     }
