@@ -2,25 +2,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import './SubmissionScreen.scss';
 import axios from 'axios';
 
-import { TableContainer, Table, Thead, Tr, Th, Tbody, Td, Box, Flex, Text } from '@chakra-ui/react';
 import { ProblemContext } from '~/context/Problem';
 
 function SubmissionScreen() {
-  const { user, problem } = useContext(ProblemContext);
+  const { user, problem, problemId } = useContext(ProblemContext);
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    fetchSubmissions(user.id, problem.name).then((data) => {
+    fetchSubmissions(user.id, problem.id).then((data) => {
       setSubmissions(data);
     });
-  }, [user, problem]);
+  }, [user, problemId]);
 
-  const fetchSubmissions = async (userId, problemName) => {
+  const fetchSubmissions = async (userId, problemId) => {
     try {
       const response = await axios.get('http://localhost:8000/api/submissions/gets', {
         params: {
           userId: userId,
-          problemName: problemName,
+          problemId: problemId,
         },
       });
       return response.data;

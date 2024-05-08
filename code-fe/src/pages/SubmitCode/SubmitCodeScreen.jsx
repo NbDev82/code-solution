@@ -12,11 +12,14 @@ import queryString from 'query-string';
 import { getProblem } from '~/services/ProblemService';
 import { getCurrentUserDetail } from '~/auth';
 import { ProblemContext, ProblemProvider } from '~/context/Problem';
+import { compileCode, getInputCode, runCode } from '~/services/SubmitCodeService';
 
 function SubmitCodeScreen() {
   const [result, setResult] = useState({});
   const [activeMenuItem, setActiveMenuItem] = useState('Description');
   const [problem, setProblem] = useState({});
+  const [code, setCode] = useState('');
+  const [language, setLanguage] = useState('java');
   const [user, setUser] = useState(getCurrentUserDetail());
   const location = useLocation();
   const problemId = location.state?.problemId;
@@ -34,6 +37,45 @@ function SubmitCodeScreen() {
       console.error('Error fetching problem:', error);
       return error.response?.data?.message;
     }
+  };
+
+  const handleSendCode = async () => {
+    const request = {
+      userId: user.id,
+      code: code,
+      language: language,
+      problemId: problem.id,
+    };
+    try {
+      const response = await runCode(request);
+      setResult(response.data);
+      console.log('Server response:', response.data);
+    } catch (error) {
+      setResult(error?.response?.data.message);
+      console.error('Error sending code:', error.response.data.message);
+    }
+  };
+
+  const handleCompile = async () => {
+    const request = {
+      userId: user.id,
+      code: code,
+      language: language,
+      problemId: problem.id,
+    };
+    try {
+      const response = await compileCode(request);
+      setResult(response.data);
+      console.log('Server response:', response.data);
+    } catch (error) {
+      setResult(error?.response?.data.message);
+      console.error('Error compile code:', error.response.data.message);
+    }
+  };
+
+  const handleSelectBtn = (id) => {
+    if (id === 'compile') handleCompile();
+    if (id === 'submit') handleSendCode();
   };
 
   const renderActiveScreen = (activeMenuItem) => {
@@ -60,12 +102,16 @@ function SubmitCodeScreen() {
         setActiveMenuItem,
         user,
         setUser,
+        code,
+        setCode,
+        language,
+        setLanguage,
       }}
     >
       <section>
         <div className="layout">
           <div className="nav__layout centered">
-            <MainNavbar />
+            <MainNavbar onSelectBtn={handleSelectBtn} />
           </div>
 
           <div className="nav__problem__layout centered">
