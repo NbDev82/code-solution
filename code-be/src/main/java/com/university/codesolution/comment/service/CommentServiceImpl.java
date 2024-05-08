@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,7 +58,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepos.findById(commentId)
                 .orElseThrow(() -> new CommentNotFoundException("Could not found comment with id: "+commentId));
 
-        commentRepos.delete(comment);
+        comment.setDeleted(true);
+        commentRepos.save(comment);
     }
 
     @Override
@@ -80,13 +82,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> getByProblemId(Long problemId) {
-        Problem problem = problemService.findById(problemId, Problem.class);
-        return commentMapper.toDTOs(commentRepos.findByProblem(problem));
+        return commentMapper.toDTOs(commentRepos.findByProblemId(problemId));
     }
 
     @Override
     public List<CommentDTO> getByCommentId(Long commentId) {
-        List<Comment> comments = commentRepos.findByCommentParent_Id(commentId);
+        List<Comment> comments = commentRepos.findByCommentId(commentId);
         return commentMapper.toDTOs(comments);
     }
 
