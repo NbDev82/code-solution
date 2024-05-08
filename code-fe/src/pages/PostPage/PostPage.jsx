@@ -12,7 +12,9 @@ import { Avatar } from '@chakra-ui/react';
 import CardComment from '~/components/BlogComment/CardComment';
 import MainNavbar from '~/components/Navbars/MainNavbar';
 import PostComment from '~/components/BlogComment/PostComment';
+import LoadAllComment from '~/components/BlogComment/LoadAllComment';
 const PostPage = () => {
+  const [reloadPage, setReloadPage] = useState(false);
   const { postId } = useParams();
   const [post, setPost] = useState(null);
   const handleBackClick = () => {
@@ -206,11 +208,12 @@ const PostPage = () => {
           <Container>
             <PostComment commentParentId={0} />
           </Container>
-          <Container>
+          {/* <Container>
             {listComment.map((comment) => (
               <CardComment key={comment.id} comment={comment} />
             ))}
-          </Container>
+          </Container> */}
+          <LoadAllComment listComment={listComment} />
         </div>
       </Container>
     </div>

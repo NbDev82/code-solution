@@ -8,15 +8,15 @@ import { createComment, loadComment } from '~/services/DiscussService';
 import { toast } from 'react-toastify';
 import { getCurrentUserDetail, isLoggedIn } from '~/auth';
 import CardComment from '~/components/BlogComment/CardComment';
+import PostPage from '~/pages/PostPage/PostPage';
 
 function PostComment({ commentParentId }) {
   const [comment, setComment] = useState({
     text: '',
     commentParent: String(commentParentId),
   });
-  const [user, setUser] = useState(undefined);
-  const [showReplyForm, setShowReplyForm] = useState(false);
-  const [replyingTo, setReplyingTo] = useState(null);
+  const [reloadComponent, setReloadComponent] = useState(false);
+
   const printDate = (numbers) => {
     return new Date(numbers).toLocaleDateString();
   };
@@ -50,6 +50,8 @@ function PostComment({ commentParentId }) {
       setResponse(data);
       setShowComment(true);
       toast.success('Comment added');
+      debugger;
+      window.location.href = `/posts/${postId}`;
     } catch (error) {
       toast.error('Failed to add comment');
       console.error(error);
