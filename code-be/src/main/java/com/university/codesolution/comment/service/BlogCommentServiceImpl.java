@@ -36,7 +36,7 @@ public class BlogCommentServiceImpl implements BlogCommentService{
         Comment commentChild = new Comment();
         commentChild.setUpdatedAt(LocalDateTime.now());
 
-        if(blogCommentDTO.getCommentParent()!=null)
+        if (blogCommentDTO.getCommentParent() != null && !blogCommentDTO.getCommentParent().equals(0L))
         {
         Comment commentParent = this.commentRepository.findById(blogCommentDTO.getCommentParent())
                 .orElseThrow(()->new ResourceNotFoundException(String.format("Parent: %s", blogCommentDTO.getCommentParent())));
