@@ -9,11 +9,10 @@ import { toast } from 'react-toastify';
 import { getCurrentUserDetail, isLoggedIn } from '~/auth';
 import CardComment from '~/components/BlogComment/CardComment';
 
-function PostComment() {
-  const editor = useRef(null);
-  const { commentId } = useParams();
+function PostComment({ commentParentId }) {
   const [comment, setComment] = useState({
     text: '',
+    commentParent: String(commentParentId),
   });
   const [user, setUser] = useState(undefined);
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -27,7 +26,8 @@ function PostComment() {
   const { postId } = useParams();
   //   const { userId } = getCurrentUserDetail().id;
   const handleCommentChange = (event) => {
-    setComment({ text: event.target.value });
+    setComment({ ...comment, text: event.target.value });
+    debugger;
   };
   const submitPost = async () => {
     // Handle post submission logic

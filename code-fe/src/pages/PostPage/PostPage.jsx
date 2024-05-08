@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import AddPost from '../../components/AddPost';
 import UserDashboard from '../User/UserDashboard';
-import { loadPost } from '~/services/DiscussService';
+import { loadCommentByDiscuss, loadPost } from '~/services/DiscussService';
 import { toast } from 'react-toastify';
 import { Button, Badge, Card, CardBody, CardText, Col, Container, Input, Row } from 'reactstrap';
 import styles from './PostPage.module.scss';
@@ -19,6 +19,8 @@ const PostPage = () => {
     window.history.back();
   };
   const [comment, setComment] = useState({ text: '' });
+  const [listComment, setListComment] = useState([]);
+
   const [expandedComments, setExpandedComments] = useState([]);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyingTo, setReplyingTo] = useState(null);
@@ -61,14 +63,31 @@ const PostPage = () => {
 
     return <div></div>;
   };
+  const loadAllComment = async () => {
+    try {
+      const commentData = await loadCommentByDiscuss(postId);
+      setListComment(commentData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadPostData = async () => {
+    try {
+      const postData = await loadPost(postId);
+      setPost(postData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    loadPost(postId)
-      .then((data) => {
-        setPost(data);
-      })
-      .catch((error) => {
-        toast.error('Error is loading Post');
-      });
+    const fetchData = async () => {
+      await loadPostData();
+      await loadAllComment();
+    };
+
+    fetchData();
   }, [postId]);
 
   return (
@@ -185,10 +204,12 @@ const PostPage = () => {
         </Row>
         <div className="root">
           <Container>
-            <PostComment />
+            <PostComment commentParentId={0} />
           </Container>
           <Container>
-            <CardComment postId={postId} />{' '}
+            {listComment.map((comment) => (
+              <CardComment key={comment.id} comment={comment} />
+            ))}
           </Container>
         </div>
       </Container>

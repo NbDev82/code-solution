@@ -4,12 +4,19 @@
   width: 100%;
 }
 .customContainer {
-  background-color: #6e6363;
+  background-color: #ffffff;
   width: 100%;
-  padding-inline-end: var(--chakra-space-4);
-  max-width: none;
+  // border: 1px solid #000;
+}
+.custom-container {
+  max-width: initial;
 }
 
+.container-content {
+  display: flex;
+  align-items: center;
+  border: #1d0e0e;
+}
 // .container {
 //   background-color: gray.100;
 //   padding: 1rem;

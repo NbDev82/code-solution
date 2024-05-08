@@ -25,6 +25,9 @@ export const loadCommentByDiscuss = (postId) => {
   debugger;
   return httpRequest.get('/api/posts/comments/' + postId).then((response) => response.data);
 };
+export const loadCommentByParent = (commentParentId) => {
+  return httpRequest.get('/api/post/comments/' + commentParentId).then((response) => response.data);
+};
 
 export const createComment = (comment, postId, userId) => {
   debugger;
