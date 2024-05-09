@@ -1,5 +1,7 @@
 export const LIMIT_QUANTITY_TOPICS = 4;
 export const LIMIT_ROW_PROBLEMS_TABLE = 20;
+export const MIN_PARAMETERS = 0;
+export const MAX_PARAMETERS = 3;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const ORIGINAL_API_URL = 'http://localhost:8000';
 export const DIFFICULTY_DEFAULT = ['EASY', 'NORMAL', 'HARD'];
@@ -189,20 +191,15 @@ export const PROBLEM_INIT = {
   point: 0,
   difficulty: DIFFICULTY_DEFAULT[0],
   topics: [],
-  acceptedCount: 0,
-  discussCount: 0,
-  submissionCount: 0,
-  acceptanceRate: 0,
-  type: null,
   deleted: false,
   functionName: '',
-  outputDataType: '',
+  outputDataType: 'int',
 };
 
 export const ACTION = {
-  CREATE: 'CREATE',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
+  CREATE: 'create',
+  UPDATE: 'update',
+  DELETE: 'delete',
 };
 
 export const DATATYPE_DEFAULT = [
@@ -221,3 +218,13 @@ export const DATATYPE_DEFAULT = [
   'boolean',
   'boolean[]',
 ];
+
+export const DIALOG_DEFAULT_PROPS = {
+  info: true,
+  msg: '',
+  header: 'Notification',
+  isOpen: false,
+  onYesClick: () => {
+    console.log('yes');
+  },
+};

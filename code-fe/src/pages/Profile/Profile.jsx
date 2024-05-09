@@ -86,8 +86,10 @@ function Profile(props) {
   }, []);
 
   const handleCreateNewProblem = () => {
+    const problem = { ...PROBLEM_INIT, ownerId: user.id };
+    localStorage.setItem('problem', JSON.stringify(problem));
     navigate(`/problem-details/add`, {
-      state: { problem: { ...PROBLEM_INIT, ownerId: user.id }, action: ACTION.CREATE },
+      state: { problem, action: ACTION.CREATE },
     });
   };
 

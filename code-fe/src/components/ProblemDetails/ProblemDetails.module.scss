@@ -73,4 +73,20 @@
   color: var(--primary-color);
   font-weight: 400;
   padding: 0 10px;
+  min-width: 120px;
+  &__organe {
+    font-size: medium;
+    color: var(--orange);
+    font-weight: 400;
+    padding: 0 10px;
+    min-width: 100px;
+  }
+}
+
+.close__text {
+  font-size: large;
+  font-weight: 550;
+  padding: 0 10px;
+  color: var(--red);
+  cursor: pointer;
 }

@@ -4,7 +4,7 @@ import { DATATYPE_DEFAULT } from '~/utils/Const';
 import { Input, Menu, MenuList, MenuButton, Button, MenuItemOption, MenuOptionGroup } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 const Datatype = (props) => {
-  const [title, setTitle] = useState(DATATYPE_DEFAULT[0]);
+  const [title, setTitle] = useState(props.value);
   return (
     <Menu closeOnSelect={false} className="menu">
       <MenuButton
@@ -24,8 +24,8 @@ const Datatype = (props) => {
       >
         {title}
       </MenuButton>
-      <MenuList minWidth="160px" boxShadow="var(--box-shadow)">
-        <MenuOptionGroup type="radio">
+      <MenuList minWidth="160px" maxH={'200px'} overflow="scroll" boxShadow="var(--box-shadow)">
+        <MenuOptionGroup type="radio" value={props.value}>
           {DATATYPE_DEFAULT.map((value, index) => (
             <MenuItemOption
               key={index}
@@ -46,6 +46,7 @@ const Datatype = (props) => {
 
 Datatype.propTypes = {
   onChangeValue: PropTypes.func,
+  value: PropTypes.string,
 };
 
 export default Datatype;

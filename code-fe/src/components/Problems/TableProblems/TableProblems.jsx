@@ -68,7 +68,6 @@ const TableProblems = memo((props) => {
               <Td>
                 <img src={getStatus(problem.status)} alt={problem.status}></img>
               </Td>
-
               <Td>{problem.title}</Td>
               <Td>{problem.acceptanceRate}%</Td>
               {getDifficulty(problem.difficulty)}

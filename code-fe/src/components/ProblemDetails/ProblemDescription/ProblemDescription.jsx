@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../ProblemDetails.module.scss';
-import { ProblemContext } from '~/context/Problem';
+import { ProblemDetailsContext } from '~/context/ProblemDetails';
 import { Textarea } from '@chakra-ui/react';
 const ProblemDescription = (props) => {
-  const { problem, setProblem } = useContext(ProblemContext);
+  const { problem, setProblem } = useContext(ProblemDetailsContext);
   return (
     <div className={styles.container}>
       <div className={styles.row__layout}>
@@ -13,7 +13,7 @@ const ProblemDescription = (props) => {
           <Textarea
             value={problem.description}
             onChange={(e) => {
-              setProblem((prev) => ({ ...prev, description: e.target.value }));
+              setProblem((prev) => ({ ...prev, description: e.target.value.trim() }));
             }}
             isInvalid={problem.description === '' ? true : false}
             minH='200px'
