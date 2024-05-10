@@ -117,6 +117,12 @@ public class DiscussController {
         DiscussDTO updatedDiscuss = discussService.updateDiscuss(discussDTO, discussId);
         return new ResponseEntity<DiscussDTO>(updatedDiscuss, HttpStatus.OK);
     }
+    @DeleteMapping("/posts/delete/{discussId}")
+    public ResponseEntity<String> deleteDisucss(@PathVariable Long discussId)
+    {
+         discussService.deleteDiscuss(discussId);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
+    }
 
 
 

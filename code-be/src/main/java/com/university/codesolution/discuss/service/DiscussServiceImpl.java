@@ -96,7 +96,12 @@ public class DiscussServiceImpl implements DiscussService {
     @Transactional
 
     public void deleteDiscuss(Long discussId) {
+        Discuss discuss = discussRepos.findById(discussId)
+                .orElseThrow(() -> new ResourceNotFoundException("Discuss"));
 
+        // Delete any associated data/dependencies if needed
+
+        discussRepos.delete(discuss);
     }
 
     @Override
