@@ -51,7 +51,7 @@ function PostComment({ commentParentId }) {
       setShowComment(true);
       toast.success('Comment added');
       debugger;
-      window.location.href = `/posts/${postId}`;
+      window.location.reload();
     } catch (error) {
       toast.error('Failed to add comment');
       console.error(error);

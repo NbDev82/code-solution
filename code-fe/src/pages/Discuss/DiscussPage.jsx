@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Row, Col, Pagination, PaginationItem, PaginationLink, Container } from 'reactstrap';
+import { Row, Col, Pagination, PaginationItem, PaginationLink, Container, Button } from 'reactstrap';
 import { loadAllPosts } from '~/services/DiscussService';
 import { toast } from 'react-toastify';
 import Post from '../../components/Post/Post';
@@ -14,6 +14,9 @@ import { loadPostCategoryWise } from '~/services/DiscussService';
 import { Box, Text, VStack, background } from '@chakra-ui/react';
 import { loadAllCategories } from '~/services/CatDiscussService';
 import { getCurrentUserDetail } from '~/auth';
+import { searchDiscussByTitle } from '~/services/DiscussService';
+import { Icon } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 
 const DiscussPage = () => {
   const [postContent, setPostContent] = useState({
@@ -40,6 +43,23 @@ const DiscussPage = () => {
   }, []);
   const handleClosePage = () => {
     setShowAddPost(false);
+  };
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const handleSearchInputChange = (event) => {
+    debugger;
+    setSearchKeyword(event.target.value);
+  };
+
+  const handleSearchSubmit = async () => {
+    if (searchKeyword.trim() !== '') {
+      debugger;
+      try {
+        const data = await searchDiscussByTitle(searchKeyword);
+        setPosts([...data]);
+      } catch (error) {
+        toast.error('Error in loading posts');
+      }
+    }
   };
 
   useEffect(() => {
@@ -72,7 +92,7 @@ const DiscussPage = () => {
     try {
       let data;
 
-      if (categoryId && categoryId != undefined) {
+      if (categoryId && categoryId !== undefined) {
         data = await loadPostCategoryWise(categoryId);
       } else {
         if (pageNumber > postContent.pageNumber && postContent.lastPage) {
@@ -89,7 +109,6 @@ const DiscussPage = () => {
       toast.error('Error in loading posts');
     }
   };
-
   const changePageInfinite = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -114,9 +133,31 @@ const DiscussPage = () => {
                   <div className={styles['border-wrapper']}>
                     <div className={styles['subheader']}>
                       <div className={styles['subheader-left']}></div>
+                      <button style={{ color: 'ButtonText' }} data-no-border="true" onClick={handleSearchSubmit}>
+                        <div className={styles['btn-content-container']}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="15"
+                            height="15"
+                            className={styles['search-icon']}
+                          >
+                            <Icon as={SearchIcon} boxSize={6} />
+                          </svg>
+                        </div>
+                      </button>
                       <span className={styles['search-input-wrapper']}>
-                        <input className={styles['search-input']} placeholder="Search topics ..." value="" />
+                        <input
+                          className={styles['search-input']}
+                          placeholder="Search topics ..."
+                          value={searchKeyword}
+                          onChange={handleSearchInputChange}
+                        />{' '}
+                        {/* <button style={{ backgroundColor: 'red' }} onClick={handleSearchSubmit}>
+                          Search
+                        </button> */}
                       </span>
+
                       <div>
                         {showAddPost ? (
                           <div>

@@ -7,7 +7,7 @@ import { Box, Text, Flex, Button } from '@chakra-ui/react';
 import { Container } from 'reactstrap';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Avatar } from '@chakra-ui/react';
-
+import { deletePostService } from '~/services/DiscussService';
 function PostUser({ post, deletePost }) {
   const userContextData = useContext(userContext);
   const [user, setUser] = useState(null);
@@ -23,7 +23,25 @@ function PostUser({ post, deletePost }) {
     // Handle the update action for the post with the specified postId
     window.location.href = `/user/update-post/${postId}`;
   };
-  const handleDelete = (postId) => {};
+  const handleDelete = (postId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this post?');
+    if (confirmDelete) {
+      deletePostService(postId)
+        .then((data) => {
+          if (data === 'Success') {
+            // Xóa thành công, tải lại trang
+            window.location.reload();
+          } else {
+            // Xử lý lỗi khi xóa bài viết
+            console.log('Lỗi khi xóa bài viết');
+          }
+        })
+        .catch((error) => {
+          // Xử lý lỗi xóa bài viết
+          console.log('Lỗi khi xóa bài viết', error);
+        });
+    }
+  };
   debugger;
 
   const handleButtonClick = (event, postId) => {

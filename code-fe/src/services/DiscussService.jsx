@@ -57,7 +57,11 @@ export const loadPostUserWise = (userId) => {
 };
 
 export function deletePostService(postId) {
-  return privateHttpRequest.delete(`/api/posts/${postId}`).then((response) => response.data);
+  return privateHttpRequest.delete(`/api/posts/delete/${postId}`).then((response) => response.data);
+}
+export function searchDiscussByTitle(keyword) {
+  debugger;
+  return privateHttpRequest.get(`/api/posts/search/${keyword}`).then((response) => response.data);
 }
 
 //update post

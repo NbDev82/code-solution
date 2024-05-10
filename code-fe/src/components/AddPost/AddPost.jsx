@@ -85,7 +85,10 @@ const AddPost = () => {
     doCreatePost(post)
       .then((data) => {
         debugger;
-        navigate(`/user/${user.id}/posts`, { state: {}, replace: false });
+        if (user.id != null) {
+          navigate(`/user/${user.id}/posts`, { state: {}, replace: false });
+        }
+        window.location.reload();
 
         // uploadPostImage(image, data.id)
         //   .then((data) => {

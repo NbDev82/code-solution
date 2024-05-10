@@ -48,8 +48,12 @@ const CardComment = ({ comment }) => {
         <Container style={{ maxWidth: 'initial', width: 'auto' }}>
           <div className={styles['container-content']}>
             <Avatar src={comment.user.urlImage} />
-            <Text style={{ marginLeft: '10px', marginTop: '5px' }}>{comment.user.fullName}</Text>
-            <Text style={{ marginLeft: '30px', marginTop: '5px' }}>{comment.id}</Text>
+            <Text style={{ marginLeft: '10px', marginTop: '5px', color: '#585F66' }}>{comment.user.fullName}</Text>
+            <Text
+              style={{ marginLeft: '30px', marginTop: '5px', color: '#2E4964', fontSize: '10px', marginRight: '0.5%' }}
+            >
+              {comment.id}
+            </Text>
 
             <span style={{ marginLeft: '0px', marginTop: '5px' }}>
               <svg viewBox="0 0 24 24" width="1em" height="1em" class="icon__1Md2">
