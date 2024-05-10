@@ -1,5 +1,5 @@
 import { Image } from '@chakra-ui/react';
-import { Button, Box, Textarea, Checkbox, Flex, Icon, Text } from '@chakra-ui/react';
+import { Cont } from '@chakra-ui/react';
 import { ChatIcon } from '@chakra-ui/icons';
 import { useEffect, useRef, useState } from 'react';
 import styles from './BlogComment.module.scss';
@@ -58,52 +58,30 @@ function PostComment({ commentParentId }) {
     }
   };
   return (
-    <div className={styles.comment} data-is-show="true">
-      <div className={styles.editor}>
-        <div className={styles.container}>
-          <div className={styles['input-area']}>
-            <div className={styles['follower-layer']}>
-              <span className={styles['cursor-position']}>
-                <div className={styles['follower-container']}>
-                  <div className={styles['follower-container']}></div>
-                </div>
-              </span>
-            </div>
-            <div className={styles['style-layer-container']}>
-              <div className={styles['style-layer']}></div>
-            </div>
-            <textarea
-              className={styles['text-area']}
-              placeholder="Type comment here... (Markdown is supported)"
-              rows="1"
-              style={{ overflow: 'hidden', overflowWrap: 'break-word', height: '50px' }}
-              value={comment.text}
-              onChange={handleCommentChange}
-            ></textarea>
-          </div>
-          <div className={styles['action-area']}>
-            <div className={styles['left-actions']}>
-              <button className={`${styles.btn} `} data-no-border="false" data-is-hide="true">
-                <div className={styles['btn-content-container']}>
-                  <span className={styles['btn-content']}>Preview</span>
-                </div>
-              </button>
-            </div>
-            <div>
-              <button
-                className={`${styles.btn}`}
-                data-no-border="true"
-                disabled={comment.text.trim() === ''}
-                onClick={submitPost}
-              >
-                <div className={styles['btn-content-container']}>
-                  <span className={styles['btn-content']}>Post</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* {showComment && <CardComment response={response} />} Render CardComment when showComment is true */}
+    <div
+      style={{ width: 'auto', margin: '20px 10px ', borderRadius: '5px', boxSizing: 'border-box' }}
+      data-is-show="true"
+    >
+      <div style={{ display: 'flex', height: '100%', boxSizing: 'border-box' }}>
+        <textarea
+          className={styles['text-area']}
+          placeholder="Type comment here... (Markdown is supported)"
+          rows="1"
+          style={{
+            overflow: 'hidden',
+            overflowWrap: 'break-word',
+            flex: '1',
+            boxSizing: 'border-box',
+            borderRadius: '5px',
+          }}
+          value={comment.text}
+          onChange={handleCommentChange}
+        ></textarea>
+      </div>
+      <div style={{ border: '0.0001px solid lightgray', backgroundColor: 'white', boxSizing: 'border-box' }}>
+        <button className={styles.btn} data-no-border="true" disabled={comment.text.trim() === ''} onClick={submitPost}>
+          <span className={styles['btn-content']}>Post</span>
+        </button>
       </div>
     </div>
   );

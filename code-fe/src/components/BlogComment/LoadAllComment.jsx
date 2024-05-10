@@ -2,7 +2,7 @@ import CardComment from './CardComment';
 import { Container } from 'reactstrap';
 const LoadAllComment = ({ listComment }) => {
   return (
-    <Container>
+    <Container style={{ width: 'auto', backgroundColor: '#f2f2f2' }}>
       {listComment.map((comment) => (
         <CardComment key={comment.id} comment={comment} />
       ))}

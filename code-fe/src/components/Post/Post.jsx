@@ -17,7 +17,10 @@ function Post({ post, deletePost }) {
     setLogin(isLoggedIn());
   }, []);
   const printDate = (numbers) => {
-    return new Date(numbers).toLocaleDateString();
+    const date = new Date(numbers);
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDate = date.toLocaleDateString(undefined, options);
+    return formattedDate.replace('at', '');
   };
   debugger;
 
@@ -41,7 +44,8 @@ function Post({ post, deletePost }) {
           <div className="topic-info__left-margin">
             <span>
               <span>
-                <span className="topic-info__left-margin">{post.user.fullName}</span> created at:{' '}
+                <span className="topic-info__left-margin">{post.user.fullName}</span>{' '}
+                <span style={{ opacity: 0.5, marginLeft: '2%', marginRight: '1%' }}>Update At:</span>{' '}
                 {printDate(post.startDate)}
               </span>
             </span>
