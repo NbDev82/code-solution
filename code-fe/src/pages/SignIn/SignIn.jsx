@@ -80,7 +80,7 @@ const SignIn = () => {
     //submit the data to server to generate token
     loginUser(loginDetail)
       .then((data) => {
-        if ((data.message = 'user.login.login_successfully'))
+        if (data.message === 'user.login.login_successfully')
           //save the data to localStorage
           doLogin(data, () => {
             //redirect to user dashboard page

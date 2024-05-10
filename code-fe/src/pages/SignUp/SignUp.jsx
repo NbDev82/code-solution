@@ -17,7 +17,7 @@ import { signUp } from '~/services/UserService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AvatarGenerator } from 'random-avatar-generator';
-
+import { NotificationContainer, NotificationManager } from 'react-notifications-component';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,7 +38,13 @@ export default function SignUp() {
 
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const handleRegistrationSuccess = () => {
+    NotificationManager.success('Registration successful!', 'Success', {
+      timeOut: 3000, // Duration in milliseconds
+      pauseOnHover: true, // Pause the timer when hovering over the notification
+      // Other options
+    });
+  };
   const [data, setData] = useState({
     fullName: '',
     email: '',
@@ -96,7 +102,6 @@ export default function SignUp() {
       .then((resp) => {
         if (resp.message === 'user.login.register_successfully') {
           toast.success('User is registered successfully !! user id ' + resp.id);
-          resetData();
           navigate('/sign-in');
         } else {
           toast.error('Registration failed. Please try again.');
