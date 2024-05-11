@@ -61,7 +61,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public List<Problem> getAll() {
-        return problemRepository.findAllByDeleted(false);
+        return problemRepository.findAll();
     }
 
     @Override

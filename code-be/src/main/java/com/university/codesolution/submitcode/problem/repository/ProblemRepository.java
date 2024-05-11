@@ -16,7 +16,8 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     @Query("SELECT p " +
             "FROM Problem p " +
-            "WHERE ( :difficulty IS NULL OR p.difficultyLevel = :difficulty ) ")
+            "WHERE ( :difficulty IS NULL OR p.difficultyLevel = :difficulty ) " +
+            "AND p.isDeleted = false ")
     Page<Problem> findByCriteria(Problem.EDifficultyLevel difficulty, Pageable pageable);
 
 

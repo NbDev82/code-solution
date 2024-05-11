@@ -50,8 +50,8 @@ public class ProblemController {
         return ResponseEntity.ok(problemService.add(request));
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Boolean> deleteProblem(@RequestBody @NonNull Long problemId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteProblem(@RequestParam Long problemId) {
         try {
             return ResponseEntity.ok(problemService.delete(problemId));
         } catch (Exception e){
