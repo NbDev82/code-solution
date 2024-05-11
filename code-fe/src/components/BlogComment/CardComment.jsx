@@ -26,6 +26,14 @@ const CardComment = ({ comment }) => {
       setBox(true);
     }
   };
+  const handlePostComment = async () => {
+    try {
+      await handleShowAllReplies();
+      setBox(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleShowAllReplies = async () => {
     try {
@@ -72,7 +80,9 @@ const CardComment = ({ comment }) => {
             {replies.map((reply) => (
               <CardComment key={reply.id} comment={reply} />
             ))}
-            <div style={{ marginLeft: '1%' }}>{box && <PostComment commentParentId={comment.id} />}</div>
+            <div style={{ marginLeft: '1%' }}>
+              {box && <PostComment commentParentId={comment.id} onPostComment={handlePostComment} />}
+            </div>
           </Container>
         </Container>
 
@@ -106,7 +116,6 @@ const CardComment = ({ comment }) => {
             </Link>
           )}
         </Container>
-        {/* Render các thành phần UI bổ sung hoặc câu trả lời ở đây */}
       </div>
     </>
   );

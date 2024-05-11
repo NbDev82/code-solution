@@ -42,10 +42,9 @@ function PostUser({ post, deletePost }) {
         });
     }
   };
-  debugger;
 
   const handleButtonClick = (event, postId) => {
-    event.stopPropagation(); // Prevent the click event from bubbling up to the Link element
+    event.stopPropagation();
     if (event.target.name === 'update') {
       handleUpdate(postId);
     } else if (event.target.name === 'delete') {

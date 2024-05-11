@@ -46,13 +46,11 @@ const DiscussPage = () => {
   };
   const [searchKeyword, setSearchKeyword] = useState('');
   const handleSearchInputChange = (event) => {
-    debugger;
     setSearchKeyword(event.target.value);
   };
 
   const handleSearchSubmit = async () => {
     if (searchKeyword.trim() !== '') {
-      debugger;
       try {
         const data = await searchDiscussByTitle(searchKeyword);
         setPosts([...data]);
@@ -66,7 +64,6 @@ const DiscussPage = () => {
     changePage(currentPage);
   }, [currentPage]);
   useEffect(() => {
-    debugger;
     changePage(0, 20, categoryId); // Gọi hàm `changePage` lần đầu tiên khi DiscussPage được tải
   }, [categoryId]);
   const showPost = useMemo(() => {

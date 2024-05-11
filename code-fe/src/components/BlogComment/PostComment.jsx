@@ -9,28 +9,23 @@ import { toast } from 'react-toastify';
 import { getCurrentUserDetail, isLoggedIn } from '~/auth';
 import CardComment from '~/components/BlogComment/CardComment';
 import PostPage from '~/pages/PostPage/PostPage';
-
-function PostComment({ commentParentId }) {
+import LoadAllComment from './LoadAllComment';
+function PostComment({ commentParentId, onPostComment }) {
   const [comment, setComment] = useState({
     text: '',
     commentParent: String(commentParentId),
   });
-  const [reloadComponent, setReloadComponent] = useState(false);
 
   const printDate = (numbers) => {
     return new Date(numbers).toLocaleDateString();
   };
   const [response, setResponse] = useState(null);
-  const [showComment, setShowComment] = useState(false); // State variable to control the visibility of CardComment
-
+  const [showComment, setShowComment] = useState(false);
   const { postId } = useParams();
-  //   const { userId } = getCurrentUserDetail().id;
   const handleCommentChange = (event) => {
     setComment({ ...comment, text: event.target.value });
-    debugger;
   };
   const submitPost = async () => {
-    // Handle post submission logic
     if (!isLoggedIn()) {
       toast.error('Need to login first !!');
       return;
@@ -49,9 +44,10 @@ function PostComment({ commentParentId }) {
       const data = await createComment(comment, postId, currentUser.id);
       setResponse(data);
       setShowComment(true);
+      setComment({ ...comment, text: '' });
+
       toast.success('Comment added');
-      debugger;
-      window.location.reload();
+      onPostComment();
     } catch (error) {
       toast.error('Failed to add comment');
       console.error(error);

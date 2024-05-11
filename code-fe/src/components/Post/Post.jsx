@@ -22,7 +22,6 @@ function Post({ post, deletePost }) {
     const formattedDate = date.toLocaleDateString(undefined, options);
     return formattedDate.replace('at', '');
   };
-  debugger;
 
   return (
     <Link style={{ width: '70%' }} to={'/posts/' + post.id}>

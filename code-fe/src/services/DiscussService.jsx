@@ -7,8 +7,6 @@ export const createPost = (postData) => {
 };
 
 export const loadAllPosts = (pageNumber, pageSize) => {
-  debugger;
-
   return httpRequest
     .get(`/api/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=addedDate&sortDir=desc`)
     .then((response) => response.data);
@@ -22,7 +20,6 @@ export const loadComment = (commentId) => {
   return httpRequest.get('/api/post/comment/' + commentId).then((response) => response.data);
 };
 export const loadCommentByDiscuss = (postId) => {
-  debugger;
   return httpRequest.get('/api/posts/comments/' + postId).then((response) => response.data);
 };
 export const loadCommentByParent = (commentParentId) => {
@@ -30,12 +27,10 @@ export const loadCommentByParent = (commentParentId) => {
 };
 
 export const createComment = (comment, postId, userId) => {
-  debugger;
   return privateHttpRequest.post(`/api/post/${postId}/user/${userId}/comments`, comment);
 };
 
 export const uploadPostImage = (image, postId) => {
-  debugger;
   let formData = new FormData();
   formData.append('image', image);
   return privateHttpRequest
@@ -48,7 +43,6 @@ export const uploadPostImage = (image, postId) => {
 };
 
 export function loadPostCategoryWise(categoryId) {
-  debugger;
   return privateHttpRequest.get(`/api/category/${categoryId}/posts`).then((response) => response.data);
 }
 
@@ -60,7 +54,6 @@ export function deletePostService(postId) {
   return privateHttpRequest.delete(`/api/posts/delete/${postId}`).then((response) => response.data);
 }
 export function searchDiscussByTitle(keyword) {
-  debugger;
   return privateHttpRequest.get(`/api/posts/search/${keyword}`).then((response) => response.data);
 }
 

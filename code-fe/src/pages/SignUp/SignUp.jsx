@@ -82,7 +82,6 @@ export default function SignUp() {
     setIsSubmitting(true);
     let newAvatarUrl = '';
 
-    debugger;
     try {
       // Thử tạo giá trị ngẫu nhiên mới cho newAvatarUrl
       newAvatarUrl = generator.generateRandomAvatar();
@@ -95,7 +94,6 @@ export default function SignUp() {
       newAvatarUrl = 'https://example.com/default-avatar.png';
     }
     const [year, month, day] = data.dateOfBirth.split('-');
-    debugger;
     const dateOfBirth = `${year}-${month}-${day}T00:00:00.000`;
 
     signUp({ ...data, dateOfBirth, urlImage: newAvatarUrl })

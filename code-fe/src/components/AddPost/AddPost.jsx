@@ -11,7 +11,6 @@ import './AddPost.scss';
 import { useNavigate } from 'react-router-dom';
 const AddPost = () => {
   const editor = useRef(null);
-  debugger;
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(undefined);
 
@@ -30,8 +29,6 @@ const AddPost = () => {
   // }
 
   useEffect(() => {
-    debugger;
-
     setUser(getCurrentUserDetail());
     loadAllCategories()
       .then((data) => {
@@ -43,10 +40,7 @@ const AddPost = () => {
       });
   }, []);
 
-  //field changed function
   const fieldChanged = (event) => {
-    // console.log(event)
-    debugger;
     setPost({ ...post, [event.target.name]: event.target.value });
     console.log('--------------------------------------');
     console.log(event.currentTarget.name);
@@ -54,8 +48,6 @@ const AddPost = () => {
   };
 
   const contentFieldChanged = (data) => {
-    debugger;
-
     setPost({ ...post, content: data });
   };
 
@@ -80,31 +72,18 @@ const AddPost = () => {
     }
 
     //submit the form one server
-    debugger;
     post['userId'] = user.id;
     doCreatePost(post)
       .then((data) => {
-        debugger;
         if (user.id != null) {
           navigate(`/user/${user.id}/posts`, { state: {}, replace: false });
         }
         window.location.reload();
 
-        // uploadPostImage(image, data.id)
-        //   .then((data) => {
-        //     toast.success('Image Uploaded !!');
-        //   })
-        //   .catch((error) => {
-        //     toast.error('Error in uploading image');
-        //     console.log(error);
-        //   });
-
         toast.success('Post Created !!');
-        // console.log(post)
       })
       .catch((error) => {
         toast.error('Post not created due to some error !!');
-        // console.log(error)
       });
   };
 

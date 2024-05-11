@@ -22,7 +22,14 @@ const PostPage = () => {
   };
   const [comment, setComment] = useState({ text: '' });
   const [listComment, setListComment] = useState([]);
-
+  const [reloadComments, setReloadComments] = useState(false);
+  const handlePostComment = async () => {
+    try {
+      await loadAllComment();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const [expandedComments, setExpandedComments] = useState([]);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyingTo, setReplyingTo] = useState(null);
@@ -44,10 +51,6 @@ const PostPage = () => {
     // Handle reply submission logic
     setShowReplyForm(false);
     setReplyingTo(null);
-  };
-
-  const submitPost = () => {
-    // Handle post submission logic
   };
 
   const printDate = (numbers) => {
@@ -203,12 +206,7 @@ const PostPage = () => {
                         background: '#e2e2e2',
                       }}
                     ></div>
-                    {/* <CardText className="mt-3">
-                    <h1>{post.topic}</h1>
-                  </CardText> */}
-                    <div style={{ maxWidth: '50%' }}>
-                      {/* <img className="img-fluid" src={`${BASE_URL}post/image/${post.image}`} alt="" /> */}
-                    </div>
+                    <div style={{ maxWidth: '50%' }}></div>
                     <CardText
                       style={{ paddingLeft: '10px' }}
                       dangerouslySetInnerHTML={{ __html: post.content }}
@@ -323,8 +321,8 @@ const PostPage = () => {
                 </label>
               </div>
             </div>
-            <PostComment commentParentId={0} />
-            <LoadAllComment listComment={listComment} />
+            <PostComment commentParentId={0} onPostComment={handlePostComment} />
+            <LoadAllComment listComment={listComment} reloadComments={listComment} />
           </div>
         </Container>
       </div>
