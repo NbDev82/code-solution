@@ -1,4 +1,4 @@
-package com.university.codesolution.websocket;
+package com.university.codesolution.common.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

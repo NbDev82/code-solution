@@ -1,4 +1,4 @@
-package com.university.codesolution.websocket;
+package com.university.codesolution.common.websocket;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,6 +1,5 @@
 package com.university.codesolution.login.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.university.codesolution.login.customenum.ERole;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

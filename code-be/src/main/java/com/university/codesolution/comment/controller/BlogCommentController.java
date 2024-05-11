@@ -1,14 +1,12 @@
 package com.university.codesolution.comment.controller;
 
 import com.university.codesolution.comment.dto.BlogCommentDTO;
-import com.university.codesolution.comment.dto.CommentDTO;
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
 import com.university.codesolution.comment.mapper.CommentMapper;
 import com.university.codesolution.comment.service.BlogCommentService;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

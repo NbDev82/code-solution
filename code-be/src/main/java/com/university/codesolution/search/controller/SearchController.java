@@ -1,14 +1,15 @@
 package com.university.codesolution.search.controller;
-import com.university.codesolution.search.dto.ProblemDTO;
+
 import com.university.codesolution.search.dto.SearchResultDTO;
 import com.university.codesolution.search.requestmodel.SearchRequest;
 import com.university.codesolution.search.service.SearchService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/search")

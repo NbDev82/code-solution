@@ -1,28 +1,19 @@
 package com.university.codesolution.discuss.controller;
 
-import com.university.codesolution.comment.dto.BlogCommentDTO;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
-import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
-import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.discuss.mapper.DiscussMapper;
-import com.university.codesolution.discuss.response.DiscussListResponse;
 import com.university.codesolution.discuss.service.DiscussService;
-import com.university.codesolution.discuss.service.DiscussServiceImpl;
 import com.university.codesolution.discuss.service.FileService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.List;

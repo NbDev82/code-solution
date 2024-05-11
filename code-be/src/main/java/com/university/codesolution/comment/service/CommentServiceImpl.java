@@ -8,7 +8,6 @@ import com.university.codesolution.comment.repos.CommentRepository;
 import com.university.codesolution.comment.request.AddCommentRequest;
 import com.university.codesolution.comment.request.ReplyCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
-import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.service.UserService;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
@@ -17,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
