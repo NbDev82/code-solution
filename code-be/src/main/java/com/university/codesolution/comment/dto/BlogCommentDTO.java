@@ -1,14 +1,10 @@
 package com.university.codesolution.comment.dto;
 
-import com.university.codesolution.comment.entity.Comment;
-import com.university.codesolution.comment.mapper.BlogCommentMapper;
 import com.university.codesolution.login.dto.UserDTO;
-import com.university.codesolution.login.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Setter
 @Getter

@@ -1,11 +1,8 @@
 package com.university.codesolution.comment.service;
 
 import com.university.codesolution.comment.dto.BlogCommentDTO;
-import com.university.codesolution.comment.dto.CommentDTO;
 import com.university.codesolution.comment.entity.Comment;
-import com.university.codesolution.comment.exception.CommentNotFoundException;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
-import com.university.codesolution.comment.mapper.CommentMapper;
 import com.university.codesolution.comment.repos.CommentRepository;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.discuss.exception.ResourceNotFoundException;
@@ -18,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service

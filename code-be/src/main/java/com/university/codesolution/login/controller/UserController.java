@@ -1,5 +1,6 @@
 package com.university.codesolution.login.controller;
 
+import com.university.codesolution.common.security.LocalizationUtils;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.dto.UserLoginDTO;
 import com.university.codesolution.login.entity.User;
@@ -9,9 +10,7 @@ import com.university.codesolution.login.response.RegisterResponse;
 import com.university.codesolution.login.service.TokenService;
 import com.university.codesolution.login.service.UserService;
 import com.university.codesolution.login.utils.MessageKeys;
-import com.university.codesolution.security.LocalizationUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

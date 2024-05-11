@@ -1,4 +1,4 @@
-package com.university.codesolution.security;
+package com.university.codesolution.common.security;
 
 import com.university.codesolution.login.utils.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;

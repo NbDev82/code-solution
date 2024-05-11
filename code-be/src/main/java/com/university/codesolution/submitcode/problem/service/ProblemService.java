@@ -1,6 +1,5 @@
 package com.university.codesolution.submitcode.problem.service;
 
-import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 

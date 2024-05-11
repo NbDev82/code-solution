@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

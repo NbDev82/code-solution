@@ -1,29 +1,19 @@
 package com.university.codesolution.discuss.service;
 
-import com.university.codesolution.comment.dto.BlogCommentDTO;
-import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
-import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
 import com.university.codesolution.discuss.entity.Category;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.discuss.exception.ResourceNotFoundException;
-import com.university.codesolution.discuss.mapper.CategoryMapper;
 import com.university.codesolution.discuss.mapper.DiscussMapper;
 import com.university.codesolution.discuss.repository.CategoryRepos;
 import com.university.codesolution.discuss.repository.DiscussRepos;
-import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
-import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

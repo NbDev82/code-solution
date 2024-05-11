@@ -1,15 +1,17 @@
 package com.university.codesolution.submitcode.exceptionhandler;
 
-import com.university.codesolution.submitcode.exception.*;
-import org.apache.logging.log4j.Logger;
+import com.university.codesolution.submitcode.exception.CompilationErrorException;
+import com.university.codesolution.submitcode.exception.SyntaxErrorException;
+import com.university.codesolution.submitcode.exception.TimeLimitedException;
+import com.university.codesolution.submitcode.exception.UnsupportedLanguageException;
 import org.apache.logging.log4j.LogManager;
-
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 

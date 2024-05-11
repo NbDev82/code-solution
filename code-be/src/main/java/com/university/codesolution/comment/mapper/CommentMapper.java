@@ -6,9 +6,7 @@ import com.university.codesolution.comment.entity.Emoji;
 import com.university.codesolution.comment.service.CommentService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

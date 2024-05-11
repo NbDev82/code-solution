@@ -1,6 +1,5 @@
 package com.university.codesolution.submitcode.submission.service;
 
-import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.SubmissionDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
