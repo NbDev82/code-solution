@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
-    List<Problem> findAllByDeleted(boolean deleted);
 
     @Query("SELECT p " +
             "FROM Problem p " +
