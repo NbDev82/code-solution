@@ -1,7 +1,7 @@
 package com.university.codesolution.common;
 
+import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.entity.Contest;
-import com.university.codesolution.contest.repos.ContestRepos;
 import com.university.codesolution.contest.request.AddContestRequest;
 import com.university.codesolution.contest.service.ContestService;
 import com.university.codesolution.login.customenum.ERole;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 @Component
 @Transactional
@@ -40,8 +40,6 @@ public class initData {
     private TestCaseRepository testCaseRepository;
     @Autowired
     private UserRepos userRepos;
-    @Autowired
-    private ContestRepos contestRepos;
     @Autowired
     private ContestService contestService;
 
@@ -73,7 +71,7 @@ public class initData {
                 .toList());
         Long ownerId = savedUserIds.get(0);
         savedUserIds.removeIf(userId -> userId.equals(ownerId));
-        List<Contest> savedContests = initContests(ownerId, savedProblemIds, savedUserIds);
+        initContests(ownerId, savedProblemIds, savedUserIds);
     }
 
     private void deleteAll() {
@@ -169,20 +167,26 @@ public class initData {
         return savedProblems;
     }
 
-    private List<Contest> initContests(Long ownerId, List<Long> savedProblemIds, List<Long> participantIds) {
-        List<Contest> savedContests = new ArrayList<>();
+    private void initContests(Long ownerId, List<Long> savedProblemIds, List<Long> participantIds) {
+        final int NUMBERS_OF_CONTESTS = 16;
+        final int ONE_HOUR_IN_MILIS = 60 * 60 * 1000;
+        final int TWO_HOURS_IN_MILIS = 2 * 60 * 60 * 1000;
+        Random random = new Random();
 
-        AddContestRequest addContestRequest = AddContestRequest.builder()
-                .title("Weekly 1")
-                .desc("This is for beginner")
-                .durationInMillis(3600000)
-                .ownerId(ownerId)
-                .problemIds(savedProblemIds)
-                .participantIds(participantIds)
-                .build();
-        contestService.addContestWithProblemsAndParticipants(addContestRequest);
-
-        return savedContests;
+        for (int i = 0; i < NUMBERS_OF_CONTESTS; i++) {
+            String title = "Weekly " + (i + 1);
+            String desc = "This is for beginner " + (i + 1);
+            int randomDuration = ONE_HOUR_IN_MILIS + random.nextInt(TWO_HOURS_IN_MILIS - ONE_HOUR_IN_MILIS + 1);
+            AddContestRequest addContestRequest = AddContestRequest.builder()
+                    .title(title)
+                    .desc(desc)
+                    .durationInMillis(randomDuration)
+                    .ownerId(ownerId)
+                    .problemIds(savedProblemIds)
+                    .participantIds(participantIds)
+                    .build();
+            contestService.addContestWithProblemsAndParticipants(addContestRequest);
+        }
     }
 
     public Problem buildProblem(User owner){

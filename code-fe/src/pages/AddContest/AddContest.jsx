@@ -40,6 +40,12 @@ function AddContest() {
     setCurContest(updatedContest);
   };
 
+  const updateParticipantIds = (participantIds) => {
+    const updatedContest = { ...curContest };
+    updatedContest.participantIds = participantIds;
+    setCurContest(updatedContest);
+  };
+
   return (
     <Box bg="var(--primary-bg-color)">
       <MainNavbar />
@@ -62,7 +68,10 @@ function AddContest() {
 
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
-            <InviteUsersForm />
+            <InviteUsersForm
+              curUserId={curUser.id}
+
+            />
           </CardBody>
         </Card>
 
