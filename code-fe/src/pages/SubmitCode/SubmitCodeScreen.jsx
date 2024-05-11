@@ -8,36 +8,20 @@ import MainNavbar from '~/components/Navbars/NavbarProblem/MainNavbar/MainNavbar
 import DiscussesScreen from '~/components/DiscussesProblem/DiscussesScreen';
 import SubmissionScreen from '~/components/Submissions/SubmissionScreen';
 import './SubmitCodeScreen.scss';
-import queryString from 'query-string';
-import { getProblem } from '~/services/ProblemService';
-import { getCurrentUserDetail } from '~/auth';
 import { ProblemContext, ProblemProvider } from '~/context/Problem';
-import { compileCode, getInputCode, runCode } from '~/services/SubmitCodeService';
+import { compileCode, runCode } from '~/services/SubmitCodeService';
 
 function SubmitCodeScreen() {
-  const [result, setResult] = useState({});
-  const [activeMenuItem, setActiveMenuItem] = useState('Description');
-  const [problem, setProblem] = useState({});
-  const [code, setCode] = useState('');
-  const [language, setLanguage] = useState('java');
-  const [user, setUser] = useState(getCurrentUserDetail());
   const location = useLocation();
+  const { problem, setProblem, user, setResult, code, language, activeMenuItem, fetchProblem } =
+    useContext(ProblemContext);
+
   const problemId = location.state?.problemId;
   useEffect(() => {
     fetchProblem(problemId).then((data) => {
       setProblem(data);
     });
   }, []);
-
-  const fetchProblem = async (problemId) => {
-    try {
-      const response = await getProblem(queryString.stringify({ problemId }));
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching problem:', error);
-      return error.response?.data?.message;
-    }
-  };
 
   const handleSendCode = async () => {
     const request = {
@@ -92,45 +76,34 @@ function SubmitCodeScreen() {
   };
 
   return (
-    <ProblemProvider
-      value={{
-        result,
-        setResult,
-        problem,
-        setProblem,
-        activeMenuItem,
-        setActiveMenuItem,
-        user,
-        setUser,
-        code,
-        setCode,
-        language,
-        setLanguage,
-      }}
-    >
-      <section>
-        <div className="layout">
-          <div className="nav__layout centered">
-            <MainNavbar onSelectBtn={handleSelectBtn} />
-          </div>
-
-          <div className="nav__problem__layout centered">
-            <NavbarProblem />
-          </div>
-
-          <div className="problem__layout">{renderActiveScreen(activeMenuItem)}</div>
-
-          <div className="editor__layout">
-            <EditorScreen />
-          </div>
-
-          <div className="testcases_layout">
-            <TestCaseScreen />
-          </div>
+    <section>
+      <div className="layout">
+        <div className="nav__layout centered">
+          <MainNavbar onSelectBtn={handleSelectBtn} />
         </div>
-      </section>
-    </ProblemProvider>
+
+        <div className="nav__problem__layout centered">
+          <NavbarProblem />
+        </div>
+
+        <div className="problem__layout">{renderActiveScreen(activeMenuItem)}</div>
+
+        <div className="editor__layout">
+          <EditorScreen />
+        </div>
+
+        <div className="testcases_layout">
+          <TestCaseScreen />
+        </div>
+      </div>
+    </section>
   );
 }
 
-export default SubmitCodeScreen;
+const ProblemWrapper = () => (
+  <ProblemProvider>
+    <SubmitCodeScreen />
+  </ProblemProvider>
+);
+
+export default ProblemWrapper;

@@ -20,7 +20,6 @@ const getProblem = async (paramString) => {
   return await axios.get(`${BASE_URL}/problems/findById?${paramString}`);
 };
 
-
 const getAllProblemByUserId = async (paramsString) => {
   const requestURL = `${BASE_URL}/get-all-by-user-id?${paramsString}`;
   return await axios.get(requestURL);
@@ -48,4 +47,5 @@ export {
   deleteProblem,
   addProblem,
   updateProblem,
+  getProblem,
 };
