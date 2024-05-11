@@ -4,7 +4,6 @@ import styles from '../ProblemDetails.module.scss';
 import { ProblemDetailsContext } from '~/context/ProblemDetails';
 import { Input, InputGroup, InputRightElement, Button, InputLeftElement } from '@chakra-ui/react';
 import Datatype from '../Datatype/Datatype';
-import { SmallAddIcon } from '@chakra-ui/icons';
 import { MIN_PARAMETERS, MAX_PARAMETERS } from '~/utils/Const';
 const ProblemParameters = (props) => {
   const {
@@ -16,12 +15,14 @@ const ProblemParameters = (props) => {
     testcases,
     setTestcases,
     setDialogProps,
+    getIdParamsInvalid,
+    paramsError,
+    setParamsError,
   } = useContext(ProblemDetailsContext);
   const checkquantityParam = () => {
     return quantityParam >= MIN_PARAMETERS && quantityParam <= MAX_PARAMETERS && quantityParam !== '';
   };
   const [errorMsg, setErrorMsg] = useState('');
-  const [paramError, setParamError] = useState([]);
 
   useEffect(() => {
     /*
@@ -55,29 +56,6 @@ const ProblemParameters = (props) => {
     }
   }, [quantityParam]);
 
-  const getIdParamsSameName = (params) => {
-    // Tìm những paramId có paramName giống nhau
-    const paramNames = {};
-    const duplicateIds = [];
-
-    params.forEach((param) => {
-      if (!paramNames[param.name]) {
-        paramNames[param.name] = [param.id];
-      } else {
-        if (!duplicateIds.includes(param.id)) {
-          duplicateIds.push(param.id);
-        }
-        paramNames[param.name].forEach((id) => {
-          if (!duplicateIds.includes(id)) {
-            duplicateIds.push(id);
-          }
-        });
-        paramNames[param.name].push(param.id);
-      }
-    });
-    return duplicateIds;
-  };
-
   const handleOnChangeParameterName = (id, value) => {
     //Cập nhật params mới với id và value
     const updatedParameters = parameters.map((param) => {
@@ -88,16 +66,18 @@ const ProblemParameters = (props) => {
     });
 
     //Kiểm tra lỗi trùng tên nhau giữa các param
-    const existedParameterIds = getIdParamsSameName(updatedParameters);
-    console.log('existedParameterIds', existedParameterIds);
+    const existedParameterIds = getIdParamsInvalid(updatedParameters);
+    // console.log('existedParameterIds', existedParameterIds);
     if (existedParameterIds.length === 0) {
       setErrorMsg('');
-      setParamError([]);
+      setParamsError([]);
     } else {
-      setErrorMsg('The parameter names must not be the same.');
-      setParamError(existedParameterIds);
+      setErrorMsg(
+        'Parameter names must not be identical, must not be empty, and must not start with a number or special character. Examples: aa, aBb, aB1.',
+      );
+      setParamsError(existedParameterIds);
     }
-    console.log('paramError', paramError);
+    // console.log('paramError', paramError);
     setParameters(updatedParameters);
   };
   const handleOnChangeDatatype = (id, value) => {
@@ -184,7 +164,7 @@ const ProblemParameters = (props) => {
                   variant="outline"
                   placeholder={'parameter ' + parameter?.id}
                   value={parameter?.name}
-                  isInvalid={paramError.includes(parameter?.id) || parameter?.name === ''}
+                  isInvalid={paramsError.includes(parameter?.id) || parameter?.name === ''}
                   onChange={(e) => {
                     handleOnChangeParameterName(parameter?.id, e.target.value.trim());
                   }}

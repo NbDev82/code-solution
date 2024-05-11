@@ -20,8 +20,32 @@ const getProblem = async (paramString) => {
   return await axios.get(`${BASE_URL}/problems/findById?${paramString}`);
 };
 
-const getAllProblemByUserId = async (paramsString) =>{
+
+const getAllProblemByUserId = async (paramsString) => {
   const requestURL = `${BASE_URL}/get-all-by-user-id?${paramsString}`;
   return await axios.get(requestURL);
-}
-export { getProblems, getAllTopics, getStatisticsDatasets,getAllProblemByUserId };
+};
+
+const deleteProblem = async (request) => {
+  const requestURL = `${BASE_URL}/problem/delete`;
+  return await axios.post(requestURL, request);
+};
+
+const addProblem = async (request) => {
+  const requestURL = `${BASE_URL}/problem/add`;
+  return await axios.post(requestURL, request);
+};
+
+const updateProblem = async (request) => {
+  const requestURL = `${BASE_URL}/problem/update`;
+  return await axios.post(requestURL, request);
+};
+export {
+  getProblems,
+  getAllTopics,
+  getStatisticsDatasets,
+  getAllProblemByUserId,
+  deleteProblem,
+  addProblem,
+  updateProblem,
+};

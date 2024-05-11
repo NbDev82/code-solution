@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../ProblemDetails.module.scss';
 import { ProblemDetailsContext } from '~/context/ProblemDetails';
-import { generateDefaultValue } from '~/utils/string';
+import { generateDefaultValue, checkInputValidation, shortenString } from '~/utils/string';
 import { Input, Button } from '@chakra-ui/react';
 
 const ProblemTestcase = (props) => {
-  const { problem, parameters, testcases, setTestcases, createNewTestCase } = useContext(ProblemDetailsContext);
+  const { problem, parameters, testcases, setTestcases, createNewTestCase, getIdTestcasesInvalid } =
+    useContext(ProblemDetailsContext);
+
   const handleOnChangeParamValue = (testcaseId, paramId, value) => {
     const testcaseList = [...testcases];
     testcaseList.forEach((item) => {
@@ -50,39 +52,66 @@ const ProblemTestcase = (props) => {
               </span>
             </div>
             {testcase?.input.map((paramValue, index) => (
-              <div key={paramValue?.paramName + index + paramValue?.paramId} className={styles.row__child}>
-                <span className={styles.note}>
-                  {'+ '} {paramValue?.paramName}
-                  {' (' + parameters[paramValue?.paramId - 1]?.datatype + ')'}:
-                </span>
-                <div className={styles.row__child}>
+              <>
+                {' '}
+                <div key={paramValue?.paramName + index + paramValue?.paramId} className={styles.row__child}>
+                  <span className={styles.note}>
+                    {'+ '} {paramValue?.paramName}
+                    {' (' + paramValue?.datatype + ')'}:
+                  </span>
                   <Input
-                    w="100%"
+                    htmlSize={10}
+                    width="auto"
                     h="40px"
                     variant="outline"
-                    placeholder={'parameter value ' + paramValue?.paramId}
+                    placeholder={paramValue?.datatype}
                     value={paramValue?.value}
+                    isInvalid={
+                      paramValue?.value === '' || !checkInputValidation(paramValue?.datatype, paramValue?.value)
+                    }
                     onChange={(e) => {
                       handleOnChangeParamValue(testcase?.id, paramValue?.paramId, e.target.value.trim());
                     }}
                   />
                 </div>
-              </div>
+                <div className={styles.row__child}>
+                  {!checkInputValidation(paramValue?.datatype, paramValue?.value) ? (
+                    <span className={styles.msg__error}>
+                      '{shortenString(paramValue?.value, 5)}' input invalid. input sample{'('}
+                      {paramValue?.datatype}
+                      {')'} = {generateDefaultValue(paramValue?.datatype)}
+                    </span>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </>
             ))}
             <div className={styles.row__child}>
               <span className={styles.note__organe}># Output{' (' + problem?.outputDataType + ')'}:</span>
-              <div className={styles.row__child}>
-                <Input
-                  w="100%"
-                  h="40px"
-                  variant="outline"
-                  placeholder={'output testcase ' + testcase?.id}
-                  value={testcase?.output}
-                  onChange={(e) => {
-                    handleOnChangeOutputValue(testcase?.id, e.target.value.trim());
-                  }}
-                />
-              </div>
+              <Input
+                htmlSize={10}
+                width="auto"
+                h="40px"
+                variant="outline"
+                placeholder={problem?.outputDataType}
+                value={testcase?.output}
+                isInvalid={testcase?.output === ''}
+                onChange={(e) => {
+                  handleOnChangeOutputValue(testcase?.id, e.target.value.trim());
+                }}
+              />
+            </div>
+            <div className={styles.row__child}>
+              {!checkInputValidation(problem?.outputDataType, testcase?.output) ? (
+                <span className={styles.msg__error}>
+                  '{shortenString(testcase?.output, 5)}' input invalid. input sample{'('}
+                  {problem?.outputDataType}
+                  {')'} = {generateDefaultValue(problem?.outputDataType)}
+                </span>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         ))
@@ -91,7 +120,7 @@ const ProblemTestcase = (props) => {
       <div className={styles.row__layout}>
         <Button
           onClick={() => {
-            setTestcases((prev) => [...prev, createNewTestCase()]);
+            createNewTestCase();
           }}
         >
           New Testcase

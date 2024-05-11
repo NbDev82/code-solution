@@ -21,14 +21,14 @@ import Moutains from '~/assets/images/Moutains.svg';
 import InfoCard from '~/components/Cards/InfoCard';
 import AchievementsCard from '~/components/Cards/AchievementsCard';
 import Footer from '~/components/Footer';
-import { PROBLEMS_SAMPLE, PROBLEM_INIT, ACTION } from '~/utils/Const';
+import { PROBLEM_INIT, ACTION, DIALOG_DEFAULT_PROPS } from '~/utils/Const';
 import { getCurrentUserDetail } from '~/auth';
 import MyTableProblems from '~/components/Problems/MyTableProblems';
-import { getAllProblemByUserId } from '~/services/ProblemService';
+import { getAllProblemByUserId, deleteProblem } from '~/services/ProblemService';
 import queryString from 'query-string';
 import Pagination from '~/components/Pagination';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import Dialog from '~/components/Dialog';
 const CustomTab = React.forwardRef((props, ref) => {
   const tabProps = useTab({ ...props, ref });
   const isSelected = !!tabProps['aria-selected'];
@@ -52,19 +52,18 @@ const CustomTab = React.forwardRef((props, ref) => {
 
 function Profile(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
-  const [problems, setProblems] = useState(PROBLEMS_SAMPLE);
-  const [totalElement, setTotalElement] = useState(0);
-  const [pageNumber, setPageNumber] = useState(0);
+  const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const tab = location.state?.tab;
+  const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+
   const fetchProblemsList = async () => {
     try {
-      // const response = await getAllProblemByUserId(queryString.stringify({ userId: user.id }));
-      // setProblems(response.data.problemDTOs);
-      //setTotalElement(response.data.totalElement);
-      setProblems(PROBLEMS_SAMPLE);
+      const response = await getAllProblemByUserId(queryString.stringify({ userId: user.id }));
+      setProblems(response.data.problemDTOs);
     } catch (error) {
       console.log('Fetch Problems Error', error);
     }
@@ -76,21 +75,41 @@ function Profile(props) {
     fetchProblemsList();
     setLoading(false);
   }, []);
+
   const [achievements, setAchievements] = useState({
     cummulativeScore: 1520,
     numberOfSolvedProblems: 11,
     numberOfCompletedCompetitions: 2,
   });
-  const handlePageChange = useCallback(({ selected: page }) => {
-    setPageNumber(page);
-  }, []);
 
   const handleCreateNewProblem = () => {
     const problem = { ...PROBLEM_INIT, ownerId: user.id };
-    localStorage.setItem('problem', JSON.stringify(problem));
     navigate(`/problem-details/add`, {
       state: { problem, action: ACTION.CREATE },
     });
+  };
+
+  const handleDeleteProblem = async (problem) => {
+    try {
+      const request = queryString.stringify({ problem });
+      console.log(JSON.stringify({ problem }));
+      const response = await deleteProblem(request);
+      let msg = '';
+      response.data.success ? (msg = `${ACTION.DELETE} successful!`) : (msg = `${ACTION.DELETE} failed!`);
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: msg,
+        isOpen: true,
+        onYesClick: () => {},
+      }));
+    } catch (error) {
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: 'Error delete problem:' + error,
+        isOpen: true,
+        onYesClick: () => {},
+      }));
+    }
   };
 
   return (
@@ -143,15 +162,15 @@ function Profile(props) {
                 </Button>
               </HStack>
               <Skeleton height="100%" width={'100%'} borderRadius={'10px'} isLoaded={!loading}>
-                <MyTableProblems problems={problems} />
+                <MyTableProblems problems={problems} onDeleteProblem={handleDeleteProblem} />
               </Skeleton>
             </VStack>
-            <Pagination totalRows={totalElement} onPageChange={handlePageChange} />
           </TabPanel>
           <TabPanel className={styles.tabs__panel}>edit</TabPanel>
         </TabPanels>
       </Tabs>
       <Footer></Footer>
+      <Dialog dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
     </div>
   );
 }

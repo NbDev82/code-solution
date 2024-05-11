@@ -9,12 +9,23 @@ function normalizeName(name) {
       });
 }
 
+function normalizeVietNameseString(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function shortenString(str, maxLength) {
+  if (str.length > maxLength) {
+    return str.substring(0, maxLength) + '...';
+  }
+  return str;
+}
+
 function generateFunctionName(problemName) {
   //Loại bỏ các khoảng trắng dư thừa và khoảng trắng ở đầu và cuối chuỗi
-  const sanitizedProblemName = problemName.replace(/\s+/g, ' ').trim();
-  
+  const sanitizedProblemName = normalizeVietNameseString(problemName).replace(/\s+/g, ' ').trim();
+
   const words = sanitizedProblemName.split(' ');
-  const firstWordLowercase = words[0].charAt(0).toLowerCase() + words[0].slice(1);
+  const firstWordLowercase = words[0].toLowerCase();
   const restWords = words
     .slice(1)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -26,29 +37,106 @@ function generateDefaultValue(dataType) {
   switch (dataType) {
     case 'int':
     case 'long':
-      return 0;
+      return '0';
     case 'int[]':
     case 'long[]':
-      return [0];
+      return '{0}';
     case 'float':
     case 'double':
-      return 0.0;
+      return '0.0';
     case 'float[]':
     case 'double[]':
-      return [0.0];
+      return '{0.0}';
     case 'char':
+      return 'a';
     case 'String':
-      return '';
+      return 'abc';
     case 'char[]':
+      return '{a}';
     case 'String[]':
-      return [''];
+      return '{abc}';
     case 'boolean':
-      return false;
+      return 'true';
     case 'boolean[]':
-      return [false];
+      return '{true}';
     default:
       return null;
   }
 }
 
-export { normalizeName, generateFunctionName, generateDefaultValue };
+function checkInputValidation(dataType, input) {
+  const isBoolean = (data) => data === 'true' || data === 'false';
+  const isNumber = (data) => !isNaN(Number(data));
+
+  switch (dataType) {
+    case 'int':
+    case 'long':
+      return isNumber(input);
+    case 'int[]':
+    case 'long[]':
+      return (
+        input.startsWith('{') &&
+        input.endsWith('}') &&
+        input
+          .substring(1, input.length - 1)
+          .split(',')
+          .every((element) => isNumber(element.trim()))
+      );
+    case 'float':
+    case 'double':
+      return isNumber(input);
+    case 'float[]':
+    case 'double[]':
+      return (
+        input.startsWith('{') &&
+        input.endsWith('}') &&
+        input
+          .substring(1, input.length - 1)
+          .split(',')
+          .every((element) => isNumber(element.trim()))
+      );
+    case 'char':
+      return typeof input === 'string' && input.length === 1;
+    case 'String':
+      return typeof input === 'string';
+    case 'char[]':
+      return (
+        typeof input === 'string' &&
+        input.startsWith('{') &&
+        input.endsWith('}') &&
+        input
+          .substring(1, input.length - 1)
+          .split(',')
+          .every((element) => element.length === 1)
+      );
+    case 'String[]':
+      return typeof input === 'string' && input.startsWith('{') && input.endsWith('}');
+    case 'boolean':
+      return isBoolean(input);
+    case 'boolean[]':
+      return (
+        input.startsWith('{') &&
+        input.endsWith('}') &&
+        input
+          .substring(1, input.length - 1)
+          .split(',')
+          .every((element) => isBoolean(element.trim()))
+      );
+    default:
+      return false;
+  }
+}
+
+function checkParameterName(parameterName) {
+  return /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(parameterName);
+}
+
+export {
+  shortenString,
+  normalizeName,
+  generateFunctionName,
+  generateDefaultValue,
+  checkParameterName,
+  checkInputValidation,
+  normalizeVietNameseString,
+};

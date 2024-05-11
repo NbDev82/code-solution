@@ -3,9 +3,17 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import ProblemDetailsContext from './ProblemDetailsContext';
 import { getCurrentUserDetail } from '~/auth';
-import { getAllTopics } from '~/services/ProblemService';
+import {
+  getAllTopics,
+  addProblem as addProblemService,
+  updateProblem as updateProblemService,
+} from '~/services/ProblemService';
 import { PROBLEM_INIT, DIALOG_DEFAULT_PROPS } from '~/utils/Const';
 import Dialog from '~/components/Dialog';
+import { checkParameterName, generateDefaultValue, checkInputValidation } from '~/utils/string';
+import queryString from 'query-string';
+import { useNavigate } from 'react-router-dom';
+
 function ProblemDetailsProvider({ children }) {
   const [user, setUser] = useState(getCurrentUserDetail());
   const [topics, setTopics] = useState([]);
@@ -16,7 +24,9 @@ function ProblemDetailsProvider({ children }) {
   const [quantityParam, setquantityParam] = useState(parameters.length);
   const [testcases, setTestcases] = useState([]);
   const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, isOpen: true, msg: dialogMsg });
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const [paramsError, setParamsError] = useState([]);
+  const navigate = useNavigate();
   const fetchTopics = async () => {
     try {
       const response = await getAllTopics();
@@ -25,6 +35,58 @@ function ProblemDetailsProvider({ children }) {
       console.log('Fetch Topics Error', error);
     }
   };
+
+  const updateProblem = async () => {
+    try {
+      const request = queryString.stringify({ problem, parameters, testcases });
+      console.log(JSON.stringify({ problem, parameters, testcases }));
+      const response = await updateProblemService(request);
+      let msg = '';
+      response.data.success ? (msg = `${action} successful!`) : (msg = `${action} failed!`);
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: msg,
+        isOpen: true,
+        onYesClick: () => {
+          navigate(`/profile`, {
+            state: { tab: 1 },
+          });
+        },
+      }));
+    } catch (error) {
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: 'Error update problem:' + error,
+        isOpen: true,
+        onYesClick: () => {
+          navigate(`/profile`, {
+            state: { tab: 1 },
+          });
+        },
+      }));
+    }
+  };
+
+  const addProblem = async () => {
+    try {
+      const request = queryString.stringify({ problem, parameters, testcases });
+      console.log(JSON.stringify({ problem, parameters, testcases }));
+      const response = await addProblemService(request);
+      return response.data;
+    } catch (error) {
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: 'Error add problem:' + error,
+        isOpen: true,
+        onYesClick: () => {
+          navigate(`/profile`, {
+            state: { tab: 1 },
+          });
+        },
+      }));
+    }
+  };
+
   useEffect(() => {
     fetchTopics();
   }, []);
@@ -35,14 +97,18 @@ function ProblemDetailsProvider({ children }) {
       input.push({
         paramId: param?.id,
         paramName: param?.name,
-        value: '',
+        datatype: param?.datatype,
+        value: generateDefaultValue(param?.datatype),
       });
     });
-    return {
-      id: testcases.length + 1,
-      input: input,
-      output: '',
-    };
+    setTestcases((prev) => [
+      ...prev,
+      {
+        id: testcases.length + 1,
+        input: input,
+        output: generateDefaultValue(problem?.outputDataType),
+      },
+    ]);
   };
 
   const createNewParameters = (quantity) => {
@@ -57,14 +123,61 @@ function ProblemDetailsProvider({ children }) {
     setParameters(newParametersList);
   };
 
-  useEffect(() => {}, [testcases]);
+  /*
+    Tìm những ParamId không hợp lệ (trùng tên, sai quy tắt tên biến)
+    input: danh sách param
+    output: [paramId,...]
+  */
+  const getIdParamsInvalid = (params) => {
+    if (!params) return [];
+    const paramNames = {};
+    const invalidIds = [];
 
-  useEffect(() => {
-    console.log('Problem Change:', { ...problem, parameters, testcases });
-  }, [problem, parameters, testcases]);
+    params.forEach((param) => {
+      if (!paramNames[param?.name]) {
+        paramNames[param?.name] = [param?.id];
+        if (!checkParameterName(param?.name)) invalidIds.push(param?.id);
+      } else {
+        if (!invalidIds.includes(param?.id)) {
+          invalidIds.push(param?.id);
+        }
+        paramNames[param?.name].forEach((id) => {
+          if (!invalidIds.includes(id)) {
+            invalidIds.push(id);
+          }
+        });
+        paramNames[param?.name].push(param?.id);
+      }
+    });
+    return invalidIds;
+  };
 
-  const handleYesClick = () => {
-    setDialogProps((prev) => ({ ...prev, isOpen: false }));
+  /*
+    Tìm những ParamId có giá trị không hợp lệ(rỗng) của TestCaseId
+    input: danh sách testcase
+    output: [testcaseID:'',...]
+  */
+  const getIdTestcasesInvalid = (testcases) => {
+    if (!testcases) return [];
+    const invalidIds = [];
+
+    testcases.forEach((t) => {
+      if (!t || t?.output === '' || !checkInputValidation(problem?.outputDataType, t?.output)) {
+        if (t) {
+          invalidIds.push(t?.id);
+        }
+        return;
+      }
+      if (t?.input) {
+        t?.input.forEach((i) => {
+          if (!i || i?.value === '' || !checkInputValidation(i?.datatype, i?.value)) {
+            invalidIds.push(t?.id);
+            return;
+          }
+        });
+      }
+    });
+    return invalidIds;
   };
 
   return (
@@ -90,6 +203,12 @@ function ProblemDetailsProvider({ children }) {
         createNewParameters,
         dialogProps,
         setDialogProps,
+        getIdParamsInvalid,
+        paramsError,
+        setParamsError,
+        getIdTestcasesInvalid,
+        addProblem,
+        updateProblem,
       }}
     >
       {children}

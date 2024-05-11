@@ -23,8 +23,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './MyTableProblems.module.scss';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { WarningIcon, ViewIcon } from '@chakra-ui/icons';
+import { WarningIcon } from '@chakra-ui/icons';
 import { ACTION } from '~/utils/Const';
+import { shortenString } from '~/utils/string';
+
 const MyTableProblems = memo((props) => {
   const navigate = useNavigate();
 
@@ -52,25 +54,18 @@ const MyTableProblems = memo((props) => {
     color: 'var(--secondary-color)',
   };
 
-  function shortenString(str, maxLength) {
-    if (str.length > maxLength) {
-      return str.substring(0, maxLength) + '...';
-    }
-    return str;
-  }
-
   const handleSelectProblem = (problem) => {
     navigate(`/problems/${problem.title.toLowerCase().replace(' ', '-')}`, {
       state: { problemId: problem.id },
     });
   };
 
-  const handleDeleteProblem = (problem) => {};
   const handleEditProblem = (problem) => {
     navigate(`/problem-details/edit`, {
       state: { problem: problem, action: ACTION.UPDATE },
     });
   };
+
   return (
     <TableContainer className={styles.table__layout}>
       <Table variant="striped" colorScheme="whiteAlpha" size="lg">
@@ -152,7 +147,7 @@ const MyTableProblems = memo((props) => {
                     color="var(--secondary-color)"
                     bg="transparent"
                     _hover={{ color: 'var(--red)' }}
-                    onClick={() => handleDeleteProblem(problem)}
+                    onClick={() => props.onDeleteProblem(problem)}
                     leftIcon={<DeleteOutlineOutlinedIcon></DeleteOutlineOutlinedIcon>}
                   >
                     Delete
@@ -169,6 +164,7 @@ const MyTableProblems = memo((props) => {
 
 MyTableProblems.propTypes = {
   problems: PropTypes.array,
+  onDeleteProblem: PropTypes.func,
 };
 
 MyTableProblems.defaultProps = {
