@@ -43,7 +43,7 @@ public class ContestController {
     )
     @PostMapping("/add-contest")
     public ResponseEntity<String> addContest(@RequestBody @Valid AddContestRequest addRequest) {
-        contestService.add(addRequest);
+        contestService.addContestWithProblemsAndParticipants(addRequest);
         log.info(Constants.CONTEST_ADDED_SUCCESSFULLY);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Constants.CONTEST_ADDED_SUCCESSFULLY);

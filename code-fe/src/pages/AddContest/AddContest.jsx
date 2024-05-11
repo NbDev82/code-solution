@@ -50,7 +50,7 @@ function AddContest() {
           </CardBody>
         </Card>
 
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" w="fit-content" h="fit-content">
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="66.67%">
           <CardBody>
             <AddProblemsForContestForm />
           </CardBody>
