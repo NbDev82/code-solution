@@ -17,4 +17,6 @@ public interface ProblemService {
     List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
 
     Boolean add(AddProblemRequest request);
+
+    Boolean delete(Long problemId);
 }

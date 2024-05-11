@@ -61,7 +61,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public List<Problem> getAll() {
-        return problemRepository.findAll();
+        return problemRepository.findAllByDeleted(false);
     }
 
     @Override
@@ -92,6 +92,13 @@ public class ProblemServiceImpl implements ProblemService{
             log.info(e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public Boolean delete(Long problemId) {
+        Problem problem = problemRepository.findById(problemId).orElseThrow(()->new ProblemNotFoundException("Can't find problem with id "+problemId));
+        problem.setDeleted(true);
+        return true;
     }
 
     private void createAndSaveLibraryFromRequest(AddProblemRequest request, Problem problem) {

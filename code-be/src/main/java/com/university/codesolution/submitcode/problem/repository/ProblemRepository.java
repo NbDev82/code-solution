@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
-    Optional<Problem> findByName(String problemName);
+    List<Problem> findAllByDeleted(boolean deleted);
 
     @Query("SELECT p " +
             "FROM Problem p " +
