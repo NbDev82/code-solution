@@ -52,9 +52,9 @@ const ProblemTestcase = (props) => {
               </span>
             </div>
             {testcase?.input.map((paramValue, index) => (
-              <>
+              <div key={paramValue?.paramName}>
                 {' '}
-                <div key={paramValue?.paramName + index + paramValue?.paramId} className={styles.row__child}>
+                <div className={styles.row__child}>
                   <span className={styles.note}>
                     {'+ '} {paramValue?.paramName}
                     {' (' + paramValue?.datatype + ')'}:
@@ -85,7 +85,7 @@ const ProblemTestcase = (props) => {
                     <></>
                   )}
                 </div>
-              </>
+              </div>
             ))}
             <div className={styles.row__child}>
               <span className={styles.note__organe}># Output{' (' + problem?.outputDataType + ')'}:</span>

@@ -56,7 +56,8 @@ function Profile(props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const tab = location.state?.tab;
+  const [tab, setTab] = useState(0);
+  console.log(tab);
   const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
   const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
 
@@ -71,6 +72,7 @@ function Profile(props) {
   };
 
   useEffect(() => {
+    setTab(location.state?.tab);
     setLoading(true);
     fetchProblemsList();
     setLoading(false);
@@ -112,14 +114,25 @@ function Profile(props) {
     }
   };
 
+  const handleTabChange = (index) => {
+    setTab(index);
+  };
+
   return (
     <div className="profile">
       <MainNavbar></MainNavbar>
-      <Tabs className={styles.tabs} orientation="vertical" isFitted variant="enclosed" defaultIndex={tab}>
+      <Tabs
+        className={styles.tabs}
+        orientation="vertical"
+        isFitted
+        variant="enclosed"
+        index={tab}
+        onChange={handleTabChange}
+      >
         <TabList className={styles.tabs__list}>
           <CustomTab>Profile</CustomTab>
           <CustomTab>Problems</CustomTab>
-          <CustomTab>Edit</CustomTab>
+          {/* <CustomTab>Edit</CustomTab> */}
         </TabList>
         <TabPanels padding={0}>
           <TabPanel className={styles.tabs__panel}>
@@ -166,7 +179,7 @@ function Profile(props) {
               </Skeleton>
             </VStack>
           </TabPanel>
-          <TabPanel className={styles.tabs__panel}>edit</TabPanel>
+          {/* <TabPanel className={styles.tabs__panel}>edit</TabPanel> */}
         </TabPanels>
       </Tabs>
       <Footer></Footer>

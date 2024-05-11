@@ -16,11 +16,12 @@ import PropTypes from 'prop-types';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
 import './DrawerRightDefault.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
-import InsightsIcon from '@mui/icons-material/Insights';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import EditIcon from '@mui/icons-material/Edit';
 DrawerRightDefault.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -39,6 +40,7 @@ DrawerRightDefault.defaultProps = {
 
 function DrawerRightDefault(props) {
   const user = props.user;
+  const navigate = useNavigate();
   return (
     <Drawer isOpen={props.isOpen} placement="right" onClose={props.onClose} size={'sm'}>
       <DrawerOverlay />
@@ -52,38 +54,63 @@ function DrawerRightDefault(props) {
 
         <DrawerBody padding={0}>
           <VStack>
-            <Link
-              to={{ pathname: '/home' }}
+            <div
+              onClick={() => {
+                navigate(`/home`);
+              }}
               className="drawer__item"
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <HomeIcon sx={{ fontSize: 24 }}></HomeIcon>
               <p>Home</p>
-            </Link>
-            <Link
-              to={{ pathname: '/profile', state: { tab: 0 } }}
+            </div>
+            <div
+              onClick={() => {
+                navigate(`/profile`, {
+                  state: { tab: 0 },
+                });
+              }}
               className="drawer__item"
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <PersonIcon sx={{ fontSize: 24 }}></PersonIcon>
               <p>Profile</p>
-            </Link>
-            <Link
-              to={{ pathname: '/problems' }}
+            </div>
+            <div
+              onClick={() => {
+                navigate(`/profile`, {
+                  state: { tab: 1 },
+                });
+              }}
               className="drawer__item"
               style={{ textDecoration: 'none', border: 'none' }}
             >
-              <InsightsIcon sx={{ fontSize: 24 }}></InsightsIcon>
-              <p>Statistic</p>
-            </Link>
-            <Link
-              to={{ pathname: '/sign-in' }}
+              <IntegrationInstructionsIcon sx={{ fontSize: 24 }}></IntegrationInstructionsIcon>
+              <p>Your Problems</p>
+            </div>
+
+            {/* <div
+              onClick={() => {
+                navigate(`/profile`, {
+                  state: { tab: 2 },
+                });
+              }}
+              className="drawer__item"
+              style={{ textDecoration: 'none', border: 'none' }}
+            >
+              <EditIcon sx={{ fontSize: 24 }}></EditIcon>
+              <p>Edit Profile</p>
+            </div> */}
+            <div
+              onClick={() => {
+                navigate(`/sign-in`);
+              }}
               className="drawer__item"
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <LogoutIcon sx={{ fontSize: 24 }}></LogoutIcon>
               <p>Logout</p>
-            </Link>
+            </div>
           </VStack>
         </DrawerBody>
 

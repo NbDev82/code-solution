@@ -1,6 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import ProblemDetailsContext from './ProblemDetailsContext';
 import { getCurrentUserDetail } from '~/auth';
 import {
@@ -27,6 +25,7 @@ function ProblemDetailsProvider({ children }) {
   const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
   const [paramsError, setParamsError] = useState([]);
   const [libraries, setLibraries] = useState([]);
+  const dialogRef = useRef();
   const navigate = useNavigate();
   const fetchTopics = async () => {
     try {
@@ -226,7 +225,7 @@ function ProblemDetailsProvider({ children }) {
       }}
     >
       {children}
-      <Dialog dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
+      <Dialog ref={dialogRef} dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
     </ProblemDetailsContext.Provider>
   );
 }

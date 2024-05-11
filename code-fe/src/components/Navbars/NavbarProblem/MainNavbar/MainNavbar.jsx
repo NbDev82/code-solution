@@ -52,9 +52,9 @@ function MainNavbar(props) {
         </div>
       </div>
       <div className="navbar__group">
-        <Button icon id="notify" onClick={props.onSelectBtn}>
+        {/* <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
-        </Button>
+        </Button> */}
         <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
