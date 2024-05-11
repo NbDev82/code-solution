@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/repository/ProblemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/repository/ProblemRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/ProblemService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ProblemService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,6 +68,7 @@
       <workItem from="1711121897986" duration="5855000" />
       <workItem from="1715407493189" duration="6138000" />
       <workItem from="1715435181442" duration="2028000" />
+      <workItem from="1715453501619" duration="7618000" />
     </task>
     <servers />
   </component>

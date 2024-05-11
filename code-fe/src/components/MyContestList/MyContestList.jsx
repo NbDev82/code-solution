@@ -94,7 +94,7 @@ const MyContestList = ({ curUserId }) => {
     console.log('On handleClickContest() method');
   };
 
-  const handleAddContest = () => {
+  const onAddContestIconClick = () => {
     navigate(config.routes.add_contest);
   };
 
@@ -132,7 +132,7 @@ const MyContestList = ({ curUserId }) => {
           colorScheme="teal"
           borderRadius="full"
           variant="outline"
-          onClick={() => handleAddContest()}
+          onClick={() => onAddContestIconClick()}
         />
       </Flex>
 

@@ -21,11 +21,11 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     @Query("SELECT p " +
             "FROM Problem p " +
-            "WHERE (  p.owner.id = :userId ) ")
+            "WHERE ( p.isDeleted = false AND p.owner.id = :userId ) ")
     List<Problem> getProblemsByOwner(Long userId);
 
     @Query("SELECT p " +
             "FROM Problem p " +
-            "WHERE (  p.owner.id = :userId AND p.name LIKE %:problemName% )")
+            "WHERE ( p.isDeleted = false AND  p.owner.id = :userId AND p.name LIKE %:problemName% )")
     List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
 }

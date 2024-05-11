@@ -16,27 +16,27 @@ function AddContest() {
     imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
     title: 'Weekly contest 1',
     desc: 'It is good for practicing',
-    startTime: new Date(),
-    endTime: new Date(),
     duration: 3660000,
-    type: 'PUBLIC',
-    status: 'PREPARING',
     isDeleted: false,
+    problemIds: [],
+    participantIds: []
   });
 
   useEffect(() => {
     console.log('curContest: ' + JSON.stringify(curContest));
   }, [curContest]);
 
-  const handleStartNow = () => {
-    ContestService.addContest(curContest);
-  };
-
-  const handleAddOfflineContest = () => {
+  const onAddBtnClick = () => {
     ContestService.addContest(curContest);
   };
 
   const updateContest = (updatedContest) => {
+    setCurContest(updatedContest);
+  };
+
+  const updateProblemIds = (problemIds) => {
+    const updatedContest = { ...curContest };
+    updatedContest.problemIds = problemIds;
     setCurContest(updatedContest);
   };
 
@@ -45,49 +45,41 @@ function AddContest() {
       <MainNavbar />
 
       <VStack gap={10} my={20}>
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="30px" w="fit-content" h="fit-content">
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="30px" h="fit-content" w="1000px">
           <CardBody>
             <AddContestForm contest={curContest} onUpdateContest={updateContest} />
           </CardBody>
         </Card>
 
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="66.67%">
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
-            <AddProblemsForContestForm curUserId={curUser.id} />
+            <AddProblemsForContestForm
+              curUserId={curUser.id}
+              updateProblemIds={updateProblemIds}
+            />
           </CardBody>
         </Card>
 
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" w="fit-content" h="fit-content">
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
             <InviteUsersForm />
           </CardBody>
         </Card>
 
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" w="80%" h="fit-content">
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
-            <ButtonGroup gap={6} justifyContent="flex-end">
-              <Button
-                height="50px"
-                borderRadius="2xl"
-                size="lg"
-                colorScheme="teal"
-                variant="solid"
-                onClick={() => handleStartNow()}
-              >
-                Start now
-              </Button>
-
-              <Button
-                height="50px"
-                borderRadius="2xl"
-                size="lg"
-                colorScheme="teal"
-                variant="solid"
-                onClick={() => handleAddOfflineContest()}
-              >
-                Add offline contest
-              </Button>
-            </ButtonGroup>
+            <Button
+              height="50px"
+              width="80px"
+              borderRadius="2xl"
+              size="lg"
+              colorScheme="teal"
+              variant="solid"
+              onClick={() => onAddBtnClick()}
+              alignSelf="flex-end"
+            >
+              Add
+            </Button>
           </CardBody>
         </Card>
       </VStack>

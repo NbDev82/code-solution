@@ -49,7 +49,7 @@ const getProblemsByOwner = async (ownerId) => {
 };
 
 const getProblemsByOwnerAndName = async (ownerId, name) => {
-  const requestURL = `${BASE_URL}/problems/get-problems-by-owner?userId=${ownerId}&name=${name}`;
+  const requestURL = `${BASE_URL}/problems/get-problems-by-owner-and-name?userId=${ownerId}&name=${name}`;
   const response = await axios.get(requestURL);
   return response.data;
 };
@@ -69,6 +69,7 @@ export {
   addProblem,
   updateProblem,
   getProblem,
-  getProblemsByOwner
+  getProblemsByOwner,
+  getProblemsByOwnerAndName,
   pickOneProblem,
 };
