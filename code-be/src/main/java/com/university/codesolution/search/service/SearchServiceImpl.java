@@ -85,6 +85,7 @@ public class SearchServiceImpl implements SearchService{
                 .count();
 
         problemDTO.setStatus(calculateUserStatus(attemptedCount, acceptedCount));
+        problemDTO.setAcceptanceRate();
 
         return problemDTO;
     }

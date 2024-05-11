@@ -22,11 +22,16 @@ public class ProblemDTO {
     private EStatus status;
     private int acceptedCount;
     private int submissionCount;
+    private String acceptanceRate;
 
-    public String getAcceptanceRate() {
+    public void setAcceptanceRate() {
+        if(submissionCount <= 0) {
+            this.acceptanceRate = "0";
+            return;
+        }
         double acceptanceRate = ((double) acceptedCount /submissionCount)*100;
-        double roundedNumber = Math.round(acceptanceRate / 10.0) * 10.0;
+        double roundedNumber = (double) Math.round(acceptanceRate * 100) / 100;
         DecimalFormat df = new DecimalFormat("#.#");
-        return df.format(roundedNumber);
+        this.acceptanceRate = df.format(roundedNumber);
     }
 }

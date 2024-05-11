@@ -84,8 +84,6 @@ public class JavaCompiler implements CompilerStrategy{
 
                 TestCaseResultDTO testCaseResultDTO = completableFuture.get();
 
-//                TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
-
                 long endTime = System.nanoTime();
                 long endMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();
 
