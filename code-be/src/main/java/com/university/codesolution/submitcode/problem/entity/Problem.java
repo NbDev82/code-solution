@@ -2,6 +2,7 @@ package com.university.codesolution.submitcode.problem.entity;
 
 import com.university.codesolution.comment.entity.Comment;
 import com.university.codesolution.contest.entity.Contest;
+import com.university.codesolution.login.entity.User;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.submission.entity.Submission;
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
@@ -55,9 +56,16 @@ public class Problem implements Serializable {
     @ElementCollection(targetClass = ETopic.class)
     private List<ETopic> topics;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "contest_id")
-    private Contest contest;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "contest_problem",
+            joinColumns = @JoinColumn(name = "problem_id"),
+            inverseJoinColumns = @JoinColumn(name = "contest_id"))
+    private List<Contest> contests;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<LibrariesSupport> librariesSupports;
