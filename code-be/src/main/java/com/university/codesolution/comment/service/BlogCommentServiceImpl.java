@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -59,6 +60,8 @@ public class BlogCommentServiceImpl implements BlogCommentService{
             if(comment.getCommentParent() == null)
                 commentNotParent.add(comment);
         }
+        Collections.reverse(commentNotParent);
+
         return commentNotParent;
 
     }
@@ -73,7 +76,9 @@ public class BlogCommentServiceImpl implements BlogCommentService{
 
     @Override
     public List<Comment> getAllCommentsByParentId(Long parentId) {
-        return commentRepository.findByCommentParent_Id(parentId);
+        List<Comment> comments = commentRepository.findByCommentParent_Id(parentId);
+        Collections.reverse(comments);
+        return comments;
     }
 
 
