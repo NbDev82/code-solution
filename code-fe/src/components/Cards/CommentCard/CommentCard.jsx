@@ -116,7 +116,6 @@ const CommentCard = (props) => {
       const response = await updateComment(updatedComment);
       if (response.data) {
         setIsEditing(false);
-        // updateComment.updatedAt = new Date().toISOString();
         setComment(response.data);
       }
     } catch (error) {
@@ -239,7 +238,6 @@ const CommentCard = (props) => {
               </Button>
             ) : (
               <Button
-                // onSelectBtn={handleCommentClick} //////////////////////////
                 onClick={handleCommentClick}
                 fontSize="14px"
                 h="40px"

@@ -9,4 +9,8 @@ const runCode = async (request) => {
   return await axios.post(`${BASE_URL}/run`, request);
 };
 
-export { getInputCode, runCode };
+const compileCode = async (request) => {
+  return await axios.post(`${BASE_URL}/compile`, request);
+};
+
+export { getInputCode, runCode, compileCode };
