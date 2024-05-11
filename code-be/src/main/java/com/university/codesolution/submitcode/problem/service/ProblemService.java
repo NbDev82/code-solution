@@ -10,4 +10,8 @@ public interface ProblemService {
 
     <T> T findById(Long problemId, Class<T> returnType);
     List<Problem> getAll();
+
+    List<Problem> getProblemsByOwner(Long userId);
+
+    List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
 }

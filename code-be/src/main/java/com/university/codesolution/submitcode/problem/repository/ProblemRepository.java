@@ -1,6 +1,5 @@
 package com.university.codesolution.submitcode.problem.repository;
 
-import com.university.codesolution.search.enums.EStatus;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +20,13 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     Page<Problem> findByCriteria(Problem.EDifficultyLevel difficulty, Pageable pageable);
 
 
+    @Query("SELECT p " +
+            "FROM Problem p " +
+            "WHERE (  p.owner.id = :userId ) ")
+    List<Problem> getProblemsByOwner(Long userId);
+
+    @Query("SELECT p " +
+            "FROM Problem p " +
+            "WHERE (  p.owner.id = :userId AND p.name LIKE %:problemName% )")
+    List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
 }

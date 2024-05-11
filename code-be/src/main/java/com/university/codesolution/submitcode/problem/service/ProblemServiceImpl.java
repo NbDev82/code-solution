@@ -43,6 +43,16 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
+    public List<Problem> getProblemsByOwner(Long userId) {
+        return problemRepository.getProblemsByOwner(userId);
+    }
+
+    @Override
+    public List<Problem> getProblemsByOwnerAndName(Long userId, String problemName) {
+        return problemRepository.getProblemsByOwnerAndName(userId, problemName);
+    }
+
+    @Override
     public Problem getEntityByProblemId(Long problemId) {
         log.info("get problem from ProblemServiceImpl");
         return problemRepository.findById(problemId)
