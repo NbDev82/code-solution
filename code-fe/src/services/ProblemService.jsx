@@ -42,6 +42,19 @@ const updateProblem = async (request) => {
   return await axios.post(requestURL, request);
 };
 
+const getProblemsByOwner = async (ownerId) => {
+  const requestURL = `${BASE_URL}/problems/get-problems-by-owner?userId=${ownerId}`;
+  const response = await axios.get(requestURL);
+  return response.data;
+};
+
+const getProblemsByOwnerAndName = async (ownerId, name) => {
+  const requestURL = `${BASE_URL}/problems/get-problems-by-owner?userId=${ownerId}&name=${name}`;
+  const response = await axios.get(requestURL);
+  return response.data;
+};
+
+
 const pickOneProblem = async () => {
   const requestURL = `${BASE_URL}/problems/pickOne`;
   return await axios.get(requestURL);
@@ -56,5 +69,6 @@ export {
   addProblem,
   updateProblem,
   getProblem,
+  getProblemsByOwner
   pickOneProblem,
 };

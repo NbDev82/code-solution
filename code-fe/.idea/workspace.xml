@@ -5,16 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomIcons/EmptyListIcon.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomIcons/EmptyListIcon.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/demoContestData.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/demoContestData.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/ProblemService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ProblemService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +42,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/contest-v5&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/vanannek/Documents/CodeExample/FullStackApp/code-solution/code-fe&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,

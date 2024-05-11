@@ -6,12 +6,13 @@ import InviteUsersForm from '~/components/InviteUsersForm/InviteUsersForm';
 import { useEffect, useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
 import ContestService from '~/services/ContestService';
+import { getCurrentUserDetail } from '~/auth';
 
 function AddContest() {
-  const [curUserId, setCurUserId] = useState(1);
+  const [curUser, setCurUser] = useState(getCurrentUserDetail());
   const [curContest, setCurContest] = useState({
     id: 1,
-    ownerId: curUserId,
+    ownerId: curUser.id,
     imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
     title: 'Weekly contest 1',
     desc: 'It is good for practicing',
@@ -52,7 +53,7 @@ function AddContest() {
 
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="66.67%">
           <CardBody>
-            <AddProblemsForContestForm />
+            <AddProblemsForContestForm curUserId={curUser.id} />
           </CardBody>
         </Card>
 
