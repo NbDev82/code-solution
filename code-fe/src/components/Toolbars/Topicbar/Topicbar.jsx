@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Topicbar.scss';
 import Button from '~/components/Buttons/Button';
 import { LIMIT_QUANTITY_TOPICS } from '~/utils/Const';
-
+import { normalizeName } from '~/utils/string';
 Topicbar.propTypes = {
   topics: PropTypes.array,
   onFilterTopics: PropTypes.func,
@@ -38,15 +38,6 @@ function Topicbar(props) {
     setSliceEndPoint(end);
   };
 
-  function normalizeName(name) {
-    return name
-      .toLowerCase()
-      .replace(/_/g, ' ')
-      .replace(/(?:^|\s)\S/g, function (a) {
-        return a.toUpperCase();
-      });
-  }
-
   return (
     <div className="topicbar">
       <Button id="ALL" dark small onClick={props.onFilterTopics}>
@@ -54,7 +45,7 @@ function Topicbar(props) {
       </Button>
       <div className="topicbar__list">
         {topicCurrent.map((topic, index) => (
-          <Button key={topic.name} id={topic.name} textHighLight small badge={topic.quantity} onClick={props.onFilterTopics}>
+          <Button key={index} id={topic.name} textHighLight small badge={topic.quantity} onClick={props.onFilterTopics}>
             {normalizeName(topic.name)}
           </Button>
         ))}

@@ -55,7 +55,7 @@ function MainNavbar(props) {
         <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc} />
+        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

@@ -23,6 +23,7 @@
   &--logo {
     height: 35%;
     margin-left: 2%;
+    cursor: pointer;
   }
   &--list {
     @include row();

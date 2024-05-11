@@ -1,13 +1,16 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
-
-import './TableProblems.scss';
+import { useNavigate, useLocation } from 'react-router-dom';
+import styles from './TableProblems.module.scss';
 import Todo from '~/assets/images/Todo.svg';
 import Solved from '~/assets/images/Solved.svg';
 import Attempted from '~/assets/images/Attempted.svg';
 import { WarningIcon } from '@chakra-ui/icons';
 const TableProblems = memo((props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const getDifficulty = (difficulty) => {
     switch (difficulty) {
       case 'EASY':
@@ -17,10 +20,11 @@ const TableProblems = memo((props) => {
       case 'HARD':
         return <Td style={{ color: 'var(--red)' }}>Easy</Td>;
       default:
-        <Td style={{ color: '#FF0100' }}>
-          <WarningIcon w={8} h={8} color="var(--green)"></WarningIcon>Not found!
-        </Td>;
-        break;
+        return (
+          <Td style={{ color: '#FF0100' }}>
+            <WarningIcon w={6} h={6} color="#FF0100"></WarningIcon> Not found!
+          </Td>
+        );
     }
   };
   const getStatus = (status) => {
@@ -35,8 +39,14 @@ const TableProblems = memo((props) => {
     fontFamily: 'var(--font-family)',
     color: 'var(--secondary-color)',
   };
+
+  const handleSelectProblem = (problem) => {
+    navigate(`${location.pathname}/${problem.title.toLowerCase().replace(' ', '-')}`, {
+      state: { problemId: problem.id },
+    });
+  };
   return (
-    <TableContainer className="table__layout">
+    <TableContainer className={styles.table__layout}>
       <Table variant="striped" colorScheme="whiteAlpha" size="lg">
         <Thead>
           <Tr>
@@ -52,13 +62,12 @@ const TableProblems = memo((props) => {
               cursor="pointer"
               key={index}
               style={{ backgroundColor: index % 2 === 0 ? 'var(--gray-light)' : 'var(--white)' }}
-              onClick={() => props.onSelectProblem(problem)}
+              onClick={() => handleSelectProblem(problem)}
               marginBottom="5px"
             >
               <Td>
                 <img src={getStatus(problem.status)} alt={problem.status}></img>
               </Td>
-
               <Td>{problem.title}</Td>
               <Td>{problem.acceptanceRate}%</Td>
               {getDifficulty(problem.difficulty)}
@@ -72,8 +81,8 @@ const TableProblems = memo((props) => {
 
 TableProblems.propTypes = {
   problems: PropTypes.array,
-  onSelectProblem: PropTypes.func,
 };
+
 TableProblems.defaultProps = {
   problems: [],
 };

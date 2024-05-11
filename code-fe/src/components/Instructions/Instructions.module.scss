@@ -1,0 +1,22 @@
+.instructions {
+  padding: 20px;
+  background-color: transparent;
+  height: auto;
+  width: 100%;
+  text-align: center;
+  font-size: xx-large;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: -0.25px;
+  color: var(--secondary-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
