@@ -22,12 +22,13 @@ public class BlogCommentController {
     private  BlogCommentService commentService;
     private  BlogCommentMapper blogCommentMapper;
     private CommentMapper commentMapper;
-    @PostMapping("/post/{postId}/comments")
-    public ResponseEntity<BlogCommentDTO> createComment(@RequestBody BlogCommentDTO blogCommentDTO, @PathVariable Long postId)
+    @PostMapping("/post/{postId}/user/{userId}/comments")
+    public ResponseEntity<BlogCommentDTO> createComment(@RequestBody BlogCommentDTO blogCommentDTO, @PathVariable Long postId,@PathVariable Long userId)
     {
-        Comment createComment = this.commentService.createComment(blogCommentDTO, postId);
+        Comment createComment = this.commentService.createComment(blogCommentDTO, postId, userId);
+        BlogCommentDTO responseComment = this.blogCommentMapper.toDto(createComment);
 
-        return new ResponseEntity<BlogCommentDTO>(this.blogCommentMapper.toDto(createComment), HttpStatus.CREATED);
+        return new ResponseEntity<BlogCommentDTO>(responseComment, HttpStatus.CREATED);
     }
 
     @GetMapping("/post/comment/{commendId}")

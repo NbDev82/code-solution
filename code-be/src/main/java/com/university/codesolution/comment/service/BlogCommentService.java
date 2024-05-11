@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface BlogCommentService {
-    Comment createComment(BlogCommentDTO blogCommentDTO, Long discussId);
+    Comment createComment(BlogCommentDTO blogCommentDTO, Long discussId, Long userId);
     List<Comment> getCommentByDiscuss(Long discussId);
     Comment getCommentById(Long commentId);
     List<Comment> getAllCommentsByParentId(Long parentId);

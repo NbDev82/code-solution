@@ -42,7 +42,8 @@ public class User implements UserDetails {
     private LocalDateTime dateOfBirth;
 
     private String email;
-
+    @Column(length = 1000)
+    private String urlImage;
     private String password;
 
     @Column(name = "cumulative_score")

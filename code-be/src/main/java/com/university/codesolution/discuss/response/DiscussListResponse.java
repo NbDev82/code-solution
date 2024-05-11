@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DiscussListResponse {
     private List<DiscussDTO> discussDTOList;
+    private int totalRecord;
 
 
 }
