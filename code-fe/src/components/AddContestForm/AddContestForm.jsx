@@ -47,28 +47,6 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
         <Textarea name="desc" placeholder="Type..." value={contest.desc} onChange={handleInputTextChange} />
 
         <Flex align="center" mt={6}>
-          <FormLabel>Start: </FormLabel>
-          <Input
-            name="startTime"
-            placeholder="Select Date and Time"
-            size="md"
-            type="datetime-local"
-            mr={4}
-            value={contest.startTime.toISOString().slice(0, -8)}
-            onChange={handleDateTimeChange}
-          />
-          <FormLabel>End: </FormLabel>
-          <Input
-            name="endTime"
-            placeholder="Select Date and Time"
-            size="md"
-            type="datetime-local"
-            value={contest.endTime.toISOString().slice(0, -8)}
-            onChange={handleDateTimeChange}
-          />
-        </Flex>
-
-        <Flex align="center" mt={6}>
           <FormLabel>Duration: </FormLabel>
           <Input
             name="duration"
@@ -79,15 +57,6 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
             value={new Date(contest.duration).toISOString().substr(11, 8)}
             onChange={handleDateTimeChange}
           />
-
-          <FormLabel>Type: </FormLabel>
-          <Select value={contest.type} onChange={handleContestTypeChange}>
-            {CONTEST_TYPE_OPTIONS.map((options) => (
-              <option key={options.value} value={options.value}>
-                {options.label}
-              </option>
-            ))}
-          </Select>
         </Flex>
       </Box>
     </Flex>

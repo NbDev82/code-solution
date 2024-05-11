@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/routes.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/routes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/routes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddProblemsForContestForm/AddProblemsForContestForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CustomIcons/EmptyListIcon.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomIcons/EmptyListIcon.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/demoContestData.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/demoContestData.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,23 +35,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/contest-v2",
-    "last_opened_file_path": "/Users/vanannek/Documents/CodeExample/FullStackApp/code-solution/code-fe",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/vanannek/Documents/CodeExample/FullStackApp/code-solution/code-fe&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
@@ -63,6 +68,8 @@
       <workItem from="1704794873384" duration="30000" />
       <workItem from="1711037497780" duration="1677000" />
       <workItem from="1711121897986" duration="5855000" />
+      <workItem from="1715407493189" duration="6138000" />
+      <workItem from="1715435181442" duration="2028000" />
     </task>
     <servers />
   </component>
