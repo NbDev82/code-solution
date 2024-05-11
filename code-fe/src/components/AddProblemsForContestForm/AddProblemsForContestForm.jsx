@@ -1,15 +1,40 @@
 import { Box, Flex, Input, InputGroup, InputRightElement, Divider } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContestSkeleton from '~/components/Skeletons/ContestSkeleton';
 import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
+import ContestService from '~/services/ContestService';
+import { ensureMinLoadingDuration } from '~/utils/constants';
+import * as ProblemService from '~/services/ProblemService';
 
-const AddProblemsForContestForm = () => {
+const MIN_LOADING_DURATION = 1000;
+
+const AddProblemsForContestForm = ({ curUserId }) => {
 
   const [searchText, setSearchText] = useState('');
-  const [isProblemsToAddSearching, setIsProblemsToAddSearching] = useState(false);
+  const [isProblemsToAddLoading, setIsProblemsToAddLoading] = useState(false);
   const [problemsToAdd, setProblemsToAdd] = useState([]);
   const [addedProblems, setAddedProblems] = useState([]);
+
+  useEffect(() => {
+    fetchProblemsToAdd();
+  }, [curUserId]);
+
+  const fetchProblemsToAdd = async () => {
+    setIsProblemsToAddLoading(true);
+    const startTime = Date.now();
+    try {
+      const problemsToAdd = await ProblemService.getProblemsByOwner(curUserId);
+      setProblemsToAdd(problemsToAdd);
+
+      await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
+    } catch (error) {
+      console.error('Error fetching my contests:', error);
+      setProblemsToAdd([]);
+    } finally {
+      setIsProblemsToAddLoading(false);
+    }
+  }
 
   const searchProblems = () => {
     console.log('searching...');
@@ -51,7 +76,7 @@ const AddProblemsForContestForm = () => {
       </Flex>
 
       <Box mt={10}>
-        {isProblemsToAddSearching ? (
+        {isProblemsToAddLoading ? (
           <ContestSkeleton count={5} />
         ) : (
           problemsToAdd.map((problem) => (
@@ -66,7 +91,7 @@ const AddProblemsForContestForm = () => {
             </Flex>
           ))
         )}
-        {(!isProblemsToAddSearching && (problemsToAdd === null || problemsToAdd.length === 0)) && (
+        {(!isProblemsToAddLoading && (problemsToAdd === null || problemsToAdd.length === 0)) && (
           <EmptyListIcon my={20} iconSize={80} />
         )}
       </Box>

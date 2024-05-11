@@ -1,9 +1,11 @@
 package com.university.codesolution.contest.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public record AddContestRequest(
         @Schema(
         description = "Title of the contest",

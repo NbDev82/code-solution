@@ -156,19 +156,12 @@ const MyContestList = ({ curUserId }) => {
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                   {contest.title}
                 </Text>
-                <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
-                  {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
-                </Text>
                 <Text fontSize="xs" color="gray.600" noOfLines={1}>
                   Duration: {formatDuration(contest.duration)}
                 </Text>
               </Box>
 
               <Box>
-                <Badge variant="subtle" borderRadius="md" color="purple.400" px={4} me={10}>
-                  {contest.type}
-                </Badge>
-
                 <IconButton
                   aria-label="Delete contest"
                   icon={<DeleteIcon />}

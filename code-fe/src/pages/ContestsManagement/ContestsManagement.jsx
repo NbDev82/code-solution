@@ -22,6 +22,7 @@ import MyContestList from '~/components/MyContestList/MyContestList';
 import Footer from '~/components/Footer';
 
 const ContestsManagement = () => {
+
   const [curUserId, setCurUserId] = useState(1);
 
   return (

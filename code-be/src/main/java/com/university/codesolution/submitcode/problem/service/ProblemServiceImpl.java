@@ -5,6 +5,7 @@ import com.university.codesolution.login.service.UserService;
 import com.university.codesolution.submitcode.DTO.AddProblemRequestDTO;
 import com.university.codesolution.submitcode.DTO.AddTestCaseRequestDTO;
 import com.university.codesolution.submitcode.DTO.InputDTO;
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.exception.ProblemNotFoundException;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.library.repository.LibraryRepository;
@@ -65,13 +66,21 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<Problem> getProblemsByOwner(Long userId) {
-        return problemRepository.getProblemsByOwner(userId);
+    public List<ProblemDTO> getAllDTOs() {
+        List<Problem> problems = getAll();
+        return mapper.toDTOs(problems);
     }
 
     @Override
-    public List<Problem> getProblemsByOwnerAndName(Long userId, String problemName) {
-        return problemRepository.getProblemsByOwnerAndName(userId, problemName);
+    public List<ProblemDTO> getProblemsByOwner(Long userId) {
+        List<Problem> problems = problemRepository.getProblemsByOwner(userId);
+        return mapper.toDTOs(problems);
+    }
+
+    @Override
+    public List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName) {
+        List<Problem> problems = problemRepository.getProblemsByOwnerAndName(userId, problemName);
+        return mapper.toDTOs(problems);
     }
 
     @Override

@@ -14,9 +14,7 @@ import { myDemoContests } from '~/utils/demoContestData';
 import {
   ContestSearchOptions,
   ensureMinLoadingDuration,
-  formatDateTime,
   formatDuration,
-  getStatusColor,
 } from '~/utils/constants';
 import { SearchIcon } from '@chakra-ui/icons';
 import SimplePagination from '~/components/Pagination/SimplePagination';
@@ -125,18 +123,9 @@ const GlobalContestList = ({ curUserId }) => {
                   <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                     {contest.title}
                   </Text>
-                  <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
-                    {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
-                  </Text>
                   <Text fontSize="xs" color="gray.600" noOfLines={1}>
                     Duration: {formatDuration(contest.duration)}
                   </Text>
-                </Box>
-
-                <Box>
-                  <Badge variant="subtle" borderRadius="md" color={getStatusColor(contest.status)} px={4} me={10}>
-                    {contest.status}
-                  </Badge>
                 </Box>
               </Flex>
             ))

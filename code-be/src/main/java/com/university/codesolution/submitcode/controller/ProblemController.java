@@ -29,19 +29,22 @@ public class ProblemController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<Problem>> fetchAll() {
-        return ResponseEntity.ok(problemService.getAll());
+    public ResponseEntity<List<ProblemDTO>> fetchAll() {
+        return ResponseEntity.ok(problemService.getAllDTOs());
     }
 
     @GetMapping("/get-problems-by-owner")
-    public ResponseEntity<List<Problem>> getProblemsByOwner(Long userId) {
+    public ResponseEntity<List<ProblemDTO>> getProblemsByOwner(Long userId) {
         log.info("Fetching problems by owner id: {}", userId);
 
         return ResponseEntity.ok(problemService.getProblemsByOwner(userId));
     }
 
     @GetMapping("/get-problems-by-owner-and-name")
-    public ResponseEntity<List<Problem>> getProblemsByOwnerAndName(Long userId, String problemName) {
+    public ResponseEntity<List<ProblemDTO>> getProblemsByOwnerAndName(
+            @RequestParam("userId") Long userId,
+            @RequestParam("name") String problemName
+    ) {
         return ResponseEntity.ok(problemService.getProblemsByOwnerAndName(userId, problemName));
     }
 

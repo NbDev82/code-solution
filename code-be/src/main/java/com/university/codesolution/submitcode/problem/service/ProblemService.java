@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.problem.service;
 
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 
@@ -10,10 +11,11 @@ public interface ProblemService {
 
     <T> T findById(Long problemId, Class<T> returnType);
     List<Problem> getAll();
+    List<ProblemDTO> getAllDTOs();
 
-    List<Problem> getProblemsByOwner(Long userId);
+    List<ProblemDTO> getProblemsByOwner(Long userId);
 
-    List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
+    List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName);
 
     Boolean add(AddProblemRequest request);
 
