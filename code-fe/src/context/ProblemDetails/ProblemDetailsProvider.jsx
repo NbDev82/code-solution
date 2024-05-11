@@ -26,6 +26,7 @@ function ProblemDetailsProvider({ children }) {
   const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
   const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
   const [paramsError, setParamsError] = useState([]);
+  const [libraries, setLibraries] = useState([]);
   const navigate = useNavigate();
   const fetchTopics = async () => {
     try {
@@ -69,8 +70,17 @@ function ProblemDetailsProvider({ children }) {
 
   const addProblem = async () => {
     try {
-      const request = queryString.stringify({ problem, parameters, testcases });
-      console.log(JSON.stringify({ problem, parameters, testcases }));
+      const request = { problem, libraries, parameters, testcases };
+      request.parameters.forEach((param) => {
+        delete param.id;
+      });
+      request.testcases.forEach((testcase) => {
+        delete testcase.id;
+        testcase.input.forEach((input) => {
+          delete input.paramId;
+        });
+      });
+      console.log(JSON.stringify(request));
       const response = await addProblemService(request);
       return response.data;
     } catch (error) {
@@ -128,6 +138,7 @@ function ProblemDetailsProvider({ children }) {
     input: danh sách param
     output: [paramId,...]
   */
+
   const getIdParamsInvalid = (params) => {
     if (!params) return [];
     const paramNames = {};
@@ -157,6 +168,7 @@ function ProblemDetailsProvider({ children }) {
     input: danh sách testcase
     output: [testcaseID:'',...]
   */
+
   const getIdTestcasesInvalid = (testcases) => {
     if (!testcases) return [];
     const invalidIds = [];
@@ -193,6 +205,8 @@ function ProblemDetailsProvider({ children }) {
         setTopics,
         step,
         setStep,
+        libraries,
+        setLibraries,
         parameters,
         setParameters,
         testcases,

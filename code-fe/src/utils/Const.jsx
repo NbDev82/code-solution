@@ -182,7 +182,6 @@ export const FILTER_DEFAULT = {
 };
 
 export const PROBLEM_INIT = {
-  id: null,
   ownerId: null,
   title: '',
   description: '',
@@ -225,4 +224,88 @@ export const DIALOG_DEFAULT_PROPS = {
   onYesClick: () => {
     console.log('yes');
   },
+};
+
+export const LABRARIES_DEFAULT = [
+  'java.util.ArrayList',
+  'java.util.List',
+  'java.io.File',
+  'java.net.Socket',
+  'javax.xml.parsers.SAXParser',
+  'org.apache.commons.io.FileUtils',
+  'org.apache.commons.lang3.StringUtils',
+  'org.apache.commons.httpclient.HttpClient',
+  'junit.framework.TestCase',
+  'org.testng.TestNG',
+  'javax.xml.bind.JAXB',
+  'org.dom4j.Document',
+  'org.slf4j.Logger',
+  'ch.qos.logback.classic.Logger',
+  'org.springframework.beans.factory.BeanFactory',
+  'com.google.guice.Injector',
+  'javax.imageio.ImageIO',
+  'org.apache.commons.imaging.ImagingFactory',
+  'javax.sound.sampled.AudioSystem',
+  'org.jaudiolibs.jaudio',
+  'org.apache.http.client.HttpClient',
+  'java.sql.Connection',
+  'org.hibernate.Session',
+];
+
+const JSON_PROBLEM_SAMPLE = {
+  problem: {
+    ownerId: 4,
+    title: 'Add Two Numbers',
+    description:
+      'You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.\n\nYou may assume the two numbers do not contain any leading zero, except the number 0 itself.',
+    point: 0,
+    difficulty: 'EASY',
+    topics: [],
+    deleted: false,
+    functionName: 'addTwoNumbers',
+    outputDataType: 'boolean',
+  },
+  Libraries: ['java.util.ArrayList', 'java.util.List'],
+  parameters: [
+    {
+      name: 'num1',
+      datatype: 'int',
+    },
+    {
+      name: 'nums',
+      datatype: 'int[]',
+    },
+  ],
+  testcases: [
+    {
+      input: [
+        {
+          paramName: 'num1',
+          datatype: 'int',
+          value: '5',
+        },
+        {
+          paramName: 'nums',
+          datatype: 'int[]',
+          value: '{1,2,3,5}',
+        },
+      ],
+      output: 'true',
+    },
+    {
+      input: [
+        {
+          paramName: 'num1',
+          datatype: 'int',
+          value: '200',
+        },
+        {
+          paramName: 'nums',
+          datatype: 'int[]',
+          value: '{5,8,6,8,6,0}',
+        },
+      ],
+      output: 'false',
+    },
+  ],
 };
