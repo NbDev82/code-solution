@@ -3,6 +3,8 @@ package com.university.codesolution.submitcode.controller;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
+import com.university.codesolution.submitcode.request.AddProblemRequest;
+import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +43,20 @@ public class ProblemController {
     @GetMapping("/get-problems-by-owner-and-name")
     public ResponseEntity<List<Problem>> getProblemsByOwnerAndName(Long userId, String problemName) {
         return ResponseEntity.ok(problemService.getProblemsByOwnerAndName(userId, problemName));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Boolean> addProblem(@RequestBody @NonNull AddProblemRequest request) {
+        return ResponseEntity.ok(problemService.add(request));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteProblem(@RequestParam Long problemId) {
+        try {
+            return ResponseEntity.ok(problemService.delete(problemId));
+        } catch (Exception e){
+            log.info(e.getMessage());
+            return ResponseEntity.ok(false);
+        }
     }
 }
