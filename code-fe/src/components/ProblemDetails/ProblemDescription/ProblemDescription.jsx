@@ -13,10 +13,10 @@ const ProblemDescription = (props) => {
           <Textarea
             value={problem.description}
             onChange={(e) => {
-              setProblem((prev) => ({ ...prev, description: e.target.value.trim() }));
+              setProblem((prev) => ({ ...prev, description: e.target.value }));
             }}
             isInvalid={problem.description === '' ? true : false}
-            minH='200px'
+            minH="200px"
             placeholder="What is the description of your problem?"
           ></Textarea>
         </div>

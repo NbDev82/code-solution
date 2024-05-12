@@ -7,8 +7,8 @@ import { useRef } from 'react';
 import { createPost as doCreatePost } from '~/services/DiscussService';
 import { getCurrentUserDetail } from '~/auth';
 import { toast } from 'react-toastify';
-import './AddPost.scss';
 import { useNavigate } from 'react-router-dom';
+import styles from './AddPost.module.scss';
 const AddPost = () => {
   const editor = useRef(null);
   const [categories, setCategories] = useState([]);
@@ -22,12 +22,6 @@ const AddPost = () => {
   const navigate = useNavigate();
 
   const [image, setImage] = useState(null);
-
-  // const config={
-  //     placeholder:"Start typing...",
-
-  // }
-
   useEffect(() => {
     setUser(getCurrentUserDetail());
     loadAllCategories()
@@ -94,21 +88,16 @@ const AddPost = () => {
   };
 
   return (
-    <div
-      class="page-drawer-base page-drawer-base__-zHW"
-      data-appear="true"
-      data-fullscreen="false"
-      style={{ height: '50%' }}
-    >
-      <div class="content-container">
-        <div class="topic-editor-base">
+    <div className={styles['page-drawer-base']} data-appear="true" data-fullscreen="false" style={{ height: '50%' }}>
+      <div className={styles['content-container']}>
+        <div className={styles['topic-editor-base']}>
           <form onSubmit={createPost}>
-            <div class="editor-content editor-content__zQ7F">
-              <div class="editor-header__3sIw">
-                <div class="editor-header-left__RLbD">
-                  <span class="wrapper__3jgl md__3TJb title-input__2sXm">
+            <div className={styles['editor-content']}>
+              <div className={styles['editor-header']}>
+                <div className={styles['editor-header-left']}>
+                  <span style={{ width: '100%' }}>
                     <input
-                      class="input__2o8B "
+                      className={styles.input}
                       type="text"
                       id="topic"
                       placeholder="Enter topic title..."
@@ -117,18 +106,18 @@ const AddPost = () => {
                     />
                   </span>
                 </div>
-                <div class="editor-header-tool__2QB-">
-                  <div class="header-right__2UzF">
+                <div className={styles['editor-header-tool']}>
+                  <div className={styles['header-right']}>
                     <button
-                      class="btn__3Y3g fancy-btn__2prB primary__lqsj light__3AfA btn__1z2CC btn-md__M51O"
+                      className={`${styles.btn} ${styles['fancy-btn']} ${styles.primary} ${styles.light} ${styles['btn-md']} `}
                       data-no-border="true"
                       type="submit"
                     >
-                      <div class="btn-content-container__2HVS">
+                      <div className={styles['btn-content-container']}>
                         <span>Post</span>
-                        <svg viewBox="0 0 24 24" width="1em" height="1em" class="icon__1Md2">
+                        <svg viewBox="0 0 24 24" width="1em" height="1em" className={styles.icon}>
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M20.901 3.741l-9.582 17.697-4.015-5.734 7.684-7.822-9.881 4.798-3.619-4.706z"
                           ></path>
                         </svg>
@@ -137,13 +126,13 @@ const AddPost = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-3">
+              <div className={`my-3 ${styles['category-container']}`}>
                 <Label for="category">Post Category</Label>
                 <Input
                   type="select"
                   id="categoryId"
                   placeholder="Enter here"
-                  className="rounded-0"
+                  className={`${styles.input} ${styles.rounded}`}
                   name="categoryId"
                   onChange={fieldChanged}
                   defaultValue={0}
@@ -151,7 +140,6 @@ const AddPost = () => {
                   <option disabled value={0}>
                     --Select category--
                   </option>
-
                   {categories.map((category) => (
                     <option value={category.categoryId} key={category.categoryId}>
                       {category.categoryTitle}
@@ -163,7 +151,7 @@ const AddPost = () => {
                 ref={editor}
                 value={post.content}
                 onChange={(newContent) => contentFieldChanged(newContent)}
-              />{' '}
+              />
             </div>
           </form>
         </div>
