@@ -21,13 +21,15 @@ const getProblem = async (paramString) => {
 };
 
 const getAllProblemByUserId = async (paramsString) => {
-  const requestURL = `${BASE_URL}/get-all-by-user-id?${paramsString}`;
+  const requestURL = `${BASE_URL}/problems/get-profile-problems?${paramsString}`;
+  console.log(requestURL);
   return await axios.get(requestURL);
 };
 
-const deleteProblem = async (request) => {
-  const requestURL = `${BASE_URL}/problems/deletemapping`;
-  return await axios.post(requestURL, request);
+const deleteProblem = async (paramsString) => {
+  const requestURL = `${BASE_URL}/problems/delete?${paramsString}`;
+  console.log(requestURL);
+  return await axios.delete(requestURL);
 };
 
 const addProblem = async (request) => {
@@ -40,6 +42,11 @@ const updateProblem = async (request) => {
   return await axios.post(requestURL, request);
 };
 
+const pickOneProblem = async () => {
+  const requestURL = `${BASE_URL}/problems/pickOne`;
+  return await axios.get(requestURL);
+};
+
 export {
   getProblems,
   getAllTopics,
@@ -49,4 +56,5 @@ export {
   addProblem,
   updateProblem,
   getProblem,
+  pickOneProblem,
 };

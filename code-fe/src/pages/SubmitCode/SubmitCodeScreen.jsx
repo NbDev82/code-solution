@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProblemScreen from '~/components/Problem/ProblemScreen';
 import EditorScreen from '~/components/Editor/EditorScreen';
 import NavbarProblem from '~/components/Navbars/NavbarProblem/ProblemNavbar/NavbarProblem';
@@ -10,14 +10,16 @@ import SubmissionScreen from '~/components/Submissions/SubmissionScreen';
 import './SubmitCodeScreen.scss';
 import { ProblemContext, ProblemProvider } from '~/context/Problem';
 import { compileCode, runCode } from '~/services/SubmitCodeService';
+import { pickOneProblem } from '~/services/ProblemService';
 
 function SubmitCodeScreen() {
   const location = useLocation();
-  const { problem, setProblem, user, setResult, code, language, activeMenuItem, fetchProblem ,setProblems} =
+  const navigate = useNavigate();
+  const { problem, setProblem, user, setResult, code, language, activeMenuItem, fetchProblem, problems, setProblems } =
     useContext(ProblemContext);
-    
+
   useEffect(() => {
-    setProblems(location.state?.problems)
+    setProblems(location.state?.problems);
     fetchProblem(location.state?.problemId).then((data) => {
       setProblem(data);
     });
@@ -57,9 +59,27 @@ function SubmitCodeScreen() {
     }
   };
 
+  const handlePickOneProblem = async () => {
+    try {
+      const response = await pickOneProblem();
+      const data = response.data;
+      console.log('Server response:', response.data);
+      if (data.id !== problem.id) {
+        navigate(`/problems/${data.name.toLowerCase().replace(' ', '-')}`, {
+          state: { problemId: data.id, problems: problems },
+        });
+        window.location.reload();
+      }
+    } catch (error) {
+      setResult(error?.response?.data.message);
+      console.error('Error pick one problem:', error.response.data.message);
+    }
+  };
+
   const handleSelectBtn = (id) => {
     if (id === 'compile') handleCompile();
     if (id === 'submit') handleSendCode();
+    if (id === 'pickone') handlePickOneProblem();
   };
 
   const renderActiveScreen = (activeMenuItem) => {

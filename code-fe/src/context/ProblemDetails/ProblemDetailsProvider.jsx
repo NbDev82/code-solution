@@ -6,7 +6,7 @@ import {
   addProblem as addProblemService,
   updateProblem as updateProblemService,
 } from '~/services/ProblemService';
-import { PROBLEM_INIT, DIALOG_DEFAULT_PROPS } from '~/utils/Const';
+import { PROBLEM_INIT, DIALOG_DEFAULT_PROPS, TOPICS } from '~/utils/Const';
 import Dialog from '~/components/Dialog';
 import { checkParameterName, generateDefaultValue, checkInputValidation } from '~/utils/string';
 import queryString from 'query-string';
@@ -14,26 +14,18 @@ import { useNavigate } from 'react-router-dom';
 
 function ProblemDetailsProvider({ children }) {
   const [user, setUser] = useState(getCurrentUserDetail());
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState(TOPICS);
   const [problem, setProblem] = useState(PROBLEM_INIT);
   const [action, setAction] = useState('');
   const [step, setStep] = useState(0);
   const [parameters, setParameters] = useState([]);
   const [quantityParam, setquantityParam] = useState(parameters.length);
   const [testcases, setTestcases] = useState([]);
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS});
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS });
   const [paramsError, setParamsError] = useState([]);
   const [libraries, setLibraries] = useState([]);
   const dialogRef = useRef();
   const navigate = useNavigate();
-  const fetchTopics = async () => {
-    try {
-      const response = await getAllTopics();
-      setTopics(response.data);
-    } catch (error) {
-      console.log('Fetch Topics Error', error);
-    }
-  };
 
   const updateProblem = async () => {
     try {
@@ -80,6 +72,18 @@ function ProblemDetailsProvider({ children }) {
       });
       console.log(JSON.stringify(request));
       const response = await addProblemService(request);
+      let msg = '';
+      response.data ? (msg = `Create problem successful! you want to back your profile?`) : (msg = `${action} failed!`);
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: msg,
+        isOpen: true,
+        onYesClick: () => {
+          navigate(`/profile`, {
+            state: { tab: 1 },
+          });
+        },
+      }));
       return response.data;
     } catch (error) {
       setDialogProps((prev) => ({
@@ -94,10 +98,6 @@ function ProblemDetailsProvider({ children }) {
       }));
     }
   };
-
-  useEffect(() => {
-    fetchTopics();
-  }, []);
 
   const createNewTestCase = () => {
     const input = [];
@@ -277,7 +277,6 @@ function ProblemDetailsProvider({ children }) {
       });
       input.splice(0);
     }
-    if (getIdTestcasesInvalid(testcasesList).length > 0) return [];
     return testcasesList;
   };
 

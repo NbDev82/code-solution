@@ -15,13 +15,18 @@ import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
 import { ProblemContext } from '~/context/Problem';
+
 function MainNavbar(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
   const { problems } = useContext(ProblemContext);
-  const { isOpenDrawer, onOpenDrawer, onCloseDrawer } = useDisclosure();
-  const { isOpenProblemsList, onOpenProblemsList, onCloseProblemsList } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpenProblemsList, setIsOpenProblemsList] = useState(false);
   const iconStyle = { fontSize: 20 };
   const navigate = useNavigate();
+  const handleCloseProblemsList = () => {
+    setIsOpenProblemsList(false);
+  };
+
   return (
     <div className="navbar">
       <img
@@ -34,7 +39,13 @@ function MainNavbar(props) {
       />
       <div className="navbar--list">
         <div className="navbar--list__gap5">
-          <Button icon id="problemslist" onClick={onOpenProblemsList}>
+          <Button
+            icon
+            id="problemslist"
+            onClick={() => {
+              setIsOpenProblemsList(true);
+            }}
+          >
             <FormatListBulletedIcon sx={iconStyle}></FormatListBulletedIcon>
             <span>Problems List</span>
           </Button>
@@ -67,14 +78,14 @@ function MainNavbar(props) {
         {/* <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
         </Button> */}
-        <Avatar size="lg" name={user?.fullName} onClick={onOpenDrawer} src={user?.urlImage} />
+        <Avatar size="lg" cursor="pointer" name={user?.fullName} onClick={onOpen} src={user?.urlImage} />
       </div>
       <DrawerProblemList
         problems={problems}
         isOpen={isOpenProblemsList}
-        onClose={onCloseProblemsList}
+        onClose={handleCloseProblemsList}
       ></DrawerProblemList>
-      <DrawerRightDefault user={user} isOpen={isOpenDrawer} onClose={onCloseDrawer}></DrawerRightDefault>
+      <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>
   );
 }

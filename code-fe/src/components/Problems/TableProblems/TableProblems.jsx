@@ -1,14 +1,13 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './TableProblems.module.scss';
 import Todo from '~/assets/images/Todo.svg';
 import Solved from '~/assets/images/Solved.svg';
 import Attempted from '~/assets/images/Attempted.svg';
 import { WarningIcon } from '@chakra-ui/icons';
 const TableProblems = memo((props) => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const getDifficulty = (difficulty) => {
@@ -41,7 +40,7 @@ const TableProblems = memo((props) => {
   };
 
   const handleSelectProblem = (problem) => {
-    navigate(`${location.pathname}/${problem.title.toLowerCase().replace(' ', '-')}`, {
+    navigate(`/problems/${problem.title.toLowerCase().replace(' ', '-')}`, {
       state: { problemId: problem.id, problems: props.problems },
     });
   };

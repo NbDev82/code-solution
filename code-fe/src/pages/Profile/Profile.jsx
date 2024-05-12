@@ -62,7 +62,8 @@ function Profile(props) {
   const fetchProblemsList = async () => {
     try {
       const response = await getAllProblemByUserId(queryString.stringify({ userId: user.id }));
-      setProblems(response.data.problemDTOs);
+      console.log(response.data);
+      setProblems(response.data);
     } catch (error) {
       console.log('Fetch Problems Error', error);
     }
@@ -77,9 +78,9 @@ function Profile(props) {
   }, []);
 
   const [achievements, setAchievements] = useState({
-    cummulativeScore: 1520,
-    numberOfSolvedProblems: 11,
-    numberOfCompletedCompetitions: 2,
+    cumulativeScore: user.cumulativeScore ? user.cumulativeScore : 0,
+    numberOfSolvedProblems: user?.numberOfSolvedProblems,
+    numberOfCompletedCompetitions: user?.numberOfCompletedCompetitions,
   });
 
   const handleCreateNewProblem = () => {
@@ -91,16 +92,18 @@ function Profile(props) {
 
   const handleDeleteProblem = async (problem) => {
     try {
-      const request = queryString.stringify({ problem });
-      console.log(JSON.stringify({ problem }));
+      const request = queryString.stringify({ problemId: problem.id });
+      console.log(request);
       const response = await deleteProblem(request);
       let msg = '';
-      response.data.success ? (msg = `${ACTION.DELETE} successful!`) : (msg = `${ACTION.DELETE} failed!`);
+      response.data ? (msg = `${ACTION.DELETE} successful!`) : (msg = `${ACTION.DELETE} failed!`);
       setDialogProps((prev) => ({
         ...prev,
         msg: msg,
         isOpen: true,
-        onYesClick: () => {},
+        onYesClick: () => {
+          fetchProblemsList();
+        },
       }));
     } catch (error) {
       setDialogProps((prev) => ({
