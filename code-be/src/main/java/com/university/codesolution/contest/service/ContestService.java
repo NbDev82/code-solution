@@ -14,7 +14,7 @@ import java.util.List;
 public interface ContestService {
     ContestDTO addContestWithProblemsAndParticipants(AddContestRequest addRequest);
     ContestDTO update(UpdateContestRequest updateRequest);
-    List<ContestDTO> getContests(GetContestsRequest getRequest);
+    List<ContestDTO> getMyContests(GetContestsRequest getRequest);
     List<ContestDTO> getGlobalContests(GetContestsRequest getRequest);
     ContestDTO getById(Long contestId);
     void markContestAsDeleted(Long contestId);

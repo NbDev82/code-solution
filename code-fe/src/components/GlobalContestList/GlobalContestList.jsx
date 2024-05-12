@@ -1,18 +1,15 @@
 import {
-  Badge,
   Box,
   Flex,
   Image,
   Input,
   InputGroup,
   InputRightElement,
-  Select,
   Text,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { myDemoContests } from '~/utils/demoContestData';
 import {
-  ContestSearchOptions,
   ensureMinLoadingDuration,
   formatDuration,
 } from '~/utils/constants';
@@ -25,7 +22,6 @@ import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
 const MIN_LOADING_DURATION = 1000;
 
 const GlobalContestList = ({ curUserId }) => {
-  const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
@@ -52,10 +48,6 @@ const GlobalContestList = ({ curUserId }) => {
     }
   };
 
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -77,13 +69,6 @@ const GlobalContestList = ({ curUserId }) => {
   return (
     <Box>
       <Flex align="center" gap={6} mt={2}>
-        <Select value={selectedOption} onChange={handleOptionChange} variant="unstyled" w={'fit-content'}>
-          {ContestSearchOptions.map((options) => (
-            <option key={options.value} value={options.value}>
-              {options.displayName}
-            </option>
-          ))}
-        </Select>
 
         <InputGroup>
           <Input

@@ -99,7 +99,7 @@ public class ContestController {
     )
     @GetMapping("/get-my-contests")
     public ResponseEntity<List<ContestDTO>> getMyContests(@Valid GetContestsRequest getRequest) {
-        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+        List<ContestDTO> contestDTOs = contestService.getMyContests(getRequest);
         log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }

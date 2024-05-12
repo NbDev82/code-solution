@@ -87,7 +87,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public List<ContestDTO> getContests(GetContestsRequest getRequest) {
+    public List<ContestDTO> getMyContests(GetContestsRequest getRequest) {
         Pageable pageable = PageRequest.of(getRequest.page(), getRequest.size());
         List<Contest> contests = contestRepos.getByOwnerId(getRequest.userId(), pageable);
         return cMapper.toDTOs(contests);
