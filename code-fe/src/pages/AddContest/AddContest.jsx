@@ -45,7 +45,6 @@ function AddContest() {
           navigate(config.routes.update_contest, {
             state: { curContest }
           });
-          debugger
         } else {
           toast({
             title: `Add contest unsuccessfully`,

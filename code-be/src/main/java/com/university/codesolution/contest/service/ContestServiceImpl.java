@@ -80,12 +80,13 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public ContestDTO update(UpdateContestRequest updateRequest) {
-        ContestDTO contestDTO = getById( updateRequest.id() );
+        Contest contest = getEntityById( updateRequest.id() );
 
-        contestDTO.setTitle( updateRequest.title() );
-        contestDTO.setDesc( updateRequest.desc() );
+        contest.setTitle( updateRequest.title() );
+        contest.setDesc( updateRequest.desc() );
+        contest.setDurationInMillis( updateRequest.durationInMillis() );
 
-        return save(contestDTO);
+        return save(contest);
     }
 
     @Override

@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d70796-1b1f-4c81-a53d-b4986c25debd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/common/initData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/dto/ContestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/dto/ContestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/entity/Contest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/entity/Contest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestRepos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestRepos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/AddContestRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddContestForm/AddContestForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddContest/AddContest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ContestInvitation/ContestInvitation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ContestInvitation/ContestInvitation.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/UpdateContest/UpdateContest.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/UpdateContest/UpdateContest.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/ContestService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ContestService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +50,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715542273951</updated>
-      <workItem from="1715542275762" duration="947000" />
+      <workItem from="1715542275762" duration="4791000" />
     </task>
     <servers />
   </component>

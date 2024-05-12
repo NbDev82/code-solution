@@ -79,6 +79,7 @@ const MyContestList = ({ curUserId }) => {
     const startTime = Date.now();
     try {
       const contests = await ContestService.getMyContestsByTitle(curUserId, title);
+      console.log("Contests by title: " + contests);
       setMyContests(contests);
 
       await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
