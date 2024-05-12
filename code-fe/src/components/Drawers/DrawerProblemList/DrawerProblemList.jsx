@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   VStack,
   Text,
   Image,
-  Avatar,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -17,11 +16,11 @@ import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
 import styles from '../Drawer.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import PersonIcon from '@mui/icons-material/Person';
-import HomeIcon from '@mui/icons-material/Home';
-import LogoutIcon from '@mui/icons-material/Logout';
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
-import EditIcon from '@mui/icons-material/Edit';
+import LabelIcon from '@mui/icons-material/Label';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import Todo from '~/assets/images/Todo.svg';
+import Solved from '~/assets/images/Solved.svg';
+import Attempted from '~/assets/images/Attempted.svg';
 DrawerRightDefault.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -30,12 +29,19 @@ DrawerRightDefault.propTypes = {
 DrawerRightDefault.defaultProps = {};
 
 function DrawerRightDefault(props) {
+  const navigate = useNavigate();
+  const getStatus = (status) => {
+    if (status === 'TODO') return Todo;
+    else if (status === 'SOLVED') return Solved;
+    else return Attempted;
+  };
   return (
     <Drawer isOpen={props.isOpen} placement="left" onClose={props.onClose} size={'sm'}>
       <DrawerOverlay />
       <DrawerContent backgroundColor={'var(--white)'}>
         <DrawerHeader borderBottomWidth="1px">
           <Box display="flex" alignItems="center" gap="4%" justifyContent="start">
+            <FormatListBulletedIcon></FormatListBulletedIcon>
             <Text className={styles.drawer__heading}>ProblemList</Text>
           </Box>
         </DrawerHeader>
@@ -44,11 +50,15 @@ function DrawerRightDefault(props) {
           <VStack>
             {props.problems.map((problem) => (
               <div
-                onClick={() => {}}
+                onClick={() => {
+                  navigate(`/problems/${problem?.title.toLowerCase().replace(' ', '-')}`, {
+                    state: { problemId: problem?.id },
+                  });
+                }}
                 className={styles.drawer__item}
                 style={{ textDecoration: 'none', border: 'none' }}
               >
-                <HomeIcon sx={{ fontSize: 24 }}></HomeIcon>
+                <img src={getStatus(problem.status)} alt={problem.status}></img>
                 <p>{problem?.title}</p>
               </div>
             ))}

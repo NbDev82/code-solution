@@ -25,7 +25,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SourceIcon from '@mui/icons-material/Source';
 import ForumIcon from '@mui/icons-material/Forum';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AddReactionIcon from '@mui/icons-material/AddReaction';
+import ThreePIcon from '@mui/icons-material/ThreeP';
 DrawerRightDefault.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -90,7 +90,7 @@ function DrawerRightDefault(props) {
               <IntegrationInstructionsIcon sx={{ fontSize: 24 }}></IntegrationInstructionsIcon>
               <p>Your Problems</p>
             </div>
-        
+
             <div
               onClick={() => {
                 navigate(`/contests-management`);
@@ -103,13 +103,23 @@ function DrawerRightDefault(props) {
             </div>
             <div
               onClick={() => {
-                navigate(`/`);
+                navigate(`/discuss`);
               }}
               className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <ForumIcon sx={{ fontSize: 24 }}></ForumIcon>
               <p>Discuss</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate(`/user/${user?.id}/posts`);
+              }}
+              className={styles.drawer__item}
+              style={{ textDecoration: 'none', border: 'none' }}
+            >
+              <ForumIcon sx={{ fontSize: 24 }}></ForumIcon>
+              <p>Your Discuss</p>
             </div>
             <div
               onClick={() => {
@@ -123,7 +133,6 @@ function DrawerRightDefault(props) {
               <PersonIcon sx={{ fontSize: 24 }}></PersonIcon>
               <p>Profile</p>
             </div>
-           
 
             {/* <div
               onClick={() => {
