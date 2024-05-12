@@ -30,6 +30,8 @@ public class UserDTO {
     private String password;
 
     private double cumulativeScore;
+    private int numberOfSolvedProblems;
+    private int numberOfCompletedCompetitions;
 
     private LocalDateTime addedAt;
 

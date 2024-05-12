@@ -5,6 +5,7 @@ import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.dto.UserLoginDTO;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.mapper.UserMapper;
+import com.university.codesolution.login.mapper.UserMapperUtil;
 import com.university.codesolution.login.response.LoginResponse;
 import com.university.codesolution.login.response.RegisterResponse;
 import com.university.codesolution.login.service.TokenService;
@@ -73,7 +74,10 @@ public class UserController {
                   userLoginDTO.getRole()
           );
           User user = userService.getUserDetailsFromToken(token);
+          int numberOfSolvedProblems = UserMapperUtil.numberOfSolvedProblems(user);
           UserDTO userDTO = this. userMapper.toDTO(user);
+          userDTO.setNumberOfSolvedProblems(numberOfSolvedProblems);
+          userDTO.setCumulativeScore(user.getCumulativeScore());
           tokenService.addToken(user,token);
           loginResponse.setUser(userDTO);
           loginResponse.setToken(token);
