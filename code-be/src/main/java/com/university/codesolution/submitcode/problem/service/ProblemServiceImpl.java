@@ -116,10 +116,10 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public Problem getRandomProblem() {
-        long count = problemRepository.count();
+        List<Problem> problems = problemRepository.findAllProblemAvailable();
+        long count = problems.size();
         int randomIndex = new Random().nextInt((int) count);
 
-        List<Problem> problems = problemRepository.findAll();
         return problems.get(randomIndex);
     }
 

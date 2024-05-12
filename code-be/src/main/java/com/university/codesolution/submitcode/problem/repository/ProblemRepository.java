@@ -28,4 +28,9 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
             "FROM Problem p " +
             "WHERE ( p.isDeleted = false AND  p.owner.id = :userId AND p.name LIKE %:problemName% )")
     List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
+
+    @Query("SELECT p " +
+            "FROM Problem p " +
+            "WHERE ( p.isDeleted = false ) ")
+    List<Problem> findAllProblemAvailable();
 }
