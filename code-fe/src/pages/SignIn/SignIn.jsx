@@ -154,7 +154,6 @@ const SignIn = () => {
               onChange={(e) => handleChange(e, 'password')}
               autoComplete="current-password"
             />
-            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
             <Container>
               <Button type="submit" disabled={isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 {isSubmitting ? 'Loading...' : 'Sign In'}
