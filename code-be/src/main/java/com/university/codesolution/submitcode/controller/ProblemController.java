@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.controller;
 
+import com.university.codesolution.submitcode.DTO.PickOneDTO;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
@@ -58,5 +59,20 @@ public class ProblemController {
             log.info(e.getMessage());
             return ResponseEntity.ok(false);
         }
+    }
+
+    @GetMapping("/get-profile-problems")
+    public ResponseEntity<List<ProblemDTO>> getProfileProblem(Long userId) {
+        log.info("Fetching problems by owner id: {}", userId);
+
+        return ResponseEntity.ok(problemService.getProfileProblemsByOwner(userId));
+    }
+
+    @GetMapping("/pickOne")
+    public ResponseEntity<PickOneDTO> pickProblem() {
+        Problem problem = problemService.getRandomProblem();
+        PickOneDTO dto = new PickOneDTO(problem.getId(), problem.getName());
+        log.info("Fetching random problem");
+        return ResponseEntity.ok(dto);
     }
 }

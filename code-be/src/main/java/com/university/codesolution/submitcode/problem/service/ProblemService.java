@@ -1,5 +1,6 @@
 package com.university.codesolution.submitcode.problem.service;
 
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 
@@ -13,9 +14,13 @@ public interface ProblemService {
 
     List<Problem> getProblemsByOwner(Long userId);
 
+    List<ProblemDTO> getProfileProblemsByOwner(Long userId);
+
     List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
 
     Boolean add(AddProblemRequest request);
 
     Boolean delete(Long problemId);
+
+    Problem getRandomProblem();
 }

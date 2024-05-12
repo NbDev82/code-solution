@@ -5,6 +5,7 @@ import com.university.codesolution.login.service.UserService;
 import com.university.codesolution.submitcode.DTO.AddProblemRequestDTO;
 import com.university.codesolution.submitcode.DTO.AddTestCaseRequestDTO;
 import com.university.codesolution.submitcode.DTO.InputDTO;
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.exception.ProblemNotFoundException;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.library.repository.LibraryRepository;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProblemServiceImpl implements ProblemService{
@@ -70,6 +72,11 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
+    public List<ProblemDTO> getProfileProblemsByOwner(Long userId) {
+        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
+    }
+
+    @Override
     public List<Problem> getProblemsByOwnerAndName(Long userId, String problemName) {
         return problemRepository.getProblemsByOwnerAndName(userId, problemName);
     }
@@ -98,7 +105,17 @@ public class ProblemServiceImpl implements ProblemService{
     public Boolean delete(Long problemId) {
         Problem problem = problemRepository.findById(problemId).orElseThrow(()->new ProblemNotFoundException("Can't find problem with id "+problemId));
         problem.setDeleted(true);
+        problemRepository.save(problem);
         return true;
+    }
+
+    @Override
+    public Problem getRandomProblem() {
+        long count = problemRepository.count();
+        int randomIndex = new Random().nextInt((int) count);
+
+        List<Problem> problems = problemRepository.findAll();
+        return problems.get(randomIndex);
     }
 
     private void createAndSaveLibraryFromRequest(AddProblemRequest request, Problem problem) {
