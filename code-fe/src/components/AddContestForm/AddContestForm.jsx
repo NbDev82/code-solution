@@ -16,11 +16,16 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
     onUpdateContest(updatedContest);
   };
 
-  const handleDateTimeChange = (e) => {
-    const { name, value } = e.target;
-    console.log('value of input date: ' + value);
-    let date = new Date(value);
-    onUpdateContest({ ...contest, [name]: date });
+  const handleDateTimeChange = (event) => {
+    const { name, value } = event.target;
+    const [hours, minutes] = value.split(':').map(Number);
+
+    const durationInMillis = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+
+    onUpdateContest(prevContest => ({
+      ...prevContest,
+      [name]: durationInMillis,
+    }));
   };
 
   return (

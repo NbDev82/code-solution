@@ -52,6 +52,12 @@ const getProblemsByOwnerAndName = async (ownerId, name) => {
   return response.data;
 };
 
+const getProblemsByContest = async (contestId) => {
+  const requestURL = `${BASE_URL}/problems/get-problems-by-contest?contestId=${contestId}`;
+  const response = await axios.get(requestURL);
+  return response.data;
+};
+
 export {
   getProblems,
   getAllTopics,

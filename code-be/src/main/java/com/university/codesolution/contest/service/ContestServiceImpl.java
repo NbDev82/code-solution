@@ -18,6 +18,7 @@ import com.university.codesolution.submitcode.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class ContestServiceImpl implements ContestService {
         User owner = userService.getEntityUserById( addRequest.ownerId() );
 
         Contest contest = Contest.builder()
+                .imgUrl( addRequest.imgUrl() )
                 .title( addRequest.title() )
                 .desc( addRequest.desc() )
                 .durationInMillis(addRequest.durationInMillis())
@@ -118,6 +120,18 @@ public class ContestServiceImpl implements ContestService {
         return cMapper.toDTOs(contests);
     }
 
+    @Override
+    public ResponseEntity<List<Problem>> getProblemsByContest(Long contestId) {
+        return null;
+    }
+
+    @Override
+    public Contest getEntityById(Long contestId) {
+        String msg = "Could not find any contest with id=" + contestId;
+        return contestRepos.findById(contestId)
+                .orElseThrow(() -> new ContestNotFoundException(msg));
+    }
+
     private ContestDTO save(Contest contest) {
         Contest saved = contestRepos.save(contest);
         return cMapper.toDTO(saved);
@@ -126,11 +140,5 @@ public class ContestServiceImpl implements ContestService {
     private ContestDTO save(ContestDTO contestDTO) {
         Contest contest = cMapper.toEntity(contestDTO);
         return save(contest);
-    }
-
-    private Contest getEntityById(Long contestId) {
-        String msg = "Could not find any contest with id=" + contestId;
-        return contestRepos.findById(contestId)
-                .orElseThrow(() -> new ContestNotFoundException(msg));
     }
 }
