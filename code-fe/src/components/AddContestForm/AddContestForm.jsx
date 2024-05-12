@@ -34,7 +34,7 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
       <Flex alignContent="center" justifyContent="center" gap={10} mt={10}>
         <Box alignContent="center" justifyContent="center">
           <Stack>
-            <Image src={contest.imageUrl} alt={contest.title} width="400px" height="200" borderRadius="2xl" />
+            <Image src={contest.imgUrl} alt={contest.title} width="400px" height="200" borderRadius="2xl" />
             <Input type="file" accept="image/*" display="none" onChange={handleImageChange} id="image-picker" />
             <label htmlFor="image-picker">
               <IconButton as="span" aria-label="Upload Image" icon={<SystemUpdateAlt />} />

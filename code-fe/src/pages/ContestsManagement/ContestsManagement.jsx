@@ -20,9 +20,10 @@ import RankingList from '~/components/RankingList/RankingList';
 import GlobalContestList from '~/components/GlobalContestList/GlobalContestList';
 import MyContestList from '~/components/MyContestList/MyContestList';
 import Footer from '~/components/Footer';
+import { getCurrentUserDetail } from '~/auth';
 
 const ContestsManagement = () => {
-  const [curUserId, setCurUserId] = useState(1);
+  const [curUser, setCurUser] = useState(getCurrentUserDetail());
 
   return (
     <Box bg="var(--primary-bg-color)">
@@ -48,10 +49,10 @@ const ContestsManagement = () => {
                 </TabList>
                 <TabPanels>
                   <TabPanel>
-                    <GlobalContestList curUserId={curUserId} />
+                    <GlobalContestList curUserId={curUser.id} />
                   </TabPanel>
                   <TabPanel>
-                    <MyContestList curUserId={curUserId} />
+                    <MyContestList curUserId={curUser.id} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>

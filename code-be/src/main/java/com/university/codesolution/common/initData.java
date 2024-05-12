@@ -1,7 +1,5 @@
 package com.university.codesolution.common;
 
-import com.university.codesolution.contest.dto.ContestDTO;
-import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.request.AddContestRequest;
 import com.university.codesolution.contest.service.ContestService;
 import com.university.codesolution.login.customenum.ERole;
@@ -173,11 +171,13 @@ public class initData {
         final int TWO_HOURS_IN_MILIS = 2 * 60 * 60 * 1000;
         Random random = new Random();
 
+        String imgUrl = "https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png";
         for (int i = 0; i < NUMBERS_OF_CONTESTS; i++) {
             String title = "Weekly " + (i + 1);
             String desc = "This is for beginner " + (i + 1);
             int randomDuration = ONE_HOUR_IN_MILIS + random.nextInt(TWO_HOURS_IN_MILIS - ONE_HOUR_IN_MILIS + 1);
             AddContestRequest addContestRequest = AddContestRequest.builder()
+                    .imgUrl(imgUrl)
                     .title(title)
                     .desc(desc)
                     .durationInMillis(randomDuration)

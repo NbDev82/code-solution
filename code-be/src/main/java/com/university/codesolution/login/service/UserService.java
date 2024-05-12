@@ -16,4 +16,6 @@ public interface UserService {
     User updateUser(UserDTO userDTO, Long userId);
     List<UserDTO> getAllUsers();
     void deleteUser(int userId);
+    List<UserDTO> getUsersExcludingCurrentUser(Long curUserId, int page, int size);
+    List<UserDTO> getUsersByNameExcludingCurrentUser(String fullName, Long curUserId, int page, int size);
 }

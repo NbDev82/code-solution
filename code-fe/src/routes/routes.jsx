@@ -13,6 +13,7 @@ import AddContest from '~/pages/AddContest/AddContest';
 import ContestResult from '~/pages/ContestResult/ContestResult';
 import SubmitCode from '~/pages/SubmitCode';
 import ProblemDetails from '~/pages/ProblemDetails';
+import UpdateContest from '~/pages/UpdateContest/UpdateContest';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home },
@@ -30,6 +31,7 @@ const publicRoutes = [
   { path: config.routes.add_contest, component: AddContest },
   { path: config.routes.contest_result, component: ContestResult },
   { path: config.routes.problem_details, component: ProblemDetails },
+  { path: config.routes.update_contest, component: UpdateContest },
   { path: '*', component: NotFound },
 ];
 
