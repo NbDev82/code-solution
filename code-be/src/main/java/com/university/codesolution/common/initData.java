@@ -1,5 +1,7 @@
 package com.university.codesolution.common;
 
+import com.university.codesolution.contest.request.AddContestRequest;
+import com.university.codesolution.contest.service.ContestService;
 import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.repository.UserRepos;
@@ -12,6 +14,7 @@ import com.university.codesolution.submitcode.problem.repository.ProblemReposito
 import com.university.codesolution.submitcode.testcase.entity.TestCase;
 import com.university.codesolution.submitcode.testcase.repository.TestCaseRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
 @Transactional
@@ -34,6 +38,8 @@ public class initData {
     private TestCaseRepository testCaseRepository;
     @Autowired
     private UserRepos userRepos;
+    @Autowired
+    private ContestService contestService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,14 +48,46 @@ public class initData {
     public void init(){
         deleteAll();
 
-        buildProblem();
-        buildProblem1();
+
+        List<User> savedUsers = initUsers();
+        if (savedUsers.isEmpty()) {
+            return;
+        }
+
+        List<Problem> savedProblems = initProblems(savedUsers.get(0));
+        if (savedProblems.isEmpty()) {
+            return;
+        }
+
+        List<Long> savedProblemIds = savedProblems.stream()
+                .map(Problem::getId)
+                .toList();
+
+
+        List<Long> savedUserIds = new ArrayList<>(savedUsers.stream()
+                .map(User::getId)
+                .toList());
+        Long ownerId = savedUserIds.get(0);
+        savedUserIds.removeIf(userId -> userId.equals(ownerId));
+        initContests(ownerId, savedProblemIds, savedUserIds);
+    }
+
+    private void deleteAll() {
+        userRepos.deleteAll();
+        libraryRepository.deleteAll();
+        testCaseRepository.deleteAll();
+        parameterRepository.deleteAll();
+        problemRepository.deleteAll();
+    }
+
+    private List<User> initUsers() {
+        List<User> savedUsers = new ArrayList();
+
         User user=User.builder()
-                .id(1L)
                 .fullName("John Doe")
                 .phoneNumber("123456789")
                 .dateOfBirth(LocalDateTime.of(1990, 1, 1, 0, 0))
-                .email("john.doe@example.com")
+                .email("vanantran99@gmail.com")
                 .password(passwordEncoder.encode("password"))
                 .cumulativeScore(0)
                 .addedAt(LocalDateTime.now())
@@ -59,11 +97,10 @@ public class initData {
                 .build();
 
         User user1=User.builder()
-                .id(1L)
-                .fullName("Pie Atlantis")
+                .fullName("Văn An")
                 .phoneNumber("987654321")
-                .dateOfBirth(LocalDateTime.of(1999, 1, 1, 0, 0))
-                .email("atlantis.pie@example.com")
+                .dateOfBirth(LocalDateTime.of(2003, 1, 1, 0, 0))
+                .email("vanantran05@gmail.com")
                 .password(passwordEncoder.encode("password"))
                 .cumulativeScore(0)
                 .addedAt(LocalDateTime.now())
@@ -72,39 +109,85 @@ public class initData {
                 .role(ERole.USER)
                 .build();
 
-        userRepos.save(user);
-        userRepos.save(user1);
+        User user2 = User.builder()
+                .fullName("Alice Wonderland")
+                .phoneNumber("555123456")
+                .dateOfBirth(LocalDateTime.of(1985, 5, 15, 0, 0))
+                .email("alice@example.com")
+                .password(passwordEncoder.encode("password123"))
+                .cumulativeScore(0)
+                .addedAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .isActive(true)
+                .role(ERole.USER)
+                .build();
+
+        User user3 = User.builder()
+                .fullName("Bob Smith")
+                .phoneNumber("555987654")
+                .dateOfBirth(LocalDateTime.of(1978, 9, 20, 0, 0))
+                .email("bob@example.com")
+                .password(passwordEncoder.encode("password456"))
+                .cumulativeScore(0)
+                .addedAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .isActive(true)
+                .role(ERole.USER)
+                .build();
+
+        User user4 = User.builder()
+                .fullName("Emma Johnson")
+                .phoneNumber("555456789")
+                .dateOfBirth(LocalDateTime.of(1992, 3, 10, 0, 0))
+                .email("emma@example.com")
+                .password(passwordEncoder.encode("password789"))
+                .cumulativeScore(0)
+                .addedAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .isActive(true)
+                .role(ERole.USER)
+                .build();
+
+        savedUsers.add(userRepos.save(user));
+        savedUsers.add(userRepos.save(user1));
+        savedUsers.add(userRepos.save(user2));
+        savedUsers.add(userRepos.save(user3));
+        savedUsers.add(userRepos.save(user4));
+
+        return savedUsers;
     }
 
-    private void deleteAll() {
-        deleteParameter();
-        deleteTestCase();
-        deleteLibrary();
-        deleteProblem();
-        deleteUser();
+    private List<Problem> initProblems(@NotNull User owner) {
+        List<Problem> savedProblems = new ArrayList<>();
+        savedProblems.add( buildProblem(owner) );
+        savedProblems.add( buildProblem1(owner) );
+
+        return savedProblems;
     }
 
-    private void deleteUser() {
-        userRepos.deleteAll();
+    private void initContests(Long ownerId, List<Long> savedProblemIds, List<Long> participantIds) {
+        final int NUMBERS_OF_CONTESTS = 16;
+        final int ONE_HOUR_IN_MILIS = 60 * 60 * 1000;
+        final int TWO_HOURS_IN_MILIS = 2 * 60 * 60 * 1000;
+        Random random = new Random();
+
+        for (int i = 0; i < NUMBERS_OF_CONTESTS; i++) {
+            String title = "Weekly " + (i + 1);
+            String desc = "This is for beginner " + (i + 1);
+            int randomDuration = ONE_HOUR_IN_MILIS + random.nextInt(TWO_HOURS_IN_MILIS - ONE_HOUR_IN_MILIS + 1);
+            AddContestRequest addContestRequest = AddContestRequest.builder()
+                    .title(title)
+                    .desc(desc)
+                    .durationInMillis(randomDuration)
+                    .ownerId(ownerId)
+                    .problemIds(savedProblemIds)
+                    .participantIds(participantIds)
+                    .build();
+            contestService.addContestWithProblemsAndParticipants(addContestRequest);
+        }
     }
 
-    private void deleteLibrary() {
-        libraryRepository.deleteAll();
-    }
-
-    private void deleteTestCase() {
-        testCaseRepository.deleteAll();
-    }
-
-    private void deleteParameter() {
-        parameterRepository.deleteAll();
-    }
-
-    private void deleteProblem() {
-        problemRepository.deleteAll();
-    }
-
-    public void buildProblem(){
+    public Problem buildProblem(User owner){
         List<Problem.ETopic> topics = new ArrayList<>();
         topics.add(Problem.ETopic.DATA_STRUCTURE);
         topics.add(Problem.ETopic.MATH);
@@ -127,11 +210,12 @@ public class initData {
                 .description("Given an integer x, return true if x is a \n" +
                         "palindrome\n" +
                         ", and false otherwise.")
+                .owner(owner)
                 .build();
 
         buildTestCase(problem);
         buildLibrary(problem);
-        problemRepository.save(problem);
+        return problemRepository.save(problem);
     }
 
     private void buildLibrary(Problem problem) {
@@ -175,7 +259,7 @@ public class initData {
 
     }
 
-    public void buildProblem1(){
+    public Problem buildProblem1(User owner){
         List<Problem.ETopic> topics = new ArrayList<>();
         topics.add(Problem.ETopic.DATA_STRUCTURE);
         topics.add(Problem.ETopic.RECURSION);
@@ -222,11 +306,12 @@ public class initData {
                 .functionName("missingNumber")
                 .isDeleted(false)
                 .outputDataType("int")
+                .owner(owner)
                 .build();
 
         buildTestCase1(problem);
         buildLibrary1(problem);
-        problemRepository.save(problem);
+        return problemRepository.save(problem);
     }
 
     private void buildLibrary1(Problem problem) {
