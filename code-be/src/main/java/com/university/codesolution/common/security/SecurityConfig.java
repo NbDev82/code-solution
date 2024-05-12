@@ -45,8 +45,11 @@ public class SecurityConfig {
                                     String.format("%s/user/**",apiPrefix),
 
 
+                                    "/api/**",
 
 
+                                    "/v1/api/**",
+                                    "/api/**",
 
                                     "/v2/api-docs",
                                     "/v3/api-docs",

@@ -1,7 +1,7 @@
 package com.university.codesolution.submitcode.controller;
 
+import com.university.codesolution.submitcode.DTO.PickOneDTO;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
-import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 import lombok.NonNull;
@@ -29,19 +29,22 @@ public class ProblemController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<Problem>> fetchAll() {
-        return ResponseEntity.ok(problemService.getAll());
+    public ResponseEntity<List<ProblemDTO>> fetchAll() {
+        return ResponseEntity.ok(problemService.getAllDTOs());
     }
 
     @GetMapping("/get-problems-by-owner")
-    public ResponseEntity<List<Problem>> getProblemsByOwner(Long userId) {
+    public ResponseEntity<List<ProblemDTO>> getProblemsByOwner(Long userId) {
         log.info("Fetching problems by owner id: {}", userId);
 
         return ResponseEntity.ok(problemService.getProblemsByOwner(userId));
     }
 
     @GetMapping("/get-problems-by-owner-and-name")
-    public ResponseEntity<List<Problem>> getProblemsByOwnerAndName(Long userId, String problemName) {
+    public ResponseEntity<List<ProblemDTO>> getProblemsByOwnerAndName(
+            @RequestParam("userId") Long userId,
+            @RequestParam("name") String problemName
+    ) {
         return ResponseEntity.ok(problemService.getProblemsByOwnerAndName(userId, problemName));
     }
 
@@ -58,5 +61,20 @@ public class ProblemController {
             log.info(e.getMessage());
             return ResponseEntity.ok(false);
         }
+    }
+
+    @GetMapping("/get-profile-problems")
+    public ResponseEntity<List<ProblemDTO>> getProfileProblem(Long userId) {
+        log.info("Fetching problems by owner id: {}", userId);
+
+        return ResponseEntity.ok(problemService.getProfileProblemsByOwner(userId));
+    }
+
+    @GetMapping("/pickOne")
+    public ResponseEntity<PickOneDTO> pickProblem() {
+        Problem problem = problemService.getRandomProblem();
+        PickOneDTO dto = new PickOneDTO(problem.getId(), problem.getName());
+        log.info("Fetching random problem");
+        return ResponseEntity.ok(dto);
     }
 }

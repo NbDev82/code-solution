@@ -14,7 +14,7 @@ public interface ContestRepos extends JpaRepository<Contest, Long> {
     @Query("SELECT c FROM Contest c WHERE c.isDeleted = false AND c.owner.id = :ownerId ")
     List<Contest> getByOwnerId(@Param("ownerId") Long ownerId, Pageable pageable);
 
-    @Query("SELECT c FROM Contest c WHERE c.isDeleted = false AND c.owner.id = :userId")
+    @Query("SELECT c FROM Contest c WHERE c.isDeleted = false AND c.owner.id != :userId")
     List<Contest> getGlobalContests(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT c FROM Contest c WHERE c.isDeleted = false AND c.owner.id = :userId AND c.title LIKE %:title%")

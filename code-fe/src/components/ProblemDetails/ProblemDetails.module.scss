@@ -24,6 +24,17 @@
   font-size: large;
 }
 
+.input__group__center {
+  @extend %column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: 600;
+  gap: 15px;
+  color: var(--secondary-color);
+  font-size: large;
+}
+
 .row__layout {
   @extend %column;
   justify-content: space-around;
@@ -51,13 +62,13 @@
   gap: 40px;
 }
 
-.topics {
-  width: 100%;
+.opt_list {
+  max-width: 60%;
   background-color: var(--gray-light);
   height: auto;
   padding: 10px;
   border-radius: var(--radius-size-small);
-  gap: 10px;
+  gap: 20px;
   @extend %row;
   @extend %center;
 }
@@ -92,4 +103,13 @@
   padding: 0 10px;
   color: var(--red);
   cursor: pointer;
+}
+
+.testcases__container {
+  height: 500px;
+  width: 65%;
+  overflow: scroll;
+  padding: 50px;
+  border-radius: var(--radius-size-small);
+  box-shadow: rgb(224, 232, 233) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }

@@ -142,8 +142,9 @@ public class SubmissionServiceImpl implements SubmissionService{
             submission.setRuntime(resultDTO.getRuntime());
             submission.setScore(Double.parseDouble(resultDTO.getPassedTestcase()));
 
-            addSubmission(user, submission);
             plusScore(user, problem);
+            addSubmission(user, submission);
+
         }
     }
 

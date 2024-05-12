@@ -1,28 +1,14 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Flex,
-  Heading,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from '@chakra-ui/react';
+import { Box, Card, CardBody, Flex, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
-import RankingList from '~/components/RankingList/RankingList';
 import GlobalContestList from '~/components/GlobalContestList/GlobalContestList';
 import MyContestList from '~/components/MyContestList/MyContestList';
 import Footer from '~/components/Footer';
+import { getCurrentUserDetail } from '~/auth';
 
 const ContestsManagement = () => {
-  const [curUserId, setCurUserId] = useState(1);
+  const [curUser, setCurUser] = useState(getCurrentUserDetail());
 
   return (
     <Box bg="var(--primary-bg-color)">
@@ -48,33 +34,15 @@ const ContestsManagement = () => {
                 </TabList>
                 <TabPanels>
                   <TabPanel>
-                    <GlobalContestList curUserId={curUserId} />
+                    <GlobalContestList curUserId={curUser.id} />
                   </TabPanel>
                   <TabPanel>
-                    <MyContestList curUserId={curUserId} />
+                    <MyContestList curUserId={curUser.id} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
             </CardBody>
           </Stack>
-        </Card>
-
-        <Card overflow="hidden" variant="elevated" p="10px" borderRadius="3xl" boxShadow="xl" w="auto" h="fit-content">
-          <CardBody>
-            <Heading noOfLines={1} size="md" align="center" justify="center">
-              Top 10 global players
-            </Heading>
-
-            <Box mt={10} height="100%">
-              <RankingList />
-            </Box>
-          </CardBody>
-
-          <CardFooter align="center" justify="center">
-            <Button colorScheme="customBlue" variant="link" fontSize="xs">
-              View more
-            </Button>
-          </CardFooter>
         </Card>
       </Flex>
 

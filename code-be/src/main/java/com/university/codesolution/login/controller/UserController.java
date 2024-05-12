@@ -5,6 +5,7 @@ import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.dto.UserLoginDTO;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.mapper.UserMapper;
+import com.university.codesolution.login.mapper.UserMapperUtil;
 import com.university.codesolution.login.response.LoginResponse;
 import com.university.codesolution.login.response.RegisterResponse;
 import com.university.codesolution.login.service.TokenService;
@@ -14,8 +15,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -51,10 +56,12 @@ public class UserController {
                  .message(MessageKeys.REGISTER_SUCCESSFULLY)
                  .user(userDTO)
                  .build());
-     }
-     catch (Exception e) {
-       registerResponse.setMessage(e.getMessage());
-       return ResponseEntity.badRequest().body(registerResponse);
+     }catch (DataIntegrityViolationException e) {
+         registerResponse.setMessage(MessageKeys.PHONE_NUMBER_ALREADY_EXISTS);
+         return ResponseEntity.badRequest().body(registerResponse);
+     } catch (Exception e) {
+         registerResponse.setMessage(e.getMessage());
+         return ResponseEntity.badRequest().body(registerResponse);
      }
 
     }
@@ -69,7 +76,10 @@ public class UserController {
                   userLoginDTO.getRole()
           );
           User user = userService.getUserDetailsFromToken(token);
+          int numberOfSolvedProblems = UserMapperUtil.numberOfSolvedProblems(user);
           UserDTO userDTO = this. userMapper.toDTO(user);
+          userDTO.setNumberOfSolvedProblems(numberOfSolvedProblems);
+          userDTO.setCumulativeScore(user.getCumulativeScore());
           tokenService.addToken(user,token);
           loginResponse.setUser(userDTO);
           loginResponse.setToken(token);
@@ -79,11 +89,38 @@ public class UserController {
                   .token(token)
                   .user(userDTO)
                   .build());
-      }catch (Exception e){
-          return ResponseEntity.badRequest().body(
-                  LoginResponse.builder()
-                          .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
-                          .build());
+      }catch (BadCredentialsException e) {
+          LoginResponse loginResponse = LoginResponse.builder()
+                  .message(MessageKeys.PASSWORD_NOT_MATCH)
+                  .build();
+          return ResponseEntity.badRequest().body(loginResponse);
+
+      } catch (Exception e) {
+          LoginResponse loginResponse = LoginResponse.builder()
+                  .message(MessageKeys.LOGIN_FAILED)
+                  .build();
+          return ResponseEntity.badRequest().body(loginResponse);
       }
+    }
+
+    @GetMapping("/users/get-users-excluding-cur-user")
+    public ResponseEntity<List<UserDTO>> getUsersExcludingCurrentUser(
+            @RequestParam("curUserId") Long curUserId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        List<UserDTO> users = userService.getUsersExcludingCurrentUser(curUserId, page, size);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/users/get-users-by-name-excluding-cur-user")
+    public ResponseEntity<List<UserDTO>> getUsersByNameExcludingCurrentUser(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("curUserId") Long curUserId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        List<UserDTO> users = userService.getUsersByNameExcludingCurrentUser(fullName, curUserId, page, size);
+        return ResponseEntity.ok(users);
     }
 }

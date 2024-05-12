@@ -7,7 +7,7 @@ const addContest = async (contest) => {
     const restUrl = `${CONTEST_API_URL}/add-contest`;
     const response = await axios.post(restUrl, contest);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log('Add successful');
       return true;
     } else {
@@ -58,7 +58,7 @@ const updateContestStatus = async (contestId, contestStatus) => {
 
 const deleteContest = async (contestId) => {
   try {
-    const restUrl = `${CONTEST_API_URL}/update-contest/${contestId}`;
+    const restUrl = `${CONTEST_API_URL}/delete-contest/${contestId}`;
     const response = await axios.delete(restUrl);
 
     if (response.status === 200) {

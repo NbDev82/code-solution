@@ -11,12 +11,6 @@ export const CONTEST_TYPE_OPTIONS = [
   { value: 'PUBLIC', label: 'Public' },
 ];
 
-export const ContestSearchOptions = [
-  { displayName: 'Title', value: 'TITLE' },
-  { displayName: 'ID', value: 'ID' },
-  { displayName: 'Owner name', value: 'OWNER_NAME' },
-];
-
 export function formatDuration(duration) {
   const seconds = Math.floor(duration / 1000);
 

@@ -50,15 +50,15 @@ const Achievements = (props) => {
             <Stack divider={<StackDivider />} spacing="4" w="60%">
               <Box>
                 <Heading style={styleHeading}>Cummulative Score</Heading>
-                <Text style={styleText}>{achievements.cummulativeScore}</Text>
+                <Text style={styleText}>{achievements?.cumulativeScore}</Text>
               </Box>
               <Box>
                 <Heading style={styleHeading}>Number Of Solved Problems</Heading>
-                <Text style={styleText}>{achievements.numberOfSolvedProblems}</Text>
+                <Text style={styleText}>{achievements?.numberOfSolvedProblems}</Text>
               </Box>
               <Box>
                 <Heading style={styleHeading}>Number Of Completed Competitions</Heading>
-                <Text style={styleText}>{achievements.numberOfCompletedCompetitions}</Text>
+                <Text style={styleText}>{achievements?.numberOfCompletedCompetitions}</Text>
               </Box>
             </Stack>
           </HStack>
