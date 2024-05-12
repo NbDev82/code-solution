@@ -311,3 +311,18 @@ const JSON_PROBLEM_SAMPLE = {
     },
   ],
 };
+
+export const TOPICS = [
+  'STRING',
+  'ARRAY',
+  'SORTING',
+  'MATH',
+  'COUNTING',
+  'SEARCH',
+  'RECURSION',
+  'REGEX',
+  'STACK',
+  'GEOMETRY',
+  'DATA_STRUCTURE',
+  'LOOPING',
+];

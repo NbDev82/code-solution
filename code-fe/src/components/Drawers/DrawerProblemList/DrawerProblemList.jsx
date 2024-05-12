@@ -48,20 +48,25 @@ function DrawerRightDefault(props) {
 
         <DrawerBody padding={0}>
           <VStack>
-            {props.problems.map((problem) => (
-              <div
-                onClick={() => {
-                  navigate(`/problems/${problem?.title.toLowerCase().replace(' ', '-')}`, {
-                    state: { problemId: problem?.id },
-                  });
-                }}
-                className={styles.drawer__item}
-                style={{ textDecoration: 'none', border: 'none' }}
-              >
-                <img src={getStatus(problem.status)} alt={problem.status}></img>
-                <p>{problem?.title}</p>
-              </div>
-            ))}
+            {props.problems ? (
+              props.problems.map((problem) => (
+                <div
+                  onClick={() => {
+                    navigate(`/problems/${problem?.title.toLowerCase().replace(' ', '-')}`, {
+                      state: { problemId: problem?.id, problems: props.problems },
+                    });
+                    window.location.reload();
+                  }}
+                  className={styles.drawer__item}
+                  style={{ textDecoration: 'none', border: 'none' }}
+                >
+                  <img src={getStatus(problem.status)} alt={problem.status}></img>
+                  <p>{problem?.title}</p>
+                </div>
+              ))
+            ) : (
+              <span>None</span>
+            )}
           </VStack>
         </DrawerBody>
 

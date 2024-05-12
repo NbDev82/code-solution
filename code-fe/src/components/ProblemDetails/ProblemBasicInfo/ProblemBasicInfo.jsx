@@ -16,7 +16,7 @@ import { ChevronDownIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import styles from '../ProblemDetails.module.scss';
 import Datatype from '../Datatype/Datatype';
 import { DIFFICULTY_DEFAULT, LABRARIES_DEFAULT } from '~/utils/Const';
-import { normalizeName, generateFunctionName } from '~/utils/string';
+import { normalizeName, generateFunctionName, normalizeVietNameseString } from '~/utils/string';
 import RadioCard from '~/components/Buttons/Radio';
 const ProblemBasicInfo = (props) => {
   const { problem, setProblem, topics, libraries, setLibraries } = useContext(ProblemDetailsContext);
@@ -87,7 +87,7 @@ const ProblemBasicInfo = (props) => {
             value={problem?.functionName}
             isInvalid={problem?.functionName === '' ? true : false}
             onChange={(e) => {
-              setProblem((prev) => ({ ...prev, functionName: e.target.value.trim() }));
+              setProblem((prev) => ({ ...prev, functionName: normalizeVietNameseString(e.target.value.trim()) }));
             }}
           />
         </div>

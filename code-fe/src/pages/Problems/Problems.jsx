@@ -7,15 +7,15 @@ import Footer from '~/components/Footer';
 import Topicbar from '~/components/Toolbars/Topicbar';
 import TableProblems from '~/components/Problems/TableProblems';
 import { FILTER_DEFAULT, WEEKS } from '~/utils/Const';
-import { getProblems, getAllTopics, getStatisticsDatasets } from '~/services/ProblemService';
+import { getProblems, getAllTopics, getStatisticsDatasets, pickOneProblem } from '~/services/ProblemService';
 import ProblemsToolbar from '~/components/Toolbars/ProblemsToolbar';
 import BarChart from '~/components/Charts/BarChart';
 import DoughnutChart from '~/components/Charts/DoughnutChart';
 import LineChart from '~/components/Charts/LineChart';
 import Pagination from '~/components/Pagination';
-import CalendarBasic from '~/components/Calendar';
 import { getCurrentUserDetail } from '~/auth';
 import FilterStatus from '~/components/Toolbars/FilterStatus';
+import { useNavigate } from 'react-router-dom';
 function Problems(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
   const [topics, setTopics] = useState([]);
@@ -24,7 +24,7 @@ function Problems(props) {
   const [statisticsDatasets, setStatisticsDatasets] = useState({});
   const [loading, setLoading] = useState(false);
   const [totalElement, setTotalElement] = useState(0);
-
+  const navigate = useNavigate();
   const fetchProblemsList = async () => {
     try {
       const response = await getProblems(filters);
@@ -78,7 +78,19 @@ function Problems(props) {
     setFilters((prev) => ({ ...prev, difficulty: value }));
   }, []);
 
-  const handlePickOneProblem = useCallback((value) => {}, []);
+  const handlePickOneProblem = async (value) => {
+    try {
+      const response = await pickOneProblem();
+      const data = response.data;
+      console.log('Server response:', response.data);
+      navigate(`/problems/${data.name.toLowerCase().replace(' ', '-')}`, {
+        state: { problemId: data.id, problems: problems },
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error('Error pick one code:', error.response.data.message);
+    }
+  };
 
   const handleSearchSubmit = useCallback((value) => {
     setFilters((prev) => ({ ...prev, searchTerm: value }));
