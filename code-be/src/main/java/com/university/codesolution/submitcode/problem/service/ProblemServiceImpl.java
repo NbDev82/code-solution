@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProblemServiceImpl implements ProblemService{
@@ -71,7 +72,6 @@ public class ProblemServiceImpl implements ProblemService{
         return mapper.toDTOs(problems);
     }
 
-    @Override
     public List<ProblemDTO> getProblemsByOwner(Long userId) {
         List<Problem> problems = problemRepository.getProblemsByOwner(userId);
         return mapper.toDTOs(problems);
@@ -81,6 +81,10 @@ public class ProblemServiceImpl implements ProblemService{
     public List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName) {
         List<Problem> problems = problemRepository.getProblemsByOwnerAndName(userId, problemName);
         return mapper.toDTOs(problems);
+    }
+
+    public List<ProblemDTO> getProfileProblemsByOwner(Long userId) {
+        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
     }
 
     @Override
@@ -107,7 +111,17 @@ public class ProblemServiceImpl implements ProblemService{
     public Boolean delete(Long problemId) {
         Problem problem = problemRepository.findById(problemId).orElseThrow(()->new ProblemNotFoundException("Can't find problem with id "+problemId));
         problem.setDeleted(true);
+        problemRepository.save(problem);
         return true;
+    }
+
+    @Override
+    public Problem getRandomProblem() {
+        long count = problemRepository.count();
+        int randomIndex = new Random().nextInt((int) count);
+
+        List<Problem> problems = problemRepository.findAll();
+        return problems.get(randomIndex);
     }
 
     private void createAndSaveLibraryFromRequest(AddProblemRequest request, Problem problem) {

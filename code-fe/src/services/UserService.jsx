@@ -6,11 +6,12 @@ export const signUp = (user) => {
 };
 
 export const loginUser = (loginDetail) => {
+  debugger;
   return httpRequest.post('/api/login', loginDetail).then((response) => response.data);
 };
 
 export const getUser = (userId) => {
-  return httpRequest.get(`/api/users/${userId}`).then((resp) => resp.data);
+  return httpRequest.get(`/api/users/${userId}`).then((response) => response.data);
 };
 
 export const getUsersExcludingCurrentUser = (curUserId, page = 1, size = 10) => {

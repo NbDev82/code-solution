@@ -118,17 +118,22 @@ public class UserServiceImpl implements UserService  {
     }
 
     @Override
-    public String login(String phoneNumber,String password,ERole eRole) throws Exception{
+    public String login(String phoneNumber,String password,ERole eRole){
+        try{
         User existingUser = userRepos.findByPhoneNumber(phoneNumber);
         if(!passwordEncoder.matches(password, existingUser.getPassword())){
-            throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.PASSWORD_NOT_MATCH));
+            throw new BadCredentialsException("Password not match");
+        }
+            return jwtTokenUtil.generateToken(existingUser);
+
+        }
+        catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Invalid credentials", e);
+
+        }catch (Exception e) {
+            throw new RuntimeException("Login failed", e);
         }
 
-//        UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
-//                phoneNumber,password,existingUser.getAuthorities()
-//        );
-//        authenticationManager.authenticate(authenticationToken);
-        return jwtTokenUtil.generateToken(existingUser);
     }
     @Override
     public User getUserDetailsFromToken(String token) throws Exception{

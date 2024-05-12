@@ -88,7 +88,7 @@ const MyTableProblems = memo((props) => {
               marginBottom="5px"
             >
               <Td className={styles.text} onClick={() => handleSelectProblem(problem)}>
-                {problem.title}
+                {problem.name}
               </Td>
               <Td>
                 <Popover>
@@ -131,10 +131,10 @@ const MyTableProblems = memo((props) => {
                   <span>{problem.acceptanceRate}%</span>
                 </Tooltip>
               </Td>
-              {getDifficulty(problem.difficulty)}
+              {getDifficulty(problem.difficultyLevel)}
               <Td>
                 <HStack spacing={8}>
-                  <Button
+                  {/* <Button
                     color="var(--secondary-color)"
                     _hover={{ color: 'var(--orange)' }}
                     bg="transparent"
@@ -142,7 +142,7 @@ const MyTableProblems = memo((props) => {
                     leftIcon={<EditOutlinedIcon></EditOutlinedIcon>}
                   >
                     Edit
-                  </Button>
+                  </Button> */}
                   <Button
                     color="var(--secondary-color)"
                     bg="transparent"

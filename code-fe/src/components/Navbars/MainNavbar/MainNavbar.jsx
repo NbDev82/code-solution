@@ -26,7 +26,7 @@ function MainNavbar(props) {
         navigate('/problems');
         break;
       case 'contests':
-        navigate('/contests');
+        navigate('/contests-management');
         break;
       case 'discuss':
         navigate('/discuss');
@@ -37,7 +37,7 @@ function MainNavbar(props) {
   };
   return (
     <div className="navbar">
-      <img className="navbar--logo" src={LogoGroup} alt="Logo" onClick={()=>handleRoutePages('home')} />
+      <img className="navbar--logo" src={LogoGroup} alt="Logo" onClick={() => handleRoutePages('home')} />
       <div className="navbar--list">
         <div className="navbar--list__gap20">
           <Button id="problems" icon onClick={handleRoutePages}>
@@ -52,10 +52,10 @@ function MainNavbar(props) {
         </div>
       </div>
       <div className="navbar__group">
-        <Button id="notify" icon disable>
+        {/* <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
-        </Button>
-        <Avatar size="lg" cursor="pointer" name={user.fullName} onClick={onOpen} src={user.urlImage} />
+        </Button> */}
+        <Avatar size="lg" cursor="pointer" name={user?.fullName} onClick={onOpen} src={user?.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

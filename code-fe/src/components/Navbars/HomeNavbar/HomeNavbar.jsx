@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
-
+import { useDisclosure, Avatar } from '@chakra-ui/react';
+import { getCurrentUserDetail } from '~/auth';
+import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
 function HomeNavbar(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [user, setUser] = useState(getCurrentUserDetail());
+
   return (
     <div className="navbar">
       <img className="navbar--logo" src={LogoGroup} alt="Logo" />
@@ -18,10 +23,24 @@ function HomeNavbar(props) {
           <Button id="discuss" light onClick={props.onSelectBtn}>
             Discuss
           </Button>
-          <Button id="signin" light onClick={props.onSelectBtn}>
-            Sign In
-          </Button>
+          {user ? (
+            <></>
+          ) : (
+            <Button id="signin" light onClick={props.onSelectBtn}>
+              Sign In
+            </Button>
+          )}
         </div>
+        {user ? (
+          <>
+            <div className="navbar__group">
+              <Avatar size="lg" cursor="pointer" name={user?.fullName} onClick={onOpen} src={user?.urlImage} />
+            </div>
+            <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import java.util.List;
 
 @Builder
 public record AddContestRequest(
-
     @Schema(
         description = "Image url of the contest",
         example = "https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png",

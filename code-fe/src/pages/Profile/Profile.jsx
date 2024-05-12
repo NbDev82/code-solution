@@ -56,14 +56,14 @@ function Profile(props) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const tab = location.state?.tab;
-  const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const [tab, setTab] = useState(0);
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS });
 
   const fetchProblemsList = async () => {
     try {
       const response = await getAllProblemByUserId(queryString.stringify({ userId: user.id }));
-      setProblems(response.data.problemDTOs);
+      console.log(response.data);
+      setProblems(response.data);
     } catch (error) {
       console.log('Fetch Problems Error', error);
     }
@@ -71,15 +71,16 @@ function Profile(props) {
   };
 
   useEffect(() => {
+    setTab(location.state?.tab);
     setLoading(true);
     fetchProblemsList();
     setLoading(false);
   }, []);
 
   const [achievements, setAchievements] = useState({
-    cummulativeScore: 1520,
-    numberOfSolvedProblems: 11,
-    numberOfCompletedCompetitions: 2,
+    cumulativeScore: user.cumulativeScore ? user.cumulativeScore : 0,
+    numberOfSolvedProblems: user?.numberOfSolvedProblems,
+    numberOfCompletedCompetitions: user?.numberOfCompletedCompetitions,
   });
 
   const handleCreateNewProblem = () => {
@@ -91,16 +92,18 @@ function Profile(props) {
 
   const handleDeleteProblem = async (problem) => {
     try {
-      const request = queryString.stringify({ problem });
-      console.log(JSON.stringify({ problem }));
+      const request = queryString.stringify({ problemId: problem.id });
+      console.log(request);
       const response = await deleteProblem(request);
       let msg = '';
-      response.data.success ? (msg = `${ACTION.DELETE} successful!`) : (msg = `${ACTION.DELETE} failed!`);
+      response.data ? (msg = `${ACTION.DELETE} successful!`) : (msg = `${ACTION.DELETE} failed!`);
       setDialogProps((prev) => ({
         ...prev,
         msg: msg,
         isOpen: true,
-        onYesClick: () => {},
+        onYesClick: () => {
+          fetchProblemsList();
+        },
       }));
     } catch (error) {
       setDialogProps((prev) => ({
@@ -112,14 +115,25 @@ function Profile(props) {
     }
   };
 
+  const handleTabChange = (index) => {
+    setTab(index);
+  };
+
   return (
     <div className="profile">
       <MainNavbar></MainNavbar>
-      <Tabs className={styles.tabs} orientation="vertical" isFitted variant="enclosed" defaultIndex={tab}>
+      <Tabs
+        className={styles.tabs}
+        orientation="vertical"
+        isFitted
+        variant="enclosed"
+        index={tab}
+        onChange={handleTabChange}
+      >
         <TabList className={styles.tabs__list}>
           <CustomTab>Profile</CustomTab>
           <CustomTab>Problems</CustomTab>
-          <CustomTab>Edit</CustomTab>
+          {/* <CustomTab>Edit</CustomTab> */}
         </TabList>
         <TabPanels padding={0}>
           <TabPanel className={styles.tabs__panel}>
@@ -166,7 +180,7 @@ function Profile(props) {
               </Skeleton>
             </VStack>
           </TabPanel>
-          <TabPanel className={styles.tabs__panel}>edit</TabPanel>
+          {/* <TabPanel className={styles.tabs__panel}>edit</TabPanel> */}
         </TabPanels>
       </Tabs>
       <Footer></Footer>

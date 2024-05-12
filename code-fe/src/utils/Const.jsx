@@ -84,18 +84,20 @@ export const USER_SAMPLE = {
 
 export const DATA_LOGIN_SAMPLE = {
   token:
-    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5OTk5OTk5OTkiLCJ1c2VySWQiOjQsImVtYWlsIjoibWluaHRyYW5AZ21haWwuY29tIiwic3ViIjoiMDk5OTk5OTk5OSIsImV4cCI6MTcxNzM5NDA0Nn0.ndEARKYxYy_9F_0joWNv4GjFA9O3AiqZsmtwfBmRxGs',
+    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjUsImVtYWlsIjoicXVvY3RydW5nQGdtYWlsLmNvbSIsInN1YiI6IjA5NjExNjI5NzkiLCJleHAiOjE3MTgwOTU5NjJ9.QfRMw9UOGKMcluNOzFbcrMlvUJTmfzSitD26h1MwmRk',
   message: 'user.login.login_successfully',
   user: {
-    id: 4,
-    fullName: 'Tran Cong Minh',
-    phoneNumber: '0999999999',
-    dateOfBirth: '2024-04-02T00:00:00',
-    email: 'minhtran@gmail.com',
+    id: 5,
+    fullName: 'Quoc Trung ',
+    phoneNumber: '0961162979',
+    dateOfBirth: '2003-10-19T00:00:00',
+    email: 'quoctrung@gmail.com',
     urlImage:
-      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Blue03&clotheType=BlazerSweater&eyeType=Close&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=MoustacheMagnum&hairColor=Blonde&hatColor=Black&mouthType=Disbelief&skinColor=Tanned&topType=WinterHat1',
-    password: '$2a$10$6jLq7WfPOyN18jpUJc8ESeGAyrAa3ikHmCA6gwuVLoff6wI6gxNyG',
+      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Heather&clotheType=ShirtCrewNeck&eyeType=Wink&eyebrowType=Default&facialHairColor=BrownDark&facialHairType=BeardMagestic&hairColor=Black&hatColor=Blue01&mouthType=Disbelief&skinColor=Pale&topType=ShortHairShortWaved',
+    password: '$2a$10$7.S3Q.w7Ps1zCqsZkKgHq.RglmBVxztNOxVClwwHQQUPiIDMbsNa6',
     cumulativeScore: 0.0,
+    numberOfSolvedProblems: 0,
+    numberOfCompletedCompetitions: 0,
     addedAt: null,
     updatedAt: null,
     role: 'USER',
@@ -182,7 +184,6 @@ export const FILTER_DEFAULT = {
 };
 
 export const PROBLEM_INIT = {
-  id: null,
   ownerId: null,
   title: '',
   description: '',
@@ -226,3 +227,102 @@ export const DIALOG_DEFAULT_PROPS = {
     console.log('yes');
   },
 };
+
+export const LABRARIES_DEFAULT = [
+  'java.util.ArrayList',
+  'java.util.List',
+  'java.io.File',
+  'java.net.Socket',
+  'javax.xml.parsers.SAXParser',
+  'org.apache.commons.io.FileUtils',
+  'org.apache.commons.lang3.StringUtils',
+  'org.apache.commons.httpclient.HttpClient',
+  'junit.framework.TestCase',
+  'org.testng.TestNG',
+  'javax.xml.bind.JAXB',
+  'org.dom4j.Document',
+  'org.slf4j.Logger',
+  'ch.qos.logback.classic.Logger',
+  'org.springframework.beans.factory.BeanFactory',
+  'com.google.guice.Injector',
+  'javax.imageio.ImageIO',
+  'org.apache.commons.imaging.ImagingFactory',
+  'javax.sound.sampled.AudioSystem',
+  'org.jaudiolibs.jaudio',
+  'org.apache.http.client.HttpClient',
+  'java.sql.Connection',
+  'org.hibernate.Session',
+];
+
+const JSON_PROBLEM_SAMPLE = {
+  problem: {
+    ownerId: 4,
+    title: 'Add Two Numbers',
+    description:
+      'You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.\n\nYou may assume the two numbers do not contain any leading zero, except the number 0 itself.',
+    point: 0,
+    difficulty: 'EASY',
+    topics: [],
+    deleted: false,
+    functionName: 'addTwoNumbers',
+    outputDataType: 'boolean',
+  },
+  Libraries: ['java.util.ArrayList', 'java.util.List'],
+  parameters: [
+    {
+      name: 'num1',
+      datatype: 'int',
+    },
+    {
+      name: 'nums',
+      datatype: 'int[]',
+    },
+  ],
+  testcases: [
+    {
+      input: [
+        {
+          paramName: 'num1',
+          datatype: 'int',
+          value: '5',
+        },
+        {
+          paramName: 'nums',
+          datatype: 'int[]',
+          value: '{1,2,3,5}',
+        },
+      ],
+      output: 'true',
+    },
+    {
+      input: [
+        {
+          paramName: 'num1',
+          datatype: 'int',
+          value: '200',
+        },
+        {
+          paramName: 'nums',
+          datatype: 'int[]',
+          value: '{5,8,6,8,6,0}',
+        },
+      ],
+      output: 'false',
+    },
+  ],
+};
+
+export const TOPICS = [
+  'STRING',
+  'ARRAY',
+  'SORTING',
+  'MATH',
+  'COUNTING',
+  'SEARCH',
+  'RECURSION',
+  'REGEX',
+  'STACK',
+  'GEOMETRY',
+  'DATA_STRUCTURE',
+  'LOOPING',
+];

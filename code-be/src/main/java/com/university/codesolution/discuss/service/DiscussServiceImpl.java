@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -100,6 +101,7 @@ public class DiscussServiceImpl implements DiscussService {
             Page<Discuss> pageDiscuss = this.discussRepos.findAll(p);
             List<Discuss> allDiscusses = pageDiscuss.getContent();
             List<DiscussDTO> discussDTOList = this.discussMapper.dtos(allDiscusses);
+            Collections.reverse(discussDTOList);
             return discussDTOList;
 
     }
