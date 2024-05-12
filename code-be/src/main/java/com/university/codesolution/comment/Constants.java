@@ -5,4 +5,5 @@ public class Constants {
     public static final String UPDATE_COMMENT_SUCCESSFULLY = "Update comment successfully.";
     public static final String DELETE_COMMENT_SUCCESSFULLY = "Delete comment successfully.";
     public static final String ADD_COMMENT_SUCCESSFULLY = "Add comment successfully.";
+    public static final String REPLY_COMMENT_SUCCESSFULLY = "Add comment successfully.";
 }

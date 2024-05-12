@@ -6,53 +6,45 @@ import com.university.codesolution.comment.exception.CommentNotFoundException;
 import com.university.codesolution.comment.mapper.CommentMapper;
 import com.university.codesolution.comment.repos.CommentRepository;
 import com.university.codesolution.comment.request.AddCommentRequest;
+import com.university.codesolution.comment.request.ReplyCommentRequest;
 import com.university.codesolution.comment.request.UpdateCommentRequest;
-import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.problem.service.ProblemService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
     private static final Logger log = LogManager.getLogger(CommentServiceImpl.class);
 
-    @Autowired
-    private CommentRepository commentRepos;
+    private final CommentRepository commentRepos;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final ProblemService problemService;
 
-//    @Autowired
-//    private ProblemService problemService;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
-//    @Autowired
-//    private ProblemMapper problemMapper;
-
-    @Autowired
-    private CommentMapper commentMapper;
+    public CommentServiceImpl(CommentRepository commentRepos, UserService userService, ProblemService problemService, CommentMapper commentMapper) {
+        this.commentRepos = commentRepos;
+        this.userService = userService;
+        this.problemService = problemService;
+        this.commentMapper = commentMapper;
+    }
 
     @Override
     public CommentDTO add(AddCommentRequest request) {
         Comment comment = Comment.builder()
                 .text(request.text())
+                .updatedAt(LocalDateTime.now())
                 .isDeleted(false)
-                .user(userMapper.toEntity(
-                                userService.getUserById(request.userId())
-                        )
+                .user(userService.getEntityUserById(request.userId())
                 )
-//                .problem(problemMapper.toEntity(
-//                                problemService.getProblemById(request.problemId())
-//                        )
-//                )
-                .commentParent(commentRepos.findById(request.commentId())
-                        .orElse(null))
+                .problem(problemService.findById(request.problemId(), Problem.class))
                 .build();
 
         Comment saved = commentRepos.save(comment);
@@ -64,7 +56,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepos.findById(commentId)
                 .orElseThrow(() -> new CommentNotFoundException("Could not found comment with id: "+commentId));
 
-        commentRepos.delete(comment);
+        comment.setDeleted(true);
+        commentRepos.save(comment);
     }
 
     @Override
@@ -72,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepos.findById(request.commentId())
                 .orElseThrow(() -> new CommentNotFoundException("Could not found comment with id: "+request.commentId()));
 
-        comment.setUpdatedAt(request.updatedAt());
+        comment.setUpdatedAt(LocalDateTime.now());
         comment.setText(request.text());
 
         commentRepos.save(comment);
@@ -86,7 +79,32 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getByDiscussId(Long discussId) {
-        return null;
+    public List<CommentDTO> getByProblemId(Long problemId) {
+        return commentMapper.toDTOs(commentRepos.findByProblemId(problemId));
+    }
+
+    @Override
+    public List<CommentDTO> getByCommentId(Long commentId) {
+        List<Comment> comments = commentRepos.findByCommentId(commentId);
+        return commentMapper.toDTOs(comments);
+    }
+
+    @Override
+    public CommentDTO reply(ReplyCommentRequest request) {
+        if (request.commentId() == null)
+            return null;
+
+        Comment comment = Comment.builder()
+                .text(request.text())
+                .isDeleted(false)
+                .updatedAt(LocalDateTime.now())
+                .user(userService.getEntityUserById(request.userId())
+                )
+                .commentParent(commentRepos.findById(request.commentId()).orElse(null))
+                .build();
+
+        Comment saved = commentRepos.save(comment);
+
+        return commentMapper.toDTO(saved);
     }
 }

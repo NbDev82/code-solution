@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import { ChakraProvider } from '@chakra-ui/react';
-import customTheme from "~/themes/customTheme";
+import customTheme from '~/themes/customTheme';
 function App() {
   return (
     <Router>
@@ -24,7 +24,6 @@ function App() {
                 <Route
                   key={index}
                   path={route.path}
-                  exact={route.exact}
                   element={
                     <Layout>
                       <Page />

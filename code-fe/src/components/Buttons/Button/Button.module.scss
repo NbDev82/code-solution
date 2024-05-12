@@ -41,7 +41,7 @@
   color: var(--white);
   &:hover {
     background-color: var(--primary-light-color);
-    color: var(--secondary-color);
+    color: var(--white);
   }
 }
 
@@ -57,6 +57,8 @@
 
 .disable {
   pointer-events: none;
+  background-color: var(--gray-light);
+  color: var(--secondary-color);
 }
 
 .large {
@@ -88,4 +90,11 @@
 }
 %buttonStyle:hover {
   transform: scale(1.05);
+}
+
+.link {
+  text-decoration-line: underline;
+  &:hover {
+    color: var(--gray);
+  }
 }

@@ -1,10 +1,7 @@
 package com.university.codesolution.discuss.mapper;
 
 import com.university.codesolution.discuss.dto.CategoryDTO;
-import com.university.codesolution.discuss.dto.DiscussDTO;
 import com.university.codesolution.discuss.entity.Category;
-import com.university.codesolution.discuss.entity.Discuss;
-import com.university.codesolution.login.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.mapstruct.Mapper;

@@ -25,7 +25,7 @@ public class UserDTO {
     private LocalDateTime dateOfBirth;
 
     private String email;
-
+    private String urlImage;
     @NotBlank(message = "Password can not be blank")
     private String password;
 

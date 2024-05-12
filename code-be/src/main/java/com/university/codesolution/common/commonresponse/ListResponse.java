@@ -1,4 +1,4 @@
-package com.university.codesolution.commonresponse;
+package com.university.codesolution.common.commonresponse;
 
 import java.util.List;
 

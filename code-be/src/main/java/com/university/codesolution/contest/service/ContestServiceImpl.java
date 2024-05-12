@@ -2,21 +2,25 @@ package com.university.codesolution.contest.service;
 
 import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.entity.Contest;
+import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.contest.exeption.ContestNotFoundException;
 import com.university.codesolution.contest.mapper.ContestMapper;
+import com.university.codesolution.contest.repos.ContestEnrollmentRepos;
 import com.university.codesolution.contest.repos.ContestRepos;
 import com.university.codesolution.contest.request.AddContestRequest;
 import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
-import com.university.codesolution.login.dto.UserDTO;
+import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,18 +30,48 @@ public class ContestServiceImpl implements ContestService {
     private final ContestMapper cMapper = ContestMapper.INSTANCE;
     private final ContestRepos contestRepos;
     private final UserService userService;
+    private final ProblemService problemService;
+    private final ContestEnrollmentRepos enrollmentRepos;
 
     @Override
-    public ContestDTO add(AddContestRequest addRequest) {
-        UserDTO userDTO = userService.getUserById( addRequest.ownerId() );
+    public ContestDTO addContestWithProblemsAndParticipants(AddContestRequest addRequest) {
+        User owner = userService.getEntityUserById( addRequest.ownerId() );
 
-        ContestDTO contestDTO = ContestDTO.builder()
+        Contest contest = Contest.builder()
                 .title( addRequest.title() )
                 .desc( addRequest.desc() )
                 .durationInMillis(addRequest.durationInMillis())
-                .owner(userDTO)
+                .owner(owner)
                 .build();
-        return save(contestDTO);
+
+        List<Problem> problems = new ArrayList<>();
+        for (Long problemId : addRequest.problemIds()) {
+            Problem problem = problemService.getEntityByProblemId(problemId);
+            problems.add(problem);
+        }
+        contest.setProblems(problems);
+
+        try {
+            Contest savedContest = contestRepos.save(contest);
+
+
+            for (Long participantId : addRequest.participantIds()) {
+                User user = userService.getEntityUserById(participantId);
+                ContestEnrollment enrollment = ContestEnrollment.builder()
+                        .score(0)
+                        .acceptedSubmission(false)
+                        .status(ContestEnrollment.EStatus.ACCEPTED)
+                        .contest(savedContest)
+                        .user(user)
+                        .build();
+                enrollmentRepos.save(enrollment);
+            }
+
+
+            return cMapper.toDTO(savedContest);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

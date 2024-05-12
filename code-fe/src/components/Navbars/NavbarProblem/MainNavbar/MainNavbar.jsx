@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -13,7 +13,6 @@ import { useDisclosure } from '@chakra-ui/react';
 import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
-import { ProblemContext } from '~/context/Problem';
 function MainNavbar(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,7 +55,7 @@ function MainNavbar(props) {
         <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc} />
+        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

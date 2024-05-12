@@ -6,6 +6,7 @@ import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.notification.entity.Notification;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.submission.entity.Submission;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +41,8 @@ public class User implements UserDetails {
     private LocalDateTime dateOfBirth;
 
     private String email;
-
+    @Column(length = 1000)
+    private String urlImage;
     private String password;
 
     @Column(name = "cumulative_score")
@@ -58,6 +59,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private ERole role;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Problem> ownedProblems;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ContestEnrollment> contestEnrollments;

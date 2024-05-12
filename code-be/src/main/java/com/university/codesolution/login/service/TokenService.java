@@ -1,7 +1,6 @@
 package com.university.codesolution.login.service;
 
 import com.university.codesolution.login.entity.User;
-import org.springframework.stereotype.Service;
 
 
 public interface TokenService {

@@ -1,6 +1,6 @@
 package com.university.codesolution.login.service;
 
-import com.university.codesolution.discuss.exception.ResourceNotFoundException;
+import com.university.codesolution.common.security.LocalizationUtils;
 import com.university.codesolution.login.component.JwtTokenUtils;
 import com.university.codesolution.login.customenum.ERole;
 import com.university.codesolution.login.dto.UserDTO;
@@ -9,18 +9,16 @@ import com.university.codesolution.login.exception.PermissionDenyException;
 import com.university.codesolution.login.exception.UserNotFoundException;
 import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.repository.UserRepos;
-import com.university.codesolution.security.LocalizationUtils;
+import com.university.codesolution.login.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.university.codesolution.login.utils.MessageKeys;
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -1,17 +1,19 @@
 package com.university.codesolution.comment.dto;
 
-import com.university.codesolution.comment.entity.Comment;
-import com.university.codesolution.comment.mapper.BlogCommentMapper;
+import com.university.codesolution.login.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
 public class BlogCommentDTO {
     private Long id;
     private String text;
-    private BlogCommentDTO commentParent = null;
+    private UserDTO user;
+    private Long commentParent;
+    private LocalDateTime updatedAt;
+
 
 }

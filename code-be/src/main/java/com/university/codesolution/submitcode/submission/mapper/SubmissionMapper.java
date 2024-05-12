@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,5 +33,10 @@ public interface SubmissionMapper {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return date.format(formatter);
+    }
+
+    default String formatDoubleParam(double param) {
+        DecimalFormat df = new DecimalFormat("#.######");
+        return df.format(param);
     }
 }

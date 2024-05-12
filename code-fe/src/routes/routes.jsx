@@ -15,6 +15,7 @@ import ContestResult from '~/pages/ContestResult/ContestResult';
 import SubmitCode from '~/pages/SubmitCode';
 import UserDashboard from '~/pages/User/UserDashboard';
 import UpdatePost from '~/pages/UpdatePost/UpdatePost';
+import ProblemDetails from '~/pages/ProblemDetails';
 
 const publicRoutes = [
   { path: config.routes.home[0], component: Home, exact: true },
@@ -34,6 +35,7 @@ const publicRoutes = [
   { path: config.routes.contest_result, component: ContestResult },
   { path: config.routes.user_dashboard, component: UserDashboard, exact: false },
   { path: config.routes.update_post, component: UpdatePost, exact: false },
+  { path: config.routes.problem_details, component: ProblemDetails },
   { path: '*', component: NotFound },
 ];
 

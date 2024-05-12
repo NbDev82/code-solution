@@ -1,4 +1,4 @@
-package com.university.codesolution.exeptionhandler;
+package com.university.codesolution.common.exeptionhandler;
 
 import org.springframework.http.HttpStatus;
 

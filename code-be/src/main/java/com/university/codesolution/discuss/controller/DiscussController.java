@@ -1,35 +1,19 @@
 package com.university.codesolution.discuss.controller;
 
-import com.university.codesolution.comment.dto.BlogCommentDTO;
 import com.university.codesolution.comment.mapper.BlogCommentMapper;
-import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
-import com.university.codesolution.discuss.entity.Discuss;
 import com.university.codesolution.discuss.mapper.DiscussMapper;
-import com.university.codesolution.discuss.response.DiscussListResponse;
 import com.university.codesolution.discuss.service.DiscussService;
-import com.university.codesolution.discuss.service.DiscussServiceImpl;
 import com.university.codesolution.discuss.service.FileService;
-import com.university.codesolution.login.dto.UserDTO;
-import com.university.codesolution.login.entity.User;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -114,6 +98,21 @@ public class DiscussController {
         return ResponseEntity.notFound().build();
         }
 
+    }
+    @PutMapping("/posts/{discussId}")
+    public ResponseEntity<DiscussDTO> updateDiscuss(
+            @RequestBody DiscussDTO discussDTO,
+            @PathVariable Long discussId
+    )
+    {
+        DiscussDTO updatedDiscuss = discussService.updateDiscuss(discussDTO, discussId);
+        return new ResponseEntity<DiscussDTO>(updatedDiscuss, HttpStatus.OK);
+    }
+    @DeleteMapping("/posts/delete/{discussId}")
+    public ResponseEntity<String> deleteDisucss(@PathVariable Long discussId)
+    {
+         discussService.deleteDiscuss(discussId);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 
 

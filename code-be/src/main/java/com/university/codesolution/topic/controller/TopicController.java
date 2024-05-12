@@ -1,7 +1,6 @@
 package com.university.codesolution.topic.controller;
 
 
-import com.university.codesolution.search.controller.SearchController;
 import com.university.codesolution.topic.dto.TopicDTO;
 import com.university.codesolution.topic.service.TopicService;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

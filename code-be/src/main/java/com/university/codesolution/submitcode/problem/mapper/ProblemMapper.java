@@ -16,7 +16,7 @@ public interface ProblemMapper {
     @Mapping(target = "submissionCount",
             expression = "java(problem.getSubmissions() != null ? problem.getSubmissions().size() : 0)")
     @Mapping(target = "discussCount",
-            expression = "java(problem.getComments() != null ? problem.getComments().size() : 0)")
+            expression = "java(countComment(problem))")
     @Mapping(target = "acceptedCount",
             expression = "java(countAccepted(problem))")
     @Mapping(source = "id", target = "id")
@@ -34,5 +34,9 @@ public interface ProblemMapper {
 
     default int countAccepted(Problem problem) {
         return problem.getSubmissions() != null ? (int) problem.getSubmissions().stream().filter(s -> s.getStatus().equals(Submission.EStatus.ACCEPTED)).count() : 0;
+    }
+
+    default int countComment(Problem problem) {
+        return problem.getComments() != null ? (int) problem.getComments().stream().filter(c -> !c.isDeleted()).count() : 0;
     }
 }

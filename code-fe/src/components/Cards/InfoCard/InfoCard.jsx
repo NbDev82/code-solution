@@ -18,6 +18,7 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import Lottie from 'react-lottie';
 import KingDefault from '~/assets/lotties/KingDefault';
 import { DEFAULT_LOTTIE_OPTIONS } from '~/utils/Const';
+import { Link } from 'react-router-dom';
 const InfoCard = (props) => {
   const user = props.user;
   const styleText = {
@@ -68,11 +69,7 @@ const InfoCard = (props) => {
           </Stack>
         </HStack>
       </CardBody>
-      <CardFooter justifyContent="end">
-        <Button icon>
-          <CreateOutlinedIcon></CreateOutlinedIcon>
-        </Button>
-      </CardFooter>
+      <CardFooter justifyContent="end" padding="20px 40px" color="var(--gray)"></CardFooter>
     </Card>
   );
 };
