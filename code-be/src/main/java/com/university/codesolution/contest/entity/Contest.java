@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,9 +34,13 @@ public class Contest implements Serializable {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JoinTable(
+            name = "contest_problem",
+            joinColumns = @JoinColumn(name = "contest_id"),
+            inverseJoinColumns = @JoinColumn(name = "problem_id"))
     private List<Problem> problems;
 
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true)

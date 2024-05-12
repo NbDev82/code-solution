@@ -1,7 +1,11 @@
 export const LIMIT_QUANTITY_TOPICS = 4;
 export const LIMIT_ROW_PROBLEMS_TABLE = 20;
+export const MIN_PARAMETERS = 0;
+export const MAX_PARAMETERS = 3;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 export const ORIGINAL_API_URL = 'http://localhost:8000';
+export const DIFFICULTY_DEFAULT = ['EASY', 'NORMAL', 'HARD'];
+export const STATUS_DEFAULT = ['TODO', 'SOLVED', 'ATTEMPTED'];
 export const DEFAULT_LOTTIE_OPTIONS = {
   loop: true,
   autoplay: true,
@@ -11,188 +15,37 @@ export const DEFAULT_LOTTIE_OPTIONS = {
 };
 export const PROBLEMS_SAMPLE = [
   {
-    id: 0,
-    name: 'Two Sum',
-    status: 'Todo',
-    acceptance: 38.27,
-    difficulty: 'Easy',
-    topics: ['Array', 'Math', 'Counting'],
-  },
-  {
     id: 1,
-    name: 'Sort Banana',
-    status: 'Solved',
-    acceptance: 34.29,
-    difficulty: 'Normal',
-    topics: ['Sorting', 'Counting'],
+    ownerId: 1,
+    title: 'Palindrome Number',
+    description: 'Given an integer x, return true if x is a \npalindrome\n, and false otherwise.',
+    point: 10.0,
+    difficulty: 'EASY',
+    topics: [],
+    acceptedCount: 0,
+    discussCount: 0,
+    submissionCount: 0,
+    acceptanceRate: '0',
+    deleted: false,
+    functionName: '',
+    outputDataType: '',
   },
   {
     id: 2,
-    name: 'Search Pig Film',
-    status: 'Attempted',
-    acceptance: 42.57,
-    difficulty: 'Hard',
-    topics: ['Searching'],
-  },
-  {
-    id: 3,
-    name: 'Palindrome Checker',
-    status: 'Todo',
-    acceptance: 27.24,
-    difficulty: 'Easy',
-    topics: ['String'],
-  },
-  {
-    id: 4,
-    name: 'FizzBuzz',
-    status: 'Todo',
-    acceptance: 35.67,
-    difficulty: 'Easy',
-    topics: ['Math'],
-  },
-  {
-    id: 5,
-    name: 'Reverse Array',
-    status: 'Todo',
-    acceptance: 17.82,
-    difficulty: 'Normal',
-    topics: ['Array'],
-  },
-  {
-    id: 6,
-    name: 'Factorial Calculator',
-    status: 'Attempted',
-    acceptance: 14.28,
-    difficulty: 'Normal',
-    topics: ['Math', 'Recursion'],
-  },
-  {
-    id: 7,
-    name: 'Find Prime Numbers',
-    status: 'Todo',
-    acceptance: 85.36,
-    difficulty: 'Hard',
-    topics: ['Math', 'Searching'],
-  },
-  {
-    id: 8,
-    name: 'Validate Email Addresses',
-    status: 'Solved',
-    acceptance: 11.27,
-    difficulty: 'Normal',
-    topics: ['String', 'Regex'],
-  },
-  {
-    id: 9,
-    name: 'Calculate Fibonacci Sequence',
-    status: 'Solved',
-    acceptance: 35.25,
-    difficulty: 'Hard',
-    topics: ['Math', 'Recursion'],
-  },
-  {
-    id: 10,
-    name: 'Implement Binary Search',
-    status: 'Attempted',
-    acceptance: 28.92,
-    difficulty: 'Normal',
-    topics: ['Array', 'Searching'],
-  },
-  {
-    id: 11,
-    name: 'Convert Roman Numerals to Integer',
-    status: 'Todo',
-    acceptance: 15.36,
-    difficulty: 'Normal',
-    topics: ['String', 'Math'],
-  },
-  {
-    id: 12,
-    name: 'Generate Random Passwords',
-    status: 'Todo',
-    acceptance: 35.01,
-    difficulty: 'Easy',
-    topics: ['String', 'Random'],
-  },
-  {
-    id: 13,
-    name: 'Check Anagrams',
-    status: 'Todo',
-    acceptance: 25.78,
-    difficulty: 'Normal',
-    topics: ['String'],
-  },
-  {
-    id: 14,
-    name: 'Calculate Area of Shapes',
-    status: 'Todo',
-    acceptance: 12.35,
-    difficulty: 'Normal',
-    topics: ['Math', 'Geometry'],
-  },
-  {
-    id: 15,
-    name: 'Implement Stack Data Structure',
-    status: 'Todo',
-    acceptance: 24.37,
-    difficulty: 'Hard',
-    topics: ['Data Structures'],
-  },
-  {
-    id: 16,
-    name: 'Find Longest Common Prefix',
-    status: 'Todo',
-    acceptance: 22.45,
-    difficulty: 'Normal',
-    topics: ['String'],
-  },
-  {
-    id: 17,
-    name: 'Calculate Factorial using Iteration',
-    status: 'Todo',
-    acceptance: 12.24,
-    difficulty: 'Easy',
-    topics: ['Math', 'Looping'],
-  },
-  {
-    id: 18,
-    name: 'Implement Queue Data Structure',
-    status: 'Todo',
-    acceptance: 35.36,
-    difficulty: 'Normal',
-    topics: ['Data Structures'],
-  },
-  {
-    id: 19,
-    name: 'Check Balanced Parentheses',
-    status: 'Todo',
-    acceptance: 37.4,
-    difficulty: 'Normal',
-    topics: ['String', 'Stack'],
-  },
-  {
-    id: 20,
-    name: 'Find Missing Number in Array',
-    status: 'Todo',
-    acceptance: 24.25,
-    difficulty: 'Hard',
-    topics: ['Array', 'Math'],
-  },
-  {
-    id: 21,
-    name: 'Count Cat In My House',
-    status: 'Todo',
-    acceptance: 14.23,
-    difficulty: 'Hard',
-    topics: ['Array', 'Couting'],
-  },
-  {
-    id: 22,
-    name: 'Find Cat in Bushes',
-    status: 'Todo',
-    acceptance: 9.25,
-    difficulty: 'Hard',
-    topics: ['Array', 'Searching'],
+    ownerId: 1,
+    title: 'Missing Number',
+    description:
+      'Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.\n\n \n\nExample 1:\n\nInput: nums = [3,0,1]\nOutput: 2\nExplanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.\nExample 2:\n\nInput: nums = [0,1]\nOutput: 2\nExplanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.\nExample 3:\n\nInput: nums = [9,6,4,2,3,5,7,0,1]\nOutput: 8\nExplanation: n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.\n \n\nConstraints:\n\nn == nums.length\n1 <= n <= 104\n0 <= nums[i] <= n\nAll the numbers of nums are unique.\n \n\nFollow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?',
+    point: 10.0,
+    difficulty: 'EASY',
+    topics: [],
+    acceptedCount: 0,
+    discussCount: 0,
+    submissionCount: 0,
+    acceptanceRate: '0',
+    deleted: false,
+    functionName: '',
+    outputDataType: '',
   },
 ];
 export const TOPICS_SAMPLE = [
@@ -231,19 +84,21 @@ export const USER_SAMPLE = {
 
 export const DATA_LOGIN_SAMPLE = {
   token:
-    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjIsImVtYWlsIjoibmd1eWVuZHFkdXlAZ21haWwuY29tIiwic3ViIjoiMDk2MTE2Mjk3OSIsImV4cCI6MTcxNTYxNTMzM30.xw2DthsajQoFeMpkTvXXPcSIxHgT5LVAB0oMxtWDgF8',
+    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5OTk5OTk5OTkiLCJ1c2VySWQiOjQsImVtYWlsIjoibWluaHRyYW5AZ21haWwuY29tIiwic3ViIjoiMDk5OTk5OTk5OSIsImV4cCI6MTcxNzM5NDA0Nn0.ndEARKYxYy_9F_0joWNv4GjFA9O3AiqZsmtwfBmRxGs',
+  message: 'user.login.login_successfully',
   user: {
-    id: 1,
-    fullName: 'Nguyễn Đình Quốc Duy',
-    phoneNumber: '0961162979',
-    dateOfBirth: '1990-01-01T00:00:00',
-    email: 'nguyendqduy@gmail.com',
-    password: '$2a$10$QUyg4P9ogx6aX40V4YbzYu7/8kT/q7epP6/ITBe1fY3Rcxuh/.pLq',
+    id: 4,
+    fullName: 'Tran Cong Minh',
+    phoneNumber: '0999999999',
+    dateOfBirth: '2024-04-02T00:00:00',
+    email: 'minhtran@gmail.com',
+    urlImage:
+      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Blue03&clotheType=BlazerSweater&eyeType=Close&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=MoustacheMagnum&hairColor=Blonde&hatColor=Black&mouthType=Disbelief&skinColor=Tanned&topType=WinterHat1',
+    password: '$2a$10$6jLq7WfPOyN18jpUJc8ESeGAyrAa3ikHmCA6gwuVLoff6wI6gxNyG',
     cumulativeScore: 0.0,
-    addedAt: '1990-01-01T00:00:00',
-    updatedAt: '1990-01-01T12:34:56',
+    addedAt: null,
+    updatedAt: null,
     role: 'USER',
-    avatarSrc: '',
   },
 };
 
@@ -324,4 +179,50 @@ export const FILTER_DEFAULT = {
   difficulty: 'ALL',
   topic: 'ALL',
   searchTerm: '',
+};
+
+export const PROBLEM_INIT = {
+  id: null,
+  ownerId: null,
+  title: '',
+  description: '',
+  point: 0,
+  difficulty: DIFFICULTY_DEFAULT[0],
+  topics: [],
+  deleted: false,
+  functionName: '',
+  outputDataType: 'int',
+};
+
+export const ACTION = {
+  CREATE: 'create',
+  UPDATE: 'update',
+  DELETE: 'delete',
+};
+
+export const DATATYPE_DEFAULT = [
+  'int',
+  'int[]',
+  'long',
+  'long[]',
+  'float',
+  'float[]',
+  'double',
+  'double[]',
+  'char',
+  'char[]',
+  'String',
+  'String[]',
+  'boolean',
+  'boolean[]',
+];
+
+export const DIALOG_DEFAULT_PROPS = {
+  info: true,
+  msg: '',
+  header: 'Notification',
+  isOpen: false,
+  onYesClick: () => {
+    console.log('yes');
+  },
 };

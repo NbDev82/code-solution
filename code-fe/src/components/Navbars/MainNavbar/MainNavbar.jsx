@@ -19,6 +19,9 @@ function MainNavbar(props) {
   }, []);
   const handleRoutePages = (id) => {
     switch (id) {
+      case 'home':
+        navigate('/home');
+        break;
       case 'problems':
         navigate('/problems');
         break;
@@ -34,7 +37,7 @@ function MainNavbar(props) {
   };
   return (
     <div className="navbar">
-      <img className="navbar--logo" src={LogoGroup} alt="Logo" />
+      <img className="navbar--logo" src={LogoGroup} alt="Logo" onClick={()=>handleRoutePages('home')} />
       <div className="navbar--list">
         <div className="navbar--list__gap20">
           <Button id="problems" icon onClick={handleRoutePages}>
@@ -52,7 +55,7 @@ function MainNavbar(props) {
         <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
         </Button>
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.avatarSrc} />
+        <Avatar size="lg" cursor="pointer" name={user.fullName} onClick={onOpen} src={user.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

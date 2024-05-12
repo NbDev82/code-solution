@@ -1,14 +1,11 @@
 package com.university.codesolution.contest.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.login.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor

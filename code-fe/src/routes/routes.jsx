@@ -13,12 +13,13 @@ import ContestsManagement from '~/pages/ContestsManagement/ContestsManagement';
 import AddContest from '~/pages/AddContest/AddContest';
 import ContestResult from '~/pages/ContestResult/ContestResult';
 import SubmitCode from '~/pages/SubmitCode';
+import ProblemDetails from '~/pages/ProblemDetails';
 import UserDashboard from '~/pages/User/UserDashboard';
 import UpdatePost from '~/pages/UpdatePost/UpdatePost';
 
 const publicRoutes = [
-  { path: config.routes.home[0], component: Home, exact: true },
-  { path: config.routes.home[1], component: Home, exact: true },
+  { path: config.routes.home[0], component: Home },
+  { path: config.routes.home[1], component: Home },
   { path: config.routes.login, component: SignIn, exact: true },
   { path: config.routes.signUp, component: SignUp, exact: true },
   { path: config.routes.post, component: PostPage, exact: false },
@@ -34,6 +35,7 @@ const publicRoutes = [
   { path: config.routes.contest_result, component: ContestResult },
   { path: config.routes.user_dashboard, component: UserDashboard, exact: false },
   { path: config.routes.update_post, component: UpdatePost, exact: false },
+  { path: config.routes.problem_details, component: ProblemDetails },
   { path: '*', component: NotFound },
 ];
 

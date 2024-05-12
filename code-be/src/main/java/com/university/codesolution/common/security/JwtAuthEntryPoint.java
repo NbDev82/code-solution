@@ -1,4 +1,4 @@
-package com.university.codesolution.security;
+package com.university.codesolution.common.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

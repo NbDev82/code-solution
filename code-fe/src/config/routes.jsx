@@ -18,6 +18,7 @@ const routes = {
   post: '/posts/:postId',
   user_dashboard: '/user/:userId/posts',
   update_post: 'user/update-post/:postId',
+  problem_details:'/problem-details/:action'
 };
 
 export default routes;

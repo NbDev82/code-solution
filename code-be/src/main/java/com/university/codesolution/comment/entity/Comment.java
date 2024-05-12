@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "comments")
@@ -32,19 +31,19 @@ public class Comment implements Serializable {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "comment_id", referencedColumnName = "id")
     private Comment commentParent;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "discuss_id")
     private Discuss discuss;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "problem_id")
     private Problem problem;
 }

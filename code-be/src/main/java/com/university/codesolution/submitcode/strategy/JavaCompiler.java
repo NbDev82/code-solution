@@ -1,8 +1,8 @@
 package com.university.codesolution.submitcode.strategy;
 
-import com.university.codesolution.submitcode.ECompilerConstants;
 import com.university.codesolution.submitcode.DTO.ResultDTO;
 import com.university.codesolution.submitcode.DTO.TestCaseResultDTO;
+import com.university.codesolution.submitcode.ECompilerConstants;
 import com.university.codesolution.submitcode.exception.ClassNotFoundException;
 import com.university.codesolution.submitcode.library.entity.LibrariesSupport;
 import com.university.codesolution.submitcode.parameter.entity.Parameter;
@@ -14,12 +14,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
 import javax.tools.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
@@ -27,8 +27,10 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,8 +85,6 @@ public class JavaCompiler implements CompilerStrategy{
                 completableFuture.complete(runWithTestCase(functionName));
 
                 TestCaseResultDTO testCaseResultDTO = completableFuture.get();
-
-//                TestCaseResultDTO testCaseResultDTO = runWithTestCase(functionName);
 
                 long endTime = System.nanoTime();
                 long endMemoryBytes = memoryMXBean.getHeapMemoryUsage().getUsed();

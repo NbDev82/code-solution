@@ -7,7 +7,7 @@
   --secondary-color: #001730;
   --highlight-color: #fe4a49;
   --gray-dark: #a9a9a9;
-  --gray-light: #F8F8F8;
+  --gray-light: #f8f8f8;
   --gray-light-light: rgb(239, 239, 239);
   --gray: #808080;
   --gray-100: #707070;
@@ -24,12 +24,13 @@
   --nav-size: 80px;
   --box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1), 0px 0px 6px 0px rgba(0, 0, 0, 0.09),
     0px 0px 8px 0px rgba(0, 0, 0, 0.05), 0px 0px 9px 0px rgba(0, 0, 0, 0.01), 0px 0px 10px 0px rgba(0, 0, 0, 0);
-  --box-shadow-small: 0px 0px 2px 0px rgba(0, 0, 0, 0.00), 0px 0px 2px 0px rgba(0, 0, 0, 0.01), 0px 0px 2px 0px rgba(0, 0, 0, 0.05), 0px 0px 1px 0px rgba(0, 0, 0, 0.09), 0px 0px 1px 0px rgba(0, 0, 0, 0.10);
+  --box-shadow-small: 0px 0px 2px 0px rgba(0, 0, 0, 0), 0px 0px 2px 0px rgba(0, 0, 0, 0.01),
+    0px 0px 2px 0px rgba(0, 0, 0, 0.05), 0px 0px 1px 0px rgba(0, 0, 0, 0.09), 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
   --radius-size: 30px;
   --radius-size-small: 20px;
   --radius-size-smallsmall: 10px;
-  --primary-bg-color: #F7F8FA;
-  --primary-tab-color: #F3F3F4;
+  --primary-bg-color: #f7f8fa;
+  --primary-tab-color: #f3f3f4;
 }
 
 * {
@@ -65,7 +66,6 @@ body {
   overflow-y: overlay;
 }
 
-// Scrollbar CSS
 html *::-webkit-scrollbar {
   border-radius: 0;
   width: 8px;
@@ -73,12 +73,13 @@ html *::-webkit-scrollbar {
 
 html *::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--secondary-color);
+  cursor: pointer;
 }
 
 html *::-webkit-scrollbar-track {
   border-radius: 0;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--white);
 }
 
 button,

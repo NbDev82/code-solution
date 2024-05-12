@@ -11,6 +11,7 @@ Button.propTypes = {
   dark: PropTypes.bool,
   highlight: PropTypes.bool,
   icon: PropTypes.bool,
+  link: PropTypes.bool,
   disable: PropTypes.bool,
   small: PropTypes.bool,
   large: PropTypes.bool,
@@ -27,6 +28,7 @@ Button.defaultProps = {
   dark: false,
   highlight: false,
   icon: false,
+  link: false,
   disable: false,
   small: false,
   large: false,
@@ -53,6 +55,7 @@ function Button(props) {
           [styles.small]: props.small,
           [styles.large]: props.large,
           [styles.textHighLight]: props.textHighLight,
+          [styles.link]: props.link,
         },
         defaultClasses,
       )}

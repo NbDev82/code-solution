@@ -35,7 +35,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import Lottie from 'react-lottie';
 import Loading from '~/assets/lotties/Loading';
 import { DEFAULT_LOTTIE_OPTIONS } from '~/utils/Const';
-import { replyComment, deleteComment, updateComment } from '~/services/CommentService';
+import { replyComment, deleteComment, updateComment, fetchReplyComments } from '~/services/CommentService';
 const CommentCard = (props) => {
   const [user, setUser] = useState(getCurrentUserDetail());
   const [comment, setComment] = useState(props.comment);
@@ -49,19 +49,35 @@ const CommentCard = (props) => {
   const [isWaiting, setIsWaiting] = useState(false);
   const { isOpen, onToggle } = useDisclosure();
 
+  const handleCommentClick = async () => {
+    if (comment.replyComments.length == 0) {
+      try {
+        onToggle();
+        setIsWaiting(true);
+        const response = await fetchReplyComments(comment.id);
+
+        console.log(comment.id);
+
+        if (response.data) {
+          setIsWaiting(false);
+          if (response.data.length > 0) {
+            comment.replyComments.push(...response.data);
+            setComment(comment);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetch comments:', error);
+        return error.response?.data?.message;
+      }
+    }
+  };
+
   const handleOnEnter = async (text) => {
     const updatedComment = { ...comment };
     const reply = {
-      id: 0,
       text: text,
-      updatedAt: new Date().toISOString(),
-      userName: user.fullName,
-      emoji: {
-        name: '',
-        emoji: '',
-      },
-      emojiQuantity: 0,
-      replyComments: [],
+      userId: user.id,
+      commentId: comment.id,
     };
 
     try {
@@ -69,8 +85,10 @@ const CommentCard = (props) => {
       const response = await replyComment(reply);
       if (response.data) {
         setIsWaiting(false);
-        updatedComment.replyComments.push(reply);
-        setComment(updatedComment);
+        comment.replyComments.push(response.data);
+        console.log(comment);
+
+        setComment(comment);
       }
     } catch (error) {
       console.error('Error reply comment:', error);
@@ -98,7 +116,6 @@ const CommentCard = (props) => {
       const response = await updateComment(updatedComment);
       if (response.data) {
         setIsEditing(false);
-        // updateComment.updatedAt = new Date().toISOString();
         setComment(response.data);
       }
     } catch (error) {
@@ -221,7 +238,7 @@ const CommentCard = (props) => {
               </Button>
             ) : (
               <Button
-                onClick={onToggle}
+                onClick={handleCommentClick}
                 fontSize="14px"
                 h="40px"
                 bg="transparent"

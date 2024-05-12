@@ -1,4 +1,5 @@
 package com.university.codesolution.discuss.mapper;
+
 import com.university.codesolution.discuss.dto.CategoryDTO;
 import com.university.codesolution.discuss.dto.DiscussDTO;
 import com.university.codesolution.discuss.entity.Category;
@@ -41,8 +42,14 @@ public class DiscussMapper {
     }
     public DiscussDTO toDto(Discuss discuss) {
         UserDTO userDTO = modelMapper.map(discuss.getOwner(), UserDTO.class);
-        CategoryDTO categoryDTO = modelMapper.map(discuss.getCategory(), CategoryDTO.class);
-        DiscussDTO discussDTO = modelMapper.map(discuss, DiscussDTO.class);
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(discuss.getCategory().getId());
+        categoryDTO.setCategoryTitle(discuss.getCategory().getCategoryTitle());
+        categoryDTO.setCategoryDescription(discuss.getCategory().getCategoryDescription());
+        DiscussDTO discussDTO = new DiscussDTO();
+        discussDTO.setId(discuss.getId());
+        discussDTO.setTopic(discuss.getTopic());
+        discussDTO.setContent(discuss.getContent());
         discussDTO.setUser(userDTO);
         discussDTO.setCategory(categoryDTO);
         discussDTO.setStartDate(discuss.getStartDate());

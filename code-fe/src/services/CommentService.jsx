@@ -5,6 +5,10 @@ const getComments = async (problemId) => {
   return await axios.get(`${BASE_URL}/get-comments/${problemId}`);
 };
 
+const fetchReplyComments = async (commentId) => {
+  return await axios.get(`${BASE_URL}/get-reply-comments/${commentId}`);
+};
+
 const replyComment = async (request) => {
   return await axios.post(`${BASE_URL}/reply-comment`, request);
 };
@@ -23,4 +27,4 @@ const deleteComment = async (paramString) => {
   return await axios.delete(`${BASE_URL}/delete-comment?${paramString}`);
 };
 
-export { getComments, replyComment, addComment, updateComment, deleteComment };
+export { getComments, replyComment, addComment, updateComment, deleteComment, fetchReplyComments };
