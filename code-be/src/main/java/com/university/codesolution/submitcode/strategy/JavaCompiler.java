@@ -160,8 +160,12 @@ public class JavaCompiler implements CompilerStrategy{
                 status = Submission.EStatus.COMPILE_ERROR;
                 break;
             default:
-                log.warn("Unexpected compilation error: {}", compilerResult.getCompilerConstants());
-                return null;
+                message = "Unexpected compilation error: {}" + compilerResult.getError();
+                log.warn(message);
+                return ResultDTO.builder()
+                        .status(Submission.EStatus.COMPILE_ERROR)
+                        .message(message)
+                        .build();
         }
 
         return ResultDTO.builder()
