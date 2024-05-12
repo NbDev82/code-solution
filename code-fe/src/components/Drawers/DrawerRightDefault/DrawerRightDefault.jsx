@@ -15,7 +15,7 @@ import {
 import PropTypes from 'prop-types';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
-import styles from '../Drawer.module.scss';
+import './DrawerRightDefault.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
