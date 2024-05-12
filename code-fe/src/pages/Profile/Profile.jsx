@@ -57,9 +57,7 @@ function Profile(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [tab, setTab] = useState(0);
-  console.log(tab);
-  const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS });
 
   const fetchProblemsList = async () => {
     try {

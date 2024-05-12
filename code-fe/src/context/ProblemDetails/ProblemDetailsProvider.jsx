@@ -21,8 +21,7 @@ function ProblemDetailsProvider({ children }) {
   const [parameters, setParameters] = useState([]);
   const [quantityParam, setquantityParam] = useState(parameters.length);
   const [testcases, setTestcases] = useState([]);
-  const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS});
   const [paramsError, setParamsError] = useState([]);
   const [libraries, setLibraries] = useState([]);
   const dialogRef = useRef();

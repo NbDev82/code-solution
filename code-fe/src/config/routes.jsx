@@ -7,7 +7,6 @@ const routes = {
   login: '/sign-in',
   signUp: '/sign-up',
   problems: '/problems',
-  contests: '/contests',
   discuss: '/discuss',
   profile: '/profile',
   submit_code: '/problems/:problemName',

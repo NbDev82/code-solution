@@ -84,18 +84,20 @@ export const USER_SAMPLE = {
 
 export const DATA_LOGIN_SAMPLE = {
   token:
-    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5OTk5OTk5OTkiLCJ1c2VySWQiOjQsImVtYWlsIjoibWluaHRyYW5AZ21haWwuY29tIiwic3ViIjoiMDk5OTk5OTk5OSIsImV4cCI6MTcxNzM5NDA0Nn0.ndEARKYxYy_9F_0joWNv4GjFA9O3AiqZsmtwfBmRxGs',
+    'eyJhbGciOiJIUzI1NiJ9.eyJwaG9uZU51bWJlciI6IjA5NjExNjI5NzkiLCJ1c2VySWQiOjUsImVtYWlsIjoicXVvY3RydW5nQGdtYWlsLmNvbSIsInN1YiI6IjA5NjExNjI5NzkiLCJleHAiOjE3MTgwOTU5NjJ9.QfRMw9UOGKMcluNOzFbcrMlvUJTmfzSitD26h1MwmRk',
   message: 'user.login.login_successfully',
   user: {
-    id: 4,
-    fullName: 'Tran Cong Minh',
-    phoneNumber: '0999999999',
-    dateOfBirth: '2024-04-02T00:00:00',
-    email: 'minhtran@gmail.com',
+    id: 5,
+    fullName: 'Quoc Trung ',
+    phoneNumber: '0961162979',
+    dateOfBirth: '2003-10-19T00:00:00',
+    email: 'quoctrung@gmail.com',
     urlImage:
-      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Blue03&clotheType=BlazerSweater&eyeType=Close&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=MoustacheMagnum&hairColor=Blonde&hatColor=Black&mouthType=Disbelief&skinColor=Tanned&topType=WinterHat1',
-    password: '$2a$10$6jLq7WfPOyN18jpUJc8ESeGAyrAa3ikHmCA6gwuVLoff6wI6gxNyG',
+      'https://avataaars.io/?accessoriesType=Round&avatarStyle=Circle&clotheColor=Heather&clotheType=ShirtCrewNeck&eyeType=Wink&eyebrowType=Default&facialHairColor=BrownDark&facialHairType=BeardMagestic&hairColor=Black&hatColor=Blue01&mouthType=Disbelief&skinColor=Pale&topType=ShortHairShortWaved',
+    password: '$2a$10$7.S3Q.w7Ps1zCqsZkKgHq.RglmBVxztNOxVClwwHQQUPiIDMbsNa6',
     cumulativeScore: 0.0,
+    numberOfSolvedProblems: 0,
+    numberOfCompletedCompetitions: 0,
     addedAt: null,
     updatedAt: null,
     role: 'USER',

@@ -9,6 +9,7 @@ import { Avatar } from '@chakra-ui/react';
 import { getCurrentUserDetail } from '~/auth';
 import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
 import { useDisclosure } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
@@ -17,9 +18,17 @@ function MainNavbar(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
   const { isOpen, onOpen, onClose } = useDisclosure();
   const iconStyle = { fontSize: 20 };
+  const navigate = useNavigate();
   return (
     <div className="navbar">
-      <img className="navbar--logo" src={LogoGroup} alt="Logo" />
+      <img
+        className="navbar--logo"
+        src={LogoGroup}
+        alt="Logo"
+        onClick={() => {
+          navigate('/home');
+        }}
+      />
       <div className="navbar--list">
         <div className="navbar--list__gap5">
           <Button icon id="problemslist" onClick={props.onSelectBtn}>
@@ -36,12 +45,12 @@ function MainNavbar(props) {
             <ShuffleIcon sx={iconStyle}></ShuffleIcon>
           </Button>
         </div>
-        <div className="navbar--list__gap5">
+        {/* <div className="navbar--list__gap5">
           <Button icon disable>
             <AccessTimeIcon sx={iconStyle}></AccessTimeIcon>
             <span style={iconStyle}>11:25</span>
           </Button>
-        </div>
+        </div> */}
         <div className="navbar--list__gap5">
           <Button light id="compile" onClick={props.onSelectBtn}>
             Compile
@@ -55,7 +64,7 @@ function MainNavbar(props) {
         {/* <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
         </Button> */}
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.urlImage} />
+        <Avatar size="lg" name={user?.fullName} onClick={onOpen} src={user?.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

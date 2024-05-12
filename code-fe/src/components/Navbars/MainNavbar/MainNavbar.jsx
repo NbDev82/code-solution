@@ -26,7 +26,7 @@ function MainNavbar(props) {
         navigate('/problems');
         break;
       case 'contests':
-        navigate('/contests');
+        navigate('/contests-management');
         break;
       case 'discuss':
         navigate('/discuss');
@@ -55,7 +55,7 @@ function MainNavbar(props) {
         {/* <Button id="notify" icon disable>
           <NotificationsNoneIcon sx={{ fontSize: 28 }}></NotificationsNoneIcon>
         </Button> */}
-        <Avatar size="lg" cursor="pointer" name={user.fullName} onClick={onOpen} src={user.urlImage} />
+        <Avatar size="lg" cursor="pointer" name={user?.fullName} onClick={onOpen} src={user?.urlImage} />
       </div>
       <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
     </div>

@@ -15,13 +15,17 @@ import {
 import PropTypes from 'prop-types';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
-import './DrawerRightDefault.scss';
+import styles from '../Drawer.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
 import EditIcon from '@mui/icons-material/Edit';
+import SourceIcon from '@mui/icons-material/Source';
+import ForumIcon from '@mui/icons-material/Forum';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 DrawerRightDefault.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
@@ -48,7 +52,7 @@ function DrawerRightDefault(props) {
         <DrawerHeader borderBottomWidth="1px">
           <Box display="flex" alignItems="center" gap="4%" justifyContent="start">
             <Avatar size="xl" name={user.fullName} src={user.urlImage} />
-            <Text className="drawer__heading">{user.fullName}</Text>
+            <Text className={styles.drawer__heading}>{user.fullName}</Text>
           </Box>
         </DrawerHeader>
 
@@ -58,7 +62,7 @@ function DrawerRightDefault(props) {
               onClick={() => {
                 navigate(`/home`);
               }}
-              className="drawer__item"
+              className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <HomeIcon sx={{ fontSize: 24 }}></HomeIcon>
@@ -66,15 +70,13 @@ function DrawerRightDefault(props) {
             </div>
             <div
               onClick={() => {
-                navigate(`/profile`, {
-                  state: { tab: 0 },
-                });
+                navigate(`/problems`);
               }}
-              className="drawer__item"
+              className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
-              <PersonIcon sx={{ fontSize: 24 }}></PersonIcon>
-              <p>Profile</p>
+              <SourceIcon sx={{ fontSize: 24 }}></SourceIcon>
+              <p>Problems</p>
             </div>
             <div
               onClick={() => {
@@ -82,12 +84,46 @@ function DrawerRightDefault(props) {
                   state: { tab: 1 },
                 });
               }}
-              className="drawer__item"
+              className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <IntegrationInstructionsIcon sx={{ fontSize: 24 }}></IntegrationInstructionsIcon>
               <p>Your Problems</p>
             </div>
+        
+            <div
+              onClick={() => {
+                navigate(`/contests-management`);
+              }}
+              className={styles.drawer__item}
+              style={{ textDecoration: 'none', border: 'none' }}
+            >
+              <EmojiEventsIcon sx={{ fontSize: 24 }}></EmojiEventsIcon>
+              <p>Contests Management</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate(`/`);
+              }}
+              className={styles.drawer__item}
+              style={{ textDecoration: 'none', border: 'none' }}
+            >
+              <ForumIcon sx={{ fontSize: 24 }}></ForumIcon>
+              <p>Discuss</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate(`/profile`, {
+                  state: { tab: 0 },
+                });
+              }}
+              className={styles.drawer__item}
+              style={{ textDecoration: 'none', border: 'none' }}
+            >
+              <PersonIcon sx={{ fontSize: 24 }}></PersonIcon>
+              <p>Profile</p>
+            </div>
+           
 
             {/* <div
               onClick={() => {
@@ -95,7 +131,7 @@ function DrawerRightDefault(props) {
                   state: { tab: 2 },
                 });
               }}
-              className="drawer__item"
+             className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <EditIcon sx={{ fontSize: 24 }}></EditIcon>
@@ -105,7 +141,7 @@ function DrawerRightDefault(props) {
               onClick={() => {
                 navigate(`/sign-in`);
               }}
-              className="drawer__item"
+              className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
               <LogoutIcon sx={{ fontSize: 24 }}></LogoutIcon>
