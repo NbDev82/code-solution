@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,10 +53,12 @@ public class UserController {
                  .message(MessageKeys.REGISTER_SUCCESSFULLY)
                  .user(userDTO)
                  .build());
-     }
-     catch (Exception e) {
-       registerResponse.setMessage(e.getMessage());
-       return ResponseEntity.badRequest().body(registerResponse);
+     }catch (DataIntegrityViolationException e) {
+         registerResponse.setMessage(MessageKeys.PHONE_NUMBER_ALREADY_EXISTS);
+         return ResponseEntity.badRequest().body(registerResponse);
+     } catch (Exception e) {
+         registerResponse.setMessage(e.getMessage());
+         return ResponseEntity.badRequest().body(registerResponse);
      }
 
     }
@@ -79,11 +83,17 @@ public class UserController {
                   .token(token)
                   .user(userDTO)
                   .build());
-      }catch (Exception e){
-          return ResponseEntity.badRequest().body(
-                  LoginResponse.builder()
-                          .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
-                          .build());
+      }catch (BadCredentialsException e) {
+          LoginResponse loginResponse = LoginResponse.builder()
+                  .message(MessageKeys.PASSWORD_NOT_MATCH)
+                  .build();
+          return ResponseEntity.badRequest().body(loginResponse);
+
+      } catch (Exception e) {
+          LoginResponse loginResponse = LoginResponse.builder()
+                  .message(MessageKeys.LOGIN_FAILED)
+                  .build();
+          return ResponseEntity.badRequest().body(loginResponse);
       }
     }
 }
