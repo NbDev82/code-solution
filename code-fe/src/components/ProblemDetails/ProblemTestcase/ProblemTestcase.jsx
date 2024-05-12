@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import styles from '../ProblemDetails.module.scss';
 import { ProblemDetailsContext } from '~/context/ProblemDetails';
 import { generateDefaultValue, checkInputValidation, shortenString } from '~/utils/string';
-import { Input, Button } from '@chakra-ui/react';
-
+import { Input } from '@chakra-ui/react';
+import XLSXUploader from '~/components/Xlsx/XLSXUploader';
+import XLSXDownloader from '~/components/Xlsx/XLSXDownloader';
+import Button from '~/components/Buttons/Button';
+import { SmallAddIcon } from '@chakra-ui/icons';
 const ProblemTestcase = (props) => {
-  const { problem, parameters, testcases, setTestcases, createNewTestCase, getIdTestcasesInvalid } =
+  const { problem, testcases, setTestcases, createNewTestCase, getDataTescasesToXLSX } =
     useContext(ProblemDetailsContext);
 
   const handleOnChangeParamValue = (testcaseId, paramId, value) => {
@@ -38,10 +41,26 @@ const ProblemTestcase = (props) => {
 
   return (
     <div className={styles.container}>
-      {testcases.length === 0 ? (
-        <></>
-      ) : (
-        testcases.map((testcase, index) => (
+      <div className={styles.row__layout}>
+        <div className={styles.input__group}>
+          <div className={styles.row__child}>* The test cases can be generated from a .xlsx file.</div>
+          <div className={styles.row__child}>
+            <span>* Please</span>
+            <XLSXDownloader title="download" data={getDataTescasesToXLSX([...testcases])} filename="testcases.xlsx" />
+            <span> the sample file .xlsx and enter the data</span>
+          </div>
+
+          <div className={styles.row__child}>
+            <span>* Then, upload it here.</span>
+          </div>
+        </div>
+        <div className={styles.input__group}>
+          <XLSXUploader title="Upload file .xlsx"></XLSXUploader>
+        </div>
+      </div>
+
+      <div className={styles.testcases__container}>
+        {testcases.map((testcase, index) => (
           <div className={styles.row__layout} key={index}>
             <div className={styles.input__group}>
               <span>
@@ -114,16 +133,18 @@ const ProblemTestcase = (props) => {
               )}
             </div>
           </div>
-        ))
-      )}
+        ))}
+      </div>
 
       <div className={styles.row__layout}>
         <Button
+          icon
           onClick={() => {
             createNewTestCase();
           }}
         >
           New Testcase
+          <SmallAddIcon></SmallAddIcon>
         </Button>
       </div>
     </div>
