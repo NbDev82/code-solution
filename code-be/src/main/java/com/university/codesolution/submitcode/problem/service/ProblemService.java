@@ -17,7 +17,7 @@ public interface ProblemService {
 
     List<ProblemDTO> getProfileProblemsByOwner(Long userId);
 
-    List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
+    List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName);
 
     Boolean add(AddProblemRequest request);
 

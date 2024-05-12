@@ -4,81 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestRepos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestRepos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestServiceImpl.java" afterDir="false" />
+    <list default="true" id="72d70796-1b1f-4c81-a53d-b4986c25debd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/controller/ProblemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/submitcode/problem/service/ProblemServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GlobalContestList/GlobalContestList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyContestList/MyContestList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RankingList/RankingList.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ContestsManagement/ContestsManagement.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/ContestService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ContestService.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/constants.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/constants.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
-  <component name="ProjectId" id="2aiIFhZipEws7FO0mlewHPbG8QI" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/contest-v5&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/vanannek/Documents/CodeExample/FullStackApp/code-solution/code-fe&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "feature/contest-v6",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
-      <method v="2" />
-    </configuration>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="b1da145b-7fe3-4eb5-999e-36f6da143f90" name="Changes" comment="" />
-      <created>1704794872249</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1704794872249</updated>
-      <workItem from="1704794873384" duration="30000" />
-      <workItem from="1711037497780" duration="1677000" />
-      <workItem from="1711121897986" duration="5855000" />
-      <workItem from="1715407493189" duration="6138000" />
-      <workItem from="1715435181442" duration="2028000" />
-      <workItem from="1715453501619" duration="13731000" />
-      <workItem from="1715481160304" duration="8757000" />
-      <workItem from="1715499590130" duration="3000" />
-      <workItem from="1715499610728" duration="7227000" />
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>

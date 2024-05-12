@@ -68,23 +68,22 @@ public class ProblemServiceImpl implements ProblemService{
 
     @Override
     public List<ProblemDTO> getAllDTOs() {
-        List<Problem> problems = getAll();
-        return mapper.toDTOs(problems);
+        return mapper.toDTOs(getAll());
     }
 
+    @Override
     public List<ProblemDTO> getProblemsByOwner(Long userId) {
-        List<Problem> problems = problemRepository.getProblemsByOwner(userId);
-        return mapper.toDTOs(problems);
+        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
+    }
+
+    @Override
+    public List<ProblemDTO> getProfileProblemsByOwner(Long userId) {
+        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
     }
 
     @Override
     public List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName) {
-        List<Problem> problems = problemRepository.getProblemsByOwnerAndName(userId, problemName);
-        return mapper.toDTOs(problems);
-    }
-
-    public List<ProblemDTO> getProfileProblemsByOwner(Long userId) {
-        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
+        return mapper.toDTOs(problemRepository.getProblemsByOwnerAndName(userId, problemName));
     }
 
     @Override

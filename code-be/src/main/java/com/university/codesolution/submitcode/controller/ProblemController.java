@@ -2,6 +2,7 @@ package com.university.codesolution.submitcode.controller;
 
 import com.university.codesolution.submitcode.DTO.PickOneDTO;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 import lombok.NonNull;
@@ -41,10 +42,7 @@ public class ProblemController {
     }
 
     @GetMapping("/get-problems-by-owner-and-name")
-    public ResponseEntity<List<ProblemDTO>> getProblemsByOwnerAndName(
-            @RequestParam("userId") Long userId,
-            @RequestParam("name") String problemName
-    ) {
+    public ResponseEntity<List<ProblemDTO>> getProblemsByOwnerAndName(Long userId, String problemName) {
         return ResponseEntity.ok(problemService.getProblemsByOwnerAndName(userId, problemName));
     }
 
