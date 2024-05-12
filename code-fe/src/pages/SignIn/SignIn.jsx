@@ -141,6 +141,7 @@ const SignIn = () => {
               name="phoneNumber"
               autoComplete="phoneNumber"
               autoFocus
+              style={{ width: '100%', marginRight: '10px' }}
             />
             <TextField
               margin="normal"
@@ -153,8 +154,9 @@ const SignIn = () => {
               value={loginDetail.password}
               onChange={(e) => handleChange(e, 'password')}
               autoComplete="current-password"
+              style={{ width: '100%', marginRight: '10px' }} // Set the width and margin for the password field
             />
-            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+            {/* <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" /> */}
             <Container>
               <Button type="submit" disabled={isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 {isSubmitting ? 'Loading...' : 'Sign In'}
@@ -167,11 +169,7 @@ const SignIn = () => {
             </Container>
 
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link href="/sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
