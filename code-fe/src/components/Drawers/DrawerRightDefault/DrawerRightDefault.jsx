@@ -15,7 +15,9 @@ import {
 import PropTypes from 'prop-types';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
+
 import styles from '../Drawer.module.scss';
+
 import { Link, useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
@@ -45,6 +47,13 @@ DrawerRightDefault.defaultProps = {
 function DrawerRightDefault(props) {
   const user = props.user;
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    debugger;
+    localStorage.removeItem('data');
+    navigate('/sign-in');
+  };
+
   return (
     <Drawer isOpen={props.isOpen} placement="right" onClose={props.onClose} size={'sm'}>
       <DrawerOverlay />
@@ -134,18 +143,7 @@ function DrawerRightDefault(props) {
               <p>Profile</p>
             </div>
 
-            {/* <div
-              onClick={() => {
-                navigate(`/profile`, {
-                  state: { tab: 2 },
-                });
-              }}
-             className={styles.drawer__item}
-              style={{ textDecoration: 'none', border: 'none' }}
-            >
-              <EditIcon sx={{ fontSize: 24 }}></EditIcon>
-              <p>Edit Profile</p>
-            </div> */}
+         
             <div
               onClick={() => {
                 navigate(`/sign-in`);

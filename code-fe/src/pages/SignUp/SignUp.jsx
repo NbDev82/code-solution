@@ -37,6 +37,7 @@ export default function SignUp() {
 
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [data, setData] = useState({
     fullName: '',
     email: '',
@@ -75,18 +76,30 @@ export default function SignUp() {
     let newAvatarUrl = '';
 
     try {
-      // Thử tạo giá trị ngẫu nhiên mới cho newAvatarUrl
+      // Try generating a new random avatar URL
       newAvatarUrl = generator.generateRandomAvatar();
       if (newAvatarUrl.length >= 750) {
         newAvatarUrl = 'https://example.com/default-avatar.png';
       }
     } catch (error) {
       console.error('Failed to generate random avatar URL:', error);
-      // Xử lý khi không thể tạo giá trị ngẫu nhiên, ví dụ: sử dụng một giá trị mặc định
+      // Handle the case when generating a random avatar URL fails, for example, use a default value
       newAvatarUrl = 'https://example.com/default-avatar.png';
     }
+
     const [year, month, day] = data.dateOfBirth.split('-');
-    const dateOfBirth = `${year}-${month}-${day}T00:00:00.000`;
+    const dateOfBirth = new Date(year, month - 1, day);
+    const currentDate = new Date();
+
+    if (dateOfBirth > currentDate) {
+      alert('Date of birth must be before the current day');
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        dateOfBirth: 'Date of birth must be before the current day.',
+      }));
+      setIsSubmitting(false);
+      return;
+    }
 
     signUp({ ...data, dateOfBirth, urlImage: newAvatarUrl })
       .then((resp) => {
@@ -98,7 +111,7 @@ export default function SignUp() {
         }
       })
       .catch((error) => {
-        if (error.response.status == 400 || error.response.status == 404) {
+        if (error.response && (error.response.status === 400 || error.response.status === 404)) {
           if (error.response.data.message === 'user.login.phone_number_already_exists') {
             alert('Phone Number Already exists');
           }
@@ -202,12 +215,7 @@ export default function SignUp() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
             <Container>
               <Button type="submit" disabled={isSubmitting} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
