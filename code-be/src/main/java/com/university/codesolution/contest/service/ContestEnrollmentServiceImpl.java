@@ -1,7 +1,9 @@
 package com.university.codesolution.contest.service;
 
+import com.university.codesolution.common.service.EmailService;
 import com.university.codesolution.contest.dto.ContestDTO;
 import com.university.codesolution.contest.dto.ContestEnrollmentDTO;
+import com.university.codesolution.contest.entity.Contest;
 import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.contest.exeption.ContestEnrollmentNotFoundException;
 import com.university.codesolution.contest.mapper.ContestEnrollmentMapper;
@@ -10,8 +12,10 @@ import com.university.codesolution.contest.request.AddEnrollmentRequest;
 import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.login.dto.UserDTO;
+import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,19 +30,19 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
     private final ContestEnrollmentRepos contestEnrollmentRepos;
     private final ContestService contestService;
     private final UserService userService;
+    private final EmailService emailService;
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Override
     public ContestEnrollmentDTO add(AddEnrollmentRequest request) {
-        ContestDTO contestDTO = contestService.getById( request.contestId() );
-        UserDTO userDTO = userService.getUserById( request.userId() );
+        Contest contest = contestService.getEntityById(request.contestId());
+        User user = userService.getEntityUserById(request.userId());
 
-        ContestEnrollmentDTO contestEnrollmentDTO = ContestEnrollmentDTO.builder()
-                .score( request.score() )
-                .acceptedSubmission( request.acceptedSubmission() )
-                .contest(contestDTO)
-                .user(userDTO)
-                .build();
-        return save(contestEnrollmentDTO);
+        ContestEnrollment savedEnrollment = saveContestEnrollment(request, contest, user);
+        sendInvitationEmail(user, contest, savedEnrollment);
+        return ceMapper.toDTO(savedEnrollment);
     }
 
     @Override
@@ -88,5 +92,35 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
         ContestEnrollment contestEnrollment = ceMapper.toEntity(contestEnrollmentDTO);
         ContestEnrollment saved = contestEnrollmentRepos.save(contestEnrollment);
         return ceMapper.toDTO(saved);
+    }
+
+    private ContestEnrollment saveContestEnrollment(AddEnrollmentRequest request, Contest contest, User user) {
+        ContestEnrollment contestEnrollment = ContestEnrollment.builder()
+                .score(request.score())
+                .acceptedSubmission(request.acceptedSubmission())
+                .contest(contest)
+                .user(user)
+                .build();
+
+        return contestEnrollmentRepos.save(contestEnrollment);
+    }
+
+    private void sendInvitationEmail(User user, Contest contest, ContestEnrollment savedEnrollment) {
+        String subject = "Invitation to Participate in " + contest.getTitle();
+        String confirmationLink = frontendUrl + "/contest-invitation?enrollmentId=" + savedEnrollment.getId();
+        String invitationEmailContent = String.format("<p>Dear %s,</p>" +
+                        "<p>We are excited to invite you to participate in the upcoming %s!</p>" +
+                        "<p>Contest Details:</p>" +
+                        "<ul>" +
+                        "<li>Contest Name: %s</li>" +
+                        "<li>Duration: %d</li>" +
+                        "</ul>" +
+                        "<p>Please confirm your participation by clicking the link below:</p>" +
+                        "<p><a href=\"%s\">Confirm Participation</a></p>" +
+                        "<p>We look forward to your enthusiastic participation and wish you the best of luck in the contest!</p>" +
+                        "<p>Best regards</p>",
+                user.getFullName(), contest.getTitle(), contest.getTitle(), contest.getDurationInMillis(), confirmationLink);
+
+        emailService.sendHtmlContent(user.getEmail(), subject, invitationEmailContent);
     }
 }

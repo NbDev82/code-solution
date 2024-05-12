@@ -1,8 +1,8 @@
-import { Box, Button, Card, CardBody, useToast, VStack } from '@chakra-ui/react';
+import { Box, Button, Card, CardBody, Text, useToast, VStack } from '@chakra-ui/react';
 import AddContestForm from '~/components/AddContestForm/AddContestForm';
 import Footer from '~/components/Footer';
 import AddProblemsForContestForm from '~/components/AddProblemsForContestForm/AddProblemsForContestForm';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainNavbar from '~/components/Navbars/MainNavbar';
 import ContestService from '~/services/ContestService';
 import { getCurrentUserDetail } from '~/auth';
@@ -29,7 +29,7 @@ function AddContest() {
     console.log('curContest: ' + JSON.stringify(curContest));
   }, [curContest]);
 
-  const onAddBtnClick = () => {
+  const onClickAddBtn = () => {
     ContestService.addContest(curContest)
       .then(result => {
         console.log(`onAddBtnClick() - is Contest Added: ${result}`);
@@ -42,7 +42,9 @@ function AddContest() {
             isClosable: true,
           })
 
-          navigate(config.routes.update_contest);
+          navigate(config.routes.update_contest, {
+            state: curContest
+          });
         } else {
           toast({
             title: `Add contest unsuccessfully`,
@@ -72,7 +74,8 @@ function AddContest() {
       <MainNavbar />
 
       <VStack gap={10} my={20}>
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="30px" h="fit-content" w="1000px">
+
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
             <AddContestForm contest={curContest} onUpdateContest={updateContest} />
           </CardBody>
@@ -96,7 +99,7 @@ function AddContest() {
               size="lg"
               colorScheme="teal"
               variant="solid"
-              onClick={() => onAddBtnClick()}
+              onClick={() => onClickAddBtn()}
               alignSelf="flex-end"
             >
               Add

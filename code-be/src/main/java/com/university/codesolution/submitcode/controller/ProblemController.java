@@ -2,7 +2,6 @@ package com.university.codesolution.submitcode.controller;
 
 import com.university.codesolution.submitcode.DTO.PickOneDTO;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
-import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import com.university.codesolution.submitcode.request.AddProblemRequest;
 import lombok.NonNull;

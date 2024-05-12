@@ -87,7 +87,7 @@ public class initData {
                 .fullName("John Doe")
                 .phoneNumber("123456789")
                 .dateOfBirth(LocalDateTime.of(1990, 1, 1, 0, 0))
-                .email("john.doe@example.com")
+                .email("vanantran99@gmail.com")
                 .password(passwordEncoder.encode("password"))
                 .cumulativeScore(0)
                 .addedAt(LocalDateTime.now())
@@ -97,10 +97,10 @@ public class initData {
                 .build();
 
         User user1=User.builder()
-                .fullName("Pie Atlantis")
+                .fullName("Văn An")
                 .phoneNumber("987654321")
-                .dateOfBirth(LocalDateTime.of(1999, 1, 1, 0, 0))
-                .email("atlantis.pie@example.com")
+                .dateOfBirth(LocalDateTime.of(2003, 1, 1, 0, 0))
+                .email("vanantran05@gmail.com")
                 .password(passwordEncoder.encode("password"))
                 .cumulativeScore(0)
                 .addedAt(LocalDateTime.now())

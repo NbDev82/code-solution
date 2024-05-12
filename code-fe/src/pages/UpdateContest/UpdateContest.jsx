@@ -1,42 +1,33 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCurrentUserDetail } from '~/auth';
-import { Box, Button, Card, CardBody, VStack } from '@chakra-ui/react';
+import { Box, Button, Card, CardBody, Flex, IconButton, Text, VStack } from '@chakra-ui/react';
 import ContestService from '~/services/ContestService';
 import MainNavbar from '~/components/Navbars/MainNavbar/MainNavbar';
 import AddContestForm from '~/components/AddContestForm/AddContestForm';
 import AddProblemsForContestForm from '~/components/AddProblemsForContestForm/AddProblemsForContestForm';
 import InviteUsersForm from '~/components/InviteUsersForm/InviteUsersForm';
 import Footer from '~/components/Footer';
+import { useLocation } from 'react-router-dom';
+import ContestSkeleton from '~/components/Skeletons/ContestSkeleton';
+import { AddIcon } from '@chakra-ui/icons';
+import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
 
 const UpdateContest = () => {
+  const location = useLocation();
   const [curUser, setCurUser] = useState(getCurrentUserDetail());
-  const [curContest, setCurContest] = useState({
-    id: 1,
-    ownerId: curUser.id,
-    imageUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
-    title: 'Weekly contest 1',
-    desc: 'It is good for practicing',
-    duration: 3660000,
-    isDeleted: false,
-    problemIds: [],
-    participantIds: []
-  });
+  const [curContest, setCurContest] = useState(location.state);
+  const [isContestProblemsLoading, setIsContestProblemsLoading] = useState(false);
+  const [contestProblems, setContestProblems] = useState([]);
 
   useEffect(() => {
     console.log('curContest: ' + JSON.stringify(curContest));
   }, [curContest]);
 
-  const onAddBtnClick = () => {
+  const onClickUpdateBtn = () => {
     ContestService.addContest(curContest);
   };
 
   const updateContest = (updatedContest) => {
-    setCurContest(updatedContest);
-  };
-
-  const updateProblemIds = (problemIds) => {
-    const updatedContest = { ...curContest };
-    updatedContest.problemIds = problemIds;
     setCurContest(updatedContest);
   };
 
@@ -51,7 +42,8 @@ const UpdateContest = () => {
       <MainNavbar />
 
       <VStack gap={10} my={20}>
-        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="30px" h="fit-content" w="1000px">
+
+        <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
             <AddContestForm contest={curContest} onUpdateContest={updateContest} />
           </CardBody>
@@ -59,10 +51,45 @@ const UpdateContest = () => {
 
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
-            <AddProblemsForContestForm
-              curUserId={curUser.id}
-              updateProblemIds={updateProblemIds}
-            />
+            <Text fontWeight="bold" noOfLines={1}>
+              Problems in Contest
+            </Text>
+
+            <Box mt={10} height="200px" overflowY="auto">
+              {isContestProblemsLoading ? (
+                <ContestSkeleton count={5} />
+              ) : (
+                contestProblems.map((problem, index) => (
+                  <Flex
+                    key={problem.id}
+                    align="center"
+                    justifyContent="start"
+                    mb={4}
+                  >
+                    <Box ml={4} flex="1" textAlign="start">
+                      <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
+                        {problem.name}
+                      </Text>
+                    </Box>
+
+                    <Box ml={4} flex="1" textAlign="start">
+                      <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                        Level: {problem.difficultyLevel}
+                      </Text>
+                    </Box>
+
+                    <Box ml={4} flex="1" textAlign="start">
+                      <Text fontSize="xs" color="gray.600" noOfLines={1}>
+                        Point: {problem.point}
+                      </Text>
+                    </Box>
+                  </Flex>
+                ))
+              )}
+              {(!isContestProblemsLoading && (contestProblems === null || contestProblems.length === 0)) && (
+                <EmptyListIcon my={20} iconSize={80} />
+              )}
+            </Box>
           </CardBody>
         </Card>
 
@@ -84,10 +111,10 @@ const UpdateContest = () => {
               size="lg"
               colorScheme="teal"
               variant="solid"
-              onClick={() => onAddBtnClick()}
+              onClick={() => onClickUpdateBtn()}
               alignSelf="flex-end"
             >
-              Add
+              Update
             </Button>
           </CardBody>
         </Card>

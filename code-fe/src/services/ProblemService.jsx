@@ -60,6 +60,11 @@ const pickOneProblem = async () => {
   return await axios.get(requestURL);
 };
 
+const getProblemsByContest = async (contestId) => {
+  const requestURL = `${BASE_URL}/problems/get-problems-by-contest?contestId=${contestId}`;
+  const response = await axios.get(requestURL);
+  return response.data;
+};
 export {
   getProblems,
   getAllTopics,
@@ -72,4 +77,5 @@ export {
   getProblemsByOwner,
   getProblemsByOwnerAndName,
   pickOneProblem,
+  getProblemsByContest
 };
