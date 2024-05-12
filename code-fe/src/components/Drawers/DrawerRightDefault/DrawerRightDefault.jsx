@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import Moutains from '~/assets/images/Moutains.svg';
 import TextVideo from '~/assets/video/Text-Video.gif';
 import './DrawerRightDefault.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -39,6 +39,13 @@ DrawerRightDefault.defaultProps = {
 
 function DrawerRightDefault(props) {
   const user = props.user;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    debugger;
+    localStorage.removeItem('data');
+    navigate('/sign-in');
+  };
   return (
     <Drawer isOpen={props.isOpen} placement="right" onClose={props.onClose} size={'sm'}>
       <DrawerOverlay />
@@ -76,14 +83,14 @@ function DrawerRightDefault(props) {
               <InsightsIcon sx={{ fontSize: 24 }}></InsightsIcon>
               <p>Statistic</p>
             </Link>
-            <Link
-              to={{ pathname: '/sign-in' }}
+            <div
+              onClick={handleLogout}
               className="drawer__item"
-              style={{ textDecoration: 'none', border: 'none' }}
+              style={{ textDecoration: 'none', border: 'none', cursor: 'pointer' }}
             >
               <LogoutIcon sx={{ fontSize: 24 }}></LogoutIcon>
               <p>Logout</p>
-            </Link>
+            </div>
           </VStack>
         </DrawerBody>
 
