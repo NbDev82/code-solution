@@ -1,3 +1,5 @@
+import UserDashboard from '~/pages/User/UserDashboard';
+import { updatePost } from '~/services/DiscussService';
 import { signUp } from '~/services/UserService';
 
 const routes = {
@@ -13,7 +15,9 @@ const routes = {
   contests_management: '/contests-management',
   add_contest: '/add-contest',
   contest_result: '/contest-result',
-  post: '/post',
+  post: '/posts/:postId',
+  user_dashboard: '/user/:userId/posts',
+  update_post: 'user/update-post/:postId',
   problem_details:'/problem-details/:action'
 };
 

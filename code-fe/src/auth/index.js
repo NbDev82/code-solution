@@ -1,13 +1,11 @@
 export const isLoggedIn = () => {
   let data = localStorage.getItem('data');
-  debugger;
   if (data != null) return true;
   else return false;
 };
 
 export const doLogin = (data, next) => {
   localStorage.setItem('data', JSON.stringify(data));
-  debugger;
   next();
 };
 export const doLogout = (next) => {
@@ -22,7 +20,6 @@ export const getCurrentUserDetail = () => {
 
     // Truy cập trường "user"
     const user = jsonData.user;
-    debugger;
     return user;
   } else {
     return undefined;

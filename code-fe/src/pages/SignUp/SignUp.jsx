@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { format } from 'date-fns';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,7 +16,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { signUp } from '~/services/UserService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
+import { AvatarGenerator } from 'random-avatar-generator';
+import { NotificationContainer, NotificationManager } from 'react-notifications-component';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -34,9 +34,17 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const generator = new AvatarGenerator();
+
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const handleRegistrationSuccess = () => {
+    NotificationManager.success('Registration successful!', 'Success', {
+      timeOut: 3000, // Duration in milliseconds
+      pauseOnHover: true, // Pause the timer when hovering over the notification
+      // Other options
+    });
+  };
   const [data, setData] = useState({
     fullName: '',
     email: '',
@@ -44,6 +52,7 @@ export default function SignUp() {
     password: '',
     dateOfBirth: '',
     role: 'USER',
+    urlImage: '',
   });
 
   const [errors, setErrors] = useState({
@@ -65,36 +74,45 @@ export default function SignUp() {
       password: '',
       dateOfBirth: '',
       role: 'USER',
+      urlImage: '',
     });
   };
   const submitForm = async (event) => {
     event.preventDefault();
-
     setIsSubmitting(true);
+    let newAvatarUrl = '';
 
-    signUp(data)
+    try {
+      // Thử tạo giá trị ngẫu nhiên mới cho newAvatarUrl
+      newAvatarUrl = generator.generateRandomAvatar();
+      if (newAvatarUrl.length >= 750) {
+        newAvatarUrl = 'https://example.com/default-avatar.png';
+      }
+    } catch (error) {
+      console.error('Failed to generate random avatar URL:', error);
+      // Xử lý khi không thể tạo giá trị ngẫu nhiên, ví dụ: sử dụng một giá trị mặc định
+      newAvatarUrl = 'https://example.com/default-avatar.png';
+    }
+    const [year, month, day] = data.dateOfBirth.split('-');
+    const dateOfBirth = `${year}-${month}-${day}T00:00:00.000`;
+
+    signUp({ ...data, dateOfBirth, urlImage: newAvatarUrl })
       .then((resp) => {
-        debugger;
-        if ((resp.message = 'user.login.register_successfully')) {
+        if (resp.message === 'user.login.register_successfully') {
           toast.success('User is registered successfully !! user id ' + resp.id);
-          setData({
-            fullName: '',
-            email: '',
-            phoneNumber: '',
-            password: '',
-            dateOfBirth: '',
-            role: 'USER',
-          });
           navigate('/sign-in');
-          debugger;
         } else {
-          // Handle non-successful response
           toast.error('Registration failed. Please try again.');
         }
       })
       .catch((error) => {
-        toast.error('An error occurred. Please try again.');
-        console.error(error);
+        if (error.response.status == 400 || error.response.status == 404) {
+          if (error.response.data.message === 'user.login.phone_number_already_exists') {
+            alert('Phone Number Already exists');
+          }
+        } else {
+          toast.error('Something went wrong on the server!');
+        }
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -158,6 +176,8 @@ export default function SignUp() {
                   name="dateOfBirth"
                   type="date"
                   InputLabelProps={{ shrink: true }}
+                  value={data.dateOfBirth}
+                  onChange={(e) => handleChange(e, 'dateOfBirth')}
                 />
               </Grid>
               <Grid item xs={12}>
