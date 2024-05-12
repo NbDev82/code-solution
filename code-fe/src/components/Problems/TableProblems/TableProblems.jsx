@@ -15,9 +15,9 @@ const TableProblems = memo((props) => {
       case 'EASY':
         return <Td style={{ color: 'var(--green)' }}>Easy</Td>;
       case 'NORMAL':
-        return <Td style={{ color: 'var(--orange)' }}>Easy</Td>;
+        return <Td style={{ color: 'var(--orange)' }}>Normal</Td>;
       case 'HARD':
-        return <Td style={{ color: 'var(--red)' }}>Easy</Td>;
+        return <Td style={{ color: 'var(--red)' }}>Hard</Td>;
       default:
         return (
           <Td style={{ color: '#FF0100' }}>
