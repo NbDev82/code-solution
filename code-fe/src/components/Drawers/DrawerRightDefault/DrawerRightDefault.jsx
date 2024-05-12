@@ -49,7 +49,6 @@ function DrawerRightDefault(props) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    debugger;
     localStorage.removeItem('data');
     navigate('/sign-in');
   };
@@ -143,10 +142,9 @@ function DrawerRightDefault(props) {
               <p>Profile</p>
             </div>
 
-         
             <div
               onClick={() => {
-                navigate(`/sign-in`);
+                handleLogout();
               }}
               className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
