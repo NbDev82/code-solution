@@ -1,5 +1,4 @@
 function normalizeName(name) {
-  console.log(name);
   if (typeof name !== 'string') return '';
   else
     return name

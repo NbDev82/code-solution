@@ -1,0 +1,80 @@
+.page-drawer-base {
+  &[data-appear='true'] {
+    opacity: 1;
+  }
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 147;
+  border-top: 1px solid #dddddd;
+  background: white;
+  min-height: 200px;
+  height: auto;
+  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.4s;
+
+  .editor-header {
+    margin: 20px 0 15px 0;
+    display: flex;
+    justify-content: space-between;
+
+    .editor-header-left {
+      display: flex;
+      flex: 0 1 500px;
+
+      .wrapper.md.title-input {
+        flex: 1;
+      }
+    }
+
+    .editor-header-tool {
+      flex: 0 0 auto;
+      margin-left: 10px;
+
+      .header-right {
+        display: flex;
+        align-items: center;
+
+        .btn {
+          &.fancy-btn.primary.light.btn-md {
+            color: #3882a7;
+            border-color: #cfd8dc;
+            background: #f8f1f1;
+
+            .btn-content-container {
+              margin-right: 20px;
+              margin-left: 20px;
+              span {
+                color: #1d1616;
+              }
+            }
+
+            &:hover:not([disabled]) {
+              background-color: #8d8484;
+              color: #000000;
+              border-color: #b0bec5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .editor-content {
+    .category-container.my-3 {
+      label {
+        color: #000000;
+      }
+
+      input.rounded {
+        border-radius: 3px;
+      }
+    }
+
+    .jodit-editor {
+      // Your JoditEditor styles here
+    }
+  }
+}
