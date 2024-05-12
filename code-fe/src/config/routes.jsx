@@ -14,6 +14,8 @@ const routes = {
   contests_management: '/contests-management',
   add_contest: '/add-contest',
   contest_result: '/contest-result',
+  problem_details:'/problem-details/:action',
+  update_contest: '/update-contest',
   post: '/posts/:postId',
   user_dashboard: '/user/:userId/posts',
   update_post: 'user/update-post/:postId',

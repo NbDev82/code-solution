@@ -7,27 +7,35 @@ import java.util.List;
 
 @Builder
 public record AddContestRequest(
-        @Schema(
+
+    @Schema(
+        description = "Image url of the contest",
+        example = "https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png",
+        requiredMode = Schema.RequiredMode.REQUIRED
+    )
+    String imgUrl,
+
+    @Schema(
         description = "Title of the contest",
         example = "Weekly contest 1",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     String title,
 
-        @Schema(
+    @Schema(
         description = "Description of the contest",
         example = "This is a sample contest description."
     )
     String desc,
 
-        @Schema(
+    @Schema(
         description = "Duration of the contest in milliseconds",
         example = "7200000",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     long durationInMillis,
 
-        @Schema(
+    @Schema(
         description = "ID of the contest owner",
         example = "12",
         requiredMode = Schema.RequiredMode.REQUIRED
