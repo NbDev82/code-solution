@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ContestDTO {
     private Long id;
+    private String imgUrl;
     private String title;
     private String desc;
     private long durationInMillis;

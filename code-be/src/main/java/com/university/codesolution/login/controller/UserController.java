@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -99,5 +101,26 @@ public class UserController {
                   .build();
           return ResponseEntity.badRequest().body(loginResponse);
       }
+    }
+
+    @GetMapping("/users/get-users-excluding-cur-user")
+    public ResponseEntity<List<UserDTO>> getUsersExcludingCurrentUser(
+            @RequestParam("curUserId") Long curUserId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        List<UserDTO> users = userService.getUsersExcludingCurrentUser(curUserId, page, size);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/users/get-users-by-name-excluding-cur-user")
+    public ResponseEntity<List<UserDTO>> getUsersByNameExcludingCurrentUser(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("curUserId") Long curUserId,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        List<UserDTO> users = userService.getUsersByNameExcludingCurrentUser(fullName, curUserId, page, size);
+        return ResponseEntity.ok(users);
     }
 }

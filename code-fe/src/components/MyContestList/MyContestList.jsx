@@ -1,48 +1,40 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Badge,
   Box,
-  Button, Center,
   Flex,
   IconButton,
   Image,
   Input,
   InputGroup,
   InputRightElement,
-  Select,
   Text,
-  useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { ContestSearchOptions, ensureMinLoadingDuration, formatDateTime, formatDuration } from '~/utils/constants';
+import { ensureMinLoadingDuration, formatDuration } from '~/utils/constants';
 import SimplePagination from '~/components/Pagination/SimplePagination';
 import { myDemoContests } from '~/utils/demoContestData';
 import { useNavigate } from 'react-router-dom';
 import config from '~/config';
 import ContestService from '~/services/ContestService';
 import ContestSkeleton from '../Skeletons/ContestSkeleton';
-import EmptyList from '~/assets/images/EmptyList.svg';
 import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
+import { DIALOG_DEFAULT_PROPS } from '~/utils/Const';
+import Dialog from '~/components/Dialog';
 
 const MIN_LOADING_DURATION = 1000;
 
 const MyContestList = ({ curUserId }) => {
   const navigate = useNavigate();
 
-  const [selectedOption, setSelectedOption] = useState('');
   const [searchText, setSearchText] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [isContestsLoading, setIsContestsLoading] = useState(false);
   const [myContests, setMyContests] = useState(myDemoContests);
+  const [dialogMsg, setDialogMsg] = useState('');
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const toast = useToast();
 
   useEffect(() => {
     fetchContests();
@@ -64,10 +56,6 @@ const MyContestList = ({ curUserId }) => {
     }
   };
 
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value);
   };
@@ -82,37 +70,54 @@ const MyContestList = ({ curUserId }) => {
     console.log('searching...');
   };
 
-  const handleDeleteContest = (contestId) => {
-    onOpen();
-  };
+  const onClickDeleteBtn = (contestId) => {
+    let msg = 'Are you sure want to delete the contest?';
+    setDialogProps((prev) => ({
+      ...prev,
+      msg: msg,
+      isOpen: true,
+      onYesClick: () => {
+        ContestService.deleteContest(contestId)
+          .then(result => {
+            if (result) {
+              toast({
+                title: `Add contest successfully`,
+                position: 'top-right',
+                status: 'success',
+                isClosable: true,
+              })
 
-  const handleConfirmDelete = () => {
-    onClose();
+              setMyContests(prevContests => prevContests.filter(contest =>
+                  contest.id !== contestId));
+            } else {
+              toast({
+                title: `Add contest unsuccessfully`,
+                position: 'top-right',
+                status: 'error',
+                isClosable: true,
+              })
+            }
+          })
+      }
+    }));
   };
 
   const handleClickContest = (contestId) => {
     console.log('On handleClickContest() method');
+    // 2 case - owner and viewer
   };
 
-  const handleAddContest = () => {
+  const onClickAddBtn = () => {
     navigate(config.routes.add_contest);
   };
 
   return (
     <Box>
       <Flex align="center" gap={6} mt={2}>
-        <Select value={selectedOption} onChange={handleOptionChange} variant="unstyled" w={'fit-content'}>
-          {ContestSearchOptions.map((options) => (
-            <option key={options.value} value={options.value}>
-              {options.displayName}
-            </option>
-          ))}
-        </Select>
-
         <InputGroup>
           <Input
             type="text"
-            placeholder="Search..."
+            placeholder="Search by title..."
             size="lg"
             fontSize="var(--text-size)"
             onChange={handleSearchTextChange}
@@ -132,7 +137,7 @@ const MyContestList = ({ curUserId }) => {
           colorScheme="teal"
           borderRadius="full"
           variant="outline"
-          onClick={() => handleAddContest()}
+          onClick={() => onClickAddBtn()}
         />
       </Flex>
 
@@ -156,19 +161,12 @@ const MyContestList = ({ curUserId }) => {
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                   {contest.title}
                 </Text>
-                <Text fontSize="xs" color="gray.600" noOfLines={1} mb={-2}>
-                  {`${formatDateTime(contest.startTime)} - ${formatDateTime(contest.endTime)}`}
-                </Text>
                 <Text fontSize="xs" color="gray.600" noOfLines={1}>
                   Duration: {formatDuration(contest.duration)}
                 </Text>
               </Box>
 
               <Box>
-                <Badge variant="subtle" borderRadius="md" color="purple.400" px={4} me={10}>
-                  {contest.type}
-                </Badge>
-
                 <IconButton
                   aria-label="Delete contest"
                   icon={<DeleteIcon />}
@@ -176,7 +174,7 @@ const MyContestList = ({ curUserId }) => {
                   variant="ghost"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteContest(contest.id);
+                    onClickDeleteBtn(contest.id);
                   }}
                 />
               </Box>
@@ -192,22 +190,7 @@ const MyContestList = ({ curUserId }) => {
         <SimplePagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
       </Box>
 
-      <AlertDialog motionPreset="scale" leastDestructiveRef={cancelRef} onClose={onClose} isOpen={isOpen} isCentered>
-        <AlertDialogOverlay />
-
-        <AlertDialogContent>
-          <AlertDialogHeader fontWeight="bold">Delete?</AlertDialogHeader>
-          <AlertDialogBody>Are you sure you want to delete the contest</AlertDialogBody>
-          <AlertDialogFooter gap={2}>
-            <Button ref={cancelRef} onClick={onClose}>
-              No
-            </Button>
-            <Button colorScheme="red" ml={3} onClick={handleConfirmDelete}>
-              Yes
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <Dialog dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
     </Box>
   );
 };

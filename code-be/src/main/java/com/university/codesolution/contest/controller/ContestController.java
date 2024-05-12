@@ -7,6 +7,7 @@ import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.contest.service.ContestService;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -98,7 +99,7 @@ public class ContestController {
     )
     @GetMapping("/get-my-contests")
     public ResponseEntity<List<ContestDTO>> getMyContests(@Valid GetContestsRequest getRequest) {
-        List<ContestDTO> contestDTOs = contestService.getContests(getRequest);
+        List<ContestDTO> contestDTOs = contestService.getMyContests(getRequest);
         log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
     }
@@ -155,5 +156,10 @@ public class ContestController {
         List<ContestDTO> contestDTOs = contestService.getMyContestsByTitle(getRequest);
         log.info(Constants.MY_CONTESTS_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestDTOs);
+    }
+
+    @GetMapping("/get-problems-by-contest")
+    public ResponseEntity<List<Problem>> getProblemsById(@RequestParam("contestId") Long contestId) {
+        return contestService.getProblemsByContest(contestId);
     }
 }
