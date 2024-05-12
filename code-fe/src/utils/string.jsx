@@ -48,13 +48,13 @@ function generateDefaultValue(dataType) {
     case 'double[]':
       return '{0.0}';
     case 'char':
-      return 'a';
+      return '"a"';
     case 'String':
-      return 'abc';
+      return '"abc"';
     case 'char[]':
-      return '{a}';
+      return '{"a"}';
     case 'String[]':
-      return '{abc}';
+      return '{"abc"}';
     case 'boolean':
       return 'true';
     case 'boolean[]':
@@ -96,9 +96,16 @@ function checkInputValidation(dataType, input) {
           .every((element) => isNumber(element.trim()))
       );
     case 'char':
-      return typeof input === 'string' && input.length === 1;
+      return (
+        typeof input === 'string' &&
+        input.length === 3 &&
+        ((input.startsWith('"') && input.endsWith('"')) || (input.startsWith("'") && input.endsWith("'")))
+      );
     case 'String':
-      return typeof input === 'string';
+      return (
+        typeof input === 'string' &&
+        ((input.startsWith('"') && input.endsWith('"')) || (input.startsWith("'") && input.endsWith("'")))
+      );
     case 'char[]':
       return (
         typeof input === 'string' &&
@@ -107,10 +114,27 @@ function checkInputValidation(dataType, input) {
         input
           .substring(1, input.length - 1)
           .split(',')
-          .every((element) => element.length === 1)
+          .every(
+            (element) =>
+              element.trim().length === 3 &&
+              ((element.trim().startsWith('"') && element.trim().endsWith('"')) ||
+                (element.trim().startsWith("'") && element.trim().endsWith("'"))),
+          )
       );
     case 'String[]':
-      return typeof input === 'string' && input.startsWith('{') && input.endsWith('}');
+      return (
+        typeof input === 'string' &&
+        input.startsWith('{') &&
+        input.endsWith('}') &&
+        input
+          .substring(1, input.length - 1)
+          .split(',')
+          .every(
+            (element) =>
+              (element.trim().startsWith('"') && element.trim().endsWith('"')) ||
+              (element.trim().startsWith("'") && element.trim().endsWith("'")),
+          )
+      );
     case 'boolean':
       return isBoolean(input);
     case 'boolean[]':

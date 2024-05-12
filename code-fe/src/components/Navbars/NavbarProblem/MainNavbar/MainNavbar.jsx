@@ -9,39 +9,51 @@ import { Avatar } from '@chakra-ui/react';
 import { getCurrentUserDetail } from '~/auth';
 import DrawerRightDefault from '~/components/Drawers/DrawerRightDefault';
 import { useDisclosure } from '@chakra-ui/react';
-
+import { useNavigate } from 'react-router-dom';
+import DrawerProblemList from '~/components/Drawers/DrawerProblemList';
 import '../../Navbar.scss';
 import LogoGroup from '~/assets/images/Logo-Group.svg';
 import Button from '~/components/Buttons/Button';
+import { ProblemContext } from '~/context/Problem';
 function MainNavbar(props) {
   const [user, setUser] = useState(getCurrentUserDetail());
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { problems } = useContext(ProblemContext);
+  const { isOpenDrawer, onOpenDrawer, onCloseDrawer } = useDisclosure();
+  const { isOpenProblemsList, onOpenProblemsList, onCloseProblemsList } = useDisclosure();
   const iconStyle = { fontSize: 20 };
+  const navigate = useNavigate();
   return (
     <div className="navbar">
-      <img className="navbar--logo" src={LogoGroup} alt="Logo" />
+      <img
+        className="navbar--logo"
+        src={LogoGroup}
+        alt="Logo"
+        onClick={() => {
+          navigate('/home');
+        }}
+      />
       <div className="navbar--list">
         <div className="navbar--list__gap5">
-          <Button icon id="problemslist" onClick={props.onSelectBtn}>
+          <Button icon id="problemslist" onClick={onOpenProblemsList}>
             <FormatListBulletedIcon sx={iconStyle}></FormatListBulletedIcon>
             <span>Problems List</span>
           </Button>
-          <Button icon id="back" onClick={props.onSelectBtn}>
+          {/* <Button icon id="back" onClick={props.onSelectBtn}>
             <ArrowBackIosIcon sx={iconStyle}></ArrowBackIosIcon>
           </Button>
           <Button icon id="next" onClick={props.onSelectBtn}>
             <ArrowForwardIosIcon sx={iconStyle}></ArrowForwardIosIcon>
-          </Button>
+          </Button> */}
           <Button icon id="pickone" onClick={props.onSelectBtn}>
             <ShuffleIcon sx={iconStyle}></ShuffleIcon>
           </Button>
         </div>
-        <div className="navbar--list__gap5">
+        {/* <div className="navbar--list__gap5">
           <Button icon disable>
             <AccessTimeIcon sx={iconStyle}></AccessTimeIcon>
             <span style={iconStyle}>11:25</span>
           </Button>
-        </div>
+        </div> */}
         <div className="navbar--list__gap5">
           <Button light id="compile" onClick={props.onSelectBtn}>
             Compile
@@ -52,12 +64,17 @@ function MainNavbar(props) {
         </div>
       </div>
       <div className="navbar__group">
-        <Button icon id="notify" onClick={props.onSelectBtn}>
+        {/* <Button icon id="notify" onClick={props.onSelectBtn}>
           <NotificationsNoneIcon sx={iconStyle}></NotificationsNoneIcon>
-        </Button>
-        <Avatar size="lg" name={user.fullName} onClick={onOpen} src={user.urlImage} />
+        </Button> */}
+        <Avatar size="lg" name={user?.fullName} onClick={onOpenDrawer} src={user?.urlImage} />
       </div>
-      <DrawerRightDefault user={user} isOpen={isOpen} onClose={onClose}></DrawerRightDefault>
+      <DrawerProblemList
+        problems={problems}
+        isOpen={isOpenProblemsList}
+        onClose={onCloseProblemsList}
+      ></DrawerProblemList>
+      <DrawerRightDefault user={user} isOpen={isOpenDrawer} onClose={onCloseDrawer}></DrawerRightDefault>
     </div>
   );
 }

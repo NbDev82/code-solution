@@ -13,12 +13,12 @@ import { compileCode, runCode } from '~/services/SubmitCodeService';
 
 function SubmitCodeScreen() {
   const location = useLocation();
-  const { problem, setProblem, user, setResult, code, language, activeMenuItem, fetchProblem } =
+  const { problem, setProblem, user, setResult, code, language, activeMenuItem, fetchProblem ,setProblems} =
     useContext(ProblemContext);
-
-  const problemId = location.state?.problemId;
+    
   useEffect(() => {
-    fetchProblem(problemId).then((data) => {
+    setProblems(location.state?.problems)
+    fetchProblem(location.state?.problemId).then((data) => {
       setProblem(data);
     });
   }, []);

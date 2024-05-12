@@ -122,8 +122,7 @@ function Problems(props) {
           </div>
         </div>
         <div className={styles.problems__container_col_40}>
-          <CalendarBasic></CalendarBasic>
-
+          {/* <CalendarBasic></CalendarBasic> */}
           <DoughnutChart
             title="Total number of problems solved"
             labels={['Easy', 'Normal', 'Hard']}

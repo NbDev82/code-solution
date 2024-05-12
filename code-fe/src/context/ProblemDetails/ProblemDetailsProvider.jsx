@@ -1,6 +1,4 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import ProblemDetailsContext from './ProblemDetailsContext';
 import { getCurrentUserDetail } from '~/auth';
 import {
@@ -23,9 +21,10 @@ function ProblemDetailsProvider({ children }) {
   const [parameters, setParameters] = useState([]);
   const [quantityParam, setquantityParam] = useState(parameters.length);
   const [testcases, setTestcases] = useState([]);
-  const [dialogMsg, setDialogMsg] = useState('안년하세요? 제 이름은 디이예요.');
-  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS, msg: dialogMsg });
+  const [dialogProps, setDialogProps] = useState({ ...DIALOG_DEFAULT_PROPS});
   const [paramsError, setParamsError] = useState([]);
+  const [libraries, setLibraries] = useState([]);
+  const dialogRef = useRef();
   const navigate = useNavigate();
   const fetchTopics = async () => {
     try {
@@ -69,8 +68,17 @@ function ProblemDetailsProvider({ children }) {
 
   const addProblem = async () => {
     try {
-      const request = queryString.stringify({ problem, parameters, testcases });
-      console.log(JSON.stringify({ problem, parameters, testcases }));
+      const request = { problem, libraries, parameters, testcases };
+      request.parameters.forEach((param) => {
+        delete param.id;
+      });
+      request.testcases.forEach((testcase) => {
+        delete testcase.id;
+        testcase.input.forEach((input) => {
+          delete input.paramId;
+        });
+      });
+      console.log(JSON.stringify(request));
       const response = await addProblemService(request);
       return response.data;
     } catch (error) {
@@ -128,6 +136,7 @@ function ProblemDetailsProvider({ children }) {
     input: danh sách param
     output: [paramId,...]
   */
+
   const getIdParamsInvalid = (params) => {
     if (!params) return [];
     const paramNames = {};
@@ -157,6 +166,7 @@ function ProblemDetailsProvider({ children }) {
     input: danh sách testcase
     output: [testcaseID:'',...]
   */
+
   const getIdTestcasesInvalid = (testcases) => {
     if (!testcases) return [];
     const invalidIds = [];
@@ -180,6 +190,97 @@ function ProblemDetailsProvider({ children }) {
     return invalidIds;
   };
 
+  const getDataTescasesToXLSX = (testcasesList) => {
+    if (!testcasesList) return [];
+    const data = [['testcase']];
+
+    try {
+      /*
+        Nếu chưa có testcases thì khi download thì file .xlsx sẽ có sẵn 5 testcase mẫu
+        Nếu testcases đã có dữ liệu thì theo dữ liệu của testcases mà tạo file
+      */
+      if (testcasesList.length === 0) {
+        const input = [];
+        for (let i = 0; i < 5; i++) {
+          parameters.forEach((param) => {
+            input.push({
+              paramId: param?.id,
+              paramName: param?.name,
+              datatype: param?.datatype,
+              value: generateDefaultValue(param?.datatype),
+            });
+          });
+          testcasesList.push({
+            id: testcases.length + 1,
+            input: [...input],
+            output: generateDefaultValue(problem?.outputDataType),
+          });
+          input.splice(0);
+        }
+      }
+      parameters.forEach((param) => data.push([param?.name + `(${param?.datatype})`]));
+
+      for (let i = 1; i <= testcasesList.length; i++) {
+        data[0].push(i);
+      }
+      let inputValues = [];
+      for (let i = 0; i < testcasesList.length; i++) {
+        inputValues = testcasesList[i]?.input.map((param) => param.value);
+        inputValues.forEach((value, index) => {
+          data[index + 1].push(value);
+        });
+      }
+
+      data.push([`output_data (${problem?.outputDataType})`]);
+      for (let i = 0; i < testcasesList.length; i++) {
+        data[data.length - 1].push(testcasesList[i]?.output);
+      }
+    } catch (error) {
+      setDialogProps((prev) => ({
+        ...prev,
+        msg: 'Error convert data to file .xlsx:' + error,
+        isOpen: true,
+        onYesClick: () => {},
+      }));
+    }
+    /*
+      Data example:
+      data = [
+            ['testcase', 1, 2, 3, 4],
+            ['x', 1, 2, 2, 2],
+            ['y', 2, 2, 2, 2],
+            ['z', 2, 2, 2, 2],
+            ['output_data', 2, 3, 5, 6],
+          ];
+    */
+
+    return data;
+  };
+
+  const getDataXLSXToTestcases = (dataXLSX) => {
+    const testcasesList = [];
+    const input = [];
+
+    for (let i = 1; i <= dataXLSX[0].length - 1; i++) {
+      parameters.forEach((param) => {
+        input.push({
+          paramId: param?.id,
+          paramName: param?.name,
+          datatype: param?.datatype,
+          value: dataXLSX[param?.id][i],
+        });
+      });
+      testcasesList.push({
+        id: testcasesList.length + 1,
+        input: [...input],
+        output: dataXLSX[dataXLSX.length - 1][i],
+      });
+      input.splice(0);
+    }
+    if (getIdTestcasesInvalid(testcasesList).length > 0) return [];
+    return testcasesList;
+  };
+
   return (
     <ProblemDetailsContext.Provider
       value={{
@@ -193,6 +294,8 @@ function ProblemDetailsProvider({ children }) {
         setTopics,
         step,
         setStep,
+        libraries,
+        setLibraries,
         parameters,
         setParameters,
         testcases,
@@ -209,10 +312,12 @@ function ProblemDetailsProvider({ children }) {
         getIdTestcasesInvalid,
         addProblem,
         updateProblem,
+        getDataTescasesToXLSX,
+        getDataXLSXToTestcases,
       }}
     >
       {children}
-      <Dialog dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
+      <Dialog ref={dialogRef} dialogProps={dialogProps} setDialogProps={setDialogProps}></Dialog>
     </ProblemDetailsContext.Provider>
   );
 }

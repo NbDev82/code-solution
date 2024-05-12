@@ -13,7 +13,7 @@ function ProblemProvider({ children }) {
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('java');
   const [user, setUser] = useState(getCurrentUserDetail());
-
+  const [problems, setProblems] = useState([]);
   const fetchProblem = async (problemId) => {
     try {
       const response = await getProblem(queryString.stringify({ problemId }));
@@ -40,6 +40,8 @@ function ProblemProvider({ children }) {
         language,
         setLanguage,
         fetchProblem,
+        problems,
+        setProblems,
       }}
     >
       {children}

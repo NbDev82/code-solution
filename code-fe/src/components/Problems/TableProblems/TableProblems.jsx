@@ -42,7 +42,7 @@ const TableProblems = memo((props) => {
 
   const handleSelectProblem = (problem) => {
     navigate(`${location.pathname}/${problem.title.toLowerCase().replace(' ', '-')}`, {
-      state: { problemId: problem.id },
+      state: { problemId: problem.id, problems: props.problems },
     });
   };
   return (
