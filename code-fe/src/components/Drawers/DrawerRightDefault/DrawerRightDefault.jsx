@@ -45,6 +45,12 @@ DrawerRightDefault.defaultProps = {
 function DrawerRightDefault(props) {
   const user = props.user;
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    debugger;
+    localStorage.removeItem('data');
+    navigate('/sign-in');
+  };
   return (
     <Drawer isOpen={props.isOpen} placement="right" onClose={props.onClose} size={'sm'}>
       <DrawerOverlay />
@@ -143,15 +149,13 @@ function DrawerRightDefault(props) {
              className={styles.drawer__item}
               style={{ textDecoration: 'none', border: 'none' }}
             >
-              <EditIcon sx={{ fontSize: 24 }}></EditIcon>
-              <p>Edit Profile</p>
-            </div> */}
+              <InsightsIcon sx={{ fontSize: 24 }}></InsightsIcon>
+              <p>Statistic</p>
+            </Link>
             <div
-              onClick={() => {
-                navigate(`/sign-in`);
-              }}
-              className={styles.drawer__item}
-              style={{ textDecoration: 'none', border: 'none' }}
+              onClick={handleLogout}
+              className="drawer__item"
+              style={{ textDecoration: 'none', border: 'none', cursor: 'pointer' }}
             >
               <LogoutIcon sx={{ fontSize: 24 }}></LogoutIcon>
               <p>Logout</p>
