@@ -106,8 +106,13 @@ export default function SignUp() {
         }
       })
       .catch((error) => {
-        toast.error('An error occurred. Please try again.');
-        console.error(error);
+        if (error.response.status == 400 || error.response.status == 404) {
+          if (error.response.data.message === 'user.login.phone_number_already_exists') {
+            alert('Phone Number Already exists');
+          }
+        } else {
+          toast.error('Something went wrong on the server!');
+        }
       })
       .finally(() => {
         setIsSubmitting(false);

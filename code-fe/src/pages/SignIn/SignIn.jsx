@@ -80,7 +80,8 @@ const SignIn = () => {
     //submit the data to server to generate token
     loginUser(loginDetail)
       .then((data) => {
-        if (data.message === 'user.login.login_successfully')
+        if (data.message === 'user.login.login_successfully') {
+          debugger;
           //save the data to localStorage
           doLogin(data, () => {
             //redirect to user dashboard page
@@ -91,15 +92,21 @@ const SignIn = () => {
             navigate('/');
           });
 
-        toast.success('Login successful!');
+          toast.success('Login successful!');
+        }
       })
       .catch((error) => {
+        debugger;
         setIsSubmitting(false);
 
         if (error.response.status == 400 || error.response.status == 404) {
-          toast.error(error.response.data.message);
+          if (error.response.data.message === 'user.register.password_not_match') {
+            alert('Password failed');
+          } else {
+            alert('PhoneNumber is not exists');
+          }
         } else {
-          toast.error('Something went wrong  on sever !!');
+          toast.error('Something went wrong on the server!');
         }
       });
   };

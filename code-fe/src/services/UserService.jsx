@@ -6,6 +6,7 @@ export const signUp = (user) => {
 };
 
 export const loginUser = (loginDetail) => {
+  debugger;
   return httpRequest.post('/api/login', loginDetail).then((response) => response.data);
 };
 
