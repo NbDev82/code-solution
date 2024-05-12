@@ -11,29 +11,43 @@ import { useLocation } from 'react-router-dom';
 import ContestSkeleton from '~/components/Skeletons/ContestSkeleton';
 import { AddIcon } from '@chakra-ui/icons';
 import EmptyListIcon from '~/components/CustomIcons/EmptyListIcon';
+import { ensureMinLoadingDuration } from '~/utils/constants';
+
+const MIN_LOADING_DURATION = 1000;
 
 const UpdateContest = () => {
   const location = useLocation();
   const [curUser, setCurUser] = useState(getCurrentUserDetail());
-  const [curContest, setCurContest] = useState(location.state);
+  const [curContest, setCurContest] = useState(location.state.curContest);
   const [isContestProblemsLoading, setIsContestProblemsLoading] = useState(false);
   const [contestProblems, setContestProblems] = useState([]);
 
   useEffect(() => {
     console.log('curContest: ' + JSON.stringify(curContest));
+    fetchContestProblems();
   }, [curContest]);
 
+  const fetchContestProblems = async () => {
+    setIsContestProblemsLoading(true);
+    const startTime = Date.now();
+    try {
+      let contestProblems = await ContestService.getProblemsByContest(curContest.id);
+      setContestProblems(contestProblems);
+
+      await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
+    } catch (error) {
+      console.error('Error fetching my contests:', error);
+      setContestProblems([]);
+    } finally {
+      setIsContestProblemsLoading(false);
+    }
+  };
+
   const onClickUpdateBtn = () => {
-    ContestService.addContest(curContest);
+    ContestService.updateContest(curContest);
   };
 
   const updateContest = (updatedContest) => {
-    setCurContest(updatedContest);
-  };
-
-  const updateParticipantIds = (participantIds) => {
-    const updatedContest = { ...curContest };
-    updatedContest.participantIds = participantIds;
     setCurContest(updatedContest);
   };
 
@@ -97,7 +111,6 @@ const UpdateContest = () => {
           <CardBody>
             <InviteUsersForm
               curUserId={curUser.id}
-              updateParticipantIds={updateParticipantIds}
             />
           </CardBody>
         </Card>

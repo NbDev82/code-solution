@@ -188,7 +188,7 @@ public class initData {
         final int ONE_HOUR_IN_MILIS = 60 * 60 * 1000;
         final int TWO_HOURS_IN_MILIS = 2 * 60 * 60 * 1000;
         Random random = new Random();
-
+      
         for (int i = 0; i < NUMBERS_OF_CONTESTS; i++) {
             String title = "Weekly " + (i + 1);
             String desc = "This is for beginner " + (i + 1);

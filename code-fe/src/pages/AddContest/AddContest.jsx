@@ -15,10 +15,9 @@ function AddContest() {
   const [curContest, setCurContest] = useState({
     id: 1,
     ownerId: curUser.id,
-    imgUrl: 'https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png',
     title: 'Weekly contest 1',
     desc: 'It is good for practicing',
-    duration: 3660000,
+    durationInMillis: 3660000,
     isDeleted: false,
     problemIds: [],
     participantIds: []
@@ -31,10 +30,10 @@ function AddContest() {
 
   const onClickAddBtn = () => {
     ContestService.addContest(curContest)
-      .then(result => {
-        console.log(`onAddBtnClick() - is Contest Added: ${result}`);
+      .then(addedId => {
+        console.log(`onAddBtnClick() - is Contest Added: ${addedId}`);
 
-        if (result) {
+        if (addedId) {
           toast({
             title: `Add contest successfully`,
             position: 'top-right',
@@ -42,9 +41,11 @@ function AddContest() {
             isClosable: true,
           })
 
+          curContest.id = addedId;
           navigate(config.routes.update_contest, {
-            state: curContest
+            state: { curContest }
           });
+          debugger
         } else {
           toast({
             title: `Add contest unsuccessfully`,
@@ -56,7 +57,7 @@ function AddContest() {
       })
       .catch(error => {
         console.error(error);
-      });;
+      });
   };
 
   const updateContest = (updatedContest) => {

@@ -7,7 +7,7 @@ import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.contest.service.ContestService;
-import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,11 +43,11 @@ public class ContestController {
             }
     )
     @PostMapping("/add-contest")
-    public ResponseEntity<String> addContest(@RequestBody @Valid AddContestRequest addRequest) {
-        contestService.addContestWithProblemsAndParticipants(addRequest);
+    public ResponseEntity<String> addContestWithProblemsAndParticipants(@RequestBody @Valid AddContestRequest addRequest) {
+        ContestDTO contestDTO = contestService.addContestWithProblemsAndParticipants(addRequest);
         log.info(Constants.CONTEST_ADDED_SUCCESSFULLY);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Constants.CONTEST_ADDED_SUCCESSFULLY);
+                .body( String.valueOf(contestDTO.getId()) );
     }
 
     @Operation(
@@ -159,7 +159,7 @@ public class ContestController {
     }
 
     @GetMapping("/get-problems-by-contest")
-    public ResponseEntity<List<Problem>> getProblemsById(@RequestParam("contestId") Long contestId) {
-        return contestService.getProblemsByContest(contestId);
+    public ResponseEntity<List<ProblemDTO>> getProblemsByContest(@RequestParam("contestId") Long contestId) {
+        return ResponseEntity.ok(contestService.getProblemsByContest(contestId));
     }
 }

@@ -37,15 +37,16 @@ const MyContestList = ({ curUserId }) => {
   const toast = useToast();
 
   useEffect(() => {
-    fetchContests();
+    fetchMyContests();
   }, [curUserId, currentPage]);
 
-  const fetchContests = async () => {
+  const fetchMyContests = async () => {
     setIsContestsLoading(true);
     const startTime = Date.now();
     try {
       const contests = await ContestService.getMyContests(curUserId, currentPage, 10);
       setMyContests(contests);
+      console.log(contests);
 
       await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
     } catch (error) {
@@ -68,6 +69,25 @@ const MyContestList = ({ curUserId }) => {
 
   const searchContests = () => {
     console.log('searching...');
+
+    console.log(searchText);
+    fetchMyContestsByTitle(searchText);
+  };
+
+  const fetchMyContestsByTitle = async (title) => {
+    setIsContestsLoading(true);
+    const startTime = Date.now();
+    try {
+      const contests = await ContestService.getMyContestsByTitle(curUserId, title);
+      setMyContests(contests);
+
+      await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
+    } catch (error) {
+      console.error('Error fetching my contests:', error);
+      setMyContests([]);
+    } finally {
+      setIsContestsLoading(false);
+    }
   };
 
   const onClickDeleteBtn = (contestId) => {
@@ -102,9 +122,12 @@ const MyContestList = ({ curUserId }) => {
     }));
   };
 
-  const handleClickContest = (contestId) => {
-    console.log('On handleClickContest() method');
-    // 2 case - owner and viewer
+  const onClickContestItem = (curContest) => {
+    console.log('On onClickContestItem() method');
+
+    navigate(config.routes.update_contest, {
+      state: { curContest }
+    });
   };
 
   const onClickAddBtn = () => {
@@ -152,17 +175,17 @@ const MyContestList = ({ curUserId }) => {
               justifyContent="space-between"
               mb={4}
               cursor="pointer"
-              onClick={() => handleClickContest(contest.id)}
+              onClick={() => onClickContestItem(contest)}
             >
               <Box>
-                <Image src={contest.imageUrl} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
+                <Image src={"https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png"} alt={contest.title} width="124px" height="60px" borderRadius="xl" />
               </Box>
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                   {contest.title}
                 </Text>
                 <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                  Duration: {formatDuration(contest.duration)}
+                  Duration: {formatDuration(contest.durationInMillis)}
                 </Text>
               </Box>
 

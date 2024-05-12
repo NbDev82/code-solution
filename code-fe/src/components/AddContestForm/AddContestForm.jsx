@@ -4,12 +4,6 @@ import { SystemUpdateAlt } from '@mui/icons-material';
 import React from 'react';
 
 const AddContestForm = ({ contest, onUpdateContest }) => {
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const updatedContest = { ...contest, imageUrl: URL.createObjectURL(file) };
-    onUpdateContest(updatedContest);
-  };
-
   const handleInputTextChange = (e) => {
     const { name, value } = e.target;
     const updatedContest = { ...contest, [name]: value };
@@ -39,20 +33,16 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
       <Flex alignContent="center" justifyContent="center" gap={10} mt={10}>
         <Box alignContent="center" justifyContent="center">
           <Stack>
-            <Image src={contest.imgUrl} alt={contest.title} width="400px" height="200" borderRadius="2xl" />
-            <Input type="file" accept="image/*" display="none" onChange={handleImageChange} id="image-picker" />
-            <label htmlFor="image-picker">
-              <IconButton as="span" aria-label="Upload Image" icon={<SystemUpdateAlt />} />
-            </label>
+            <Image src={"https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png"} alt={contest?.title} width="400px" height="200" borderRadius="2xl" />
           </Stack>
         </Box>
 
         <Box>
           <FormLabel>Title:</FormLabel>
-          <Input name="title" placeholder="Type..." value={contest.title} onChange={handleInputTextChange} />
+          <Input name="title" placeholder="Type..." value={contest?.title} onChange={handleInputTextChange} />
 
           <FormLabel mt={6}>Description:</FormLabel>
-          <Textarea name="desc" placeholder="Type..." value={contest.desc} onChange={handleInputTextChange} />
+          <Textarea name="desc" placeholder="Type..." value={contest?.desc} onChange={handleInputTextChange} />
 
           <Flex align="center" mt={6}>
             <FormLabel>Duration: </FormLabel>
@@ -62,7 +52,7 @@ const AddContestForm = ({ contest, onUpdateContest }) => {
               size="md"
               type="time"
               mr={4}
-              value={new Date(contest.duration).toISOString().substr(11, 8)}
+              value={new Date(contest.durationInMillis).toISOString().substr(11, 8)}
               onChange={handleDateTimeChange}
             />
           </Flex>

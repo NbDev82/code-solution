@@ -8,13 +8,6 @@ import java.util.List;
 @Builder
 public record AddContestRequest(
     @Schema(
-        description = "Image url of the contest",
-        example = "https://leetcode.com/_next/static/images/weekly-default-553ede7bcc8e1b4a44c28a9e4a32068c.png",
-        requiredMode = Schema.RequiredMode.REQUIRED
-    )
-    String imgUrl,
-
-    @Schema(
         description = "Title of the contest",
         example = "Weekly contest 1",
         requiredMode = Schema.RequiredMode.REQUIRED
