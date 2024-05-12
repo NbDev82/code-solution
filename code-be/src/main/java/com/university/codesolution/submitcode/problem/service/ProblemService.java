@@ -11,12 +11,13 @@ public interface ProblemService {
 
     <T> T findById(Long problemId, Class<T> returnType);
     List<Problem> getAll();
+    List<ProblemDTO> getAllDTOs();
 
-    List<Problem> getProblemsByOwner(Long userId);
+    List<ProblemDTO> getProblemsByOwner(Long userId);
 
     List<ProblemDTO> getProfileProblemsByOwner(Long userId);
 
-    List<Problem> getProblemsByOwnerAndName(Long userId, String problemName);
+    List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName);
 
     Boolean add(AddProblemRequest request);
 

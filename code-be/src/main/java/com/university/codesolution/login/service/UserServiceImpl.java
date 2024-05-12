@@ -12,6 +12,8 @@ import com.university.codesolution.login.repository.UserRepos;
 import com.university.codesolution.login.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,6 +101,20 @@ public class UserServiceImpl implements UserService  {
     @Override
     public void deleteUser(int userId) {
 
+    }
+
+    @Override
+    public List<UserDTO> getUsersExcludingCurrentUser(Long curUserId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<User> users = userRepos.getUsersExcludingCurrentUser(curUserId, pageable);
+        return uMapper.toDTOs(users);
+    }
+
+    @Override
+    public List<UserDTO> getUsersByNameExcludingCurrentUser(String fullName, Long curUserId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<User> users = userRepos.getUsersByNameExcludingCurrentUser(fullName, curUserId, pageable);
+        return uMapper.toDTOs(users);
     }
 
     @Override

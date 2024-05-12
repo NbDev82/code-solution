@@ -67,8 +67,13 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<Problem> getProblemsByOwner(Long userId) {
-        return problemRepository.getProblemsByOwner(userId);
+    public List<ProblemDTO> getAllDTOs() {
+        return mapper.toDTOs(getAll());
+    }
+
+    @Override
+    public List<ProblemDTO> getProblemsByOwner(Long userId) {
+        return mapper.toDTOs(problemRepository.getProblemsByOwner(userId));
     }
 
     @Override
@@ -77,8 +82,8 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public List<Problem> getProblemsByOwnerAndName(Long userId, String problemName) {
-        return problemRepository.getProblemsByOwnerAndName(userId, problemName);
+    public List<ProblemDTO> getProblemsByOwnerAndName(Long userId, String problemName) {
+        return mapper.toDTOs(problemRepository.getProblemsByOwnerAndName(userId, problemName));
     }
 
     @Override
