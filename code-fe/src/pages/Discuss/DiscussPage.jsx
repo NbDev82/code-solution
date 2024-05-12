@@ -17,7 +17,7 @@ import { getCurrentUserDetail } from '~/auth';
 import { searchDiscussByTitle } from '~/services/DiscussService';
 import { Icon } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-
+import { getToken } from '~/auth';
 const DiscussPage = () => {
   const [postContent, setPostContent] = useState({
     content: [],
@@ -59,6 +59,18 @@ const DiscussPage = () => {
       }
     }
   };
+  useEffect(() => {
+    const checkToken = () => {
+      // Check if token exists
+      const token = getToken();
+      if (!token) {
+        // Redirect to login page if token doesn't exist
+        window.location.href = '/sign-in';
+      }
+    };
+
+    checkToken();
+  }, []);
 
   useEffect(() => {
     changePage(currentPage);
@@ -150,9 +162,6 @@ const DiscussPage = () => {
                           value={searchKeyword}
                           onChange={handleSearchInputChange}
                         />{' '}
-                        {/* <button style={{ backgroundColor: 'red' }} onClick={handleSearchSubmit}>
-                          Search
-                        </button> */}
                       </span>
 
                       <div>
