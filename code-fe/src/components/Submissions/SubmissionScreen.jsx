@@ -1,18 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './SubmissionScreen.scss';
 import axios from 'axios';
-
 import { ProblemContext } from '~/context/Problem';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    background: {
+      paper: '#ffffff',
+    },
+  },
+});
 
 function SubmissionScreen() {
-  const { user, problem, problemId } = useContext(ProblemContext);
+  const { user, problem } = useContext(ProblemContext);
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
     fetchSubmissions(user.id, problem.id).then((data) => {
+      console.log(data);
       setSubmissions(data);
     });
-  }, [user, problemId]);
+  }, [user, problem]);
 
   const fetchSubmissions = async (userId, problemId) => {
     try {
@@ -30,51 +47,66 @@ function SubmissionScreen() {
   };
 
   return (
-    <>
-      <table>
-        <thead className="table__head">
-          <tr>
-            <th className="table__cell table__cell--status">Status</th>
-            <th className="table__cell table__cell--language">Language</th>
-            <th className="table__cell table__cell--runtime">Runtime</th>
-            <th className="table__cell table__cell--memory">Memory</th>
-            <th className="table__cell table__cell--notes">Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {submissions.length > 0 && (
-            <>
-              {submissions.map((submission) => (
-                <tr key={submission.id} className="table__row">
-                  <td className="table__cell table__cell--status">
-                    <strong className={`table__status-color--${submission.status.toLowerCase()}`}>
-                      {submission.status}
-                    </strong>
-                    <h5>{submission.createdAt}</h5>
-                  </td>
-                  <td className="table__cell table__cell--language">
-                    <div className="table__icon--language">{submission.language}</div>
-                  </td>
-                  <td className="table__cell table__cell--runtime">
-                    <div className="table__icon table__runtime-icon" />
-                    {submission.runtime}ms
-                  </td>
-                  <td className="table__cell table__cell--memory">
-                    <div className="table__icon table__memory-icon" />
-                    {submission.memory}MB
-                  </td>
-                  <td className="table__cell table__cell--notes">
-                    <div className="table__icon table__notes-icon" />
-                    {/* Add notes logic if available */}
-                  </td>
-                </tr>
-              ))}
-            </>
-          )}
-        </tbody>
-      </table>
-      {submissions.length === 0 && <p className="centered">No submissions yet.</p>}
-    </>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          display: 'flex',
+          height: '78vh',
+        }}
+      >
+        <Paper elevation={3} sx={{ padding: 2, maxHeight: '78vh', overflow: 'auto' }}>
+          <Box>
+            <TableContainer
+              component={Paper}
+              // sx={{
+              //   backgroundColor: 'white',
+              //   borderRadius: 1,
+              // }}
+            >
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Language</TableCell>
+                    <TableCell>Runtime</TableCell>
+                    <TableCell>Memory</TableCell>
+                    <TableCell>Notes</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {submissions.length > 0 ? (
+                    submissions.map((submission) => (
+                      <TableRow key={submission.id} hover>
+                        <TableCell>
+                          <Typography
+                            variant="body1"
+                            color={submission.status.toLowerCase() === 'accepted' ? 'primary' : 'error'}
+                            fontWeight="bold"
+                          >
+                            {submission.status}
+                          </Typography>
+                          <Typography variant="caption">{submission.createdAt}</Typography>
+                        </TableCell>
+                        <TableCell>{submission.language}</TableCell>
+                        <TableCell>{submission.runtime} ms</TableCell>
+                        <TableCell>{submission.memory} MB</TableCell>
+                        <TableCell>{/* Add notes logic if available */}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} align="center">
+                        <Typography variant="body1">No submissions yet.</Typography>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Paper>
+      </Box>
+    </ThemeProvider>
   );
 }
 
