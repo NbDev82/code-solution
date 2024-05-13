@@ -4,7 +4,7 @@ function SimplePagination({ currentPage = 1, setCurrentPage, totalPages = 5 }) {
   const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
   const goToPreviousPage = () => {
-    if (currentPage > 1) {
+    if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
   };

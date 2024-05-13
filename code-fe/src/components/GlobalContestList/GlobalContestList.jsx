@@ -23,7 +23,7 @@ const MIN_LOADING_DURATION = 1000;
 
 const GlobalContestList = ({ curUserId }) => {
   const [searchText, setSearchText] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(10);
   const [isContestsLoading, setIsContestsLoading] = useState(false);
   const [globalContests, setGlobalContests] = useState(myDemoContests);
