@@ -6,6 +6,7 @@ import com.university.codesolution.contest.request.AddContestRequest;
 import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
 import org.springframework.http.ResponseEntity;
 
@@ -19,6 +20,6 @@ public interface ContestService {
     ContestDTO getById(Long contestId);
     void markContestAsDeleted(Long contestId);
     List<ContestDTO> getMyContestsByTitle(GetContestsRequestByTitle getRequest);
-    ResponseEntity<List<Problem>> getProblemsByContest(Long contestId);
+    List<ProblemDTO> getProblemsByContest(Long contestId);
     Contest getEntityById(Long contestId);
 }

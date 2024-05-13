@@ -9,13 +9,13 @@ const addContest = async (contest) => {
 
     if (response.status === 201) {
       console.log('Add successful');
-      return true;
+      return response.data;;
     } else {
-      return false;
+      return null;
     }
   } catch (error) {
     console.error('Add failed', error);
-    return false;
+    return null;
   }
 };
 
@@ -79,9 +79,21 @@ const getMyContests = async (userId, page = 1, size = 10) => {
   return response.data;
 };
 
+const getMyContestsByTitle = async (userId, title, page = 1, size = 10) => {
+  const apiUrl = `${CONTEST_API_URL}/get-my-contests?userId=${userId}&title=${title}&page=${page}&size=${size}`;
+  const response = await axios.get(apiUrl);
+  return response.data;
+};
+
 const getGlobalContests = async (userId, page = 1, size = 10) => {
   const apiUrl = `${CONTEST_API_URL}/get-global-contests?userId=${userId}&page=${page}&size=${size}`;
   const response = await axios.get(apiUrl);
+  return response.data;
+};
+
+const getProblemsByContest = async (contestId) => {
+  const requestURL = `${CONTEST_API_URL}/get-problems-by-contest?contestId=${contestId}`;
+  const response = await axios.get(requestURL);
   return response.data;
 };
 
@@ -91,7 +103,9 @@ const ContestService = {
   updateContestStatus,
   deleteContest,
   getMyContests,
-  getGlobalContests
+  getMyContestsByTitle,
+  getGlobalContests,
+  getProblemsByContest
 };
 
 export default ContestService;

@@ -13,12 +13,13 @@ import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.login.entity.User;
 import com.university.codesolution.login.service.UserService;
+import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import com.university.codesolution.submitcode.problem.entity.Problem;
+import com.university.codesolution.submitcode.problem.mapper.ProblemMapper;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import java.util.List;
 public class ContestServiceImpl implements ContestService {
 
     private final ContestMapper cMapper = ContestMapper.INSTANCE;
+    private final ProblemMapper pMapper = ProblemMapper.INSTANCE;
+
     private final ContestRepos contestRepos;
     private final UserService userService;
     private final ProblemService problemService;
@@ -39,7 +42,6 @@ public class ContestServiceImpl implements ContestService {
         User owner = userService.getEntityUserById( addRequest.ownerId() );
 
         Contest contest = Contest.builder()
-                .imgUrl( addRequest.imgUrl() )
                 .title( addRequest.title() )
                 .desc( addRequest.desc() )
                 .durationInMillis(addRequest.durationInMillis())
@@ -78,12 +80,13 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public ContestDTO update(UpdateContestRequest updateRequest) {
-        ContestDTO contestDTO = getById( updateRequest.id() );
+        Contest contest = getEntityById( updateRequest.id() );
 
-        contestDTO.setTitle( updateRequest.title() );
-        contestDTO.setDesc( updateRequest.desc() );
+        contest.setTitle( updateRequest.title() );
+        contest.setDesc( updateRequest.desc() );
+        contest.setDurationInMillis( updateRequest.durationInMillis() );
 
-        return save(contestDTO);
+        return save(contest);
     }
 
     @Override
@@ -121,8 +124,8 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ResponseEntity<List<Problem>> getProblemsByContest(Long contestId) {
-        return null;
+    public List<ProblemDTO> getProblemsByContest(Long contestId) {
+        return pMapper.toDTOs(contestRepos.getProblemsByContest(contestId));
     }
 
     @Override

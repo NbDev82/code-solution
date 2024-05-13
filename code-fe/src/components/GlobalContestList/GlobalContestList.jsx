@@ -109,7 +109,7 @@ const GlobalContestList = ({ curUserId }) => {
                     {contest.title}
                   </Text>
                   <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                    Duration: {formatDuration(contest.duration)}
+                    Duration: {formatDuration(contest.durationInMillis)}
                   </Text>
                 </Box>
               </Flex>

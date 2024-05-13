@@ -58,19 +58,7 @@ function ContestInvitation() {
                 <strong>Description:</strong> {curContest.desc}
               </Text>
               <Text fontSize="2xl" py="1" noOfLines={1}>
-                <strong>Start time:</strong> {curContest.startTime}
-              </Text>
-              <Text fontSize="2xl" py="1" noOfLines={1}>
-                <strong>End time:</strong> {curContest.endTime}
-              </Text>
-              <Text fontSize="2xl" py="1" noOfLines={1}>
-                <strong>Duration:</strong> {curContest.duration}
-              </Text>
-              <Text fontSize="2xl" py="1" noOfLines={1}>
-                <strong>Type:</strong> {curContest.type}
-              </Text>
-              <Text fontSize="2xl" py="1" noOfLines={1}>
-                <strong>Status:</strong> {curContest.status}
+                <strong>Duration:</strong> {curContest.durationInMillis}
               </Text>
             </CardBody>
 

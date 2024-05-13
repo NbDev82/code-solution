@@ -19,9 +19,6 @@ public class Contest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "img_url")
-    private String imgUrl;
-
     private String title;
 
     @Column(name = "description", columnDefinition = "TEXT")

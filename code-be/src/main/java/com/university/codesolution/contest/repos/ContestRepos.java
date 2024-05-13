@@ -1,6 +1,7 @@
 package com.university.codesolution.contest.repos;
 
 import com.university.codesolution.contest.entity.Contest;
+import com.university.codesolution.submitcode.problem.entity.Problem;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,7 @@ public interface ContestRepos extends JpaRepository<Contest, Long> {
     List<Contest> getMyContestsByTitle(@Param("userId") Long userId,
                                        @Param("title") String title,
                                        Pageable pageable);
+
+    @Query("SELECT c.problems FROM Contest c WHERE c.id = :contestId")
+    List<Problem> getProblemsByContest(@Param("contestId") Long contestId);
 }
