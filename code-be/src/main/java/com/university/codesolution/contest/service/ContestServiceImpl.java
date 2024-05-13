@@ -18,6 +18,7 @@ import com.university.codesolution.submitcode.problem.entity.Problem;
 import com.university.codesolution.submitcode.problem.mapper.ProblemMapper;
 import com.university.codesolution.submitcode.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -92,8 +93,10 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public List<ContestDTO> getMyContests(GetContestsRequest getRequest) {
         Pageable pageable = PageRequest.of(getRequest.page(), getRequest.size());
-        List<Contest> contests = contestRepos.getByOwnerId(getRequest.userId(), pageable);
-        return cMapper.toDTOs(contests);
+        Page<Contest> contestsPage = contestRepos.getByOwnerId(getRequest.userId(), pageable);
+        List<Contest> contestsList = contestsPage.stream()
+                .toList();
+        return cMapper.toDTOs(contestsList);
     }
 
     @Override

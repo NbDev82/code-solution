@@ -28,7 +28,7 @@ const MyContestList = ({ curUserId }) => {
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(10);
   const [isContestsLoading, setIsContestsLoading] = useState(false);
   const [myContests, setMyContests] = useState(myDemoContests);
@@ -44,6 +44,7 @@ const MyContestList = ({ curUserId }) => {
     setIsContestsLoading(true);
     const startTime = Date.now();
     try {
+      console.log('current page: ' + currentPage)
       const contests = await ContestService.getMyContests(curUserId, currentPage, 10);
       setMyContests(contests);
       console.log(contests);

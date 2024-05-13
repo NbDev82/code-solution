@@ -13,9 +13,9 @@ public record GetContestsRequestByTitle(
         @Schema(description = "Title of the contest to retrieve contests for", example = "Weekly contest 1")
         String title,
 
-        @RequestParam(name = "page", defaultValue = "1")
+        @RequestParam(name = "page", defaultValue = "0")
         @Schema(description = "Page number (starts from 1)", example = "1")
-        @Min(value = 1)
+        @Min(value = 0)
         int page,
 
         @RequestParam(name = "size", defaultValue = "10")
