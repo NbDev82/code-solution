@@ -14,6 +14,7 @@ import Discuss from '~/assets/lotties/Discuss';
 import Winner from '~/assets/lotties/Winner';
 import Moutains from '~/assets/images/Moutains.svg';
 import { DEFAULT_LOTTIE_OPTIONS } from '~/utils/Const';
+import config from '~/config';
 
 function Home() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function Home() {
       case 'develop':
         break;
       case 'contest':
+        navigate(config.routes.contests_management);
         break;
       case 'discuss':
         break;
