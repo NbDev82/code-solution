@@ -35,7 +35,7 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
     } finally {
       setIsUsersToAddLoading(false);
     }
-  }
+  };
 
   const searchUsers = () => {
     console.log('searching...');
@@ -60,10 +60,9 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
   };
 
   const filterFetchedUsers = (newUsers) => {
-    const isAddedProblem = (user) =>
-      addedUsers.some(addedProblem => addedProblem.id === user.id);
+    const isAddedProblem = (user) => addedUsers.some((addedProblem) => addedProblem.id === user.id);
 
-    return newUsers.filter(user => !isAddedProblem(user));
+    return newUsers.filter((user) => !isAddedProblem(user));
   };
 
   const handleKeyDown = (event) => {
@@ -78,14 +77,12 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
 
   const onAddProblemClick = (userId) => {
     console.log('On onAddProblemClick() method');
-    const userToAdd = usersToAdd.find(user => user.id === userId);
+    const userToAdd = usersToAdd.find((user) => user.id === userId);
 
     if (userToAdd) {
-      setAddedUsers(prevAddedUsers => [...prevAddedUsers, userToAdd]);
+      setAddedUsers((prevAddedUsers) => [...prevAddedUsers, userToAdd]);
 
-      setUsersToAdd(prevUsersToAdd =>
-        prevUsersToAdd.filter(user => user.id !== userId)
-      );
+      setUsersToAdd((prevUsersToAdd) => prevUsersToAdd.filter((user) => user.id !== userId));
     }
 
     updateUserIdsWithUsers(addedUsers);
@@ -93,22 +90,20 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
 
   const onRemoveProblemClick = (userId) => {
     console.log('On onRemoveProblemClick() method');
-    setAddedUsers(prevAddedUsers =>
-      prevAddedUsers.filter(user => user.id !== userId)
-    );
+    setAddedUsers((prevAddedUsers) => prevAddedUsers.filter((user) => user.id !== userId));
 
-    const userToAdd = addedUsers.find(user => user.id === userId);
+    const userToAdd = addedUsers.find((user) => user.id === userId);
     if (userToAdd) {
-      setUsersToAdd(prevUsersToAdd => [...prevUsersToAdd, userToAdd]);
+      setUsersToAdd((prevUsersToAdd) => [...prevUsersToAdd, userToAdd]);
     }
 
     updateUserIdsWithUsers(addedUsers);
   };
 
   const updateUserIdsWithUsers = (users) => {
-    const userIds = users.map(u => u.id);
+    const userIds = users.map((u) => u.id);
     updateParticipantIds(userIds);
-  }
+  };
 
   return (
     <Box>
@@ -142,12 +137,7 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
           <ContestSkeleton count={5} />
         ) : (
           usersToAdd.map((user, index) => (
-            <Flex
-              key={user.id}
-              align="center"
-              justifyContent="start"
-              mb={4}
-            >
+            <Flex key={user.id} align="center" justifyContent="start" mb={4}>
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                   {user.name}
@@ -182,7 +172,7 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
             </Flex>
           ))
         )}
-        {(!isUsersToAddLoading && (usersToAdd === null || usersToAdd.length === 0)) && (
+        {!isUsersToAddLoading && (usersToAdd === null || usersToAdd.length === 0) && (
           <EmptyListIcon my={20} iconSize={80} />
         )}
       </Box>
@@ -190,16 +180,11 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
       <Divider my={10} />
 
       <Box mt={10} height="200px" overflowY="auto">
-        {(addedUsers === null || addedUsers.length === 0) ? (
+        {addedUsers === null || addedUsers.length === 0 ? (
           <EmptyListIcon my={20} iconSize={80} />
         ) : (
           addedUsers.map((user) => (
-            <Flex
-              key={user.id}
-              align="center"
-              justifyContent="space-between"
-              mb={4}
-            >
+            <Flex key={user.id} align="center" justifyContent="space-between" mb={4}>
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
                   {user.name}
@@ -237,6 +222,6 @@ const InviteUsersForm = ({ curUserId, updateParticipantIds }) => {
       </Box>
     </Box>
   );
-}
+};
 
 export default InviteUsersForm;
