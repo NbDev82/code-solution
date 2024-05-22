@@ -7,6 +7,7 @@ import com.university.codesolution.contest.request.GetContestsRequest;
 import com.university.codesolution.contest.request.GetContestsRequestByTitle;
 import com.university.codesolution.contest.request.UpdateContestRequest;
 import com.university.codesolution.contest.service.ContestService;
+import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.submitcode.DTO.ProblemDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;

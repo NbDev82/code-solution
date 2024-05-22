@@ -1,6 +1,7 @@
 package com.university.codesolution.contest.repos;
 
 import com.university.codesolution.contest.entity.ContestEnrollment;
+import com.university.codesolution.login.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,8 @@ public interface ContestEnrollmentRepos extends JpaRepository<ContestEnrollment,
     List<ContestEnrollment> getByContestId(@Param("contestId") Long contestId, Pageable pageable);
 
     Optional<ContestEnrollment> findByContestIdAndUserId(Long contestId, Long userId);
+
+    @Query("SELECT u FROM User u WHERE u.id IN (SELECT ce.user.id FROM ContestEnrollment ce " +
+            "WHERE ce.contest.id = :contestId AND ce.status = 'ACCEPTED')")
+    List<User> getParticipantsByContest(@Param("contestId") Long contestId);
 }

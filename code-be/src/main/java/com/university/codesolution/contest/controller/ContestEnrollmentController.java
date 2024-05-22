@@ -7,6 +7,7 @@ import com.university.codesolution.contest.request.AddEnrollmentRequest;
 import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.contest.service.ContestEnrollmentService;
+import com.university.codesolution.login.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -151,5 +152,82 @@ public class ContestEnrollmentController {
         ContestEnrollmentDTO contestEnrollmentDTO = contestEnrollmentService.getEnrollment(contestId, userId);
         log.info(Constants.CONTEST_ENROLLMENT_RETRIEVED_SUCCESSFULLY);
         return ResponseEntity.ok(contestEnrollmentDTO);
+    }
+
+    @GetMapping("/get-participants-by-contest")
+    public ResponseEntity<List<UserDTO>> getParticipantsByContest(
+            @Schema(
+                    description = "ID of the contest",
+                    example = "12",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @RequestParam("contestId")
+            Long contestId
+    ) {
+        List<UserDTO> userDTOs = contestEnrollmentService.getParticipantsByContest(contestId);
+        return ResponseEntity.ok(userDTOs);
+    }
+
+    @GetMapping("get-users-to-invite-by-name")
+    public ResponseEntity<List<UserDTO>> getUsersToInviteByName(
+            @Schema(
+                    description = "ID of the contest",
+                    example = "12",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @RequestParam("contestId")
+            Long contestId,
+
+            @Schema(
+                    description = "The name or partial name to search for matching users. " +
+                                "This can be a full or partial match against the user's name.",
+                    example = "Long",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @RequestParam("nameToSearch")
+            String nameToSearch,
+
+            @RequestParam(name = "page", defaultValue = "0")
+            @Schema(description = "Page number (starts from 0)", example = "0")
+            int page,
+
+            @RequestParam(name = "size", defaultValue = "10")
+            @Schema(description = "Number of items per page", example = "10")
+            int size
+    ) {
+        List<UserDTO> userDTOs = contestEnrollmentService.getUsersToInviteByName(contestId, nameToSearch, page, size);
+        return ResponseEntity.ok(userDTOs);
+    }
+
+    @Operation(
+            summary = "Invite user",
+            responses = {
+                    @ApiResponse(
+                            description = "Contest enrollment added successfully.",
+                            responseCode = "201"
+                    )
+            }
+    )
+    @PostMapping("/invite-user")
+    public ResponseEntity<String> inviteUser(
+            @Schema(
+                    description = "ID of the contest",
+                    example = "12",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @RequestParam("contestId")
+            Long contestId,
+
+            @Schema(
+                    description = "ID of the user",
+                    example = "98",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @RequestParam("userId")
+            Long userId
+    ) {
+        ContestEnrollmentDTO enrollmentDTO = contestEnrollmentService.inviteUser(contestId, userId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(String.valueOf(enrollmentDTO.getId()));
     }
 }

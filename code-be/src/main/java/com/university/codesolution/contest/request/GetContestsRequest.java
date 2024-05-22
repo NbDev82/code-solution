@@ -9,8 +9,8 @@ public record GetContestsRequest(
     @Schema(description = "ID of the user to retrieve contests for", example = "123")
     Long userId,
 
-    @RequestParam(name = "page", defaultValue = "1")
-    @Schema(description = "Page number (starts from 1)", example = "1")
+    @RequestParam(name = "page", defaultValue = "0")
+    @Schema(description = "Page number (starts from 0)", example = "1")
     @Min(value = 0)
     int page,
 
