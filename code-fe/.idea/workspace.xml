@@ -5,22 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d70796-1b1f-4c81-a53d-b4986c25debd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestEnrollmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/controller/ContestEnrollmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestEnrollmentRepos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/repos/ContestEnrollmentRepos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/GetContestsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/request/GetContestsRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestEnrollmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestEnrollmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestEnrollmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/contest/service/ContestEnrollmentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/login/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/src/main/java/com/university/codesolution/login/service/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code-be/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/InviteUsersForm/InviteUsersForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InviteUsersForm/InviteUsersForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/ContestEnrollmentService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ContestEnrollmentService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -36,22 +36,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/contest-v8",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/CodeExample/Fullstack/code-solution/code-fe",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "D:\\ProgrammingApplications\\JetBrains\\IntelliJ IDEA 2024.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/contest-v8&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/CodeExample/Fullstack/code-solution/code-fe&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\ProgrammingApplications\\JetBrains\\IntelliJ IDEA 2024.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -74,6 +74,7 @@
       <workItem from="1716262790623" duration="1454000" />
       <workItem from="1716303994766" duration="601000" />
       <workItem from="1716382197862" duration="5659000" />
+      <workItem from="1716771391269" duration="6852000" />
     </task>
     <servers />
   </component>
