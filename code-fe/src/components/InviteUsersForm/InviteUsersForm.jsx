@@ -17,14 +17,25 @@ const InviteUsersForm = ({ curUserId, curContestId }) => {
   const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
+    fetchParticipants();
     fetchUsersToAdd();
   }, [curUserId]);
+
+  const fetchParticipants = async () => {
+    try {
+      let usersToAdd = await ContestEnrollmentService.getParticipantsByContest(curUserId);
+      setParticipants(usersToAdd);
+    } catch (error) {
+      console.error('Error fetching my contests:', error);
+      setParticipants([]);
+    }
+  }
 
   const fetchUsersToAdd = async () => {
     setIsUsersToAddLoading(true);
     const startTime = Date.now();
     try {
-      let usersToAdd = await UserService.getUsersExcludingCurrentUser(curUserId);
+      let usersToAdd = await ContestEnrollmentService.getUsersToInviteByName(curContestId, curUserId);
       setUsersToInvite(usersToAdd);
 
       await ensureMinLoadingDuration(startTime, MIN_LOADING_DURATION);
@@ -159,19 +170,19 @@ const InviteUsersForm = ({ curUserId, curContestId }) => {
             <Flex key={user.id} align="center" justifyContent="space-between" mb={4}>
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontWeight="bold" noOfLines={1} _hover={{ textColor: 'blue.500' }}>
-                  {user.name}
+                  {user.fullName}
                 </Text>
               </Box>
 
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                  Level: {user.difficultyLevel}
+                  Email: {user.email}
                 </Text>
               </Box>
 
               <Box ml={4} flex="1" textAlign="start">
                 <Text fontSize="xs" color="gray.600" noOfLines={1}>
-                  Point: {user.point}
+                  Phone number: {user.phoneNumber}
                 </Text>
               </Box>
             </Flex>

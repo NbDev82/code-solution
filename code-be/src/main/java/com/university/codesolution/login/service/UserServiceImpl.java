@@ -100,25 +100,6 @@ public class UserServiceImpl implements UserService  {
     }
 
     @Override
-    public void deleteUser(int userId) {
-
-    }
-
-    @Override
-    public List<UserDTO> getUsersExcludingCurrentUser(Long curUserId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        List<User> users = userRepos.getUsersExcludingCurrentUser(curUserId, pageable);
-        return uMapper.toDTOs(users);
-    }
-
-    @Override
-    public List<UserDTO> getUsersByNameExcludingCurrentUser(String fullName, Long curUserId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        List<User> users = userRepos.getUsersByNameExcludingCurrentUser(fullName, curUserId, pageable);
-        return uMapper.toDTOs(users);
-    }
-
-    @Override
     public String login(String phoneNumber,String password,ERole eRole){
         try{
         User existingUser = userRepos.findByPhoneNumber(phoneNumber);
@@ -143,7 +124,6 @@ public class UserServiceImpl implements UserService  {
         }
         String phoneNumber= jwtTokenUtil.extractPhoneNumber(token);
         User user = userRepos.findByPhoneNumber(phoneNumber);
-//        Optional<User> user=userRepos.findByPhoneNumber(phoneNumber);
         if(user != null){
             return user;
         }else{

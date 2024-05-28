@@ -13,16 +13,4 @@ import java.util.List;
 public interface UserRepos extends JpaRepository<User, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
     User findByPhoneNumber(String phoneNumber);
-
-//    Optional<User> findByPhoneNumber(String phoneNumber);
-
-    @Query(value = "SELECT u FROM User u WHERE u.isActive = true AND u.id != :curUserId")
-    List<User> getUsersExcludingCurrentUser(Long curUserId, Pageable pageable);
-
-    @Query(value = "SELECT u FROM User u " +
-            "WHERE u.isActive = true AND u.id != :curUserId AND u.fullName LIKE %:fullName%")
-    List<User> getUsersByNameExcludingCurrentUser(
-            @Param("fullName") String fullName,
-            @Param("curUserId") Long curUserId,
-            Pageable pageable);
 }

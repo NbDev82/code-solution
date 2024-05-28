@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72d70796-1b1f-4c81-a53d-b4986c25debd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../code-be/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../code-be/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/InviteUsersForm/InviteUsersForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/InviteUsersForm/InviteUsersForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/UserService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/UserService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
