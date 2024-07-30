@@ -71,7 +71,6 @@ function UpdatePost() {
       });
   };
   const updateHtml = () => {
-    debugger;
     return (
       <div className={`${styles.wrapper}`}>
         <Card className={`${styles.card}`}>

@@ -3,7 +3,6 @@ export const LIMIT_ROW_PROBLEMS_TABLE = 20;
 export const MIN_PARAMETERS = 0;
 export const MAX_PARAMETERS = 3;
 export const WEEKS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-export const ORIGINAL_API_URL = 'http://localhost:8000';
 export const DIFFICULTY_DEFAULT = ['EASY', 'NORMAL', 'HARD'];
 export const STATUS_DEFAULT = ['TODO', 'SOLVED', 'ATTEMPTED'];
 export const DEFAULT_LOTTIE_OPTIONS = {

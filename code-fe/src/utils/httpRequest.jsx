@@ -1,16 +1,15 @@
 import axios from 'axios';
 import { getToken } from '../auth';
-import { ORIGINAL_API_URL } from '~/utils/Const';
 
 export const httpRequest = axios.create({
-  baseURL: ORIGINAL_API_URL,
+  baseURL: `${process.env.REACT_APP_BASE_API_URL}`,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 export const privateHttpRequest = axios.create({
-  baseURL: ORIGINAL_API_URL,
+  baseURL: `${process.env.REACT_APP_BASE_API_URL}`,
   headers: {
     'Content-Type': 'application/json',
   },

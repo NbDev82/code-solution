@@ -81,7 +81,6 @@ const SignIn = () => {
     loginUser(loginDetail)
       .then((data) => {
         if (data.message === 'user.login.login_successfully') {
-          debugger;
           //save the data to localStorage
           doLogin(data, () => {
             //redirect to user dashboard page
@@ -96,7 +95,6 @@ const SignIn = () => {
         }
       })
       .catch((error) => {
-        debugger;
         setIsSubmitting(false);
 
         if (error.response.status == 400 || error.response.status == 404) {
