@@ -81,7 +81,6 @@ const SignIn = () => {
     loginUser(loginDetail)
       .then((data) => {
         if (data.message === 'user.login.login_successfully') {
-          debugger;
           //save the data to localStorage
           doLogin(data, () => {
             //redirect to user dashboard page
@@ -96,18 +95,7 @@ const SignIn = () => {
         }
       })
       .catch((error) => {
-        debugger;
         setIsSubmitting(false);
-
-        if (error.response.status == 400 || error.response.status == 404) {
-          if (error.response.data.message === 'user.register.password_not_match') {
-            alert('Password failed');
-          } else {
-            alert('PhoneNumber is not exists');
-          }
-        } else {
-          toast.error('Something went wrong on the server!');
-        }
       });
   };
 

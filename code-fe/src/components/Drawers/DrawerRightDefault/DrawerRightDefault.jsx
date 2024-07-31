@@ -49,7 +49,6 @@ function DrawerRightDefault(props) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    debugger;
     localStorage.removeItem('data');
     navigate('/sign-in');
   };

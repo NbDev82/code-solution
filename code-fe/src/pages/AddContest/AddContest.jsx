@@ -20,7 +20,7 @@ function AddContest() {
     durationInMillis: 3660000,
     isDeleted: false,
     problemIds: [],
-    participantIds: []
+    participantIds: [],
   });
   const toast = useToast();
 
@@ -30,7 +30,7 @@ function AddContest() {
 
   const onClickAddBtn = () => {
     ContestService.addContest(curContest)
-      .then(addedId => {
+      .then((addedId) => {
         console.log(`onAddBtnClick() - is Contest Added: ${addedId}`);
 
         if (addedId) {
@@ -39,11 +39,11 @@ function AddContest() {
             position: 'top-right',
             status: 'success',
             isClosable: true,
-          })
+          });
 
           curContest.id = addedId;
           navigate(config.routes.update_contest, {
-            state: { curContest }
+            state: { curContest },
           });
         } else {
           toast({
@@ -51,10 +51,10 @@ function AddContest() {
             position: 'top-right',
             status: 'error',
             isClosable: true,
-          })
+          });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   };
@@ -74,7 +74,6 @@ function AddContest() {
       <MainNavbar />
 
       <VStack gap={10} my={20}>
-
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
             <AddContestForm contest={curContest} onUpdateContest={updateContest} />
@@ -83,10 +82,7 @@ function AddContest() {
 
         <Card variant="elevated" borderRadius="3xl" boxShadow="xl" p="20px" h="fit-content" w="1000px">
           <CardBody>
-            <AddProblemsForContestForm
-              curUserId={curUser.id}
-              updateProblemIds={updateProblemIds}
-            />
+            <AddProblemsForContestForm curUserId={curUser.id} updateProblemIds={updateProblemIds} />
           </CardBody>
         </Card>
 

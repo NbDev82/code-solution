@@ -15,7 +15,6 @@ function UserProvider({ children }) {
       login: isLoggedIn(),
     });
   }, []);
-  debugger;
   return <userContext.Provider value={{ user, setUser }}>{children}</userContext.Provider>;
 }
 

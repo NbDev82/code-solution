@@ -5,6 +5,7 @@ import com.university.codesolution.contest.entity.ContestEnrollment;
 import com.university.codesolution.contest.request.AddEnrollmentRequest;
 import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
+import com.university.codesolution.login.dto.UserDTO;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface ContestEnrollmentService {
     ContestEnrollmentDTO getById(Long contestEnrollmentId);
 
     ContestEnrollmentDTO getEnrollment(Long contestId, Long userId);
+
+    List<UserDTO> getParticipantsByContest(Long contestId);
+
+    List<UserDTO> getUsersToInviteByName(Long contestId, String nameToSearch, int page, int size);
+
+    ContestEnrollmentDTO inviteUser(Long contestId, Long userId);
 }

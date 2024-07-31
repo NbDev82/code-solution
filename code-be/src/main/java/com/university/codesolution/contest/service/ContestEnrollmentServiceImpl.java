@@ -13,6 +13,7 @@ import com.university.codesolution.contest.request.GetEnrollmentsRequest;
 import com.university.codesolution.contest.request.UpdateEnrollmentRequest;
 import com.university.codesolution.login.dto.UserDTO;
 import com.university.codesolution.login.entity.User;
+import com.university.codesolution.login.mapper.UserMapper;
 import com.university.codesolution.login.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +29,7 @@ import java.util.List;
 public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
 
     private final ContestEnrollmentMapper ceMapper = ContestEnrollmentMapper.INSTANCE;
+    private final UserMapper uMapper = UserMapper.INSTANCE;
     private final ContestEnrollmentRepos contestEnrollmentRepos;
     private final ContestService contestService;
     private final UserService userService;
@@ -41,7 +44,6 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
         User user = userService.getEntityUserById(request.userId());
 
         ContestEnrollment savedEnrollment = saveContestEnrollment(request, contest, user);
-        sendInvitationEmail(user, contest, savedEnrollment);
         return ceMapper.toDTO(savedEnrollment);
     }
 
@@ -86,6 +88,54 @@ public class ContestEnrollmentServiceImpl implements ContestEnrollmentService {
         ContestEnrollment enrollment = contestEnrollmentRepos.findByContestIdAndUserId(contestId, userId)
                 .orElseThrow(() -> new ContestEnrollmentNotFoundException(msg));
         return ceMapper.toDTO(enrollment);
+    }
+
+    @Override
+    public List<UserDTO> getParticipantsByContest(Long contestId) {
+        List<User> users = contestEnrollmentRepos.getParticipantsByContest(contestId);
+        return uMapper.toDTOs(users);
+    }
+
+    @Override
+    public List<UserDTO> getUsersToInviteByName(Long contestId, String nameToSearch, int page, int size) {
+        List<UserDTO> usersToInvite = new ArrayList<>();
+        List<UserDTO> allUsers = userService.getAllUsers();
+        List<UserDTO> participants = getParticipantsByContest(contestId);
+
+        List<UserDTO> filteredUsers = allUsers.stream()
+                .filter(user -> user.getFullName().toLowerCase().contains(nameToSearch.toLowerCase()))
+                .toList();
+
+        List<UserDTO> nonParticipants = filteredUsers.stream()
+                .filter(user -> participants.stream()
+                        .noneMatch(participant -> participant.getId().equals(user.getId())))
+                .toList();
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, nonParticipants.size());
+
+        if (fromIndex < nonParticipants.size()) {
+            usersToInvite = nonParticipants.subList(fromIndex, toIndex);
+        }
+
+        return usersToInvite;
+    }
+
+    @Override
+    public ContestEnrollmentDTO inviteUser(Long contestId, Long userId) {
+        Contest contest = contestService.getEntityById(contestId);
+        User user = userService.getEntityUserById(userId);
+
+        ContestEnrollment contestEnrollment = ContestEnrollment.builder()
+                .score(0)
+                .acceptedSubmission(false)
+                .contest(contest)
+                .user(user)
+                .build();
+
+        ContestEnrollment savedEnrollment = contestEnrollmentRepos.save(contestEnrollment);
+        sendInvitationEmail(user, contest, savedEnrollment);
+        return ceMapper.toDTO(savedEnrollment);
     }
 
     private ContestEnrollmentDTO save(ContestEnrollmentDTO contestEnrollmentDTO) {

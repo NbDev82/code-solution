@@ -7,7 +7,7 @@ const addEnrollment = async (contestEnrollment) => {
     const restUrl = `${CONTEST_ENROLL_API_URL}/add-enrollment`;
     const response = await axios.post(restUrl, contestEnrollment);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log('Add successful');
       return true;
     } else {
@@ -59,11 +59,44 @@ const getEnrollments = async (contestId, page, size) => {
   return response.data;
 };
 
-const ContestService = {
+const getParticipantsByContest = async (contestId) => {
+  const apiUrl = `${CONTEST_ENROLL_API_URL}/get-participants-by-contest?contestId=${contestId}`;
+  const response = await axios.get(apiUrl);
+  return response.data;
+};
+
+const getUsersToInviteByName = async (contestId, nameToSearch, page = 0, size = 10) => {
+  const apiUrl = `${CONTEST_ENROLL_API_URL}/get-users-to-invite-by-name?` + 
+    `contestId=${contestId}&nameToSearch=${nameToSearch}&page=${page}&size=${size}`;
+  const response = await axios.get(apiUrl);
+  return response.data;
+};
+
+const inviteUser = async (contestId, userId) => {
+  try {
+    const restUrl = `${CONTEST_ENROLL_API_URL}/invite-user?contestId=${contestId}&userId=${userId}`;
+    const response = await axios.post(restUrl);
+
+    if (response.status === 201) {
+      console.log('Add successful');
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Add failed', error);
+    return false;
+  }
+};
+
+const ContestEnrollmentService = {
   addEnrollment,
   updateEnrollment,
   deleteEnrollment,
   getEnrollments,
+  getParticipantsByContest,
+  getUsersToInviteByName,
+  inviteUser
 };
 
-export default ContestService;
+export default ContestEnrollmentService;
