@@ -96,16 +96,6 @@ const SignIn = () => {
       })
       .catch((error) => {
         setIsSubmitting(false);
-
-        if (error.response.status == 400 || error.response.status == 404) {
-          if (error.response.data.message === 'user.register.password_not_match') {
-            alert('Password failed');
-          } else {
-            alert('PhoneNumber is not exists');
-          }
-        } else {
-          toast.error('Something went wrong on the server!');
-        }
       });
   };
 
