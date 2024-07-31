@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  code-solution-fe:
+    container_name: code-solution-fe
+    image: vananne/code-solution-fe:1.0
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_BASE_API_URL: http://localhost:8000
+    depends_on:
+      - code-solution-be
+    expose:
+      - "8000"
+    networks:
+      code-solution-network:
+        ipv4_address: 192.168.1.50
+
+  code-solution-be:
+    container_name: code-solution-be
+    image: vananne/code-solution-be:1.0
+    ports:
+      - "8000:8000"
+    environment: 
+      PROD_BASE_URL: http://192.168.1.100:8000
+      PROD_DB_HOST: 192.168.1.150
+      PROD_DB_PORT: 5432
+      PROD_DB_NAME: CodeSolution
+      PROD_DB_USER: root
+      PROD_DB_PASSWORD: root
+      PROD_FRONTEND_URL: http://localhost:3000
+      PRO_EMAIL_ADDRESS: vanantran009@gmail.com
+      PRO_EMAIL_PASSWORD: slqohvgrgtqkftbp
+    expose:
+      - "3000"
+    networks:
+      code-solution-network:
+        ipv4_address: 192.168.1.100
+
+  code-solution-db:
+    image: postgres:latest
+    container_name: code-solution-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: CodeSolution
+    ports:
+      - "5432:5432"
+    volumes:
+      - code-solution-data:/var/lib/postgresql/data
+    networks:
+      code-solution-network:
+        ipv4_address: 192.168.1.150
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: my_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "82:80"
+    depends_on:
+      - code-solution-db
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      code-solution-network:
+        ipv4_address: 192.168.1.5
+
+volumes:
+  code-solution-data:
+
+networks:
+  code-solution-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24

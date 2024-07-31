@@ -1,0 +1,19 @@
+.react-calendar {
+  width: 100%;
+  background-color: #fff;
+  border-width: 0;
+  border-radius: var(--radius-size-small);
+  box-shadow: var(--box-shadow);
+  padding: 50px 20px;
+}
+
+.react-calendar__tile--active {
+  /* Tùy chỉnh phông chữ và màu sắc của ngày được chọn */
+  color: var(--white);
+  background-color: var(--primary-light-color);
+  border-radius: var(--radius-size-small);
+}
+
+* {
+  font-family: var(--font-family);
+}

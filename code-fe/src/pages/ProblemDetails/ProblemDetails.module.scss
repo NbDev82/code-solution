@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  min-height: 1000px;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+  overflow: scroll;
+}
+.instructions {
+  width: 100%;
+}
+.content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bot_layout {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  padding: 50px 100px;
+}
+
+.basic_info{
+    width: 60%;
+    justify-content: space-around;
+}

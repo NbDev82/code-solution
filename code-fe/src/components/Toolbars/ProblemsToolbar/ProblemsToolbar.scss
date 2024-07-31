@@ -1,0 +1,19 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+@mixin center {
+  justify-content: center;
+  align-items: center;
+}
+.filter_container {
+  @include row();
+  @include center();
+  gap: 20px;
+  width: 100%;
+  height: 50px;
+}
+
+* {
+  font-family: var(--font-family);
+}

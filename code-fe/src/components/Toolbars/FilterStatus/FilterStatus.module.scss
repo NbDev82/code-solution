@@ -1,0 +1,24 @@
+.container{
+    width: 90%;
+    background-color: var(--gray-light);
+    height: 40px;
+   
+    border-radius: var(--radius-size-small);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.item{
+    height: auto;
+    border: 1px dotted var(--secondary-color);
+    background-color: transparent;
+    padding:2px 25px ;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    font-size: 12px;
+    border-radius: var(--radius-size-small);
+}

@@ -1,0 +1,21 @@
+.table__layout {
+  width: 100%;
+  color: var(--secondary-color);
+}
+
+* {
+  font-family: var(--font-family);
+}
+
+.des__content {
+  padding: 5px;
+  color: var(--white);
+  text-align: left;
+  text-wrap: wrap;
+}
+
+.text{
+  &:hover{
+    color: var(--primary-color);
+  }
+}

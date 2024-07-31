@@ -1,0 +1,143 @@
+.container {
+  display: flex;
+
+  background-color: rgb(245, 245, 245);
+}
+.content-wrapper-display {
+  display: flex;
+  max-width: 1240px;
+  margin: 15px auto;
+  width: 70%;
+}
+.left-pane {
+  flex: 1 1 auto;
+  min-width: 0px;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #fafafa;
+}
+.right-pane {
+  flex: 0 0 auto;
+  margin-left: 10px;
+  width: 20%;
+  // width: 10%;
+  // position: fixed;
+  // top: 100px;
+  // right: 0;
+  // margin-bottom: 50px;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// .rounded-topic-list-wrapper,
+// .topic-list-content {
+//   background: white;
+//   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+//   margin-bottom: 40px;
+//   border-radius: 3px;
+// }
+
+.subheader {
+  background: #fafafa;
+  padding: 0 20px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subheader-left {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrapper {
+  width: 175px;
+  margin-right: 5px;
+}
+
+.wrapper {
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  color: #546e7a;
+  border: 1px solid #cfd8dc;
+  border-radius: 3px;
+  font-weight: 300;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  -o-transition: 0.4s all;
+  transition: 0.4s all;
+}
+
+/* CSS button send */
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background: linear-gradient(215deg, #7492a7, #566c77);
+  transition: background-color 0.7s ease;
+}
+.btn-content-container {
+  display: flex;
+  align-items: center;
+}
+
+.btn.fancy-btn {
+  background-color: #2a0c0c;
+  color: #ffffff;
+}
+
+.btn.btn-xs {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.btn:hover {
+  background-color: #8d8484;
+  color: #000000;
+  border-color: #b0bec5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.customPagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.CustomLink {
+  /* Kiểu mặc định cho thẻ link */
+  color: rgb(146, 126, 126);
+  text-decoration: none;
+}
+
+.CustomLink:hover {
+  /* Kiểu khi rê chuột vào thẻ link */
+  color: rgb(71, 52, 52);
+  text-decoration: none;
+}

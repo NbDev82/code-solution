@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  code-solution-be:
+    container_name: code-solution-be
+    image: vananne/code-solution-be:latest
+    ports:
+      - "8000:8000"
+    environment: 
+      PROD_BASE_URL: ${PROD_BASE_URL}
+      PROD_DB_HOST: ${PROD_DB_HOST}
+      PROD_DB_PORT: ${PROD_DB_PORT}
+      PROD_DB_NAME: ${PROD_DB_NAME}
+      PROD_DB_USER: ${PROD_DB_USER}
+      PROD_DB_PASSWORD: ${PROD_DB_PASSWORD}
+      PROD_FRONTEND_URL: ${PROD_FRONTEND_URL}
+      PRO_EMAIL_ADDRESS: ${PRO_EMAIL_ADDRESS}
+      PRO_EMAIL_PASSWORD: ${PRO_EMAIL_PASSWORD}
+    env_file:
+      - api.env
+    networks:
+      - code-solution-be-network
+
+  code-solution-db:
+    image: postgres:latest
+    container_name: code-solution-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: CodeSolution
+    ports:
+      - "5432:5432"
+    volumes:
+      - code-solution-data:/var/lib/postgresql
+    networks:
+      - code-solution-be-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: my_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "82:80"
+    depends_on:
+      - code-solution-db
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - code-solution-be-network
+
+volumes:
+  code-solution-data:
+
+networks:
+  code-solution-be-network:
+    driver: bridge

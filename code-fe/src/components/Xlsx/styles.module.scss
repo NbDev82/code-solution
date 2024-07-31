@@ -1,0 +1,66 @@
+.input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid var(--gray-dark);
+  border-radius: 4px;
+  background-color: transparent;
+  color: var(--gray-dark);
+  cursor: pointer;
+  display: inline-block;
+  &:hover {
+    border-color: var(--gray-dark);
+  }
+  &.input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+  }
+  &.large {
+    padding: 12px;
+    font-size: 18px;
+  }
+  &.dark {
+    color: transparent;
+    background-color: var(--gray-dark);
+    border-color: var(--gray-dark);
+    &:hover {
+      border-color: var(--gray-dark);
+    }
+  }
+}
+
+.dropZone {
+  width: 100%;
+  min-height: 200px;
+  border: 2px dashed var(--gray-300);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--gray-dark);
+  font-weight: 400;
+}
+
+.dragOver {
+  border-color: var(--primary-color);
+  background-color: var(--gray-light);
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+}
+
+.file__name {
+  font-family: var(--font-family);
+  color: var(--gray-300);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  font-style: italic;
+}

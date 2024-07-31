@@ -1,0 +1,36 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+.navbar{
+  &__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__menu {
+    width: 50%;
+    justify-content: space-around;
+    &-item {
+      font-family: var(--font-family);
+      font-size: 1.6rem;
+      background-color: var(--white);
+      color: var(--secondary-color);
+      padding: 10px;
+      margin-right: 50px;
+      &.menu__active {
+        border-bottom: 3px solid var(--primary-color);
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+    }
+  }
+  
+}
+
+
+
+
+
+

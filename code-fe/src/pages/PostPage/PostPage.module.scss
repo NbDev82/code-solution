@@ -1,0 +1,54 @@
+.container {
+  // Styles for the container class
+  margin-top: 1.5rem !important;
+  max-width: 1320px;
+  min-width: 1200px;
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.divider {
+  // Styles for the divider class
+  width: 100%;
+  height: 1px;
+  background: #e2e2e2;
+}
+.title {
+  font-weight: bold;
+  font-size: 24px;
+}
+.root {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+.a {
+  color: #1890ff;
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  touch-action: manipulation;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: inline-block;
+  background-color: #f5f5f5;
+}
+.userinfo {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  line-height: 1;
+  font-size: 12px;
+}
+.name {
+  color: #424242;
+  margin-left: 10px;
+}

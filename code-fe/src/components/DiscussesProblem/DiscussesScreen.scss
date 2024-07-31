@@ -1,0 +1,15 @@
+.discuss__layout {
+  overflow-y: auto;
+  max-height: 98%;
+}
+
+.discuss_toolbar {
+  width: 98%;
+  gap: 10%;
+  justify-content: end;
+}
+
+.button__icon {
+  width: auto;
+  font-family: var(--font-family);
+}

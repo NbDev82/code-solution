@@ -1,0 +1,16 @@
+.selected__language {
+  height: 20%;
+  width: auto;
+  background-color: var(--white);
+  color: var(--secondary-color);
+  padding: 10px;
+  margin: 10px;
+  font: var(--font-family);
+  border-radius: var(--radius-size-small);
+  outline: none;
+  cursor: pointer;
+}
+
+.editor {
+  border-radius: var(--radius-size-small);
+}
